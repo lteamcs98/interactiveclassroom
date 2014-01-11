@@ -1,0 +1,25 @@
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+#lecture-container {
+	width: 100%;
+	height: 60%;
+	background: PapayaWhip;
+}
+
+#console-container {
+	width: 50%;
+	height: 40%;
+	background: PeachPuff;
+	float: left;
+}
+
+#canvas-container {
+	width: 50%;
+	height: 40%;
+	background: MintCream;
+	float: left;
+}
+
