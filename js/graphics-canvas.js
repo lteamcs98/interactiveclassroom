@@ -2,7 +2,6 @@
  * Manages communication between CodeMirror console and HTML5 canvas
  */
 
-
 $(document).ready(function() {
 	$("#compile-button").click(evalCode);
 });
