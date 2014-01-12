@@ -1,0 +1,57 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	background: PapayaWhip;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+/* Fixes box padding issue, but doesn't work in IE */
+#lecture-container, #console-container, #canvas-container {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#lecture-container {
+	width: 100%;
+	height: 60%;
+	background: PapayaWhip;
+	padding: 5%;
+	margin-bottom: 2%;
+	overflow: scroll;
+}
+
+#console-container {
+	width: 50%;
+	height: 40%;
+	background: PeachPuff;
+	float: left;
+	padding: 1%;
+}
+
+#console {
+	width: 100%;
+	height: 14em;
+}
+
+#compile-button {
+	width: 100%;
+	height: 2em;
+}
+
+#canvas-container {
+	width: 50%;
+	height: 40%;
+	background: white;
+	float: left;
+	padding: 1%;
+}
+
+#canvas {
+	width: 100%;
+	height: 100%;
+	background: white;
+}
+
