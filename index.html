@@ -13,7 +13,6 @@
         <script type="text/javascript" src="js/codemirror-3.20/mode/javascript/javascript.js"></script>
         <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
-        <script type="text/javascript" src="js/graphics-canvas.js"></script>
 </head>
 <body>
         <div id="lecture-container">
@@ -33,17 +32,10 @@
         <div id="console-container">
                 <textarea id="console"></textarea>
                 <button id="compile-button" type="button">Compile!</button>
-                <script> 
-                    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById("console"), {
-                    lineNumbers: true,
-                    mode: "text/javascript",
-                    matchBrackets: true,
-                    firstLineNumber: 0
-                });     
-            </script>
         </div>
         <div id="canvas-container">
                 <canvas id="canvas"></canvas>
         </div>
+		<script type="text/javascript" src="js/graphics-canvas.js"></script>
 </body>
 </html>
