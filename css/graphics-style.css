@@ -1,34 +1,50 @@
 html, body {
+	min-width: 970px;
 	width: 100%;
 	height: 100%;
-	background: PapayaWhip;
 	margin: 0;
 	padding: 0;
 	border: 0;
 }
 
-/* Fixes box padding issue, but doesn't work in IE */
-#lecture-container, #console-container, #canvas-container {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+#main-container {
+	margin: auto;
+	padding: auto;
+	width: 960px;
+}
+
+#resizable-top-panel {
+	display: inline;
+	float: left;
+	position: relative;
+	margin: 0;
+	overflow: hidden;
+	height: 500px;
+	min-width: 960px;
+	max-width: 960px;
+}
+
+#resizable-bottom-panel {
+	width: 100%;
+	display: inline;
+	float: left;
+	position: relative;
+	margin: 0;
+	overflow: auto;
 }
 
 #lecture-container {
 	width: 100%;
-	height: 60%;
-	background: PapayaWhip;
-	padding: 5%;
-	margin-bottom: 2%;
+	height: 100%;
+	padding: 0;
+	margin-bottom: 0;
 	overflow: scroll;
 }
 
 #console-container {
-	width: 50%;
-	height: 40%;
-	background: PeachPuff;
+	width: 100%;
+	height: 100%
 	float: left;
-	padding: 1%;
 }
 
 #console {
@@ -53,5 +69,44 @@ html, body {
 	width: 100%;
 	height: 100%;
 	background: white;
+}
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after {
+  content: '\0020';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix {
+  zoom: 1;
 }
 
