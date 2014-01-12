@@ -5,8 +5,8 @@
         
         <!-- Stylesheets -->
         <link rel="stylesheet" type="text.css" href="css/normalize.css">
-        <link rel="stylesheet" type="text/css" href="css/azul-Copy.css">
-        <link rel="stylesheet" type="text/css" href="css/graphics-style-Copy.css">
+        <link rel="stylesheet" type="text/css" href="css/azul.css">
+        <link rel="stylesheet" type="text/css" href="css/graphics-style.css">
         <link rel="stylesheet" type="text/css" href="js/codemirror-3.20/lib/codemirror.css">
         <link rel="stylesheet" href="css/jquery-ui.css">
         
@@ -16,6 +16,7 @@
         <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
 </head>
 <body>
         <div id="lecture-container">
@@ -31,7 +32,7 @@
                 <!--tab content definition starts here-->
                 <div id="tabs-1">
                     <div id="console-container">
-                        <textarea id="out-console"></textarea>
+                        <textarea id="console"></textarea>
                         <button id="compile-button" type="button">Compile!</button>
                     </div>
                 </div>
@@ -48,6 +49,7 @@
     $(function() {
         $( "#console-container").tabs();
     });</script>
- <script type="text/javascript" src="js/graphics-canvas-Copy.js"></script>  
+ <script type="text/javascript" src="js/graphics-canvas.js"></script>
+ <script type="text/javascript" src="js/processing-wrapper.js"></script>  
 </body>
 </html>
