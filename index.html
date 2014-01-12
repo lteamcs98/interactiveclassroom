@@ -7,14 +7,17 @@
         <link rel="stylesheet" type="text.css" href="css/normalize.css">
         <link rel="stylesheet" type="text/css" href="css/graphics-style.css">
         <link rel="stylesheet" type="text/css" href="js/codemirror-3.20/lib/codemirror.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
         
         <!-- Javascripts -->
         <script type="text/javascript" src="js/codemirror-3.20/lib/codemirror.js"></script>
         <script type="text/javascript" src="js/codemirror-3.20/mode/javascript/javascript.js"></script>
         <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
 </head>
 <body>
+	<div id="main-container">
         <div id="lecture-container">
                 <h1>Heading 1</h1>
                 <h2>Heading 2</h2>
@@ -29,13 +32,16 @@
                 <p>Nulla cursus vulputate nunc id suscipit. Praesent justo neque, consectetur ut eleifend ac, feugiat at est. Aliquam sit amet blandit nunc. Fusce eget molestie risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent porttitor lacus et odio elementum mattis a quis nulla. Ut rutrum nisl et adipiscing convallis. Pellentesque egestas sollicitudin ultrices. Pellentesque eu eleifend massa. Curabitur iaculis erat in est tincidunt semper. Nunc in interdum enim, non rutrum sapien. Sed a erat imperdiet, sodales dui sit amet, placerat eros. Maecenas erat leo, varius vitae placerat in, faucibus vel dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat ante, tempus sit amet sagittis eu, blandit eget turpis.</p>
                 
         </div>
-        <div id="console-container">
-                <textarea id="console"></textarea>
-                <button id="compile-button" type="button">Compile!</button>
-        </div>
-        <div id="canvas-container">
-                <canvas id="canvas"></canvas>
-        </div>
+		<div id="resizable-bottom-panel">
+	        <div id="console-container">
+	                <textarea id="console"></textarea>
+	                <button id="compile-button" type="button">Compile!</button>
+	        </div>
+	        <div id="canvas-container">
+	                <canvas id="canvas"></canvas>
+	        </div>
+		</div>
 		<script type="text/javascript" src="js/graphics-canvas.js"></script>
+	</div>
 </body>
 </html>
