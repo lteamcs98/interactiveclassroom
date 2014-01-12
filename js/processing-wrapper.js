@@ -20,57 +20,57 @@ var draw = function()
 function wrapperClass(processing)
     {
         // wrapper functions
-        var ellipse = function(x, y, h, w)
+        function ellipse(x, y, h, w)
         {
             processing.ellipse(x, y, h, w);
         }
         
-        var random = function(min, max)
+        function random(min, max)
         {
             return processing.random(min, max);
         }
         
-        var background = function(color)
+        function background(color)
         {
             processing.background(color);
         }
         
-        var size = function(width, height)
+        function size(width, height)
         {
             processing.size(width, height);
         }
         
-        var smooth = function()
+        function smooth()
         {
             processing.smooth();
         }
         
-        var frameRate = function(rate)
+        function frameRate(rate)
         {
             processing.frameRate(rate);
         }
         
-        var strokeWeight = function(weight)
+        function strokeWeight(weight)
         {
             processing.strokeWeight(weight);
         }
         
-        var stroke = function(a, b, c, d)
+        function stroke(a, b, c, d)
         {
             processing.stroke(a, b, c, d);
         }
         
-        var line = function(a, b, c, d)
+        function line(a, b, c, d)
         {
             processing.line(a, b, c, d);
         }
         
-        var width = function()
+        function width()
         {
             return processing.width;
         }
         
-        var height = function()
+        function height()
         {
             return processing.height;
         }
@@ -124,9 +124,9 @@ frameRate(30);
 strokeWeight(12);
 
 // draw
-draw = function()
+processing.draw = function()
 {
-    stroke(random(50), random(255), random(255), 100);
+    stroke(processing.random(50), processing.random(255), processing.random(255), 100);
     line(i, 0, random(0, width()), height());
     line(width()-i, 0, random(0, width()), height());
     line(i, height(), random(0, width()), 0);
