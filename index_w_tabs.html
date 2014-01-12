@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Interactive Graphics Lesson</title>
+        
+        <!-- Stylesheets -->
+        <link rel="stylesheet" type="text.css" href="css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="css/azul-Copy.css">
+        <link rel="stylesheet" type="text/css" href="css/graphics-style-Copy.css">
+        <link rel="stylesheet" type="text/css" href="js/codemirror-3.20/lib/codemirror.css">
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        
+        <!-- Javascripts -->
+        <script type="text/javascript" src="js/codemirror-3.20/lib/codemirror.js"></script>
+        <script type="text/javascript" src="js/codemirror-3.20/mode/javascript/javascript.js"></script>
+        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+</head>
+<body>
+        <div id="lecture-container">
+            <p>lectures here.</p>    
+        </div>
+        <div id="console-container">
+                <!--Here are the different tab titles-->
+                <ul>
+                    <li><a href="#tabs-1">Code Editor</a></li>
+                    <li><a href="#tabs-2">Console</a></li>
+                    <li><a href="#tabs-3">Canvas</a></li>
+                </ul>
+                <!--tab content definition starts here-->
+                <div id="tabs-1">
+                    <div id="console-container">
+                        <textarea id="out-console"></textarea>
+                        <button id="compile-button" type="button">Compile!</button>
+                    </div>
+                </div>
+                <div id="tabs-2">
+                    <p>console</p>
+                </div>
+                <div id="tabs-3"> 
+                    <div id="canvas-container">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>   
+    </div>
+<script> 
+    $(function() {
+        $( "#console-container").tabs();
+    });</script>
+ <script type="text/javascript" src="js/graphics-canvas-Copy.js"></script>  
+</body>
+</html>
