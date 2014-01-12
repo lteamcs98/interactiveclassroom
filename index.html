@@ -6,42 +6,64 @@
         <!-- Stylesheets -->
         <link rel="stylesheet" type="text.css" href="css/normalize.css">
         <link rel="stylesheet" type="text/css" href="css/graphics-style.css">
+		<link rel="stylesheet" type="text/css" href="css/azul.css">
         <link rel="stylesheet" type="text/css" href="js/codemirror-3.20/lib/codemirror.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
         
         <!-- Javascripts -->
         <script type="text/javascript" src="js/codemirror-3.20/lib/codemirror.js"></script>
         <script type="text/javascript" src="js/codemirror-3.20/mode/javascript/javascript.js"></script>
-        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/graphics-splitpane.js"></script>
         <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
 </head>
 <body>
 	<div id="main-container">
-        <div id="lecture-container">
-                <h1>Heading 1</h1>
-                <h2>Heading 2</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempor felis at adipiscing tincidunt. Praesent eu molestie diam. Quisque luctus lacus in dolor convallis, in porta diam laoreet. Phasellus nec mi mauris. Curabitur vulputate tempor nibh non suscipit. Suspendisse vehicula magna sit amet erat pretium mattis. Suspendisse ut aliquam libero. Pellentesque lobortis, augue quis varius rutrum, orci felis lacinia arcu, vitae condimentum quam est in turpis. Phasellus bibendum feugiat neque vel consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer venenatis, risus sit amet aliquam imperdiet, mauris justo rutrum mi, in feugiat lacus felis nec nisi. Morbi suscipit pharetra enim, ac sollicitudin lorem sollicitudin et. Duis posuere ante molestie posuere placerat. Nam nibh risus, commodo et tristique eget, fringilla ac odio. Phasellus congue vel massa vitae aliquet.</p>
+		<div id="resizable-top-panel">
+	        <div id="lecture-container">
+	                <h1>Heading 1</h1>
+	                <h2>Heading 2</h2>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempor felis at adipiscing tincidunt. Praesent eu molestie diam. Quisque luctus lacus in dolor convallis, in porta diam laoreet. Phasellus nec mi mauris. Curabitur vulputate tempor nibh non suscipit. Suspendisse vehicula magna sit amet erat pretium mattis. Suspendisse ut aliquam libero. Pellentesque lobortis, augue quis varius rutrum, orci felis lacinia arcu, vitae condimentum quam est in turpis. Phasellus bibendum feugiat neque vel consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer venenatis, risus sit amet aliquam imperdiet, mauris justo rutrum mi, in feugiat lacus felis nec nisi. Morbi suscipit pharetra enim, ac sollicitudin lorem sollicitudin et. Duis posuere ante molestie posuere placerat. Nam nibh risus, commodo et tristique eget, fringilla ac odio. Phasellus congue vel massa vitae aliquet.</p>
 
-                <p>Morbi euismod euismod magna, sit amet consequat est malesuada vel. Duis non leo id orci hendrerit adipiscing. Proin volutpat elit id orci vehicula mollis. Donec nulla augue, feugiat eu nunc elementum, hendrerit tempor dui. Nam viverra, leo a placerat venenatis, est dolor varius nisi, eu vulputate nunc nulla sit amet sem. Cras eleifend velit mi. In fringilla ac justo eu placerat. Aliquam ac metus vel diam convallis varius in id nibh.</p>
+	                <p>Morbi euismod euismod magna, sit amet consequat est malesuada vel. Duis non leo id orci hendrerit adipiscing. Proin volutpat elit id orci vehicula mollis. Donec nulla augue, feugiat eu nunc elementum, hendrerit tempor dui. Nam viverra, leo a placerat venenatis, est dolor varius nisi, eu vulputate nunc nulla sit amet sem. Cras eleifend velit mi. In fringilla ac justo eu placerat. Aliquam ac metus vel diam convallis varius in id nibh.</p>
 
-                <p>Sed laoreet, purus hendrerit rutrum auctor, diam turpis dictum massa, sed venenatis mauris elit sit amet sapien. Donec ullamcorper ultricies dolor, non hendrerit magna viverra porta. Integer convallis et nunc ut consequat. Aenean vulputate est ut nulla molestie, id porta sapien rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer adipiscing nisl eu sem mattis, ac tincidunt ligula condimentum. Nullam aliquam cursus elit, non porta urna tempus ultricies. Pellentesque quis neque sem. Vivamus et tellus neque.</p>
+	                <p>Sed laoreet, purus hendrerit rutrum auctor, diam turpis dictum massa, sed venenatis mauris elit sit amet sapien. Donec ullamcorper ultricies dolor, non hendrerit magna viverra porta. Integer convallis et nunc ut consequat. Aenean vulputate est ut nulla molestie, id porta sapien rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer adipiscing nisl eu sem mattis, ac tincidunt ligula condimentum. Nullam aliquam cursus elit, non porta urna tempus ultricies. Pellentesque quis neque sem. Vivamus et tellus neque.</p>
 
-                <p>Aliquam eu laoreet lacus, non molestie nibh. Vestibulum at libero at justo vulputate tincidunt. Nam interdum arcu vitae arcu dignissim fringilla. Vivamus pretium tincidunt accumsan. Etiam magna enim, ultrices sed mi in, commodo sollicitudin tellus. In sit amet libero semper, tempor enim eget, vulputate orci. Integer ut elit sit amet est elementum sagittis eu vel justo. Integer condimentum urna a dui aliquam dapibus.</p>
+	                <p>Aliquam eu laoreet lacus, non molestie nibh. Vestibulum at libero at justo vulputate tincidunt. Nam interdum arcu vitae arcu dignissim fringilla. Vivamus pretium tincidunt accumsan. Etiam magna enim, ultrices sed mi in, commodo sollicitudin tellus. In sit amet libero semper, tempor enim eget, vulputate orci. Integer ut elit sit amet est elementum sagittis eu vel justo. Integer condimentum urna a dui aliquam dapibus.</p>
 
-                <p>Nulla cursus vulputate nunc id suscipit. Praesent justo neque, consectetur ut eleifend ac, feugiat at est. Aliquam sit amet blandit nunc. Fusce eget molestie risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent porttitor lacus et odio elementum mattis a quis nulla. Ut rutrum nisl et adipiscing convallis. Pellentesque egestas sollicitudin ultrices. Pellentesque eu eleifend massa. Curabitur iaculis erat in est tincidunt semper. Nunc in interdum enim, non rutrum sapien. Sed a erat imperdiet, sodales dui sit amet, placerat eros. Maecenas erat leo, varius vitae placerat in, faucibus vel dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat ante, tempus sit amet sagittis eu, blandit eget turpis.</p>
+	                <p>Nulla cursus vulputate nunc id suscipit. Praesent justo neque, consectetur ut eleifend ac, feugiat at est. Aliquam sit amet blandit nunc. Fusce eget molestie risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent porttitor lacus et odio elementum mattis a quis nulla. Ut rutrum nisl et adipiscing convallis. Pellentesque egestas sollicitudin ultrices. Pellentesque eu eleifend massa. Curabitur iaculis erat in est tincidunt semper. Nunc in interdum enim, non rutrum sapien. Sed a erat imperdiet, sodales dui sit amet, placerat eros. Maecenas erat leo, varius vitae placerat in, faucibus vel dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat ante, tempus sit amet sagittis eu, blandit eget turpis.</p>
                 
-        </div>
-		<div id="resizable-bottom-panel">
-	        <div id="console-container">
-	                <textarea id="console"></textarea>
-	                <button id="compile-button" type="button">Compile!</button>
-	        </div>
-	        <div id="canvas-container">
-	                <canvas id="canvas"></canvas>
-	        </div>
+        	</div>
 		</div>
-		<script type="text/javascript" src="js/graphics-canvas.js"></script>
+		<div id="resizable-bottom-panel">
+            <!--Here are the different tab titles-->
+            <ul>
+                <li><a href="#tabs-1">Code Editor</a></li>
+                <li><a href="#tabs-2">Console</a></li>
+                <li><a href="#tabs-3">Canvas</a></li>
+            </ul>
+            <!--tab content definition starts here-->
+            <div id="tabs-1">
+                <div id="console-container">
+                    <textarea id="console"></textarea>
+                    <button id="compile-button" type="button">Compile!</button>
+                </div>
+            </div>
+            <div id="tabs-2">
+                <p>console</p>
+            </div>
+            <div id="tabs-3"> 
+             	<div id="canvas-container">
+                    <canvas id="canvas"></canvas>
+                </div>
+       	 	</div>   
+		</div>
 	</div>
+	<script> 
+	    $(function() {
+	        $( "#resizable-bottom-panel").tabs();
+	    });</script>
+	<script type="text/javascript" src="js/graphics-canvas.js"></script>
 </body>
 </html>
