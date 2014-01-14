@@ -5,19 +5,48 @@
 $(document).ready(function() {
 	$("#compile-button1").click(draw);
 });
-    
-var code;
 
-var draw = function()
+
+$(document).ready(function() {
+	$("#stop-button").click(stopSketch);
+});
+
+var code;
+var currentProcessingInstance = null;
+
+function draw()
     {
+        // store the user's code from the code mirror editor
         code = myCodeMirror.getValue();
+        
+        // for debugging purposes show the text that was captured
         console.log(code);
+        
+        // grab the canvas element in the html
         var canvas = document.getElementById("canvas1");
-        // attaching the sketchProc function to the canvas
-        var processingInstance = new Processing(canvas, wrapperClass);    
+        
+        // stop the current sketch if one exists
+        stopSketch();
+        
+        // attaching the wrapperFunction function to the canvas
+        // begin a new sketch
+        currentProcessingInstance = new Processing(canvas, wrapperFunction);
     }
     
-function wrapperClass(processing)
+// stop the current sket that is running (if one exists)
+function stopSketch()
+    {
+        // check to see if there is a sketch already running
+        if(currentProcessingInstance != null)
+        {
+            // if so then kill this sketch
+            currentProcessingInstance.exit();
+        }
+        //currentProcessingInstance = null;
+    }
+    
+// not really a JavaScript class at the moment but it does the trick for now
+function wrapperFunction(processing)
     {
         // wrapper functions
         function ellipse(x, y, h, w)
@@ -75,10 +104,19 @@ function wrapperClass(processing)
             return processing.height;
         }
         
+        function exit()
+        {
+            processing.exit();
+        }
+        
+        // get the canvas
         var canvas = $("#canvas1")[0].getContext("2d");
+        
         // Clear the canvas
         canvas.fillStyle="#FFFFFF";
         canvas.fillRect(0, 0, $("#canvas1")[0].width, $("#canvas1")[0].height);
+        
+        // run the code
         eval(code);
     }
     
