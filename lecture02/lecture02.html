@@ -81,42 +81,121 @@ MathJax.Hub.Config({
 <p>Think of it this way: starting from the upper left corner of the graphics window, <em>x</em> coordinates increase to the right, and <em>y</em> coordinates increase down from the top. If you think about how <em>x</em> and <em>y</em> coordinates usually work in mathematics, graphics on a computer doesn't quite match up. The <em>x</em> direction works, but in math, increasing <em>y</em> coordinates go <em>up</em>, whereas in computer graphics, increasing <em>y</em> coordinates go <em>down</em>.</p>
 <p>What do the parameters passed to <code>draw_circle</code> mean? The first two parameters give the <em>x</em> and <em>y</em> coordinates of the circle's center, and the third coordinate gives the circle's radius in pixels. Here's a simple exercise for you to try: What would you see if you called <code>draw_circle(0, 0, 100)</code>?</p>
 <h2 id="good-coding-style">Good coding style</h2>
-<p>Computer programs are not just for computers. Good code should do two things:</p>
-<ol style="list-style-type: decimal">
-<li>It should allow the computer to solve a useful or interesting problem.</li>
-<li>It should describe a solution to the problem in a way that a human reader can understand it.</li>
+<p>Computer programs are not just for computers. Good code should
+do two things:</p>
+<ol style="list-style-type: decimal;">
+<li>It should allow the computer to solve a useful or
+interesting problem.</li>
+<li>It should describe a solution to the problem in a way that
+a human reader can understand it.</li>
 </ol>
-<p>A well-written program is more than a machine for solving a problem—it is in a real sense a description of a solution to a problem. How to write good, human-readable code is a major focus of this course, and we'll come back to it again and again.</p>
-<p>Let's look at the following bad program, in <a href="bad_program.py">bad_program.py</a>:</p>
-<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="kw">def</span> whatever():<br />    clear()<br />    disable_stroke()<br />    set_fill_color(<span class="dv">0</span>,.<span class="dv">5</span>,<span class="dv">0</span>)<br />    draw_rectangle(<span class="dv">0</span>,<span class="dv">300</span>,<span class="dv">400</span>,<span class="dv">100</span>)<br />    set_fill_color(.<span class="dv">5</span>,.<span class="dv">4</span>,.<span class="dv">2</span>) <br />    draw_rectangle(<span class="dv">200</span>,<span class="dv">250</span>,<span class="dv">130</span>,<span class="dv">100</span>)  <br />    set_fill_color(.<span class="dv">3</span>,.<span class="dv">3</span>,.<span class="dv">3</span>)  <br />    draw_triangle(<span class="dv">200</span>,<span class="dv">250</span>,<span class="dv">330</span>,<span class="dv">250</span>,<span class="dv">265</span>,<span class="dv">200</span>)<br />    set_fill_color(.<span class="dv">6</span>,.<span class="dv">5</span>,.<span class="dv">3</span>)  <br />    draw_rectangle(<span class="dv">280</span>,<span class="dv">310</span>,<span class="dv">25</span>,<span class="dv">40</span>)<br />    set_fill_color(.<span class="dv">9</span>,.<span class="dv">8</span>,.<span class="dv">2</span>) <br />    draw_circle(<span class="dv">300</span>,<span class="dv">330</span>,<span class="dv">3</span>)<br />start_graphics(whatever)</code></pre>
-<p>What does this program do? Does it describe how to solve a problem? What's the problem? Is this is a good solution? Could you modify it easily to solve a more interesting problem, without even knowing what the program does?</p>
-<p>In this case, the program is short and you could figure out what it does by running it with Python. It would still be a lot of work to figure out what each line of code was intended to do just from reading the code without running it.</p>
-<p>(One sidenote: &quot;<code>from cs1lib import *</code>&quot; tells Python that you want to be able to use every function from the <code>cs1lib</code> module, freeing us from having to specify each individual function we intend to use. The downside of using the <code>*</code> notation is that Eclipse will warn us about all the functions in cs1lib.py that we do <em>not</em> use. But this is a warning that we may safely ignore.)</p>
-<h3 id="explaining-your-code-with-comments">Explaining your code with comments</h3>
-<p>You can use the <code>#</code> symbol in Python code to indicate code that Python should ignore. On a line of code, everything after the pound symbol is called a <strong>comment</strong> and is ignored by Python; it's there just for human readers.</p>
-<p>Here's an example, in <a href="house_good.py">house_good.py</a>, where we improve the above program by adding comments and whitespace, and by using a more descriptive function function name. By <strong>whitespace</strong>, we mean spaces, tabs, and &quot;newlines.&quot; Whitespace helps human readers understand the structure of a program, much as breaking prose into chapters, sections, and paragraphs helps readers understand the structure of a book.</p>
-<pre class="sourceCode"><code class="sourceCode python"><span class="co"># Program to draw a simple house</span><br /><span class="co"># cs1 example of use of commenting and whitespace</span><br /><span class="co"># author Devin Balkcom</span><br /><span class="co"># July, 2011</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br /><span class="co"># Function to draw a house.</span><br /><span class="kw">def</span> draw_house():<br /><br />    clear()<br />    disable_stroke()<br /><br />    <span class="co"># draw the lawn</span><br />    set_fill_color(<span class="dv">0</span>, .<span class="dv">5</span>, <span class="dv">0</span>) <span class="co"># dark green</span><br />    draw_rectangle(<span class="dv">0</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">100</span>)<br /><br />    <span class="co"># draw the main square part of the house</span><br />    set_fill_color(.<span class="dv">5</span>, .<span class="dv">4</span>, .<span class="dv">2</span>) <span class="co"># brown</span><br />    draw_rectangle(<span class="dv">200</span>, <span class="dv">250</span>, <span class="dv">130</span>, <span class="dv">100</span>)  <br /><br />    <span class="co"># draw the roof</span><br />    set_fill_color(.<span class="dv">3</span>, .<span class="dv">3</span>, .<span class="dv">3</span>)  <span class="co"># gray</span><br />    draw_triangle(<span class="dv">200</span>, <span class="dv">250</span>, <span class="dv">330</span>, <span class="dv">250</span>, <span class="dv">265</span>, <span class="dv">200</span>)<br /><br />    <span class="co"># draw the door</span><br />    set_fill_color(.<span class="dv">6</span>, .<span class="dv">5</span>, .<span class="dv">3</span>)  <span class="co"># light brown</span><br />    draw_rectangle(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>)<br /><br />    <span class="co"># draw the doorknob</span><br />    set_fill_color(.<span class="dv">9</span>, .<span class="dv">8</span>, .<span class="dv">2</span>) <span class="co"># gold</span><br />    draw_circle(<span class="dv">300</span>, <span class="dv">330</span>, <span class="dv">3</span>)<br /><br />start_graphics(draw_house)</code></pre>
-<p>We can now see exactly what the program is intended to do, and also which lines of code accomplish which parts of the solution.</p>
-<p>How much should you comment your own code? Here are some guidelines:</p>
-<ol style="list-style-type: decimal">
-<li>Always put a comment at the top of the program or file describing the overall intent and how the program works.</li>
-<li>Always put a comment before the beginning of each function you define, indicating the purpose.</li>
-<li>Always comment something that might be mysterious to even an experienced programmer</li>
+<p>A well-written program is more than a machine for solving a
+problem—it is in a real sense a description of a solution to a problem.
+How to write good, human-readable code is a major focus of this course,
+and we'll come back to it again and again.</p>
+<p>Let's look at the following bad program, in <a href="bad_program.js">bad_program.js</a>:<br /></p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch"></span></code>function whatever(){<br /><o:p></o:p>fill(0,128,0);<br />rect(0, 300, 400, 100);<br /><o:p></o:p>fill(128, 102, 51);<br />rect(200, 250, 130, 100);<br /><o:p></o:p>fill(255,0,0);<br /><o:p></o:p>triangle(200, 250, 330, 250, 265, 20);<br /><o:p></o:p>fill(153,128,77);<br />rect(280, 310, 25, 40);<br /><o:p></o:p>fill(0,0,0);<br /><o:p></o:p>ellipse(300, 330, 3,3);<br />}<o:p></o:p>size(400,400);<br /><o:p></o:p>noStroke();<o:p></o:p><br />whatever();</pre>
+<p>What does this program do? Does it describe how to solve a
+problem? What's the problem? Is this is a good solution? Could you
+modify it easily to solve a more interesting problem, without even
+knowing what the program does?</p>
+<p>In this case, the program is short and you could figure out
+what it does by running it with JavaScript. It would still be a lot of work
+to figure out what each line of code was intended to do just from
+reading the code without running it.</p>
+
+<h3 id="explaining-your-code-with-comments">Explaining
+your code with comments</h3>
+<p>You can use the <code>//</code> symbols in JavaScript
+code to indicate code that JavaScript should ignore. On a line of code,
+everything after the double slashes is called a <strong>comment</strong>
+and is ignored by JavaScript; it's there just for human readers.</p>
+<p>Here's an example, in <a href="house_good.js">house_good.js</a>,
+where we improve the above program by adding comments and whitespace,
+and by using a more descriptive function function name. By <strong>whitespace</strong>,
+we mean spaces, tabs, and "newlines." Whitespace helps human readers
+understand the structure of a program, much as breaking prose into
+chapters, sections, and paragraphs helps readers understand the
+structure of a book.</p>
+
+<div class="hlcode">
+<div class="syntax"><pre><span class="c1">// Program to draw a simple house</span><br /><span class="c1">// cs1 example of use of commenting and whitespace</span><br /><span class="c1">// author Devin Balkcom (adapted from python to JavaScript by L'Team)</span><br /><span class="c1">// Winter, 2014<br /><br /></span><span class="nx">size</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">);</span><br /><span class="nx">noStroke</span><span class="p">();<br /><br /></span><span class="c1">// Function to draw a house.</span><br /><span class="kd">function</span> <span class="nx">drawHouse</span><span class="p">(){</span><br /><span class="c1">	//draw the lawn</span><br /><span class="nx">	</span><span class="p"></span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//dark green</span><br /><span class="nx">	</span><span class="p"></span><span class="nx">rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">100</span><span class="p">);<br /><br /></span><span class="c1">	//draw the main square part of the house</span><br /><span class="nx">	</span><span class="nx">fill</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">51</span><span class="p">);</span> <span class="c1">//brown</span><br /><span class="nx">	</span><span class="p"></span><span class="nx">rect</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">100</span><span class="p">);<br /><br /></span><span class="c1">	//draw the roof</span><br /><span class="nx">	f</span><span class="nx">ill</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="c1">//red</span><br /><span class="nx">	</span><span class="nx">triangle</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">330</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">265</span><span class="p">,</span> <span class="mi">20</span><span class="p">);<br /><br /></span><span class="c1">	// draw the door</span><br /><span class="nx">	</span><span class="nx">fill</span><span class="p">(</span><span class="mi">153</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">77</span><span class="p">);</span> <span class="c1">// light brown</span><span class="nx">	<br /></span><span class="p">	</span><span class="nx">rect</span><span class="p">(</span><span class="mi">280</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">40</span><span class="p">);<br /><br /></span><span class="c1">	//draw the doorknob</span><br /><span class="nx">	</span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// black</span><br /><span class="nx">	ellipse</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">330</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><br /><span class="p">}</span><br /><span class="nx">drawHouse</span><span class="p">();</span>
+</pre></div>
+
+
+<p>We can now see exactly what the program is intended to do, and
+also which lines of code accomplish which parts of the solution.</p>
+<p>How much should you comment your own code? Here are some
+guidelines:</p>
+<ol style="list-style-type: decimal;">
+<li>Always put a comment at the top of the program or file
+describing the overall intent and how the program works.</li>
+<li>Always put a comment before the beginning of each function
+you define, indicating the purpose.</li>
+<li>Always comment something that might be mysterious to even
+an experienced programmer</li>
 </ol>
-<p>Good comments add new information, but that does not mean you should comment every single line of code. Here's a distracting comment that is <em>not</em> useful:</p>
-<pre class="sourceCode"><code class="sourceCode python">draw_rectangle(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>)     <span class="co"># draw a rectangle</span></code></pre>
-<p>We can see from the function name that this line draws a rectangle. A more useful comment would tell us what we are trying to do with the rectangle (in this case, draw a door). Another comment might tell us the fill color:</p>
-<pre class="sourceCode"><code class="sourceCode python"><span class="co"># draw the door</span><br />set_fill_color(.<span class="dv">6</span>, .<span class="dv">5</span>, .<span class="dv">3</span>)  <span class="co"># light brown</span><br />draw_rectangle(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>)</code></pre>
+<p>Good comments add new information, but that does not mean you
+should comment every single line of code. Here's a distracting comment
+that is <em>not</em> useful:</p>
+<pre class="sourceCode"><code class="sourceCode python">rect(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>) <span class="co">// draw a rectangle</span></code></pre>
+<p>We can see from the function name that this line draws a
+rectangle. A more useful comment would tell us what we are trying to do
+with the rectangle (in this case, draw a door). Another comment might
+tell us the fill color:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co">// draw the door</span><br />fill(</code><span class="p"></span><code class="sourceCode python"><span class="dv">153, 128, 77</span></code><span class="mi"></span><span class="p"></span><span class="mi"></span><code class="sourceCode python"><span class="dv"></span>) <span class="co">// light brown</span><br />rect(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>)</code></pre>
 <h3 id="more-graphics-functions">More graphics functions</h3>
 <p>In the previous example, we saw some new graphics functions:</p>
 <ul>
-<li><p><code>draw_rectangle</code> draws a rectangle, given four parameters. The first two give the <em>x</em> and <em>y</em> coordinates of the upper left corner of the rectangle, the third parameter gives the rectangle's width, and the fourth parameter gives the rectangle's height. So the call <code>draw_rectangle(200, 250, 130, 100)</code> draws a rectangle with an upper left corner at (200, 250) and a lower right corner at (330, 350).</p></li>
-<li><p><code>draw_triangle</code> takes six parameters, which it groups into three consecutive pairs. Each pair gives the coordinates of one vertex of the triangle. So the call <code>draw_triangle(200, 250, 330, 250, 265, 200)</code> draws a triangle with vertices at (200, 250), (330, 250), and (265, 200).</p></li>
-<li><p><code>set_fill_color</code> says that until told otherwise (by a later call to <code>set_fill_color</code>), we are drawing all filled shapes in the color specified by its three parameters. The parameters give the fraction of red, green, and blue (in that order) that, when mixed together, form the color. White would be (1, 1, 1), black would be (0, 0, 0), pure red would be (1, 0, 0), pure yellow would be (1, 1, 0) (mixing red and green), and so forth. Play with changing the parameters to <code>set_fill_color</code> in the program that draws the house.</p></li>
-<li><p><code>disable_stroke</code> just says that when we draw rectangles, circles, and triangles, draw just the inner filled part, not the outline. See what happens if you comment out the call to <code>disable_stroke</code> by putting a <code>#</code> in front of it.</p></li>
+<li>
+<p><code>rect</code> draws a rectangle, given
+four parameters. The first two give the <em>x</em> and <em>y</em>
+coordinates of the upper left corner of the rectangle, the third
+parameter gives the rectangle's width, and the fourth parameter gives
+the rectangle's height. So the call <code>rect(200, 250, 130,
+100)</code> draws a rectangle with an upper left corner at (200,
+250) and a lower right corner at (330, 350).</p>
+</li>
+<li>
+<p><code>triangle</code> takes six parameters,
+which it groups into three consecutive pairs. Each pair gives the
+coordinates of one vertex of the triangle. So the call <code>triangle(200,
+250, 330, 250, 265, 200)</code> draws a triangle with vertices at
+(200, 250), (330, 250), and (265, 200).</p>
+</li>
+<li>
+<p><code>fill</code> says that until told
+otherwise (by a later call to <code>fill</code>), we are
+drawing all filled shapes in the color specified by its three
+parameters. The parameters give the total out of 255 of red, green, and
+blue (in that order) that, when mixed together, form the color. White
+would be (255, 255, 255), black would be (0, 0, 0), pure red would be
+(255, 0, 0), pure yellow would be (255, 255, 0) (mixing red and green),
+and so forth. Play with changing the parameters to <code>fill</code>
+in the program that draws the house.</p>
+</li>
+<li>
+<p><code>size</code> defines the dimensions of
+the space on which we draw, specified by its two parameters <em>x</em>
+and <em>y</em>. See what happens when you change the
+dimensions.</p>
+</li>
+<li>
+<p><code> noStroke</code> just says that when we
+draw rectangles, circles, and triangles, draw just the inner filled
+part, not the outline. See what happens if you comment out the call to <code>
+noStroke</code> by putting <code>//</code> in front
+of it.</p>
+</li>
 </ul>
 <h3 id="using-whitespace-well">Using whitespace well</h3>
-<p>Python ignores certain types of whitespace, like blank lines and spaces after commas. You should use blank lines to group your code into logical segments. A good rule of thumb is that there should be a blank line roughly every 3-10 lines of code. If you have fewer blank lines, look hard to see whether your code can be broken down into smaller chunks. You can think of these blank lines as serving the same purpose that new paragraphs do in English writing.</p>
-<p>It's also good style to put a space after every comma, just as you would in written English.</p>
-</body>
-</html>
+<p>JavaScript ignores certain types of whitespace, like blank
+lines and spaces after commas. You should use blank lines to group your
+code into logical segments. A good rule of thumb is that there should
+be a blank line roughly every 3-10 lines of code. If you have fewer
+blank lines, look hard to see whether your code can be broken down into
+smaller chunks. You can think of these blank lines as serving the same
+purpose that new paragraphs do in English writing.</p>
+<p>It's also good style to put a space after every comma, just as
+you would in written English.</p>
+</div></body></html>
