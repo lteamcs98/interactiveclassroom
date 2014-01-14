@@ -10,4 +10,5 @@ processing.rect(280, 310, 25, 40);
 processing.fill(0,0,0);
 ellipse(300, 330, 3,3);}
 size(400,400);
+noStroke();
 whatever();

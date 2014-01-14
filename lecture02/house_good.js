@@ -1,7 +1,10 @@
 // Program to draw a simple house
 // cs1 example of use of commenting and whitespace
-// author Devin Balkcom (adapted from python to javascript by L'team)
+// author Devin Balkcom (adapted from python to JavaScript by L'team)
 // Winter, 2014
+
+size(400,400);
+noStroke();
 
 // Function to draw a house.
 function drawHouse(){
@@ -25,8 +28,5 @@ function drawHouse(){
 	processing.fill(0,0,0); // black
 	ellipse(300, 330, 3,3);
 }
-
-//set the size of the window
-size(400,400);
 
 drawHouse();
