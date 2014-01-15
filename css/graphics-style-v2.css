@@ -64,8 +64,15 @@ padding-left: 10em;
 
 .small-title {
 	font-family: 'Lato', sans-serif;
-	background: #ccc;
-	
+	background: black;
+	color: white;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 12px;
+	text-transform: uppercase;
+	text-align: center;
+	margin: 0;
+	padding: 0;
 }
 
 /* Top level layout */
