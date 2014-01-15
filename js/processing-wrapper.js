@@ -4,7 +4,7 @@
  
 // call drawSketch when the compile button is clicked
 $(document).ready(function() {
-	$("#compile-button1").click(drawSketch);
+	$("#compile-button").click(drawSketch);
 });
 
 
@@ -51,7 +51,7 @@ function wrapperClass(processing, code)
         
         // add callbacks so that the sketch will be stopped 
         $("#stop-button").click(stopSketch);
-        $("#compile-button1").click(stopSketch);
+        $("#compile-button").click(stopSketch);
         
         console.log('initialized wrapper class');
         
@@ -112,7 +112,7 @@ function wrapperClass(processing, code)
         // set the stroke color with the appropriate RGB values and opacity
         function stroke(r, g, b, alpha)
         {
-            processing.stroke(r, g, b, alpha;
+            processing.stroke(r, g, b, alpha);
         }
         
         // draw a line between the points with the given coordinates
@@ -177,7 +177,7 @@ function wrapperClass(processing, code)
             exit();
             
             // get the canvas
-            var canvas = $("#canvas1")[0].getContext("2d");
+            var canvas = $("#canvas")[0].getContext("2d");
             
             // Clear the canvas
             canvas.fillStyle="#FFFFFF";
