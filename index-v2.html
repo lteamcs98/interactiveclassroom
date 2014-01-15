@@ -20,6 +20,16 @@
 	<script type="text/javascript" src="js/split-pane.js"></script>
     <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
 	
+	<script type="text/javascript"
+	  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+	});
+	</script>
+	
 	<script>
 		$(function() {
 			$('div.split-pane').splitPane();
@@ -27,7 +37,17 @@
 	</script>
 </head>
 <body>
-	<div id="nav">CS1: Fall 2014</div>
+	<div id="nav">
+		<ul>
+		<li>CS1: FALL 2014</li>
+		<li><a href="syllabus.html">Syllabus</a>
+		<li><a href="schedule.html">Schedule</a>
+		<li><a href="short_assignments.html">Short assignments</a>
+		<li><a href="lab_assignments.html">Labs</a>
+		<li><a href="exams.html">Exams</a>
+		<li><a href="software.html">Course software</a>
+		</ul>
+	</div>
 	<div id="content">
 		<div class="split-pane-frame">
 			<div class="split-pane fixed-top">
@@ -106,22 +126,20 @@
 							<p>So the header for the first function is</p>
 							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {</code></pre>
 							<p>The body of the first function is</p>
-							<pre class="sourceCode"><code class="sourceCode python">    <span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);</code></pre>
+							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);</code></pre>
 							<p>When we run the complete program, we get the output:</p>
-							<pre><code>Hello.
-							</code></pre>
+							<pre><code>Hello.</code></pre>
 							<p>Wait. Our program only printed <code>Hello.</code>. Javascript now knows how to do the <code>say_introduction</code> and <code>threaten_vengeance</code> functions, but we haven't told it to use them yet.</p>
 							<p>To tell the interpreter to actually run the body of a function, you use a <strong>function call</strong>. To write a function call, write the name of the function followed by parentheses.</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {<br />    <span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);<br />}<br /><br /><span class="kw">function</span> threaten_vengeance() {<br />    <span class="kw">print</span>(<span class="st">&quot;You killed my father.&quot;</span>);<br />    <span class="kw">print</span>(<span class="st">&quot;Prepare to die.&quot;</span>);<br />}<br /><br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />say_introduction();<br />threaten_vengeance();<br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />threaten_vengeance();</code></pre>
+							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {<br /><span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);<br />}<br /><br /><span class="kw">function</span> threaten_vengeance() {<br />    <span class="kw">print</span>(<span class="st">&quot;You killed my father.&quot;</span>);<br />    <span class="kw">print</span>(<span class="st">&quot;Prepare to die.&quot;</span>);<br />}<br /><br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />say_introduction();<br />threaten_vengeance();<br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />threaten_vengeance();</code></pre>
 							<p>Here's the output:</p>
 							<pre><code>Hello.
-							My name is Inigo Montoya.
-							You killed my father.
-							Prepare to die.
-							Hello.
-							You killed my father.
-							Prepare to die.
-							</code></pre>
+My name is Inigo Montoya.
+You killed my father.
+Prepare to die.
+Hello.
+You killed my father.
+Prepare to die.</code></pre>
 							<p>One way to think of the difference between a function definition and a function call is to think of a cookbook containing various recipes. The printed recipes are like function definitions: they tell <em>how</em> to prepare a dish <em>when</em> you decide to prepare it, but they don't, on their own, cause the dish to be prepared. Actually preparing a dish by following the recipe is like a function call.</p>
 							<p>When the program counter reaches a function call, the interpreter takes a note of where the program counter is, moves the program counter to the first line of the body of the appropriate function definition, and executes the lines of code in the function. When the interpreter gets to the end of the body of the function, the program counter is reset to its original value before the function call, and Javascript jumps back to where it started before the function call.</p>
 						</div>
@@ -132,7 +150,7 @@
 					<div class="pane-decoration">
 						<div id="console-container">
 							<textarea id="editor"></textarea>
-							<button id="compile-button">Compile!</button>
+							<button id="compile-button">Compile</button>
 						</div>
 						<div id="canvas-container">
 							<canvas id="canvas" height="800px" width="1200px"></canvas>
