@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-6-moving-blocks-due-monday-january-23">Short Assignment #6: Moving Blocks <br />Due: Monday, January 23</h1>
+<p>In this assignment, you will start by putting up a graphics window with two blocks, each 80 pixels high and 20 pixels wide, initially in the upper-left and lower-right corners of a 400 x 400 window. Like so:</p>
+<div class="figure">
+<img src="moving-blocks-init.png" /><p class="caption"></p>
+</div>
+<p>I drew mine with a yellow background and dark red blocks (half red, no green, no blue), but you may choose whatever colors you like. The blocks should be drawn without an outline (call <code>disable_stroke</code>).</p>
+<p>The blocks may move up and down as follows:</p>
+<ul>
+<li>If the user presses the <em>a</em> key, then the left block moves up.</li>
+<li>If the user presses the <em>z</em> key, then the left block moves down.</li>
+<li>If the user presses the <em>k</em> key, then the right block moves up.</li>
+<li>If the user presses the <em>m</em> key, then the right block moves down.</li>
+</ul>
+<p>But no block may move outside the window. When the left block hits the top window boundary, pressing <em>a</em> has no effect, and when it hits the bottom window boundary, pressing <em>z</em> has no effect. Likewise, when the right block hits the top window boundary, pressing <em>k</em> has no effect, and when it hits the bottom window boundary, pressing <em>m</em> has no effect.</p>
+<p>Here's what my window looked like after I'd pressed <em>k</em> a few times:</p>
+<div class="figure">
+<img src="moving-blocks-right.png" /><p class="caption"></p>
+</div>
+<p>And then after pressing <em>z</em> a few times:</p>
+<div class="figure">
+<img src="moving-blocks-left.png" /><p class="caption"></p>
+</div>
+<p>If anything, this assignment is a little easier than the chalkboard assignment of <a href="../chalkboard/sa_chalkboard.html">Short Assignment #5</a>. As you will see in a few days, this assignment is a nice warmup for the first lab assignment.</p>
+<p>As in the chalkboard assignment, you'll need to set up a loop that runs as long as the window is open. In each iteration, you check the status of the four keys, update the block locations as appropriate, redraw the window, and take a short nap. I found that a nap duration of 0.02 seconds was good, and whenever a block moved, I moved it vertically by 10 pixels.</p>
+<p><em>Make sure to define constants for things that never change</em>:</p>
+<ul>
+<li>The height and width of the window.</li>
+<li>The height and width of the blocks.</li>
+<li>The four keys of interest.</li>
+<li>The amount that a block moves when it moves.</li>
+<li>The nap duration.</li>
+</ul>
+<p>Also, when you call <code>start_graphics</code> to create the drawing window, you should provide the height and width of the window as the third and fourth parameters to <code>start_graphics</code>. As always, the first parameter is the function to run. The second parameter is the title you see at the top of the window, as a string; as you can see from my screenshots, I used <code>&quot;Moving blocks&quot;</code>.</p>
+<p>Remember that blocks move only vertically, and they may never move off the window. Your section leader will be able to run your code to verify that you got the behavior right.</p>
+<h2 id="what-to-turn-in">What to turn in</h2>
+<ol style="list-style-type: decimal">
+<li><p>Turn in three screenshots of your program: one of its initial state, and two with the blocks having moved.</p></li>
+<li><p>Turn in your .py source code listing.</p></li>
+</ol>
+<p>At this point, you know how to turn in short assignments, so I don't need to provide the instructions.</p>
+</body>
+</html>

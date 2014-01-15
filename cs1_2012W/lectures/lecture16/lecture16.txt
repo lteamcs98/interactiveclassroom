@@ -1,0 +1,646 @@
+# Short Assignment 11
+
+[Short Assignment 11](../../shortassign/josephus/sa_josephus.html) is
+posted and due on Friday.  (Even though I won't be here on Friday.)
+
+# Linked lists, continued
+
+Last time, we discussed the time costs of operations on Python lists,
+noting that insertion and deletion take time linear in the number of
+items following the point of insertion or deletion.  We'll see how to
+insert and delete in constant time with a linked list.
+
+Linked lists have their downside, however.  One disadvantage, when
+compared with Python lists, is that finding the $i$th item in a linked
+list takes $O(i)$ time, whereas it takes constant time with a Python
+list.
+
+## Circular, doubly linked list with a sentinel
+
+We began to see circular, doubly linked lists with a sentinel last
+time, but now we can delve into them.  A reminder of how they differ
+from the simple, singly linked lists we saw last time:
+
+1. The list will be **doubly linked**: each node will contain a
+reference to the *previous* node in the chain (in a `prev` instance
+variable) as well as a reference to the *next* node.  Although this
+structure makes it easy to iterate backward through the list, it makes
+other, more common, operation easy, too.
+
+2. The list will have a **sentinel** node, instead of a reference to a
+first node.  This sentinel node is a special node that acts as the 0th
+node in the linked list.  No data is stored in this special node; it's
+there just as a placeholder in the list.
+
+3. The list will be **circular**.  The last node containing data will
+hold in its `next` instance variable the address of the sentinel node,
+and the sentinel node's `prev` instance variable will hold the address
+of the last node.
+
+We call this structure a **circular, doubly linked list with a
+sentinel**.  Quite a mouthful, indeed.  Practice saying it fast.
+
+A circular, doubly linked list with a sentinel has the property that
+*every* node references a next node and a previous node.  Always.
+This uniform way of treating nodes turns out to be quite convenient,
+because as we write methods to insert or delete nodes into the list,
+we don't have to worry about special cases that would arise if the
+last node didn't have a next node, and the first node didn't have a
+previous node, but all interior nodes had both.
+
+Here is a picture of a circular, doubly linked list with a sentinel
+representing the same list as before:
+
+![](states-DLL.png)
+
+We create a class, `Sentinel_DLL`, to implement a circular, doubly
+linked list with sentinel in [sentinel_DLL.py](sentinel_DLL.py):
+
+~~~{.python}
+# sentinel_DLL.py
+# CS 1 class example for a circular, doubly linked list with a sentinel.
+# Written by Devin Balkcom, modified by THC.
+
+# Class for a node in a circular, doubly linked list with a sentinel.
+class Node:
+    def __init__(self, data):
+        self.data = data  # instance variable to store the data
+        self.next = None  # instance variable with address of next node
+        self.prev = None  # instance variable with address of previous node
+
+# Class for a circular, doubly linked list with a sentinel.
+class Sentinel_DLL:
+    # Create the sentinel node, which is before the first node
+    # and after the last node.
+    def __init__(self):        
+        self.sentinel = Node(None)
+        self.sentinel.next = self.sentinel
+        self.sentinel.prev = self.sentinel
+        
+    # Return a reference to the first node in the list, if there is one.
+    # If the list is empty, return None.
+    def first_node(self):
+        if self.sentinel.next == self.sentinel:
+            return None
+        else:
+            return self.sentinel.next
+    
+    # Insert a new node with data after node x.
+    def insert_after(self, x, data):
+        y = Node(data)   # make a new Node object.
+
+        # Fix up the links in the new node.
+        y.prev = x
+        y.next = x.next
+        
+        # The new node follows x.
+        x.next = y
+        
+        # And it's the previous node of its next node.
+        y.next.prev = y
+    
+    # Insert a new node at the end of the list.    
+    def append(self, data):
+        last_node = self.sentinel.prev
+        self.insert_after(last_node, data)
+    
+    # Delete node x from the list.
+    def delete(self, x):
+        # Splice out node x by making its next and previous
+        # reference each other.
+        x.prev.next = x.next
+        x.next.prev = x.prev
+    
+    # Find a node containing data, and return a reference to it.
+    # If no node contains data, return None.
+    def find(self, data):
+        # Trick: Store a copy of the data in the sentinel,
+        # so that the data is always found.  
+        self.sentinel.data = data
+        
+        x = self.first_node()
+        while x.data != data:
+            x = x.next
+            
+        # Restore the sentinel's data.
+        self.sentinel.data = None
+        
+        # Why did we drop out of the while-loop?
+        # If we found the data in the sentinel, then it wasn't
+        # anywhere else in the list.
+        if x == self.sentinel:
+            return None     # data wasn't really in the list
+        else:
+            return x        # we found it in x, in the list
+        
+    
+    # Return the string representation of a circular, doubly linked
+    # list with a sentinel, just as if it were a Python list.
+    def __str__(self):
+        s = "["
+
+        x = self.sentinel.next
+        while x != self.sentinel: # look at each node in the list
+            if type(x.data) == str:
+                s += "'"
+            s += str(x.data)        # concatenate this node's data to the string
+            if type(x.data) == str:
+                s += "'"
+            if x.next != self.sentinel:
+                s += ", "   # if not the last node, add the comma and space
+            x = x.next
+
+        s += "]"        
+        return s
+~~~
+
+### Creating an empty list:  `__init__` 
+
+A `Sentinel_DLL` object has just one instance variable: `sentinel`.
+This instance variable is a reference to a `Node` object.  I defined
+the `Node` class in the sentinel_DLL.py file, rather than defining it
+in its own file, because it's meant only to be part of a circular,
+doubly linked list with a sentinel.
+
+In order for the list to be circular, both the `next` and `prev`
+instance variables of the sentinel node must contain the address of
+the sentinel itself.  Here's what an empty list looks like:
+
+![](empty-DLL.png)
+
+It can at first be intimidating to see a line with as many dot
+operators in it as
+
+~~~{.python}
+self.sentinel.next = self.sentinel
+~~~
+
+Just work left to right for each variable.  `self` is the address of a
+`sentinel_DLL` object.  `self.sentinel` is the value of the `sentinel`
+instance variable in the `sentinel_DLL` object.  We know that that
+value contains the address of some `Node` object.  So
+`self.sentinel.next` is the `next` instance variable of the sentinel
+node in the `sentinel_DLL` object.  That's what we're assigning *to*.
+The value we're assigning is `self.sentinel`, the address of the
+sentinel node.
+
+### Finding the first node
+
+The `first_node` method just returns a reference to the first node in
+the list, or `None` if the list contains just the sentinel.  The first
+node is always the one after the sentinel.  If the node just after the
+sentinel is the sentinel itself, then the list contains just the
+sentinel, and the method returns `None`.  Otherwise, the method
+returns a reference to the first node.
+
+### Inserting a new node into a list
+
+To insert a new node into the list, we need to know which node we're
+inserting it after.  The parameter `x` is a reference to that node.
+The parameter `data` gives the data that we're inserting.
+
+First, the method creates a new `Node` object, referenced by `y`, to
+hold the data that we want to add to the list.  Now we need to
+"splice" the new node into the list, just as you can splice a new
+section into a piece of rope or magnetic tape.  In order to splice in
+the new node, we need to do a few things:
+
+1. Make the links in the new node refer to the previous and next nodes
+in the list.
+
+2. Make the `next` link from the node that will precede the new node
+refer to the new node.
+
+3. Make the `prev` link from the node that will follow the new node
+refer to the new node.
+
+We have to be a little careful about the order in which we do these
+operations.  Let's name the nodes for convenience.  We already have
+`x` referencing the node that the new node, referenced by `y`, goes
+after.  Let `z` reference the next node after `x` *before* we insert
+`y`, so that `y` is supposed to go between `x` and `z`.  If we clobber
+the value of the `next` instance variable of `x` too soon, we won't
+have a way to get the address of `z`, which we will need.
+
+It's good to be comfortable with the dot notation used so heavily in
+the code, but it may help you to draw a picture.  Here's the same
+method as above, but with a temporary variable introduced for `z`:
+
+~~~{.python} 
+    # Insert a new node with data after node x.
+    def insert_after(self, x, data):
+        y = Node(data)   # make a new Node object.
+        z = x.next       # y goes between x and z
+
+        # Fix up the links in the new node.
+        y.prev = x
+        y.next = z
+        
+        # The new node follows x.
+        x.next = y
+        
+        # And it's the previous node of z.
+        z.prev = y
+~~~
+
+### Iterating over a list
+
+The `__str__` method shows an example of how to iterate over a list.
+The first node in the list is the node after the sentinel.  We loop
+over nodes, letting `x` reference each node in the list, until
+returning to the sentinel again (recall that the list is circular).
+To get to the next node in the list, we use the line `x = x.next`.
+
+One other interesting thing about the `__str__` method is that I wrote
+it to produce the same string as you'd see if the linked list were a
+regular Python list.  When Python prints a list, it puts single quotes
+around all strings in the list.  So I have a check to see whether
+`x.data` is a string, and if it is, I add in the single quotes.
+
+### Deleting from a list
+
+The `delete` method takes a node `x` and deletes it from the list.
+It's deceptively simple in how it splices the node out, by just making
+its next and previous nodes reference each other.  Just we did for
+insertion, let's rewrite the `delete` method, but with `y` referencing
+`x`'s previous node and `z` referencing `x`'s next node:
+
+~~~{.python}
+    # Delete node x from the list.
+    def delete(self, x):
+        # Splice out node x by making its next and previous
+        # reference each other.
+        y = x.prev
+        z = x.next
+        y.next = z
+        z.prev = y
+~~~
+
+### Searching a list
+
+The `find` method searches the linked list for a node with a given
+data value, returning a reference to the first node that has the
+value, or `None` if no nodes have the value.  It uses linear search,
+but in a linked list.
+
+There's a cute trick that I've incorporated into my implementation of
+`find`.  If you go back to the [linear search
+code](../lecture13/linear_search.py) that we saw before, you'll notice
+that each loop iteration makes two tests: one to check that we haven't
+reached the end of the list and one to see whether the list item
+matches what we're searching for:
+
+~~~{.python}
+def linear_search(the_list, key):
+    index = 0
+    while index < len(the_list):
+        if key == the_list[index]:
+            return index
+        else:
+            index += 1
+        
+    return None
+~~~
+
+Suppose that you *knew* you'd find the item in the list.  Then you
+wouldn't have to check for reaching the end of the list, right?  So
+let's put the value we're looking for into the linked list, but in a
+special place that tells us if that's where we find it, then the only
+reason we found it was because we looked everywhere else before
+finding it in that special place.
+
+Gosh, if only we had an extra node in the list that didn't contain any
+data and was at the end of the list.  We do: the sentinel.  So we put
+the value we're looking for in the sentinel's `data` instance
+variable, start at the first node after the sentinel, and loop until
+we see a match.  If the match was *not* in the sentinel, then we found
+the value in the list.  If the match *was* in the sentinel, the the
+value wasn't really in the list; we found it only because we got all
+the way back to the sentinel.  In either case, we put `None` back into
+the sentinel's `data` instance variable because, well, my mother told
+me to.
+
+### Appending to the list
+
+The only other method in my `Sentinel_DLL` class is `append`.  Not
+surprisingly, it finds the last node in the list and then calls
+`insert_after` for that node.  How to find the last node in the list?
+It's just the sentinel's previous node.
+
+### Running times of the linked-list operations
+
+What are the worst-case running times of the operations for a
+circular, doubly linked list with a sentinel?  Let's assume that the
+list has $n$ items ($n+1$ nodes, including the sentinel, but of course
+the $+1$ won't matter when we use big-Oh notation).
+
+The `__init__`, `first_node`, `insert_after`, `append`, and `delete`
+methods each take $O(1)$ time, since they each look at only a constant
+number of nodes.
+
+The `__str__` method takes $O(n)$ time, since it has to visit every
+node once.
+
+The time taken by the `find` method depends on how far down the linked
+list it has to go.  In the worst case, the value is not present, and
+`find` has to examine every node once, for a worst-case running time
+of $O(n)$.
+
+### Testing the linked list operations
+
+You can test the linked list operations by writing your own driver.  I
+have a pretty minimal driver in
+[test_sentinel_DLL.py](test_sentinel_DLL.py):
+
+~~~{.python}
+# test_sentinel_DLL.py
+# CS 1 class example by THC.
+# Tests the Sentinel_DLL class.
+
+from sentinel_DLL import Sentinel_DLL
+    
+def test_sentinel_DLL():
+    # Make a linked list with Maine, Idaho, and Utah.
+    l = Sentinel_DLL()
+    l.append("Maine")
+    l.append("Idaho")
+    l.append("Utah")
+    
+    # Add Ohio after Idaho.
+    node = l.find("Idaho")
+    if node != None:
+        print node.data
+        l.insert_after(node, "Ohio")
+    print l
+    
+    # Delete Idaho.
+    if node != None:
+        l.delete(node)
+    print l
+    
+    # Empty out the list, one node at a time.
+    while l.first_node() != None:
+        l.delete(l.first_node())
+        
+    print l
+    
+test_sentinel_DLL()
+~~~
+
+# Dictionaries
+
+Let's explore another data structure that Python provides:
+**dictionaries**.
+
+## A motivating example for dictionaries: Document similarity using \
+   word frequency histograms
+
+Sometimes we can use the indexing of a Python list in a clever way.
+Here is an example problem.  You have a lot of digits.  Maybe the
+digits are stored in a list.  Maybe the digits are a secret code.
+
+~~~{.python}
+digits = [0, 3, 2, 3, 4, 3, 2, 2, 1, 7, 6, 4, 5, 8, 3, 2, \
+          1, 2, 1, 1, 1, 0, 0, 0, 2, 2, 3, 4, 5, 6, 2, 9, 8]
+~~~
+
+Ok, let's say that we would like to find out how many of each digit
+show up in the list.  We could do that by creating a new Python list,
+and indexing into it in a clever way.  Here's the example, in
+[count_digits.py](count_digits.py):
+
+~~~{.python}
+counter_list = [0] * 10
+for digit in digits:
+    counter_list[digit] += 1
+
+print counter_list
+~~~
+
+The first line creates a list of ten 0s, using that syntax we've seen
+before to form a list of a given amount of the same value.  Then we
+loop over the `digits` list.  We use each digit to index into
+`counter_list`, increasing the value at that index by 1.  The result
+is that `counter_list` ends up storing the *frequencies* of each of
+the items.  For the example digits above, I found that
+`counter_list[2]` has the value 8; the digit 2 showed up 8 times in
+`digits`.  That's the most frequent digit.
+
+The frequency counting trick is pretty nifty, but seriously, how often
+do you encounter a bunch of numbers and want to count how frequent
+each is, unless you work for a three-letter government agency?
+
+Here's similar motivating example problem, though, used by web search engines to find one document that is about a similar topic as another.  
+
+The idea is, given a document, count how many times each word appears.
+Some words appear frequently in all documents, such as "a", "the",
+"and", "of".  Let's ignore those.  But if the word "blood" appears
+many times, then the document might be about medical issues.  It might
+also be a Halloween story.  If the words "patient" and "illness" also
+appear many times as well, we expect it to be even more likely to be a
+medical document.
+
+So we would like to count how many times each word appears.  We could
+then presumably compare our frequency histograms for two documents to
+get a measure of how similar the two documents are.
+
+We might like to use the same trick with list indexing to count word
+frequencies as we did to count digit frequencies, but unfortunately,
+we can't index into a list with words the same way we can index into a
+list with digits.  However, we can index into a Python data structure
+called a **dictionary** using a string as the index, or **key**, to
+find a corresponding value.
+
+## Using dictionaries
+
+You create a dictionary using braces `{` and `}`, whereas you create a
+list using brackets `[` and `]`.  Examples of using a dictionary are
+in [simple_dict.py](simple_dict.py).  Let's create an empty dictionary
+first:
+
+~~~{.python}
+my_dictionary = {}
+~~~
+
+We can access items in the dictionary using square bracket notation,
+just as we do for lists.  For example, if we want to set the value of
+the dictionary item with key `"blue"` to be 460, we could do it like
+this:
+
+~~~{.python}
+my_dictionary["blue"] = 460
+~~~
+
+Notice that a dictionary never gives a "list index out of range"
+error.  If the item associated with the key `"blue"` was not in the
+dictionary, a new entry in the dictionary is created by the above line
+of code.
+
+Just like a list, a dictionary can store any type of Python value:
+
+~~~{.python}
+my_dictionary["blue"] = "A color with wavelength of approximately 460 nm."
+~~~
+
+A formal description of a dictionary is that a dictionary is a data
+stucture that stores relationship between key-value pairs.  The
+**key** is the item used to index into the dictionary (`"blue"`, in
+our example), and the **value** is the item stored in the dictionary
+(first, 460, and then `"A color with wavelength of approximately 460
+nm."`).
+
+We might imagine several ways that dictionaries might be implemented.
+Most of the ways I would imagine first would work, but would have
+expensive (in terms of time) methods to actually get the value for a
+particular key.  For example, I might imagine a dictionary internally
+storing two lists, one with keys, and one with values.  To find a
+value for a particular key, I would loop over the keys to find the
+right one, and then locate the value, for a worst-caes time cost of
+$O(n)$, where $n$ is the number of items in the dictionary.  *This is
+not how dictionaries are implemented in Python.* In fact, Python uses
+a clever implementation that allows indexing into the dictionary to
+almost always take constant time, though in the worst case, it can
+take $O(n)$ time.
+
+### Looping over dictionary items
+
+Sometimes, it is useful to be able to loop over dictionary items.  If
+you use the `for ... in ...` syntax, the items looped over will be the
+*keys* of the dictionary.  What if you want the values too?  Well, if
+you have a key, it is easy to get the value.  So we can do something
+like this:
+
+~~~{.python}
+# Create a new dictionary to store wavelengths of visible light.
+wavelength_dictionary = {}
+wavelength_dictionary["blue"] = 450
+wavelength_dictionary["orange"] = 600
+wavelength_dictionary["green"] = 530
+wavelength_dictionary["yellow"] = 580
+
+# Print all key, value pairs in the dictionary.
+for key in wavelength_dictionary:
+    print key, wavelength_dictionary[key]
+~~~
+
+### Checking to see whether an item is in the dictionary
+
+It can be useful to check whjether a particular key is in the
+dictionary, since an error will be generated if you ask for the value
+associated with a key that is not in the dictionary.  You can use the
+special `in` operator to test, like this:
+
+~~~
+print "blue" in wavelength_dictionary  # prints True
+print "purple" in wavelength_dictionary # prints False
+~~~
+
+## Bonus coverage: How dictionaries work
+
+I'll cover this material in lecture if I have time, but you are not
+responsible for it.  But it's clever and worth reading.
+
+Here is the basic idea of how dictionaries work.  When a dictionary is
+created, Python allocates space in memory to store the dictionary, and
+creates what is essentially a Python list in that space.  The size of
+this list is called the **capacity** of the dictionary.  When the
+dictionary goes to find the value associated with some key, the first
+thing that happens is that some numeric value is computed for the key;
+no matter what type the key is&mdash;a number, a string, an object
+reference, you name it&mdash;some numeric value is computed based on
+the key.  That numeric value is used to index into the Python list
+associated with the dictionary.  Since both the computation of the
+value and the Python list indexing take constant time, we can locate
+the value in constant time.  (Usually.  We'll come back to this
+shortly, in the subsection below on "buckets and linked lists.")
+
+### Hash functions
+
+The first step of indexing into the dictionary by key is converting
+the key to some numeric value, called the **hash code**.  To convert
+the key to a hash code, Python uses a **hash function** that takes the
+key as input, and somehow generates a number.  Let's look at
+a hash function that computes a number based on a key that is a
+string.
+
+~~~{.python}
+def my_hash_function(key):
+    assert type(key) == str  # check if the key is a string
+    
+    hash_code = 0
+    for char in key:
+        hash_code += ord(char)    
+
+    return hash_code
+~~~
+
+This function uses two small builtin Python functions.  First, the
+function `type` returns the type of a variable; we saw this built-in
+function earlier, when we saw assert-statements.  The built-in global
+variable `str` can be used to test if the `type` of the variable is a
+string.  Second, the function `ord` takes a string of length 1 and
+returns an integer value.  For example, `ord("a")` is 97, and
+`ord("b")` is 98.  We add up all the `ord` values of the individual
+characters in the string to get some number.
+
+Some hash functions are better than others.  This one isn't very good.
+There are two properties we would like a hash function to have:
+
+1. It should distribute keys evenly, or **uniformly** throughout the
+list (also called the **hash table**).
+2. It should minimize the **collisions** between keys: keys that have
+the same hash code.
+
+The function we just wrote could work as a hash function, but it is
+bad from both perspectives.  First, does the code distribute keys
+evenly throughout the table?  No.  Most strings will have multiple
+letters, and I would expect small indices in the table to be used
+infrequently.  Most words are limited in length, however, and so very
+large indices in the table will not be used at all.
+
+Second, does the function minimize collisions?  No.  Two words that
+are anagrams (you can rearrange the letters in one to get the other)
+will have the same hash code.  For example, the following anagrams will
+have the same hash code: "opts", "post", "pots", "spot", "stop", "tops".
+And there are many other words that we expect to have the same
+hash value using this function, such as "pat" and "let".
+
+Python has a better hash function built in.  You can call it using
+`hash`.  For example:
+
+~~~{.python}
+print hash("banana")
+~~~
+
+gives the hash code 8894935979968508733 for `"banana"`.
+
+You might ask why the number is so large.  Before using the value, the
+dictionary actually discards several bits from the bit representation
+of the number in memory, to ensure that the index is less than the
+total capacity of the hash table.  We will not go into the details of
+how the Python hash function works, but you are welcome to look it up
+on the web if you are curious.
+
+### Linked lists in hash table slots
+
+No matter how clever the hash function, sometimes two different keys
+hash to the same hash code value: a collision.  What happens?  It
+turns out that values are not always stored directly at indices of the
+table found from the hash function.  Instead, if there are collisions,
+the slot in the hash table contains the address of a linked list.  The
+linked list contains nodes.  Each node contains an item that should be
+stored in this position in the table.
+
+In the worst case, the linked lists mean that the running time for
+accessing a key-value pair is $O(n)$.  It could happen that the hash
+function put many of the items in the same location in the table.
+Choosing a good hash function and ensuring that the capacity of the
+table is large enough makes this outcome extremely unlikely.  Usually,
+the linked lists will be very short, leading to a constant time for
+indexing items.
+
+If you were wondering where this term "hash" came from, it's because a
+good hash function will "make hash" of the key, slicing and dicing it
+so well that even the people on TV who sell Nicer Dicer, Veg-O-Matic,
+Deluxe Chopper, Slap Chop, Slice O Matic, Euro-Pro Ninja Food Chopper,
+and the Quick Chop Deluxe Pro would be jealous.

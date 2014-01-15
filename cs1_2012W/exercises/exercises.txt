@@ -1,0 +1,29 @@
+# Exercises
+
+1)  Write a function `backwards_range` that takes one parameter n, and returns a list of integers starting at n and decreasing down to zero (including 0).  What is the runtime of the function, using big-Oh notation?
+
+2)  Write a program that prints out all perfect numbers less than 1000.  (Hint -- first write a function that checks is a number is [perfect](http://en.wikipedia.org/wiki/Perfect_number), and returns True if so.)  What is the runtime of the function, using big-Oh notation?
+
+3)  Write a function that takes in two integer  parameters and returns if the first is a positive integer power of the second number.  (for example, 8 is a power of 2.  27 is a power of 3.  19 is not a power of anything.)  Do not use logarithms or exponentials in your function.  What is the runtime of the function, using big-Oh notation?
+
+4)  Write a function `evens` that returns a new list containing only the even numbers in the original list.
+
+Example:
+
+~~~{.python}
+print evens([2, 1, 2, 3, 4])
+~~~
+
+would print the list `[2, 2, 4]`
+
+~~~
+
+What is the runtime of the function, using big-Oh notation?
+
+5)  Line wrap.  What happens if you want to print a string that is too long to fit on a single line?  
+
+string = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to heaven, we were all going direct the other way - in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
+
+Write a function that takes a string and an an integer `line_width` and prints the string on the screen adding line breaks , so that no row is longer than `line_width`.  You may only break a string between words.
+
+What is the runtime of the function, using big-Oh notation?

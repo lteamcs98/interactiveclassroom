@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<!-- <script type="text/javascript" -->
+<!--   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> -->
+<!-- </script> -->
+<script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="lab-assignment-5">Lab Assignment 5</h1>
+<p><a href="../../labs/crypto/lab_crypto.html">Lab Assignment 5</a> is now posted, and it's due at 1:45 pm on the last day of class, March 7. Note that we won't accept any submissions after 10:00 am on Thursday, March 8.</p>
+<h1 id="abstract-data-types">Abstract data types</h1>
+<p>An <strong>abstract data type</strong>, or <strong>ADT</strong>, is a data structure that we define not by how it's implemented, but by the operations it supports. We can often choose from among several ways to implement an ADT.</p>
+<p>Python dictionaries are an ADT that is built into the language. You can insert an item into or lookup an item in a Python dictionary using the same square-bracket syntax as you use for indexing into a Python list. You delete from a Python dictionary using the same <code>del</code> command as you'd use for a Python list. But you don't have to concern yourself with what types you're inserting into a Python dictionary. Even better, you don't have to think about how a Python dictionary is actually implemented. All you care about, as the user of a Python dictionary, is that it works and that it works reasonably efficiently. Yet another example of abstraction.</p>
+<p>The idea of an ADT is that it's defined by its <em>operations</em>. We'll look at four ADTs: stacks, queues, deques, and priority queues.</p>
+<h2 id="stacks">Stacks</h2>
+<p>We define a <strong>stack</strong> by three operations:</p>
+<ul>
+<li><strong>push</strong>: Put an item onto the stack.</li>
+<li><strong>pop</strong>: Remove from the stack the item most recently pushed onto it that has not yet been removed, and return this item.</li>
+<li><strong>is_empty</strong>: Determine whether the stack has any items on it.</li>
+</ul>
+<p>We say that a stack is <strong>last in, first out</strong>, or <strong>LIFO</strong>. We have already seen the run-time stack, which is the data structure the operating system uses to keep track of frames that have information about local variables for each function currently suspended or running. Stacks are a useful data type for many other problems as well.</p>
+<p>Now that you know how the stack ADT is supposed to work, you might expect to see a <code>Stack</code> class and an implementation. No need: you already have seen a data structure that provides all the capabilities of a stack. Python lists allow items to be added by calling <code>append</code>, and they allow the last item to be removed from the end, by calling <code>pop</code>. In a sequence of <code>append</code> and <code>pop</code> operations, the first item appended will be the last item popped.</p>
+<p>Sometimes I will say <code>push</code> to add an item to the stack. Sometimes I will say <code>append</code> if we are using a Python list to represent the stack. I mean the same thing either way.</p>
+<p>When we use a Python list as a stack, the <code>is_empty</code> operation is just a matter of calling the <code>len</code> function on the list and seeing whether the list's length is 0.</p>
+<p>Let's look at an example of pushing and popping, in <a href="stack.py">stack.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">stack = []<br /><span class="kw">print</span> stack<br /><br />stack.append(<span class="dv">5</span>)<br /><span class="kw">print</span> <span class="st">&quot;pushed 5&quot;</span><br /><span class="kw">print</span> stack<br /><br />stack.append(<span class="dv">2</span>)<br /><span class="kw">print</span> <span class="st">&quot;pushed 2&quot;</span><br /><span class="kw">print</span> stack<br /><br />stack.append(<span class="dv">4</span>)<br /><span class="kw">print</span> <span class="st">&quot;pushed 4&quot;</span><br /><span class="kw">print</span> stack<br /><br /><span class="kw">print</span> <span class="st">&quot;popped:&quot;</span>, stack.pop()<br /><span class="kw">print</span> stack<br /><br />stack.append(<span class="dv">19</span>)<br /><span class="kw">print</span> <span class="st">&quot;pushed 19&quot;</span><br /><span class="kw">print</span> stack<br /><br />stack.append(<span class="dv">11</span>)<br /><span class="kw">print</span> <span class="st">&quot;pushed 11&quot;</span><br /><span class="kw">print</span> stack<br /><br /><span class="kw">print</span> <span class="st">&quot;popped:&quot;</span>, stack.pop()<br /><span class="kw">print</span> stack<br /><span class="kw">print</span> <span class="st">&quot;popped:&quot;</span>, stack.pop()<br /><span class="kw">print</span> stack<br /><span class="kw">print</span> <span class="st">&quot;popped:&quot;</span>, stack.pop()<br /><span class="kw">print</span> stack<br /><span class="kw">print</span> <span class="st">&quot;popped:&quot;</span>, stack.pop()<br /><span class="kw">print</span> stack</code></pre>
+<p>And here's the output:</p>
+<pre><code>[]
+pushed 5
+[5]
+pushed 2
+[5, 2]
+pushed 4
+[5, 2, 4]
+popped: 4
+[5, 2]
+pushed 19
+[5, 2, 19]
+pushed 11
+[5, 2, 19, 11]
+popped: 11
+[5, 2, 19]
+popped: 19
+[5, 2]
+popped: 2
+[5]
+popped: 5
+[]
+</code></pre>
+<p>Notice that the running time is <span class="math"><em>O</em>(1)</span> for a <code>pop</code> in the worst case, and the amortized running time for <code>append</code> (that is, a &quot;push&quot;) is <span class="math"><em>O</em>(1)</span>. That's pretty good.</p>
+<p>Of course, you could implement a stack with a linked list, and then both <code>push</code> and <code>pop</code> would run in <span class="math"><em>O</em>(1)</span> time in the worst case.</p>
+<h2 id="queues-and-deques">Queues and deques</h2>
+<p>As you now know from implementing breadth-first search, a <strong>queue</strong> is like a stack, except that you insert and one end and remove from the other. A queue is <strong>first in, first out</strong>, or <strong>FIFO</strong>. We'll use the same operation names for a queue as we did for a stack, with the understanding that we pop from the opposite end as where we push.</p>
+<p>Although we could use a Python list to implement a queue, we don't. Adding items to the end of the list would be fine, costing <span class="math"><em>O</em>(1)</span> (amortized). However, popping items from the front of the list would require that all items except the first would have to be moved one place toward the front of the queue, costing <span class="math"><em>O</em>(<em>n</em>)</span> time per <code>pop</code> operation. We could swap the sides and append at the front, but then the <code>push</code> operation would be expensive.</p>
+<p>Instead, as you saw in Lab Assignment 4, we use a Python <strong>deque</strong>, which is short for &quot;double-ended queue&quot; and is pronounced like &quot;deck.&quot; Python deques use constant time for adding to either end and removing from either end. How so? You've already seen the answer&quot; a Python <code>deque</code> turns out to be implemented internally using a doubly-linked list.</p>
+<p>The methods of interest for a deque are</p>
+<ul>
+<li><code>append</code>, which appends to the &quot;right&quot; end of the deque.</li>
+<li><code>appendleft</code>, which appends to the &quot;left&quot; end of the deque.</li>
+<li><code>pop</code>, which pops from the &quot;right&quot; end of the deque.</li>
+<li><code>popleft</code>, which pops from the &quot;left&quot; end of the deque.</li>
+</ul>
+<p>If you want to use a deque as a queue, push by calling <code>append</code> and pop by calling <code>popleft</code>. Or, you could push by calling <code>appendleft</code> and pop by calling <code>pop</code>. It's up to you. Just as with a Python list, you can check the how many items a deque contains by calling the <code>len</code> function.</p>
+<p>We need to import the <code>deque</code> class to use it. Here is an example, where we use it as a queue, in <a href="queue.py">queue.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> collections <span class="ch">import</span> deque<br /><br />q = deque()<br /><br />q.append(<span class="dv">5</span>)<br />q.append(<span class="dv">10</span>)<br />q.append(<span class="dv">25</span>)<br /><span class="kw">print</span> q<br /><span class="kw">print</span> <span class="st">&quot;length = &quot;</span>, <span class="dt">len</span>(q)<br /><br /><span class="kw">print</span> q.popleft()<br /><span class="kw">print</span> q<br /><span class="kw">print</span> q.popleft()<br /><span class="kw">print</span> q<br /><span class="kw">print</span> q.popleft()<br /><span class="kw">print</span> q</code></pre>
+<p>Output:</p>
+<pre><code>deque([5, 10, 25])
+length =  3
+5
+deque([10, 25])
+10
+deque([25])
+25
+deque([])
+</code></pre>
+<h2 id="priority-queues">Priority queues</h2>
+<p>In the <strong>priority queue</strong> ADT, we associate a <strong>priority</strong> with each item, and some of the operations are based on the priorities of the items. Priority queues come in two flavors: <strong>min-priority queues</strong> and <strong>max-priority queues</strong>. There's no substantial difference between the two, other than that in a min-priority queue, we give priority to items with smaller priorities, and in a max-priority queue, we give priority to items with greater priorities.</p>
+<p>Here are the operations on a min-priority queue:</p>
+<ul>
+<li><strong>is_empty</strong>: Determine whether the min-priority queue contains any items.</li>
+<li><strong>insert</strong>: Insert an item into the priority queue.</li>
+<li><strong>minimum</strong>: Return the item in the priority queue with the smallest key, leaving this item in the priority queue.</li>
+<li><strong>extract_min</strong>: Return the item in the priority queue with the smallest key and remove it from the priority queue.</li>
+<li><strong>decrease_key</strong>: Update the priority queue to reflect that an item's key has been decreased.</li>
+</ul>
+<p>Min-priority queues form the heart of discrete event simulators. A <strong>discrete event simulator</strong> simulates a system in which events occur. Each event occurs at some moment in time. The simulation runs through time, where the time of each occurrence is nondecreasing (i.e., the simulated time either increases or stays the same—it never backs up). An event can cause another event to occur at some later time. A min-priority queue keeps track of the events that have yet to occur, with the key of an element being the time that its event is to occur. When an event is created, the <code>insert</code> operation adds it to the min-priority queue. The <code>extract_min</code> operation tells us the next event to occur, removing it from the queue so that we don't try to process it more than once. Sometimes, the result of an event is to allow some other event, already scheduled, to occur even earlier; in this case, the <code>decrease_key</code> operation changes the time that the other event occurs to move it earlier.</p>
+<p>Another use for a min-priority queue occurs in a well-known algorithm for finding shortest paths in a <em>weighted</em> graph. Here, edge weights might denote distance, time, cost, or any other measure that you wish to minimize when going from one vertex to another. If you take CS 10, you'll learn this algorithm, known throughout computer science as &quot;Dijkstra's algorithm.&quot;</p>
+<p>We can implement a min-priority queue with a Python list where we keep the items in no particular order. Then <code>decrease_key</code> doesn't have to do anything or, in CS parlance, it's a <strong>no-op</strong>. But we'd have to go through the entire list upon each <code>minimum</code> or <code>extract_min</code> operation to find the item with the smallest key, taking <span class="math"><em>O</em>(<em>n</em>)</span> time.</p>
+<p>There are more efficient ways to implement a min-priority queue (or a max-priority queue), but we don't cover them in CS 1. You can learn about one of them in CS 10. It's called a <strong>heap</strong>, which is confusing because we also call the heap the area of memory that lists and objects come from. The two meanings of &quot;heap&quot; are completely different, though.</p>
+<h1 id="more-python-goodies">More Python goodies</h1>
+<p>At this point, you know most of the basics of Python. Let's see a few more ways of doing things that will allow you to write more concise code. Much of what we will discuss is described in more detail on the Python documentation and tutorial web pages, and I encourage you to read them. For example, here is a <a href="http://docs.python.org/tutorial/datastructures.html">discussion of tuples and list comprehensions</a>.</p>
+<p>Don't be shy about reading the official Python documentation to see more details about how things work now; even experienced Python programmers use these web pages every day when writing Python code. You now know enough to understand most of the discussion, with a little work.</p>
+<h2 id="tuples">Tuples</h2>
+<p>A <strong>tuple</strong> is similar to a Python list, but with fewer capabilities. You cannot modify a tuple once it has been created: you cannot append to it, nor can you change any values in the tuple.</p>
+<p>You might ask, why not just use a Python list? A good rule of thumb when programming is to use the data structure or function that is least general but still gets the job done. This principle is sometimes called <strong>the principle of minimalism</strong>. Don't use a global variable when a local variable would do. Don't use a dictionary when a list would do. Don't use a public method when a private method would do. Why? Choosing a data structure or method that has only the minimum capabilities that you require means that Python can catch the error and crash the program if you accidentally use a capability that you did not intend to; this is a good thing! For example, if I use a list to store several planets, Python will catch the error if I accidentally try to index into the list with variable containing a float, a string, or an object address. If I used a dictionary, Python might let me do the indexing, leading to a bug that could be a real pain to track down.</p>
+<p>Similarly, if you want to create a sequence of items but do not intend to change their values, a tuple is a better choice than a list. Let's look at some common things you can do with a tuple. Examples are in <a href="tuples.py">tuples.py</a>.</p>
+<h3 id="creating-a-tuple">Creating a tuple</h3>
+<p>You create a tuple just like you create a Python list, except that you use parentheses rather than square brackets:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># creating a tuple</span><br />pixel_coordinates = (<span class="dv">200</span>, <span class="dv">100</span>)</code></pre>
+<p>Python programmers love to use tuples so much that the Python designers decided to shorten the syntax for creating tuples even more. You can leave out the parentheses when it is &quot;obvious&quot; from context that you are trying to create a tuple:</p>
+<pre><code># parentheses are optional when obvious from context
+another_tuple = 18, 20.5, 6, &quot;Hello&quot;
+</code></pre>
+<p>Granted, &quot;obvious from context&quot; is vague. The safest thing to do is to use parentheses until you figure out the precise cases when you can omit them. One safe case where you can omit parantheses arises when you are creating a tuple to store in a variable.</p>
+<h3 id="unpacking-a-tuple-or-a-list">Unpacking a tuple or a list</h3>
+<p>Sometimes you have packed some data in a tuple so that you can use just one variable to store the data. Here are a few examples:</p>
+<pre class="sourceCode"><code class="sourceCode python">color = (<span class="dv">1</span>., <span class="dv">0</span>., <span class="dv">1</span>.)   <span class="co"># purple</span><br />location = (<span class="dv">12</span>, <span class="dv">6</span>)</code></pre>
+<p>Now let's say you want the blue component from the <code>color</code> tuple. You could use <code>color[2]</code>, but that isn't very readable code. By putting a comma-separated list of variable names on the left hand side of the assignment operator, you can <strong>unpack</strong> a tuple to get individual items out and assign them to variables. Here's an example:</p>
+<pre class="sourceCode"><code class="sourceCode python">color = (<span class="dv">1</span>., <span class="dv">0</span>., <span class="dv">1</span>.)<br /><br /><span class="co"># unpack the color tuple into red, green, and blue variables</span><br />red, green, blue = color<br /><span class="kw">print</span> blue<br /><br />location = <span class="dv">12</span>, <span class="dv">6</span>   <span class="co"># (parentheses optional)</span><br />x, y = location</code></pre>
+<h3 id="using-a-tuple-to-sort-of-return-more-than-one-value-from-a-function">Using a tuple to (sort of) return more than one value from a function</h3>
+<p>As you've seen earlier in the course, you can pack multiple values into a tuple, and return that value from a function. The capability is quite convenient, but you should use it with caution; from a program-design perspective, it's best for a function to have a clear purpose and to return one value.</p>
+<p>Here's an example:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> compute_square_and_cube(x):<br />    <span class="kw">return</span> x * x, x * x * x<br /><br /><span class="kw">print</span> compute_square_and_cube(<span class="dv">3</span>)<br /><br /><span class="co"># Unpacking results of a function call:</span><br />four2, four3 = compute_square_and_cube(<span class="dv">4</span>)<br /><span class="kw">print</span> four2<br /><span class="kw">print</span> four3</code></pre>
+<h3 id="exploding-a-tuple-to-call-a-function">Exploding a tuple to call a function</h3>
+<p>Sometimes a function takes several values, and you have a tuple that contains the needed values. You'd like to use the values from the tuple.</p>
+<p>Here' an example. It's a pain to have three variables to store <code>r</code>, <code>g</code> and <code>b</code> components of colors. So you cleverly create a tuple <code>color</code> to store the three components. But then you want to use <code>set_stroke_color</code>, which requires three parameters (and has an optional fourth parameter). You could unpack the tuple, but it would be so much nicer if you could unpack the tuple on the fly, inside the parentheses for the function call, rather than creating temporary variables. You can, using the <code>*</code> operator. (It looks like an explosion, to me). Here's the code:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># exploding a tuple for use in a function call</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> set_stroke_color<br /><br />color = <span class="fl">1.0</span>, <span class="dv">0</span>, <span class="fl">1.0</span>  <span class="co"># purple</span><br /><br /><span class="co"># The asterisk explodes a tuple to create three actual parameters on the fly.</span><br />set_stroke_color(*color)<br /><br /><span class="kw">def</span> print_rgb(r, g, b):<br />    <span class="kw">print</span> r<br />    <span class="kw">print</span> g<br />    <span class="kw">print</span> b<br /><br />print_rgb(*color)</code></pre>
+<h2 id="list-comprehensions">List comprehensions</h2>
+<p>It is frequently useful to create a list, using another list as input. A for-loop would work just fine, but that's so much typing! Python provides a syntax to write a for-loop to process a list all on one line, using a <strong>list comprehension</strong>.</p>
+<p>Let's start with an example from the Python documentation. Here we have three strings. The strings are padded by spaces; we've seen this sort of padding arising when we split a comma-separated list of strings. We'd like to strip the spaces, perhaps so that we could use the strings as keys in a dictionary.</p>
+<p>Here's one way we could do it, in <a href="list_comp.py">list_comp.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">fresh_fruit = [<span class="st">&quot;  banana&quot;</span>, <span class="st">&quot;  loganberry &quot;</span>, <span class="st">&quot;passion fruit  &quot;</span>]<br />stripped_fruit = []<br /><span class="kw">for</span> fruit in fresh_fruit:<br />    stripped_fruit.append(fruit.strip())<br /><span class="kw">print</span> stripped_fruit</code></pre>
+<p>But here's a slicker way:</p>
+<pre class="sourceCode"><code class="sourceCode python">fresh_fruit = [<span class="st">&quot;  banana&quot;</span>, <span class="st">&quot;  loganberry &quot;</span>, <span class="st">&quot;passion fruit  &quot;</span>]<br />stripped_fruit = [fruit.strip() <span class="kw">for</span> fruit in fresh_fruit]</code></pre>
+<p>The list comprehension, in brackets has an expression, followed by <code>for...in...</code> statements. The <code>for...in...</code> statements indicate how to loop over an existing sequence. The expression is applied using the items generated by the loop, and the results are put into the list.</p>
+<p>You can even use multiple <code>for...in...</code> statements to get the effect of a nested loop. Here's an example from the Python documentation:</p>
+<pre class="sourceCode"><code class="sourceCode python">vec1 = [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>]<br />vec2 = [<span class="dv">4</span>, <span class="dv">3</span>, -<span class="dv">9</span>]<br /><span class="kw">print</span> [x*y <span class="kw">for</span> x in vec1 <span class="kw">for</span> y in vec2]</code></pre>
+<p>This example prints the following:</p>
+<pre><code>[8, 6, -18, 16, 12, -36, 24, 18, -54]
+</code></pre>
+<h2 id="filtering">Filtering</h2>
+<p>Another common thing to do with a list is to filter out some of the items using a test. Let's say you had a function <code>is_prime</code> that returns <code>True</code> if its single parameter is prime. You can add a simple <code>if</code> test at the end of a comprehension to compute the expression only if the condition of the if-statement's test is <code>True</code>:</p>
+<pre><code>primes_100 = [x for x in range(1, 101) if is_prime(x)]
+print primes_100
+</code></pre>
+<p>This idea is called <strong>filtering</strong>, because it allows you to filter out some values of a sequence before processing them.</p>
+<p>List comprehensions and filtering don't provide any capabilities you didn't already have with loops and if-statements. They allow you to write very concise code for certain very common types of operations on lists.</p>
+<h2 id="creating-a-string-from-a-list-of-strings">Creating a string from a list of strings</h2>
+<p>Sometimes you have a list of strings, but would like to join them together into one big string. The built-in Python string class provides a method, <code>join</code>, to do so efficiently and concisely. Since <code>join</code> is a method of the string class, it requires a string before the dot. The string before the dot is a string that should be placed between each of the strings in the list. The list is passed to <code>join</code> as the first parameter.</p>
+<p>Here's an example in <a href="strings.py">strings.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">string_list = [<span class="st">&quot;lions&quot;</span>, <span class="st">&quot;tigers&quot;</span>, <span class="st">&quot;bears&quot;</span>]<br />sentence = <span class="st">&quot;and&quot;</span>.join(string_list)<br /><span class="kw">print</span> sentence</code></pre>
+<p>prints out:</p>
+<pre><code>lionsandtigersandbears
+</code></pre>
+<p>Notice that spaces are not used unless you include them in the string before the dot. We probably wanted</p>
+<pre class="sourceCode"><code class="sourceCode python">sentence = <span class="st">&quot; and &quot;</span>.join(string_list)</code></pre>
+<p>If you want to concatenate many strings in a list without any additional string separating those strings, you can use <code>.join</code> on an empty string:</p>
+<pre class="sourceCode"><code class="sourceCode python">string_list = [<span class="st">&quot;fill&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;buster&quot;</span>]<br />word = <span class="st">&quot;&quot;</span>.join(string_list)<br /><span class="kw">print</span> word</code></pre>
+<h2 id="regular-expressions">Regular expressions</h2>
+<p>The <code>find</code> function of the string module can be useful for simple cases of finding one string within another string, but there are also times when we want to search a string more flexibly.</p>
+<p>Here is an example, slightly modified from <a href="http://code.google.com/edu/languages/google-python-class/regular-expressions.html">Google's page on Python regular expressions</a>. Let's say we wanted to find all email addresses in a long string that contains some email addresses but also contains some other text that we don't care about. We'll use a special language, called <strong>regular expressions</strong>, for describing email addresses. Here's an example in <a href="strings.py">strings.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> re <span class="ch">import</span> findall<br /><br /><span class="co">## Suppose we have a text with many email addresses</span><br />text = <span class="st">'purple alice@google.com, blah monkey bob@abc.com blah dishwasher'</span><br /><br /><span class="co">## Here findall returns a list of all the found email strings</span><br /><br /><span class="co">## ['alice@google.com', 'bob@abc.com']</span><br />emails = findall(<span class="st">r'[\w\.-]+@[\w\.-]+'</span>, text) <br /><br /><span class="kw">for</span> email in emails:<br />    <span class="co"># do something with each found email string</span><br />    <span class="kw">print</span> email</code></pre>
+<p><code>findall</code> in the <strong>regular expressions module</strong>, <code>re</code>, takes two strings: a <strong>regular expression</strong> describing the string you are looking for and a string containing the text to search.</p>
+<p>The regular expression <code>r'[\w\.-]+@[\w\.-]+'</code> has the following interpretation, using the special &quot;regular expression&quot; language used to describe patterns in strings.</p>
+<p>First, the <code>r</code> before the first quotation mark tells Python that this is what is called a &quot;raw string.&quot; In standard Python strings, Python interprets special characters like <code>\n</code> with special meanings; <code>\n</code> means the newline character. When printed, <code>\n</code> means &quot;go to the next line&quot;. In a raw string, Python does not process the string for special characters. Slashes are used in the regular expression language, and we don't want Python messing with them.</p>
+<p>Then there is something in square brackets. <code>[\w\.-]</code> The square brackets mean &quot;a character matching any of these rules.&quot; <code>\w</code> means any &quot;word&quot; character: a letter or a digit, like &quot;a&quot;, &quot;9&quot;,, or &quot;z&quot;. The <code>\.</code> means a &quot;period&quot; character. (The slash is needed because the . has some other meaning in a regular expression.) The '-' is a dash character. So the regular expression <code>[\w\.-]</code> means &quot;a letter, a digit, a period, or a hyphen. These are typical characters you might find in an email address.</p>
+<p>Then, after <code>[\w\.-]</code>, there is a plus-sign. It says &quot;one or more of the characters described by the regular expression before the plus sign.&quot; And so <code>[\w\.-]+</code> means &quot;match if you see at least one letter, digit, period, or hyphen&quot;.</p>
+<p>Looking at the next character in the regular expression, we see an at-sign, <code>@</code>. That, of course, matches the @ symbol in the email address. So <code>[\w\.-]+@</code> means &quot;match if you see at least one letter, digit, period, or hyphen, followed by an @ symbol.&quot;</p>
+<p>Looking at the whole expression, we have <code>[\w\.-]+@[\w\.-]+</code>. This expression means &quot;match if you see at least one letter, digit, period, or hyphen, followed by an @ symbol, followed by at least one letter, digit, period, or hyphen.</p>
+<p>Notice that space characters are not included before or after the @ symbol. So the email address is assumed to be separated from other things in the text by whitespace or other non-letter/digit/-/@ characters.</p>
+<p>We will not use regular expressions much in this course, but they are nice to know about, and it's worth reading the <a href="http://code.google.com/edu/languages/google-python-class/regular-expressions.html">Google's page on Python regular expressions</a>, as well as Python's official documentation.</p>
+</body>
+</html>

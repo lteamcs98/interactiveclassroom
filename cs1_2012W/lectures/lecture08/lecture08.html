@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-6">Short Assignment 6</h1>
+<p><a
+href="http://www.cs.dartmouth.edu/~cs1/shortassign/movingblocks/sa_movingblocks.html">Short Assignment 6</a> is due on Monday.</p>
+<h1 id="exam-1">Exam 1</h1>
+<p>A reminder that Exam 1 will be next Thursday at 6:00 pm. <strong>It will not be here. It will be in Life Sciences Center, Room 100 (Oopik Auditorium).</strong></p>
+<p><strong>If you cannot take the exam at 6:00 pm on January 26, you must contact me by email by 5:00 pm on Monday, January 23.</strong></p>
+<p>I have posted a <a href="../../exams/exam1-review.html">web page</a> with the ground rules and sample questions.</p>
+<h1 id="lists-continued">Lists, continued</h1>
+<h2 id="using-range-to-create-a-list-of-int-values">Using <code>range</code> to create a list of <code>int</code> values</h2>
+<p>Last time, we saw that the built-in Python function <code>range</code> gives ints in a specified range. (By built-in, I mean that you don't even have to import it from anywhere.) For example, <code>range(3, 10)</code> gives the list</p>
+<pre><code>[3, 4, 5, 6, 7, 8, 9]
+</code></pre>
+<p><code>range</code> can save you some typing if you want to count over integers. Here's an example, in <a href="interest.py">interest.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">RATE = <span class="fl">1.05</span><br />YEAR = <span class="dv">2012</span><br />balance = <span class="fl">1.0</span><br /><br /><span class="kw">for</span> year in <span class="dt">range</span>(<span class="dv">0</span>, YEAR):<br />    balance = balance *  RATE<br /><br /><span class="kw">print</span> <span class="st">&quot;The balance is &quot;</span> + <span class="dt">str</span>(balance) + <span class="st">&quot;.&quot;</span></code></pre>
+<p>If you only give range one parameter, then the list will start at 0.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="dt">range</span>(<span class="dv">5</span>)</code></pre>
+<p>would give</p>
+<pre><code>[0, 1, 2, 3, 4]
+</code></pre>
+<h2 id="you-can-treat-a-string-like-a-list-sort-of">You can treat a string like a list (sort of)</h2>
+<p>You can get a character from a string almost as though the string were a list:</p>
+<pre class="sourceCode"><code class="sourceCode python">mystring = <span class="st">&quot;Chevy!&quot;</span><br /><span class="kw">print</span> <span class="st">&quot;The fifth character in &quot;</span> + mystring + <span class="st">&quot; is &quot;</span> + mystring[<span class="dv">4</span>].  </code></pre>
+<p>You can even loop over characters in a string, as in <a href="for_string.py">for_string.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">mystring = <span class="st">&quot;Chevy!&quot;</span><br /><span class="kw">for</span> char in mystring:<br />    <span class="kw">print</span> char</code></pre>
+<p>You might think you could change a character in a string this way too. It won't work. <code>mystring[3] = 'r'</code> will give an error. Python strings are <strong>immutable</strong>; their values cannot be changed.</p>
+<p>If you wanted to do something like changing the third letter to <em>r</em>, you would have to build an entirely new string, using the old string and the new letter. We'll see how to do that later in the course.</p>
+<h1 id="list-algorithms">List algorithms</h1>
+<h2 id="how-it-works-the-list-in-memory">How it works: The list in memory</h2>
+<p>Consider when we first assign to a variable, such as <code>x = 5</code>. Python knows that <code>x</code> is an integer, and Python knows that four bytes of memory are typically enough to store that integer. Python allocates those four bytes, and it copies a binary code corresponding to the value 5 into those bytes. We say that the value 5 is stored in the variable.</p>
+<p>Something different happens when you create a list. Space in memory is allocated for the list <em>somewhere other than at the variable's address</em>. The variable just stores the <em>address</em> of the list. Let's look at an example:</p>
+<pre class="sourceCode"><code class="sourceCode python">mice = [<span class="st">&quot;Minnie&quot;</span>, <span class="st">&quot;Mickey&quot;</span>, <span class="st">&quot;Mighty&quot;</span>]</code></pre>
+<p>Here is what happens. First, Python sees a list literal on the right-hand side of the equals sign. Python finds memory space for the list data <code>[&quot;Minnie&quot;, &quot;Mickey&quot;, &quot;Mighty&quot;]</code> in an area of memory called the <strong>heap</strong>. This new list now has an address. Let's say the address of that list data is 1000.</p>
+<p>Now Python looks at the left-hand side of the assignment operator. Python has to create a new variable, <code>mice</code>. Python copies the value 1000—the address of the list—into the variable <code>mice</code>. Here's how you should think of it:</p>
+<div class="figure">
+<img src="mice-list.png" /><p class="caption"></p>
+</div>
+<p>I drew the arrow to indicate that the variable <code>mice</code> is really just telling us that the list itself is somewhere else, in this case at address 1000.</p>
+<p><strong>Important note.</strong> As I began to explain last time, it would be <em>incorrect</em> to say that the variable <code>mice</code> contains the list. In our earlier example, <code>x = 5</code>, the variable <code>x</code> really did contain the value 5 (or at least its binary representation), not an address or anything else. For a list, however, the variable naming the list—<code>mice</code> in this example—contains only the address of the list data, not the list data itself.</p>
+<h2 id="aliasing-and-the-assignment-operator">Aliasing and the assignment operator</h2>
+<p>Because the <em>address</em> of a list is stored in a variable, rather than actually storing the list data itself in the variable, an important property follows: any variable that stores that address can be used to change the list. Look at this example, in <a href="list_addr.py">list_addr.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">ivies = [ <span class="st">&quot;Dartmouth&quot;</span>, <span class="st">&quot;Columbia&quot;</span>, <span class="st">&quot;Yale&quot;</span>, <span class="st">&quot;Cornell&quot;</span>, <span class="st">&quot;Penn&quot;</span>,<br />         <span class="st">&quot;Brown&quot;</span>, <span class="st">&quot;Princeton&quot;</span>, <span class="st">&quot;Harvard&quot;</span>]<br />expensive_schools = ivies<br />expensive_schools[<span class="dv">3</span>] = <span class="st">&quot;Stanford&quot;</span><br /><span class="kw">print</span> ivies</code></pre>
+<p>This program prints</p>
+<pre><code>['Dartmouth', 'Columbia', 'Yale', 'Stanford', 'Penn', 'Brown', 'Princeton', 'Harvard']
+</code></pre>
+<p>Notice that <code>ivies[3]</code> is no longer <code>'Cornell'</code>; it has become <code>'Stanford'</code>, even though we made the change to <code>expensive_schools[3]</code>, not to <code>ivies[3]</code>.</p>
+<p>What happened here?</p>
+<p>The assignment operator always copies the <em>value</em> of a variable. But in this case, the value of the variable <code>ivies</code> is some address (perhaps 2000), <em>not</em> the list itself. The list is not copied by the assignment operator in <code>expensive_schools = ivies</code>. Only the address is copied. There are <em>not</em> two different lists in the heap; there's still just one list, but both <code>ivies</code> and <code>expensive_schools</code> hold its address:</p>
+<div class="figure">
+<img src="schools1.png" /><p class="caption"></p>
+</div>
+<p>Now, when the item at index 3 in the list whose address is held in <code>expensive_schools</code> is changed to <code>&quot;Stanford&quot;</code>, the one and only list at address 2000 changes:</p>
+<div class="figure">
+<img src="schools2.png" /><p class="caption"></p>
+</div>
+<p>I wrote the item at index 3 in italics just to highlight it. When we print the list using the <code>ivies</code> variable (which contains the address of the same list), we see that the list has changed.</p>
+<p>You can think of it like this. Let's say you have a savings account number. You can think of that number as the address used to refer to a pile of money in some bank vault somewhere. Now if the bank assigns me the same address (savings account number), then I can use that number to withdraw half of the money. When you go to look at the account, half of the money is gone.</p>
+<p>When two names refer to the same thing, those names are called <strong>aliases</strong> of each other. <em>Samuel Clemens</em> and <em>Mark Twain</em> both refer to the same person. Aliasing can be a source of tricky-to-find bugs. (You might view it as a bug if I withdrew half of your money from your savings account, and you didn't even know that we had the same account number.)</p>
+<p>For integers, floats, or booleans, the assignment operator makes a new copy of the data, not a copy of the address, so for these <strong>primitive types</strong>, changing the value of one variable never has an effect on the value of another variable. For strings, the assignment operator copies the address, but because strings are <strong>immutable</strong>, you'll never notice that aliasing is occuring.</p>
+<p>Why the difference between how primitive types and lists are treated? I surmise that it is because lists can be long; copying a list is an expensive operation for the computer. Copying the address of the list might be enough. We'll see later that we can still tell Python that we really do want to copy the list itself, and not just the address, using a special function <code>list</code>.</p>
+<h2 id="passing-lists-to-functions-and-aliasing">Passing lists to functions (and aliasing)</h2>
+<p>Although aliasing can lead to heartache, it can also be a thing of beauty. If you pass the address of a list to a function, then the function can change the data at that address. Let's look at an example. Reversing a list seems like a useful thing to do; we already wrote the code to do it. Aliasing lets us move that code into a function, as in <a href="reverse_list_func.py">reverse_list_func.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> reverse_list(l):<br />    index = <span class="dv">0</span><br />    <span class="kw">while</span> index &lt; <span class="dt">len</span>(l) / <span class="dv">2</span>:<br />        <span class="co"># We'll call the index of the item to swap with the right_index,</span><br />        <span class="co"># since it's the index into the right half of the list.</span><br /><br />        <span class="co"># Because indices start at 0, the last item of the list is at </span><br />        <span class="co"># index len(l) - 1.</span><br />        right_index = <span class="dt">len</span>(l) - <span class="dv">1</span> - index<br /><br />        <span class="co"># Swap the items at index and right_index.</span><br />        temp = l[index]  <span class="co"># store the value at l[index] before clobbering</span><br />        l[index] = l[right_index]<br />        l[right_index] = temp<br /><br />        index = index + <span class="dv">1</span><br /><br />test_list = [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">15</span>]<br /><span class="kw">print</span> <span class="st">&quot;The list before reversing:  &quot;</span> + <span class="dt">str</span>(test_list)<br />reverse_list(test_list)<br /><span class="kw">print</span> <span class="st">&quot;The list after reversing:  &quot;</span> + <span class="dt">str</span>(test_list)</code></pre>
+<p>Notice that when <code>reverse_list(test_list)</code> is called, the formal parameter <code>l</code> now contains the address of the list <code>[1, 3, 5, 7, 9, 11, 13, 15]</code>. The function can therefore change the list, and the list <em>stays changed</em> when the function returns. The function <em>does not</em> change the value of <code>test_list</code>, which is just some address. But the list itself is changed.</p>
+<h2 id="copying-a-list-with-list">Copying a list with <code>list</code></h2>
+<p>Sometimes, you really do want a copy of a list. You can use the function <code>list</code> to make a copy of a list. The <code>list</code> function copies all the data in the list into a new area in the heap, and returns the address of the new data.</p>
+<pre class="sourceCode"><code class="sourceCode python">test_list = [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">15</span>]<br />rlist = <span class="dt">list</span>(test_list)<br />reverse_list(rlist)<br /><span class="kw">print</span> <span class="st">&quot;Reversed:  &quot;</span> + <span class="dt">str</span>(rlist)    <br /><span class="kw">print</span> <span class="st">&quot;Not reversed:  &quot;</span> + <span class="dt">str</span>(test_list)</code></pre>
+<h2 id="sorting-a-list-with-sorted">Sorting a list with <code>sorted</code></h2>
+<p>Python contains a useful built-in function, <code>sorted</code>, which makes a sorted copy of the original list, and returns that list. The <code>sorted</code> function does not change the original list. Look at this example, in <a href="sorted.py">sorted.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">ivies = [ <span class="st">&quot;Dartmouth&quot;</span>, <span class="st">&quot;Columbia&quot;</span>, <span class="st">&quot;Yale&quot;</span>, <span class="st">&quot;Cornell&quot;</span>, <span class="st">&quot;Penn&quot;</span>,<br />         <span class="st">&quot;Brown&quot;</span>, <span class="st">&quot;Princeton&quot;</span>, <span class="st">&quot;Harvard&quot;</span>]<br />alphabetized_ivies = <span class="dt">sorted</span>(ivies)<br /><span class="kw">print</span> ivies<br /><span class="kw">print</span> alphabetized_ivies</code></pre>
+<p>It has this output:</p>
+<pre><code>['Dartmouth', 'Columbia', 'Yale', 'Cornell', 'Penn', 'Brown', 'Princeton', 'Harvard']
+['Brown', 'Columbia', 'Cornell', 'Dartmouth', 'Harvard', 'Penn', 'Princeton', 'Yale']
+</code></pre>
+<p>How does the <code>sorted</code> function work? Over the years, computer scientists have developed dozens of different algorithms for sorting. We'll see a little later a simple sorting algorithm called <em>selection sort</em>.</p>
+<h2 id="good-programming-practice-lists-should-contain-only-data-of-similar-types">Good programming practice: Lists should contain only data of similar types</h2>
+<p>It is possible to store different types of items in a single list. However, you should avoid doing so most of the time.</p>
+<pre class="sourceCode"><code class="sourceCode python">weird_list = [<span class="st">&quot;test&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="dv">1</span>, <span class="dv">3</span>]</code></pre>
+<p>The problem is that if you want to apply some operation to all items of the list, you can't be sure that it makes sense to do so. Imagine you tried to sort <code>weird_list</code> using the <code>sorted</code> function. What would the result be? It turns out Python will do it, but I just can't remember or predict the behavior. It's terrible programming practice to rely on surprising behavior that you cannot predict!</p>
+<h2 id="appending-to-an-existing-list">Appending to an existing list</h2>
+<p>If you have an existing list and would like to add an item to the end, you can do that with the <code>append</code> function, as in <a href="append.py">append.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">former_candidates = [ <span class="st">&quot;Pawlenty&quot;</span>, <span class="st">&quot;Cain&quot;</span>, <span class="st">&quot;Bachmann&quot;</span>, <span class="st">&quot;Huntsman&quot;</span> ]<br /><span class="kw">print</span> former_candidates<br />former_candidates.append(<span class="st">&quot;Perry&quot;</span>)<br /><span class="kw">print</span> former_candidates</code></pre>
+<p>The output is</p>
+<pre><code>['Pawlenty', 'Cain', 'Bachmann', 'Huntsman']
+['Pawlenty', 'Cain', 'Bachmann', 'Huntsman', 'Perry']
+</code></pre>
+<p>The syntax for <code>append</code> is probably not what you expected. You might have expected something like <code>append(former_candidates, &quot;Perry&quot;)</code>, since <code>append</code> clearly needs two things: the variable referring to the list, <code>former_candidates</code>, and the data to append, <code>&quot;Perry&quot;</code>.</p>
+<p>What's the period doing in <code>former_candidates.append(&quot;Perry&quot;)</code>? It turns out that a list is an example of a special type of data called an <strong>object</strong>. We'll see objects in a few lectures, in all their glory. It turns out that objects have associated with them special functions called <strong>methods</strong>. These functions can take parameters in the usual way, in the parentheses, but also <em>always</em> have a special parameter before the dot. This parameter is a reference to (the address of) the object.</p>
+<p>In our case, the object is the list of former candidates. The method <code>append</code> acts on this object, appending the item <code>&quot;Perry&quot;</code>.</p>
+<h2 id="example-a-photograph-screen-saver">Example: A photograph screen saver</h2>
+<p>Let's look at a closing example of using lists to do something very cool: display photographs of Dartmouth as part of a screen saver. (Photos are by recently retired College Photographer Joseph Mehling '69.) An image is an object, but a different type of object from a list; for now we can just use images, without knowing exactly how they work. The code is in <a href="photosaver.py">photosaver.py</a>. Before running this program, you have to add not only photosaver.py to your project, but also the image files <a href="photo1.png">photo1.png</a>, <a href="photo2.png">photo2.png</a>, <a href="photo3.png">photo3.png</a>, and <a href="photo4.png">photo4.png</a>.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co">#  Simple photo display screensaver.</span><br /><span class="co">#  Devin Balkcom, March 2011.</span><br /><span class="co">#  Modified by THC.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="ch">from</span> random <span class="ch">import</span> randint<br /><br />WINDOW_WIDTH = <span class="dv">800</span><br />WINDOW_HEIGHT = <span class="dv">800</span><br />FRAME_CYCLE_LENGTH = <span class="dv">100</span><br />DELAY = <span class="fl">0.02</span><br />IMAGE_DURATION = <span class="fl">0.6</span>    <span class="co"># fraction of time to display each image</span><br /><br /><span class="kw">def</span> main():<br />    set_clear_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)    <span class="co"># black background</span><br />    clear()<br /><br />    <span class="co"># Filenames for images.</span><br />    image_names = [<span class="st">&quot;photo1.png&quot;</span>, <span class="st">&quot;photo2.png&quot;</span>, <span class="st">&quot;photo3.png&quot;</span>,  <span class="st">&quot;photo4.png&quot;</span>]<br /><br />    <span class="co"># A list to store the addresses of loaded images.</span><br />    images = []<br /><br />    <span class="kw">for</span> image_name in image_names:<br />        <span class="co"># Store the address of the loaded image object in img.</span><br />        img = load_image(image_name)<br />        images.append(img)<br /><br />    <span class="co"># Keep track of how many frames have been drawn</span><br />    frame_counter = <span class="dv">0</span><br />    image_index = <span class="dv">0</span>     <span class="co"># index of most recently displayed image</span><br /><br />    <span class="kw">while</span> not window_closed():<br />        <span class="co"># Draw a new image every cycle.   </span><br />        <span class="kw">if</span> frame_counter == <span class="dv">0</span>:<br />            clear()<br /><br />            <span class="co"># Pick random pixel coordinates.</span><br />            x = randint(<span class="dv">0</span>, WINDOW_WIDTH / <span class="dv">2</span>)<br />            y = randint(<span class="dv">0</span>, WINDOW_HEIGHT / <span class="dv">2</span>) <br /><br />            <span class="co"># Draw the next image in the list, wrapping around.</span><br />            image_index = (image_index + <span class="dv">1</span>) % <span class="dt">len</span>(images)<br />            draw_image(images[image_index], x, y)<br /><br />        <span class="kw">elif</span> frame_counter &lt; <span class="fl">0.6</span> * FRAME_CYCLE_LENGTH:<br />            <span class="co"># Redisplay the most recent image.</span><br />            draw_image(images[image_index], x, y)<br /><br />        <span class="kw">else</span>:<br />            <span class="co"># Draw a black, nearly transparent rectangle to fade</span><br />            <span class="co"># the previous pictures out.</span><br />            set_fill_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, .<span class="dv">05</span>)<br />            draw_rectangle(<span class="dv">0</span>, <span class="dv">0</span>, WINDOW_WIDTH, WINDOW_HEIGHT)<br /><br />        request_redraw()<br />        sleep(DELAY)<br /><br />        frame_counter = (frame_counter + <span class="dv">1</span>) % FRAME_CYCLE_LENGTH<br /><br />start_graphics(main, <span class="st">&quot;Photo screen saver&quot;</span>, WINDOW_WIDTH, WINDOW_HEIGHT)</code></pre>
+<p>I don't want to get too deep into how this program works, but there are a few things worth noting. I want the variable <code>image_index</code> to cycle through the numbers 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, … . The way I do that is with the line <code>image_index = (image_index + 1) % len(images)</code>, where we know that <code>len(images)</code> is 4. Similarly, I want <code>frame_counter</code> to cycle through the integers 0 through 99, so I update it with the line <code>frame_counter = (frame_counter + 1) % FRAME_CYCLE_LENGTH</code>, where <code>FRAME_CYCLE_LENGTH</code> is 100.</p>
+<p>This program divides time up into chunks, or <em>cycles</em>, of 100 frames. In the first 60 frames of each cycle, it displays the next image from the list of four images, wrapping back to the beginning after the last image. In the last 40 frames of each cycle, it draws a partially transparent black rectangle over the entire window. Each of these 40 partially transparent rectangles obscures the image below it a little more, giving a fade-out effect. How do we get a partially transparent rectangle? That fourth parameter to <code>set_fill_color</code>, .05, says that the black fill color is only 5% opaque and 95% transparent. Keep stacking 5% opaque rectangles on the window, and you get the progressive fading effect. Cool, huh?</p>
+<h2 id="a-quick-detour-more-about-print-and-strings">A quick detour: More about <code>print</code> and strings</h2>
+<p>We've seen that lists are an example of something called <em>objects</em>. We've also seen that there is a special type of function for acting on an object, called a <em>method</em>. The method is called by writing the name of the object, followed by a period, followed by the name of the method, and any parameters to the method in parentheses.</p>
+<p>It turns out that strings are objects, too. One of the methods defined on a string is the <code>rjust(n)</code> method that returns a right-justified copy of the string, padded with spaces so that its length is <code>n</code>. A short example, in <a href="rjust.py">rjust.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">mystring = <span class="st">&quot;Otter&quot;</span><br /><span class="kw">print</span> <span class="st">&quot;Hairy&quot;</span> + mystring.rjust(<span class="dv">10</span>)</code></pre>
+<p>Output:</p>
+<pre><code>Hairy     Otter
+</code></pre>
+<p>The <code>rjust</code> method is not terribly important, but it is useful for doing things like making a table of values.</p>
+<p>Here's another little trick. If you'd like to print multiple things on one line (for example, during a loop), you can tell <code>print</code> not to advance to the next line by putting a comma after the last item to print. Like in <a href="print_line.py">print_line.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="st">&quot;all&quot;</span>,<br /><span class="kw">print</span> <span class="st">&quot;on&quot;</span>,<br /><span class="kw">print</span> <span class="st">&quot;one&quot;</span>,<br /><span class="kw">print</span> <span class="st">&quot;line.&quot;</span></code></pre>
+<p>Output:</p>
+<pre><code>all on one line.
+</code></pre>
+<p>It might surprise you that the comma also adds a space after each item printed. It surprises Professor Balkcom, too, but that's just how it works. (Me? I hadn't really thought about it.)</p>
+<h2 id="nested-loops">Nested loops</h2>
+<p>You've already seen that, for example, a while-loop might contain an if-statement. (<em>Not</em> an &quot;if-loop,&quot; right? Right? RIGHT?) A while-loop can also contain another while-loop. This structure is called a <em><em>nested</em> loop</em>, since one loop, the <strong>inner loop</strong>, is &quot;nested&quot; inside of another &quot;larger&quot; loop, the <strong>outer loop</strong>. Here's an example to print out a times table, in <a href="times_table.py">times_table.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">row = <span class="dv">1</span><br /><br /><span class="kw">while</span> row &lt; <span class="dv">10</span>:     <span class="co"># the header for the outer loop</span><br />    column = <span class="dv">1</span><br />    <span class="kw">while</span> column &lt; <span class="dv">10</span>:   <span class="co"># the header for the inner loop</span><br />        <span class="kw">print</span> <span class="dt">str</span>(row * column).rjust(<span class="dv">2</span>),<br />        column += <span class="dv">1</span><br /><br />    <span class="kw">print</span> <span class="st">&quot;&quot;</span><br /><br />    row += <span class="dv">1</span></code></pre>
+<p>Output:</p>
+<pre><code> 1  2  3  4  5  6  7  8  9 
+ 2  4  6  8 10 12 14 16 18 
+ 3  6  9 12 15 18 21 24 27 
+ 4  8 12 16 20 24 28 32 36 
+ 5 10 15 20 25 30 35 40 45 
+ 6 12 18 24 30 36 42 48 54 
+ 7 14 21 28 35 42 49 56 63 
+ 8 16 24 32 40 48 56 64 72 
+ 9 18 27 36 45 54 63 72 81 
+</code></pre>
+<p>What's this <code>+=</code> business? In Python, you can combine a binary operator, such as <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, or <code>%</code> with assignment, using the combination operators <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, and <code>%=</code>. The pattern is <code>variable op= expression</code>, which is the same as <code>variable = variable op expression</code>, where <code>op</code> is any of the five binary operators above, <code>variable</code> is a variable, and <code>expression</code> is any expression that can be an operand of <code>op</code>. So to multiply <code>money</code> by 10 and store the result back into <code>money</code>, you can write <code>money *= 10</code>.</p>
+<p>The code calls <code>rjust(2)</code> to create a string of length 2 to hold each number, even if the number has only one digit. In this way, the columns of the table line up so that the table is easy to read.</p>
+<p>Let's step through what happens.</p>
+<ol style="list-style-type: decimal">
+<li>Set <code>row</code> to the value 1.<br /></li>
+<li>If <code>row &lt; 10</code> evaluates to <code>True</code>, go to the line after <code>while row &lt; 10</code>.<br /></li>
+<li>OK, 1 &lt; 10 evaluates to <code>True</code>.</li>
+<li><code>column</code> is set to 1.</li>
+<li><code>column &lt; 10</code> is True. Go to the next line.</li>
+<li>Print <code>row * column</code>, with some fancy formatting. So print 1,</li>
+<li>Add 1 to the value in <code>column</code>.</li>
+<li>We finished the body of the <em>inner</em> loop. Go back up to <code>while column &lt; 10</code>. True? Yes.</li>
+<li>Print <code>row * column</code>. So print 2,</li>
+<li>We finished the body of the <em>inner</em> loop. Go back up to <code>while column &lt; 10</code>. True? Yes.</li>
+</ol>
+<p>A lot more steps happen. Eventually, the condition of the inner loop, <code>column &lt; 10</code> evaluates to <code>False</code>. The inner loop is done and we get to the line <code>print &quot;&quot;</code>. <code>row</code> is increased by 1, and we go to the header of the <em>outer loop</em>. <code>row</code> has the value 2, so <code>row &lt; 10</code> is <code>True</code>. We go to the next line. <code>column</code> is reset to the value 1. Now the <em>entire inner loop</em> is executed again, for columns 1 to 9. Then <code>row</code> gets the value 3. And so on, through <code>row</code> getting the value 9, printing out the entire row for <code>row</code> equaling 9. Then <code>row</code> is incremented to 10, and we drop out of the <em>outer loop</em>.</p>
+<p>Nested loops will eventually be very familiar and comfortable to you, but they can be tricky at first. Here's what I recommend. Get an index card. Use it to cover all lines below the current line (the line the program counter is pointing at). Step through the code one line at a time until you are comfortable with it.</p>
+<p>You can often use for-loops to make code easier to read. The following code with nested for-loops, in <a href="times_table2.py">times_table2.py</a>, prints out the same table as the example above.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">for</span> row in <span class="dt">range</span>(<span class="dv">1</span>, <span class="dv">10</span>):<br />    <span class="kw">for</span> column in <span class="dt">range</span>(<span class="dv">1</span>, <span class="dv">10</span>):<br />        <span class="kw">print</span> <span class="dt">str</span>(row * column).rjust(<span class="dv">2</span>),  <br /><br />    <span class="kw">print</span> <span class="st">&quot;&quot;</span></code></pre>
+<p>In this case, you don't have to explicitly add to <code>row</code> or <code>column</code>, or reset their values, since stepping through the lists created by the <code>range</code> function takes care of these details. If you wanted to print out a times table that showed only products of even numbers (though I have no idea why you want to do that), it would be harder to use for-loops, since <code>range</code> always gives sequential integers.</p>
+<p>A good rule of thumb is to use a for-loop if the for-loop is easier to read than the corresponding while-loop, and if the goal of the loop is to <em>iterate over</em> some set of values in a list (or for which a list can be easily created).</p>
+<h2 id="selection-sort">Selection sort</h2>
+<p>On the first day, I gave an example of how quickly you could find a name in a phone book using a process called <em>binary search</em>. Tear the book in half. If the name you want is before the middle, keep the first half and throw away the second half. If the name you want is after the middle, keep the second half instead. Repeat, starting with the tear operation, until you have found the name or run out of pages.</p>
+<p>Binary search was much faster than looking through every name in sequence. But binary search relied on knowing that the book was already sorted. Let's look at a method for sorting a list of items. This is not the most efficient possible method in all cases; we'll see other methods later.</p>
+<p>The method we will look at now is called <strong>selection sort</strong>. We're looking at selection sort because sorting a list is sometimes useful, and second, because it is an example of an algorithm design problem that uses a list. Selection sort works like this:</p>
+<ol style="list-style-type: decimal">
+<li><p>Find the smallest item in the list. Swap it into the 0 position (the item at index 0).</p></li>
+<li><p>Find the second-smallest item in the list. Swap it into the 1 position.</p></li>
+<li><p>Find the third-smallest item in the list. Swap it into the 2 position.</p></li>
+<li><p>…</p></li>
+<li><p>Stop when we have swapped the second-largest item into the second-to-last position. At that point, the largest item must already be in the last position.</p></li>
+</ol>
+<p>You can see a PowerPoint demo in <a href="selection_sort.ppt">selection_sort.ppt</a>.</p>
+<p>Here is the code that we walked through in class. It's in <a href="selection_sort.py">selection_sort.py</a>.</p>
+<pre class="sourceCode"><code class="sourceCode python">grade_list = [<span class="dv">89</span>, <span class="dv">45</span>, <span class="dv">85</span>, <span class="dv">81</span>, <span class="dv">77</span>, <span class="dv">94</span>, <span class="dv">22</span>, <span class="dv">79</span>, <span class="dv">92</span>, <span class="dv">91</span>]<br /><span class="kw">print</span> <span class="st">&quot;grade_list before sorting: &quot;</span>, grade_list<br /><br /><span class="co"># Selection sort algorithm pseudo-code:</span><br /><span class="co">#   for each consecutive index i in the list:</span><br /><span class="co">#     find the minimum value in the sublist starting at index i.</span><br /><span class="co">#     call the index of this value index_smallest.  </span><br /><span class="co">#     swap the items at indices i and index_smallest.</span><br /><br /><span class="kw">for</span> i in <span class="dt">range</span>(<span class="dt">len</span>(grade_list) - <span class="dv">1</span>):<br />    <span class="co"># Find the minimum value in the sublist starting at index i.</span><br />    <span class="co"># minval will hold the smallest value we have found so far in the sublist</span><br />    minval = grade_list[i]<br />    index_smallest = i<br /><br />    <span class="kw">for</span> j in <span class="dt">range</span>(i, <span class="dt">len</span>(grade_list)):<br />        <span class="kw">if</span> grade_list[j] &lt; minval:<br />            minval = grade_list[j]<br />            index_smallest = j<br /><br />    <span class="co"># After the inner loop, minval has the smallest value in the sublist</span><br />    <span class="co"># starting at index i, and index_smallest has the index of this</span><br />    <span class="co"># smallest value.  Swap it into index i.</span><br />    temp = grade_list[i]<br />    grade_list[i] = minval<br />    grade_list[index_smallest] = temp<br /><br /><span class="kw">print</span> <span class="st">&quot;grade_list after sorting:  &quot;</span>, grade_list</code></pre>
+</body>
+</html>

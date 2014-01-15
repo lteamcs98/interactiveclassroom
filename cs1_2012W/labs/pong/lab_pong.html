@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="lab-assignment-1-pong-due-monday-january-30">Lab Assignment 1: Pong <br />Due: Monday, January 30</h1>
+<p>Back when <em>I</em> was an undergraduate, one of my professors hosted an event at his house. At one point, he hooked up this funky little box to his television, and we were able to play a simple video game involving a ball and two rectangles, which represented paddles. That game was called Pong, and it is not to be confused with the subterranean version played around here. Here's a video of what it looked like back then: <a href="http://www.youtube.com/watch?v=_tvTsbAXuRs&amp;feature=player_embedded">Atari Pong</a>.</p>
+<p>Here is the version that I wrote, in a choppy animation:</p>
+<iframe width="420" height="315" src="http://www.youtube.com/embed/ltSys9LLRu0" frameborder="0" allowfullscreen></iframe>
+
+<p>The game has three important behaviors:</p>
+<ol style="list-style-type: decimal">
+<li>If the ball hits a vertical wall, the game is over.</li>
+<li>If the ball hits a horizontal wall, it bounces off that wall.</li>
+<li>If the ball hits the inner face of a paddle, it bounces off the paddle.</li>
+</ol>
+<p>Each paddle is independently controllable. Six keys on the keyboard control the game:</p>
+<ul>
+<li><em>a</em> moves the left paddle up.</li>
+<li><em>z</em> moves the left paddle down.</li>
+<li><em>k</em> moves the right paddle up.</li>
+<li><em>m</em> moves the right paddle down.</li>
+<li>The space bar starts a new game.</li>
+<li><em>q</em> quits the program.</li>
+</ul>
+<p>As in <a href="../../shortassign/movingblocks/sa_movingblocks.html">Short Assignment 6</a>, the paddles should never leave the playing surface. While a paddle is touching the top wall, it cannot go up, and while a paddle is touching the bottom wall, it cannot go down.</p>
+<p>Even given these rules, you have much latitude in this assignment. You do not have to produce something that looks identical to my version; it is meant only to provide a demonstration of basic functionality.</p>
+<h2 id="how-to-proceed">How to proceed</h2>
+<p>In Short Assignment 6, you have already written a program that has an animation loop, and you can of course use the ideas in that program for controlling the blocks to instead control the Pong paddles. Remember that each loop iteration should call <code>request_redraw</code> and <code>sleep</code>.</p>
+<p>As a next step, I recommend a simple animation of moving the ball. Start with it in the center of the window, and have it move down and to the right. I found that a sleep time of 0.02 seconds and moving the ball 3 pixels in each dimension per frame (i.e., in each iteration of the animation loop) worked well. Of course, in this first step, the ball will quickly leave the window, but that's OK: it's just a first step.</p>
+<p>Next, I recommend working on code to detect whether the ball has made contact with a wall or paddle. Here's how I did it. I first wrote a function that says whether the ball touches a vertical line, but between two <em>y</em>-coordinates. This function takes the position of the ball's center, the <em>x</em>-coordinate of the vertical line, and the <em>y</em>-coordinates of the top and bottom of the vertical line, and it returns <code>True</code> or <code>False</code>.</p>
+<p>Sounds complicated? Actually, it's not too bad. Here's another way to say that the ball touches a vertical line. Consider the horizontal diameter of the ball, that is, a horizontal line that goes through the center of the ball, from the left edge of the ball to the right edge. The ball touches the vertical line if and only if this horizontal diameter intersects the vertical line. In all three diagrams below, the horizontal diameter intersects the vertical line:</p>
+<div class="figure">
+<img src="ball-touches-vert-line.png" /><p class="caption"></p>
+</div>
+<p>Looking at the problem this way makes it pretty easy. A vertical line and a horizontal line intersect if the <em>x</em>-coordinate of the vertical line is between the endpoints of the horizontal line <em>and</em> the <em>y</em>-coordinate of the horizontal line is between the endpoints of the vertical line. Given the center of the ball and the ball's radius (a constant), it's easy to determine the <em>x</em>-coordinates of the horizontal diameter, which serves as the horizontal line.</p>
+<p>Once I had that function written, I was easily able to create a modified version that says whether the ball touches a horizontal line, but between two <em>x</em>-coordinates.</p>
+<p>With these functions in hand, I was able to determine whether the ball was touching a vertical wall (in which case, the game ends), touching the inner face of a paddle (in which case, the ball bounces off the paddle), or touching a horizontal wall (in which case, the ball bounces off the wall). I check for these conditions in each frame, taking the appropriate action if any of them hold.</p>
+<p>What does it mean to take the appropriate action?</p>
+<ul>
+<li>Ending the game means to stop the ball's motion and allow a new game to start.</li>
+<li>Bouncing off a vertical surface (here, the inner face of a paddle) means to reverse the ball's horizontal direction, keeping its speed and vertical direction the same.</li>
+<li>Bouncing off a horizontal surface (the top or bottom wall) means to reverse the ball's vertical direction, keeping its speed and horizontal direction the same.</li>
+</ul>
+<p>How do you make the ball move? This is also surprisingly easy. You'll of course keep state variables for the ball's position. But also keep state variables for how much the ball moves, in pixels, horizontally and vertically in each frame of the animation. You use these latter state variables to update the ball's position in each frame. Here's the cool part. How do you reverse the ball's direction? Easy: just negate the appropriate state variable. In other words, if the ball moves 3 pixels to the right in each frame, then you have a state variable whose value is 3. If you want to reverse the ball's horizontal direction, so that it moves 3 pixels to the left in each frame, negate the state variable, so that its value becomes –3.</p>
+<p>How do you stop the ball's motion? One way is to just set the state variables for the motion to 0, so that the ball's position doesn't change. Another way is to keep a boolean state variable that says whether a game is in progress. If a game is not in progress, then don't update the ball's position. I found additional uses for this boolean state variable.</p>
+<p>How do you end the program when the user types <em>q</em>? Here's a really easy way: call the parameterless function <code>cs1_quit</code>, which you already have in cs1lib.</p>
+<h3 id="avoiding-strange-behavior">Avoiding strange behavior</h3>
+<p>If you follow my suggestions above for how to determine whether the ball has made contact with a paddle and how to make it bounce off the paddle, you might observe some strange behavior under the right conditions. If the ball hits an inner corner of a paddle, you might observe it slither along the face of the paddle, juking quickly back and forth horizontally, until it slides all the way along the paddle and hits a side wall, thereby ending the game. This behavior occurs because the ball doesn't move far enough away from the paddle.</p>
+<p>We won't penalize your program if it exhibits this behavior, but there's a pretty easy way to avoid it. If your program finds that the ball makes contact with a paddle, move the ball far from the paddle in the horizontal direction. How far? Far enough that the ball cannot make contact with the paddle: horizontally move the center of the ball more than one radius away from the inner face of the left paddle. I found that when I incorporated this additional bounce into my program, the additional bounce was virtually unnoticeable, and it eliminated the ball slithering along the paddle.</p>
+<p>If you're wondering how you can even check for slithering, I recommend simply slowing the ball down. However many pixels you're moving it per frame, move it fewer pixels per frame. The paddles will still move at the same speed; only the ball slows down, so that you can see exactly where the ball hits the paddles.</p>
+<h3 id="a-note-on-detecting-contact">A note on detecting contact</h3>
+<p>You might have noticed a slight discrepancy between how I determine whether the ball contacts a wall or paddle in Pong versus how I determine whether the ball contacts a wall in the programs from the <a href="../../lectures/lecture09/lecture09.html">January 23 lecture</a>. In Pong, I use the <em>current</em> position of the ball, and I ask whether it <em>touches or goes beyond</em> the surface of a wall or paddle. In the programs from lecture, I use the <em>future</em> position of the ball, and I ask whether it would <em>just go beyond</em> the surface of a wall.</p>
+<p>Either way is fine. The difference in behaviors in unnoticeable.</p>
+<h2 id="design-and-style">Design and style</h2>
+<p>Your program should be understandable by wetware with the minimum possible effort. We are looking for a clean design. Your program should have everything it needs to have. Nothing more, nothing less. The logic should be as straightforward as possible. Remember that a program is not just a specification to a computer; it's also an aesthetic work. The beauty of a program lies in its design and in its style.</p>
+<h3 id="functions">Functions</h3>
+<p>Don't be afraid to write functions that help your program out. I mentioned a couple earlier, to determine whether the ball touches a vertical line or a horizontal line. But you should feel free to write more. I wrote a function that draws the part of the window that never changes: the background, the vertical walls, and the top and bottom walls. You don't have to write such a function, but I found it nice to just have it working, and then I didn't have to think about it again, other than to call it when drawing each frame. Oh yeah, there's a name for that, isn't there?…<em>abstraction</em>.</p>
+<h3 id="constants">Constants</h3>
+<p>You will find that life is <em>much</em> easier if you define constants for geometric values. I defined a global constant for every geometric value that my program needed, so that no &quot;magic numbers&quot; appear anywhere except where I assign to the constants. Here are <em>some</em>—but by no means all—of the concepts for which I defined constants:</p>
+<ul>
+<li>All the keys that affect the game.</li>
+<li>The height and width of the paddles.</li>
+<li>How many pixels the paddle moves in each frame (assuming, of course, that the appropriate key is pressed).</li>
+<li>The height and width of the window.</li>
+<li>The radius of the ball.</li>
+<li>The thickness of the walls.</li>
+<li>The <em>y</em>-coordinates of the top and bottom of the top wall. Ditto for the bottom wall.</li>
+<li>The <em>x</em>-coordinates of the left and right sides of the left wall. Ditto for the right wall. The <em>y</em>-coordinates of the top and bottom of both the left and right walls.</li>
+<li>The <em>x</em>- and <em>y</em>-coordinates of where the &quot;game start&quot; message appears.</li>
+</ul>
+<p>Several of the constants were defined in terms of the height and width of the window. That way, if I want to change the window size, I can change numbers in just one place, and everything else looks right.</p>
+<h3 id="documentation">Documentation</h3>
+<p>Because the prime audience for your program is not the computer hardware or software, but rather the wetware of anyone reading your program, you should include comments that tell the human reader what he or she needs to understand in order to make sense of your program.</p>
+<p>Comments are not enough. You should also choose variable names judiciously. Variable names should be descriptive. Meaningless variable names are bad, and misleading variable names are worse. And, of course, if you intend for a value to never change—so that it's really a constant—then write its name in all uppercase, to indicate to the reader that you're creating a constant.</p>
+<h2 id="extra-credit">Extra Credit</h2>
+<p>You can add all sorts of features to the basic Pong game for extra credit. Make sure, however, before you charge off and do extra credit that you have the basic game working correctly, that you've designed it as cleanly as possible, and that you've documented it well. Remember: it's much better to get 35 out of 40 points on the basic assignment with no extra credit than to get 30 out of 40 points on the basic assignment with 5 points of extra credit. When we total up points in CS 1, 30 + 5 ≠ 35.</p>
+<p>Also, <strong>before you start any extra credit, save your basic pong source code, and submit that as your main submission. Also take a screenshot for submission before working on extra credit. Start a new Python file for any extra credit.</strong> If you do pursue extra credit, include a text file in your submission that tells us what extra-credit features you've included.</p>
+<p>You can add plenty of extra-credit features. Here is a list of ideas to get you thinking, but by all means let your imagination go.</p>
+<ul>
+<li>When the ball bounces off a moving paddle, accelerate the ball slightly in the direction of the paddle's motion: 10 points.</li>
+<li>Random initial direction for the ball. (But make sure that it has enough horizontal and enough vertical component to be interesting. If the ball just goes up and down, or almost just up and down, the game is not going to be interesting.): 5 points.</li>
+<li>Ball changing color each time it bounces off a paddle: 5 points.</li>
+<li>Unpredictable bouncing: 5 points.</li>
+<li>Fancy .png images for ball and paddles: 5 points.</li>
+</ul>
+<p>Here is how you can use .png images. Suppose you want to draw an image of a paddle, in paddle.png, at location (100, 150). Here's what you would do:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br />img = load_image(<span class="st">&quot;paddle.png&quot;</span>)<br />draw_image(img, <span class="dv">100</span>, <span class="dv">150</span>)</code></pre>
+<p>Before you run your program, make sure to drag the image file from your desktop into your Eclipse project.</p>
+<p>Crazier, less well-specified ideas (extra credit will be assigned relatively arbitrarily, according to how impressed we are with your idea and its implementation):</p>
+<ul>
+<li>More than two players.</li>
+<li>Obstacles.</li>
+<li>Obstacles that accelerate the ball.</li>
+<li>Ball deforming and then springing back to round when it bounces off a wall or paddle.</li>
+</ul>
+<h2 id="grading">Grading</h2>
+<p>You will be graded on the following criteria.</p>
+<p>Correctness:</p>
+<ul>
+<li>The ball bounces correctly off the paddles and the top and bottom walls. The game ends when the ball hits a vertical wall: 16 points.</li>
+<li>The paddles are independently and easily controllable: 4 points.</li>
+<li>The new game (space bar) and quit (q) commands work correctly: 2 points.</li>
+</ul>
+<p>Style:</p>
+<ul>
+<li>Clear design and organization: 8 points.</li>
+<li>Good variable names, function names, and comments: 6 points.</li>
+<li>Functions where appropriate and not where inappropriate: 4 points.</li>
+</ul>
+<p>Notice that correctness counts for only 22 out of 40 points. If your program works perfectly but is stylistically a mess, your grade will be low.</p>
+<p>Lateness:</p>
+<ul>
+<li>Submitted between 1:46 pm and 5:00 pm Monday: –4 points.</li>
+<li>Submitted between 5:01 pm Monday and 5:00 pm Tuesday: –16 points.</li>
+</ul>
+<h2 id="what-to-turn-in">What to turn in</h2>
+<p>Turn in a screenshot of your game in action, and the .py source code for your standard game. If you did extra credit, turn in additional extra-credit .py files, a text file explaining what you did for extra credit, and a screenshot of your extra-credit version.</p>
+</body>
+</html>

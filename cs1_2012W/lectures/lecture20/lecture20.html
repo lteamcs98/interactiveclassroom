@@ -1,0 +1,1219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<!-- <script type="text/javascript" -->
+<!--   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> -->
+<!-- </script> -->
+<script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="finite-automata">Finite automata</h1>
+<p>Here's a puzzle that you might have seen before:</p>
+<blockquote>
+<p>A person has a very small boat, a wolf, a goat, and a cabbage. They are all on the left bank of a river, and the person needs to get the wolf, goat, and cabbage across to the opposite (right) bank. The boat is so small that it can hold the person, who rows the boat, and at most one of the wolf, goat, and cabbage. The wolf and goat cannot be left alone, for the wolf will eat the goat. The goat and the cabbage cannot be left alone, either, for the goat will eat the cabbage. The wolf has no interest in the cabbage, however, and so the wolf and cabbage may be left alone. How does the person get the wolf, goat, and cabbage to the opposite bank of the river?</p>
+</blockquote>
+<p>Let's think of this problem as a system with several possible states. Each <strong>state</strong> is a configuration of which of the four actors (person, wolf, goat, cabbage) is on which side of the river. For example, the starting state is <em>PCGW |</em>, indicating that all four are on the left bank, and the desired final state is <em>| PCGW</em>, with all four on the right bank. Any state that leaves the wolf and goat without the person or the goat and cabbage without the person is a &quot;dead&quot; state, to be avoided. By a dead state, we mean that once we get there, the system terminates in failure. Here are six dead states: <em>CGW | P</em>, <em>GW | PC</em>, <em>CG | PW</em>, <em>PW | CG</em>, <em>PC | GW</em>, and <em>P | CGW</em>.</p>
+<p>We can think of making a transition from one state to another, according to what the person takes in the boat: the wolf, the goat, the cabbage, or possibly an empty payload. Let's draw a diagram with possible states, with arrows labeled according to the payload. States with bold text are dead states, and the desired final state is drawn with an extra box around it.</p>
+<div class="figure">
+<img src="wolf-goat-cabbage.png" /><p class="caption"></p>
+</div>
+<p>This diagram provides an example of a <strong>finite automaton</strong>. It's finite because the number of states is finite. And it's an automaton because that's a fancy name for &quot;machine&quot;; in fact, finite automata (note the plural form) are often called &quot;finite state machines.&quot; (If you're thinking that a machine has to have gears, belts, and pulleys, broaden your concept of machines.)</p>
+<p>In general, we describe a finite automaton by five things:</p>
+<ol style="list-style-type: decimal">
+<li>A finite set of <strong>states</strong>.</li>
+<li>One state is designated as the <strong>start state</strong>.</li>
+<li>Some subset of states is designated as the set of <strong>accepting states</strong>.</li>
+<li>An input <strong>alphabet</strong>, which is just a set of symbols.</li>
+<li>A <strong>transition function</strong> that, given a state and a symbol from the input alphabet, maps to a state.</li>
+</ol>
+<p>It's possible for the accepting states to comprise any subset of the states. Empty, containing the start state, consisting of all the states—all are allowed.</p>
+<p>For our wolf-goat-cabbage automaton:</p>
+<ol style="list-style-type: decimal">
+<li>The set of states is the set of 16 states shown above.</li>
+<li>The start state is the one drawn on top, labeled <em>PCGW |</em>.</li>
+<li>The set of accepting states has just one state, the one drawn near the bottom, with an extra box around it and labeled <em>| PCGW</em>.</li>
+<li>The input alphabet is the set of symbols {<em>C, G, W, E</em>}, representing the possible payloads in the boat.</li>
+<li>The transition function is represented by the arrows. For example, when in the state labeled <em>PCW | G</em> and the input symbol is <em>C</em>, the transition function maps to the state labelel <em>W | PCG</em>.</li>
+</ol>
+<p>A finite automaton is presented with a string of input symbols drawn from the input alphabet. It starts in the start state, and repeatedly consumes a symbol from its input, moving to the next state based on its current state and the symbol. For our wolf-goat-cabbage automaton, suppose the input string is <em>GEWGCEG</em>. Here's how the automaton would operate:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">state</th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left">input</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>PCGW |</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>G</em></td>
+</tr>
+<tr class="even">
+<td align="left"><em>CW | PG</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>E</em></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>PCW | G</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>W</em></td>
+</tr>
+<tr class="even">
+<td align="left"><em>C | PGW</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>G</em></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>PCG | W</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>C</em></td>
+</tr>
+<tr class="even">
+<td align="left"><em>G | PCW</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>E</em></td>
+</tr>
+<tr class="odd">
+<td align="left"><em>PG | CW</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><em>G</em></td>
+</tr>
+<tr class="even">
+<td align="left"><em>| PCGW</em></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">end</td>
+</tr>
+</tbody>
+</table>
+<p>It ends in the accepting state <em>| PCGW</em>.</p>
+<p>Normally, the transition function has to specify a new state for every combination of state and input symbol. The wolf-goat-cabbage automaton cheats a little, because some transitions are not defined. For example, in the state <em>PG | CW</em>, there is no transition on input symbols <em>C</em> or <em>W</em>, since the person cannot put them into the boat when the boat is on one bank and the cabbage and wolf are on the other bank. We also don't show transitions from the dead states, since they're exactly the states we don't want to get to. But we could define the transition function so that all transitions from a dead state are to itself; as long as the dead state is not an accepting state, it would act like a black hole: once the automaton enters a dead state, it could never leave.</p>
+<p>Finite automata provide a simple but powerful conceptual tool—they are a great example of the <em>science</em> in <em>computer science</em>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Finite automata provide a way of modeling and thinking about certain types of <em>processes</em>, either natural or artificial, far beyond computer science.</p></li>
+<li><p>Finite automata are a practical way to implement several algorithms in computer science, including (as we're about to see) searching for a string.</p></li>
+<li><p>Finite automata provide a particular mathematical model of the types of computation that can be done by certain types of computers. By studying finite automata and related models of computation, we can begin to understand the fundamental capabilities and limitations of computers in a very general way. (This is the topic of COSC 39, Theory of Computation).</p></li>
+</ol>
+<h2 id="searching-strings-with-finite-automata">Searching strings with finite automata</h2>
+<p>In Python, the <code>find</code> function from the <code>string</code> module searches for a particular sequence of characters (the pattern) in a string (the text), and returns the index of the pattern if found.</p>
+<p>Searching for a pattern in a string is certainly useful, but it might not seem exciting at first glance. The <code>find</code> function is easy to use, and it's already been written for you. It also wouldn't be very hard to implement <code>find</code> ourselves. Just loop over indices in the text string, starting with 0. At each index, loop over indices in the pattern string, matching characters from pattern and text and testing for equality: a simple nested loop, as in <a href="find.py">find.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># find.py</span><br /><span class="co"># CS 1 class example by THC.</span><br /><span class="co"># Shows a simple implementation of the Python find function.</span><br /><br /><span class="co">## Return the index of the first occurrence of the pattern in the text.</span><br /><span class="kw">def</span> my_find(text, pattern):<br />    index = <span class="dv">0</span><br />    <span class="kw">while</span> index &lt;= <span class="dt">len</span>(text) - <span class="dt">len</span>(pattern):<br />        j = <span class="dv">0</span><br />        <span class="kw">while</span> j &lt; <span class="dt">len</span>(pattern):<br />            <span class="kw">if</span> text[index + j] == pattern[j]:<br />                j += <span class="dv">1</span><br />            <span class="kw">else</span>:<br />                <span class="kw">break</span><br />        <span class="kw">if</span> j == <span class="dt">len</span>(pattern):<br />            <span class="kw">return</span> index<br />        <span class="kw">else</span>:<br />            index += <span class="dv">1</span><br />    <span class="kw">return</span> -<span class="dv">1</span><br /><br /><span class="ch">from</span> string <span class="ch">import</span> find<br /><br />text = <span class="st">&quot;bananas&quot;</span><br /><span class="kw">print</span> find(text, <span class="st">&quot;na&quot;</span>)<br /><span class="kw">print</span> my_find(text, <span class="st">&quot;na&quot;</span>)<br /><span class="kw">print</span> find(text, <span class="st">&quot;nas&quot;</span>)<br /><span class="kw">print</span> my_find(text, <span class="st">&quot;nas&quot;</span>)<br /><span class="kw">print</span> find(text, <span class="st">&quot;bon&quot;</span>)<br /><span class="kw">print</span> my_find(text, <span class="st">&quot;bon&quot;</span>)</code></pre>
+<p>Searching for strings is a common operation, however, and if searching for strings can be made to run more quickly, any programs that use <code>find</code> would benefit. We can use finite automata as the basis for a fast algorithm for string search.</p>
+<p>Let's assume that the pattern string has <span class="math"><em>m</em></span> characters and the text string has <span class="math"><em>n</em></span> characters. We want to find <em>all</em> indices at which the pattern occurs as a substring of the text.</p>
+<p>You can check wheter the pattern is at some index <span class="math"><em>s</em></span> in the text by comparing the characters at indices <span class="math"><em>s</em>, <em>s</em> + 1, …, <em>s</em> + <em>m</em></span> in the text match the characters in the pattern at indices <span class="math">0, 1, …, <em>m</em> - 1</span>, which is how <code>my_find</code>, above, works. In the worst case (if there is a match), this check takes <span class="math"><em>m</em></span> steps. The obvious algorithm for search sequentially checks indices <span class="math">0</span> through <span class="math"><em>n</em> - 1</span> in the text for a match. In the worst case, this algorithm takes <span class="math"><em>n</em><em>m</em></span> character comparisons. Notice that except for a few characters at the beginning and end of the text string, each character of the text could be checked <span class="math"><em>n</em></span> times.</p>
+<p>It may not immediately be obvious how to beat an <span class="math"><em>O</em>(<em>n</em><em>m</em>)</span> running time for string search, but it turns out that we can use a finite automaton to write a <span class="math"><em>O</em>(<em>n</em>)</span>-time algorithm that looks at each character in the text only once.</p>
+<p>We'll look at a simplified example where the characters in the strings represent amino acids in sequence along one of the helices of a DNA chain. This example is simplified because there are only four characters: A, C, G, and T.</p>
+<p>Imagine at first that the text is the string GTAACAGTAAACG and the pattern is AAC. We check AAC against the first three characters of the text, GTA. No match. Then check AAC against the three characters starting at index 1, TAA. No match. Then check AAC against the three characters starting at index 2, AAC. Match! Remember, however, that we want to find <em>all</em> matches, not just the first match. So we continue, checking AAC against the three characters starting at index 3, ACA. Of course, we've seen the first two of these text characters already. We can use a finite to automaton avoid looking at them again.</p>
+<p>Let's use a more interesting pattern: ACACAGA. Here's the corresponding finite automaton:</p>
+<div class="figure">
+<img src="fa_ACACAGA.png" /><p class="caption"></p>
+</div>
+<p>I drew the horizontal spine with extra heavy arrows because the labels on the arrows of the spine, read from left to right, give the pattern ACACAGA. The idea is that whenever the pattern occurs in the text, the finite automaton moves right by one state for each character, until it reaches the last state (7 in this case, because the pattern contains seven characters), where it declares that it has found an occurrence of the pattern in the text. Notice also that some arrows are missing, such as any arrow labeled T. If an arrow is missing, then the corresponding transition goes to state 0 so that, for example, the transition from state 5 on input symbol T is to state 0, as is the transition from state 3 on input symbol G. This table gives the entire transition function for the pattern ACACAGA:</p>
+<div class="figure">
+<img src="transition_table.png" /><p class="caption"></p>
+</div>
+<p>The inputs are taken in order from the text string. The states 0 through 7 correspond to the number of successive successful character matches that have been made. The finite automaton moves to the right for each character that matches the pattern, and for each character that fails to match the pattern it moves left, or stays in the same state (for example, the transition from state 1 on input symbol A is to state 1). We'll see how to determine the transition function later on.</p>
+<p>Here's an example. Let's say that the text string is ACAACACAGACACAGAA, and we want to find the pattern ACACAGA. Whenever the finite automaton reaches the last state, state 7, we output that the pattern occurs with a shift amount that is easily computed: if we index the characters starting at 1 (not 0), it's the index of the character that got us to state 7, minus the length of the pattern (7).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">state</th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left">char index</th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left">input</th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left">output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">2</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">3</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">5</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">6</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">7</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">8</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">9</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">6</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">10</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">pattern occurs with shift 3 (<span class="math"> = 10 - 7</span>)</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">11</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">12</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">13</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">C</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">14</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">15</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">G</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">6</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">16</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">pattern occurs with shift 9 (<span class="math"> = 16 - 7</span>)</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">17</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Using the table that gives the transition function, it takes constant time to process each of the <span class="math"><em>n</em></span> input characters, giving a total matching time of <span class="math"><em>O</em>(<em>n</em>)</span>—once the table has been built.</p>
+<h3 id="building-the-finite-automaton">Building the finite automaton</h3>
+<p>The hard part is actually building the transition function, given the pattern to be searched for. Here's the idea. If we have reached state <span class="math"><em>k</em></span>, then we have successfully matched exactly the first <span class="math"><em>k</em></span> characters from the pattern, and <span class="math"><em>k</em></span> is the largest number for which this is true.</p>
+<p>Let's take an example from the finite automaton to match ACACAGA. Let's think about why the transition from state 5 on the input character C is to state 4. If the automaton has reached state 5, then the five most recent characters consumed from the text are ACACA, which you can see by looking at the spine of the automaton. If the next character consumed is C, then it does not match the pattern, and the automaton cannot continue on to state 6. But it doesn't have to go all the way back to state 0, either. Why not? Because now the four most recently consumed characters are ACAC, which are the first four characters of the pattern ACACAGA. That's why when the automaton is in state 5 and it consumes a C, it moves to state 4: it has most recently seen the first four characters of the pattern, but no more than the first four.</p>
+<p>Let's call the pattern <span class="math"><em>P</em></span> and let the first <span class="math"><em>k</em></span> characters of the pattern be <span class="math"><em>P</em><sub><em>k</em></sub></span>. Suppose that the finite automaton is in state <span class="math"><em>k</em></span>, so that the <span class="math"><em>k</em></span> most recently consumed characters from the text are <span class="math"><em>P</em><sub><em>k</em></sub></span>. Now let's say that we consume one more character <span class="math"><em>a</em></span> from the text. We have received the characters <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span> sequentially from the text. (I'm just writing strings together to indicate concatenation.) The question now is how many characters from the end of <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span> (the suffix of <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span>) match the beginning of (the prefix of) the pattern <span class="math"><em>P</em></span>. Put another way: what is the length of the longest prefix of <span class="math"><em>P</em></span> that is also a suffix of <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span>, where a suffix consists of characters at the <em>end</em> of the string?</p>
+<p>Going back to our example, let's see how we know that the transition from state 5 on input C is to state 4. Here, <span class="math"><em>k</em> = 5</span>, and we look at the prefix <span class="math"><em>P</em><sub>5</sub></span>, which is ACACA. Concatenate the character C, giving ACACAC. We want to find the longest prefix of ACACAGA that is also a suffix of ACACAC. The string ACACAC has length 6, and a suffix cannot be longer than the string it's part of, so let's start at <span class="math"><em>P</em><sub>6</sub></span> and work our way down. <span class="math"><em>P</em><sub>6</sub></span> is ACACAG, which is not a suffix of ACACAC. So now we try <span class="math"><em>P</em><sub>5</sub></span>, which is ACACA, and is also not a suffix of ACACAC. Now <span class="math"><em>P</em><sub>4</sub></span>, which is ACAC, <em>is</em> a suffix of ACACAC, and so we find that the longest prefix of <span class="math"><em>P</em></span> that is also a suffix of <span class="math"><em>P</em><sub>5</sub><em>C</em></span> is ACAC, with length 4. Hence, the transition from state 5 on input C is to state 4.</p>
+<p>So here is how we determine what state the transition from state <span class="math"><em>k</em></span> on input character <span class="math"><em>a</em></span> goes to:</p>
+<ol style="list-style-type: decimal">
+<li>Form the string <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span>.</li>
+<li>Set <span class="math"><em>i</em> = min(<em>k</em> + 1, <em>m</em>)</span>.</li>
+<li>While <span class="math"><em>P</em><sub><em>i</em></sub></span> is not a suffix of <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span>, decrement <span class="math"><em>i</em></span>.</li>
+<li>Use the value of <span class="math"><em>i</em></span> for which <span class="math"><em>P</em><sub><em>i</em></sub></span> <em>was</em> a suffix of <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span>.</li>
+</ol>
+<p>This algorithm shows how to fill in one entry of the table for the transition function, given a state <span class="math"><em>k</em></span> and a character <span class="math"><em>a</em></span>. To fill in the complete table, loop over all states <span class="math"><em>k</em></span> and all characters <span class="math"><em>a</em></span>, applying this algorithm each time.</p>
+<p>How long does it take to fill in this table? Let's say that the input alphabet has <span class="math"><em>q</em></span> characters (for DNA, <span class="math"><em>q</em> = 4</span>), so that the table for the transition function has <span class="math"><em>m</em> + 1</span> rows and <span class="math"><em>q</em></span> columns. We don't know in advance how many times the loop of step 3 will run, but we know that it makes at most <span class="math"><em>m</em> + 1</span> iterations. We also don't know how many characters of <span class="math"><em>P</em><sub><em>i</em></sub></span> and <span class="math"><em>P</em><sub><em>k</em></sub><em>a</em></span> need to be checked in the test in step 3, but it's at most <span class="math"><em>m</em></span>. The loop iterates at most <span class="math"><em>m</em> + 1</span> times, and each iteration checks at most <span class="math"><em>m</em></span> characters, and so it takes <span class="math"><em>O</em>(<em>m</em><sup>2</sup>)</span> to fill in <em>one</em> table entry. The table contains <span class="math"><em>q</em>(<em>m</em> + 1)</span> entries, and so the total time to fill it in is <span class="math"><em>O</em>(<em>m</em><sup>3</sup><em>q</em>)</span>.</p>
+<p><strong>Exercise:</strong> Generate the table for the transition function for the pattern ACACAGA.</p>
+<p>In practice, the time to fill in the table isn't too bad. I coded it up (in C++, which is faster than Python) on my MacBook Pro, and I gave it the pattern string &quot;a man, a plan, a canal, Panama&quot; with the first 128 ASCII characters as the alphabet. The table had 31 rows and 127 columns (there's one character that never occurs), and my program built it in approximately 1.35 milliseconds. With a shorter pattern, the program was of course faster: just 0.07 milliseconds to construct the table with the pattern &quot;panama&quot;.</p>
+<p>Nevertheless, some applications perform string matching frequently, and in these applications the <span class="math"><em>O</em>(<em>m</em><sup>3</sup><em>q</em>)</span> time to build the table could pose a problem. I won't go into the details, but there is a way to cut the time down to <span class="math"><em>O</em>(<em>m</em><em>q</em>)</span>. In fact, we can do even better. The &quot;KMP&quot; algorithm (developed by Knuth, Morris, and Pratt) uses a finite automaton but avoids creating and filling in the table altogether. Instead, it uses a list of just <span class="math"><em>m</em></span> state numbers that allows the finite automaton to emulate having the full table, and it takes just <span class="math"><em>O</em>(<em>m</em>)</span> time to fill in the <span class="math"><em>m</em></span>-item list. Again, it's a bit too complicated to go into, but I ran the KMP algorithm on my MacBook Pro, and for the pattern &quot;a man, a plan, a canal, panama&quot;, it took about one microsecond to construct the list. For the shorter pattern &quot;panama&quot;, it took about 600 nanoseconds (0.0000006 seconds). Not bad! Like the procedure we saw, the KMP algorithm takes <span class="math"><em>O</em>(<em>n</em>)</span> time to match the pattern against the text, once it has constructed the <span class="math"><em>m</em></span>-item list.</p>
+</body>
+</html>

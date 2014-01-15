@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-8">Short Assignment 8</h1>
+<p><a href="../../shortassign/binarysearch/sa_binarysearch.html">Short Assignment 8</a> is posted and due on Wednesday.</p>
+<h1 id="recursion">Recursion</h1>
+<p>In computing, <strong>recursion</strong> is defining and solving a problem in terms of <strong>smaller instances of the same problem</strong>.</p>
+<p>In lecture, I showed you how Manitoulin Island in Lake Huron provides a geographical example of recursion.</p>
+<h2 id="brief-example-sierpinsky-gasket">Brief example: Sierpinsky Gasket</h2>
+<p>A fractal known as a &quot;Sierpinsky Gasket&quot; provides another example:</p>
+<div class="figure">
+<img src="sierpinsky.png" /><p class="caption"></p>
+</div>
+<p>It works as follows. Divide up a square of pixels into four quadrants: upper left, upper right, lower left, and lower right. Then do the same thing in each of the upper left, upper right, and lower right quadrants, but not the lower left. Eventually, you get down to a quadrant that is just one pixel in size, and you draw it. You can see this &quot;self similarity&quot; property.</p>
+<h2 id="factorial">Factorial</h2>
+<p>For our first concrete example of recursion, we compute <em>n</em>!, pronounced &quot;<em>n</em> factorial.&quot; Here's one way to define it:</p>
+<ul>
+<li><em>n</em>! = 1, if <em>n</em> = 0, and</li>
+<li><em>n</em>! = <em>n</em> (<em>n</em>–1) (<em>n</em>–2) ⋯ 1, if <em>n</em> &gt; 0.</li>
+</ul>
+<p>And code to compute it, in <a href="fact_iterative.py">fact_iterative.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># fact_iterative.py</span><br /><span class="co"># Computes n! iteratively.</span><br /><br /><span class="kw">def</span> factorial(n):<br />    fact = <span class="dv">1</span><br />    i = <span class="dv">1</span><br />    <span class="kw">while</span> i &lt;= n:<br />        fact *= i<br />        i += <span class="dv">1</span><br />    <span class="kw">return</span> fact<br /><br /><span class="kw">print</span> factorial(<span class="dv">5</span>)</code></pre>
+<p>Note that the product (<em>n</em>–1) (<em>n</em>–2) ⋯ 1 equals (<em>n</em>–1)!. With this observation, we can recast the definition of <em>n</em>! as</p>
+<ul>
+<li><em>n</em>! = 1, if <em>n</em> = 0, and</li>
+<li><em>n</em>! = <em>n</em> ((<em>n</em>–1)!), if <em>n</em> &gt; 0.</li>
+</ul>
+<p>That is, if <em>n</em> &gt; 0, we can compute <em>n</em>! by first computing (<em>n</em>–1)! and then multiplying the result by <em>n</em>.</p>
+<p>We have defined <em>n</em>! in terms of a &quot;smaller&quot; factorial, namely (<em>n</em>–1)!.</p>
+<p>We call the first case (<em>n</em> = 0) the <strong>base case</strong>, and the second case (<em>n</em> &gt; 0), which uses the value of (<em>n</em>–1)!, is the <strong>recursive case</strong>.</p>
+<p>Let's put this observation into code in <a href="fact_recursive.py">fact_recursive.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># fact_recursive.py</span><br /><span class="co"># Computes n! recursively.</span><br /><br /><span class="kw">def</span> factorial(n):<br />    <span class="kw">if</span> n == <span class="dv">0</span>:<br />        <span class="kw">return</span> <span class="dv">1</span><br />    <span class="kw">else</span>:    <br />        <span class="kw">return</span> n * factorial(n - <span class="dv">1</span>)<br /><br /><span class="kw">print</span> factorial(<span class="dv">5</span>)</code></pre>
+<p>Note that when <em>n</em> is positive, the call <code>factorial(n)</code> ends up making the call <code>factorial(n - 1)</code>. In other words, the <code>factorial</code> function calls itself! We call such a function a <strong>recursive function</strong>.</p>
+<h2 id="how-recursion-works">How recursion works</h2>
+<p>Recursive definitions seem inherently circular. Many people have a hard time believing that they can work. The important two points are</p>
+<ol style="list-style-type: decimal">
+<li><p>The recursive case breaks the problem into one or more <em>smaller</em> problems of the same kind. It is very important that the new problems be smaller.</p></li>
+<li><p>The method defines one or more base cases, which are solved directly without using recursion. The recursive subdivision described in the first rule must always eventually end up in base cases.</p></li>
+</ol>
+<p>If these two rules are met, recursion works. You work on smaller and smaller problems until you get down to a base case. It may take you a little while to get comfortable with recursion, however. In the meantime, let's see what really happens in the computer. Thinking about what goes on inside the computer while trying to write complicated recursive functions is a good way to get a headache. Think in terms of the two rules above, and have faith that if you follow them that the program will work.</p>
+<h2 id="stack-frames-and-the-call-stack">Stack frames and the call stack</h2>
+<p>Before looking too closely at recursion, let's look at how function calls work. At any instant in time, the program counter points at some location in the code: the line number of the code that is being executed and where Python is in that line.</p>
+<p>When a function is called, the currently running function is suspended. The current value of the program counter is saved. The actual parameters are copied into the formal parameters of the called function. (I used my screechy voice in that last sentence.) Finally, the program counter is set to the first line of the called function.</p>
+<p>We can look at the &quot;lifetime&quot; of a function chronologically:</p>
+<ol style="list-style-type: decimal">
+<li>The function is called, and it starts running.</li>
+<li>Later, the function might call another function. If so, the function suspends while the other function executes.</li>
+<li>Eventually, the original function resumes execution when the function it called finishes.</li>
+<li>Finally, the function terminates when Python reaches a return statement or the end of the function body.</li>
+</ol>
+<p>As a function executes, space is created in memory for any local variables. <strong>If a second function is called from within the first function, the local variables of the first function are not destroyed, but are inaccessible to the second function.</strong> This makes sense, right? Local variables of the first function need to still exist after the second function finishes, and the first function is only suspended. Local variables of the first function will not be destroyed until the first function itself terminates.</p>
+<p>At any instant, just one function is actively running, but there may be many suspended functions, these being the functions that directly called the current function or the functions that indirectly called the current function, by a chain of function calls. For both the currently running function and any suspended functions, Python needs to store</p>
+<ol style="list-style-type: decimal">
+<li>where to return the program counter to after the function terminates, and</li>
+<li>the values of any parameters and other local variables.</li>
+</ol>
+<p>This information is stored internally by Python in a data structure called the <strong>call stack</strong> (short for <strong>function call stack</strong>). I'll often refer to it as just the <strong>stack</strong>. Let's look at an example, in <a href="call_stack.py">call_stack.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> functionA():<br />    <span class="kw">print</span> <span class="st">&quot;A called.  x =&quot;</span> <br />    x = <span class="dv">5</span><br />    functionC()<br />    <span class="kw">print</span> x<br /><br /><span class="kw">def</span> functionB():<br />    y = <span class="dv">10</span><br />    <span class="kw">print</span> <span class="st">&quot;B called.&quot;</span>    <br /><br /><span class="kw">def</span> functionC():<br />    x = <span class="dv">2</span><br />    k = <span class="dv">6</span><br />    <span class="kw">print</span> <span class="st">&quot;C called.  x =&quot;</span><br />    functionB()<br />    functionD()<br />    <span class="kw">print</span> x<br /><br /><span class="kw">def</span> functionD():<br />    z = <span class="dv">12</span><br />    <span class="kw">print</span> <span class="st">&quot;D called.&quot;</span><br /><br />functionA()</code></pre>
+<p>First, <code>functionA</code> is called. <code>functionA</code> has one local variable, <code>x</code>, which is assigned the value <code>5</code>. Then <code>functionA</code> calls <code>functionC</code>. When this happens, the current value of the program counter in <code>functionA</code> is saved, and then the program counter is set to the first line of <code>functionC</code>; <code>functionA</code> is <em>suspended</em>. Now <code>functionC</code> is executing. <code>functionC</code> has two local variables, <code>x</code> and <code>k</code>. <strong>Even though one of these local variables has the same name as a local variable in <code>functionA</code>, a new variable is created.</strong></p>
+<p>Let's look at a picture of the call stack at the point in time after <code>functionC</code> has been called and its local variables have been set, but before it calls <code>functionB</code>:</p>
+<div class="figure">
+<img src="callstack1.png" /><p class="caption"></p>
+</div>
+<p>Each box is called a <strong>stack frame</strong>. The bottom box has the information Python needs about the currently running function. All other boxes have the information Python needs about currently suspended functions.</p>
+<p>Each time a function is called, a new frame is &quot;pushed onto&quot; (added to) the stack. When a function terminates, that function's frame is &quot;popped off of&quot; (removed from) the stack.</p>
+<p>We call this arrangement a &quot;stack&quot; because it's like a stack of plates in a dining hall. When you add a plate to the stack, you add it to the top (that is, you &quot;push&quot; a plate onto the stack), and when you take a plate from the stack, you take it from the top (you &quot;pop&quot; a plate from the stack). So why do I draw the call stack with the &quot;top&quot;—the end where the newest stack frame goes—at the bottom? Because it's a lot more convenient for me to draw it that way; I don't know ahead of time how big the call stack might get.</p>
+<p>In the example, the suspended function <code>functionA</code> has a stack frame containing <code>functionA</code>'s local variable <code>x</code>. There is also a information in the stack frame that says where to return to when <code>functionA</code> is finished (in this case, back to the main program).</p>
+<p>The function that is running, <code>functionC</code>, has a stack frame containing local variables <code>x</code> and <code>k</code>, and their values. There is also information about where to return to when <code>functionC</code> is finished—in this case, back to <code>functionA</code>.</p>
+<p>The next thing that happens is that <code>functionC</code> calls <code>functionB</code>. When this happens, <code>functionC</code> temporarily suspends, and a new frame is created for <code>functionB</code>:</p>
+<div class="figure">
+<img src="callstack2.png" /><p class="caption"></p>
+</div>
+<p>Then <code>functionB</code> finishes. Its local variables are destroyed, and its frame is popped from the call stack, destroyed. <code>functionC</code> resumes execution:</p>
+<div class="figure">
+<img src="callstack1.png" /><p class="caption"></p>
+</div>
+<p>Then <code>functionC</code> calls <code>functionD</code>:</p>
+<div class="figure">
+<img src="callstack3.png" /><p class="caption"></p>
+</div>
+<p><code>functionD</code> terminates, its stack is popped, and <code>functionC</code> resumes:</p>
+<div class="figure">
+<img src="callstack1.png" /><p class="caption"></p>
+</div>
+<p>Then <code>functionC</code> terminates, and its frame is popped. Finally, <code>functionA</code> terminates, and its frame is popped, leaving the stack empty.</p>
+<p>It is very good practice to draw the stack frame as you work your way through any piece of code. <em>On an exam, I might ask you to draw the stack frame at various points of execution of a given piece of code.</em></p>
+<h3 id="viewing-the-call-stack-with-the-debugger">Viewing the call stack with the debugger</h3>
+<p>I also showed in class how to step through Python code using the debugging tool, watching the call stack, and checking local variables of various suspended and currently executing function using the upper two windows. The Eclipse Debug perspective is <em>extremely useful</em> for understanding how function calls work.</p>
+<p>The main difference between the call stack I drew and the call stack in the debugger is that the stacks are reversed; the Eclipse Debug perspective puts the currently running function toward the top of the screen.</p>
+<h2 id="the-call-stack-in-recursive-code">The call stack in recursive code</h2>
+<p>Now that we see hwo the call stack is organized, let's examine what happens when we call <code>factorial(3)</code>. After several recursive calls, we hit the base case, and the call stack looks like this:</p>
+<div class="figure">
+<img src="factorial_callstack.png" /><p class="caption"></p>
+</div>
+<p>I wrote in the return value of the call <code>factorial(0)</code>, 1, to the right of the stack frame. After <code>factorial(0)</code> terminates and its frame is popped, <code>factorial(1)</code> multiplies <code>n</code> by <code>1</code> and returns that value (1, since <code>n</code> = 1) to <code>factorial(2)</code>. Then <code>factorial(2)</code> mutliplies the value returned from <code>factorial(1)</code> by 2 and returns 2. You should walk through the code, crossing off stack frames as they are popped, and writing the value each function call returns next to its stack frame.</p>
+<h2 id="infinite-recursion">Infinite recursion</h2>
+<p>One mistake that you might make when programming recursive methods is to fail to ensure that you hit the base case. Suppose that you called <code>factorial(-1)</code>. It would call <code>factorial(-2)</code> which would call <code>factorial(-3)</code>, and so on until you got the error message <code>RuntimeError: maximum recursion depth exceeded</code>. We didn't make sure to hit the base case eventually.</p>
+<p>Another mistake is not making the subproblems smaller. It is true that <em>n</em>! = (<em>n</em>+1)!/(<em>n</em>+1). Try editing fact_recursive.py to change the line with the recursive call to</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">return</span> factorial(n + <span class="dv">1</span>) / (n<span class="dv">+1</span>)</code></pre>
+<p>The call <code>factorial(n)</code> makes the call <code>factorial(n + 1)</code>, which makes the call <code>factorial(n + 2)</code>, and so on. In either case, each call causes a new stack frame to be pushed, and eventually you run out of memory, resulting once again in the dreaded <code>RuntimeError: maximum recursion depth exceeded</code> message.</p>
+<h2 id="side-note-slicing-lists-and-strings">Side note: Slicing lists and strings</h2>
+<p>We're going to reverse a string recursively in the next section. Before we do that, here are a few Python tricks that are good to know for dealing with lists and strings. It's easy to get the last letter of a string, or the last item in a list, using an index of -1:</p>
+<pre class="sourceCode"><code class="sourceCode python">s = <span class="st">&quot;separate&quot;</span><br /><span class="kw">print</span> s[-<span class="dv">1</span>]  <span class="co"># prints &quot;e&quot;</span></code></pre>
+<p><strong>Negative indices count items from the end.</strong></p>
+<p>Here's another nifty trick that works on both lists and strings. If you want a substring of a string (or a sublist of a list), you can &quot;slice&quot; it by using a colon inside the square brackets:</p>
+<pre class="sourceCode"><code class="sourceCode python">s = <span class="st">&quot;separate&quot;</span><br /><span class="kw">print</span> s[<span class="dv">3</span>:<span class="dv">7</span>]  <span class="co"># prints &quot;arat&quot;</span><br /><span class="kw">print</span> s[<span class="dv">3</span>:-<span class="dv">1</span>] <span class="co"># also prints &quot;arat&quot;</span></code></pre>
+<p>You can get the end of a string even more easily by omitting the number after the colon:</p>
+<pre class="sourceCode"><code class="sourceCode python">s = <span class="st">&quot;separate&quot;</span><br /><span class="kw">print</span> s[<span class="dv">3</span>:]  <span class="co"># prints &quot;arate&quot;</span></code></pre>
+<p>Anoter side note: Since you cannot change the value of a string, you cannot use the slice operator to insert characters into a string. (You actually can insert values into a list this way, but we will not use that trick any time soon.)</p>
+<h2 id="reversing-a-string">Reversing a string</h2>
+<p>It is useful to be able to reverse the characters in a string, and recursion gives us an easy way to do so. (Iteration does also, but we're focusing on recursion here.) Let's define the <strong>tail</strong> of the string as all characters except for the first one. For example, in the string <code>ward</code>, the tail is <code>ard</code>.</p>
+<p>Then we can reverse a string as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Remove the first character of the string, and remember it.</li>
+<li>What's left is the tail. Recursively reverse the tail.</li>
+<li>Concatenate the remembered first character onto the end of the reversed tail.</li>
+</ol>
+<p>For example, when we reverse <code>ward</code>, we reverse the tail <code>ard</code>, getting <code>dra</code>. Concatenating the leading <code>w</code> to the end gives us <code>draw</code>.</p>
+<p>Because the tail is shorter than the original string, we are dealing with a smaller problem of the same type.</p>
+<p>What is the base case? A string with no characters is its own reverse, and we can return it without a recursive call. Our recursive function to reverse a string is in <a href="reverse_string.py">reverse_string.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># reverse_string.py</span><br /><span class="co"># Recursively reverses a string.</span><br /><br /><span class="kw">def</span> reverse(s):<br />    <span class="kw">if</span> s == <span class="st">&quot;&quot;</span>:<br />        <span class="kw">return</span> s    <span class="co"># an empty string is its own reverse</span><br />    <span class="kw">else</span>:<br />        <span class="co"># Recursively reverse the tail and concatenate the first character.</span><br />        <span class="kw">return</span> reverse(s[<span class="dv">1</span>:]) + s[<span class="dv">0</span>]<br /><br /><span class="kw">print</span> reverse(<span class="st">&quot;ward&quot;</span>)</code></pre>
+<p><strong>Recommended exercise</strong>: Draw the call stack and write down the output while tracing through the <code>reverse</code> function line-by-line.</p>
+<h2 id="fibonacci-numbers">Fibonacci numbers</h2>
+<p>The <em>n</em>th Fibonacci number, fib(<em>n</em>), is defined as follows:</p>
+<ul>
+<li>fib(1) = fib(2) = 1, and</li>
+<li>fib(<em>n</em>) = fib(<em>n</em>–1) + fib(<em>n</em>–2), if <em>n</em> &gt; 2.</li>
+</ul>
+<p>Here's a table with the first eight Fibonacci numbers:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><em>n</em></th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">fib(<em>n</em>)</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">5</td>
+<td align="center">8</td>
+<td align="center">13</td>
+<td align="center">21</td>
+</tr>
+</tbody>
+</table>
+<p>Expressed recursively:</p>
+<ul>
+<li><strong>Base cases</strong>: <em>n</em> = 1 and <em>n</em> = 2.</li>
+<li><strong>Recursive case</strong>: We know how to compute fib(<em>n</em>–1) and fib(<em>n</em>–2). Use them to compute fib(<em>n</em>).</li>
+</ul>
+<p><a href="fib_recursive.py">fib_recursive.py</a> recursively computes Fibonacci numbers:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># fib_recursive.py</span><br /><span class="co"># Recursively computes the nth Fibonacci number.</span><br /><br /><span class="kw">def</span> fib(n):    <br />    <span class="kw">if</span> n == <span class="dv">1</span> or n == <span class="dv">2</span>:<br />        <span class="kw">return</span> <span class="dv">1</span>    <span class="co"># base case</span><br />    <span class="kw">else</span>:    <br />        <span class="kw">return</span> fib(n - <span class="dv">1</span>) + fib(n - <span class="dv">2</span>)<br /><br /><span class="kw">print</span> fib(<span class="dv">7</span>)</code></pre>
+<p>This program uses two recursive calls. We need to keep track of exactly where each call was made. Are we returning to the first or to the second recursive call? Keeping track of where we are in the program is hard for people to do without making mistakes, but computers are quite good at it. They don't get distracted.</p>
+<p>A helpful way to visualize what happens in recursive programs is a <strong>recursion tree</strong>. A recursion tree has <strong>nodes</strong> connected by <strong>branches</strong>, or <strong>links</strong>. Here's a recursion tree for computing <code>fib(3)</code>:</p>
+<div class="figure">
+<img src="small-fib-rec-tree.png" /><p class="caption"></p>
+</div>
+<p>The way to interpret a recursion tree like this one is that we label each node with the value of <em>n</em> at a call, and each link denotes a call. In this case, the call for <em>n</em> = 3 ends up making two calls, one for <em>n</em> = 2 and one for <em>n</em> = 1.</p>
+<p>For our <code>fib</code> method, whenever the call is for a value <em>n</em> that is greater than 2, <code>fib</code> will make two recursive calls, one for <em>n</em>–1 and one for <em>n</em>–2.</p>
+<p>For <em>n</em> =6, for example, we get the following recursion tree:</p>
+<div class="figure">
+<img src="big-fib-rec-tree.png" /><p class="caption"></p>
+</div>
+<p>In computer science, we draw trees with the <strong>root</strong> at the top; for this tree, the root is labeled 6. The nodes on the bottom are <strong>leaf nodes</strong>, or <strong>leaves</strong>, because if we drew the tree with the root at the bottom, they would look like leaves of the tree.</p>
+<p>Notice that we repeat a lot of work. For example, to compute <code>fib(6)</code>, we call both <code>fib(5)</code> and <code>fib(4)</code>. But we also call <code>fib(4)</code> in computing <code>fib(5)</code>. Each call to <code>fib(4)</code> will return the same result. Yet we end up making separate calls to <code>fib(4)</code>, repeating the work each time.</p>
+<p>Notice also that there are 8 leaf nodes. Each leaf node corresponds to a call that is a base case. Each base case returns 1, thereby contributing 1 to the eventual result. So it should be no surprise that there are 8 leaf nodes, when the call <code>fib(6)</code> returns 8.</p>
+<p>If fib(<em>n</em>) equals <em>x</em>, then this recursive program ends up in the base case <em>x</em> separate times. In other words, it sums up the value 1 a total of <em>x</em> times. The problem is that the value of fib(<em>n</em>) is exponential in <em>n</em>. (In particular, it is <span class="math">$((1 + \sqrt 5 ) / 2)^n / \sqrt 5$</span>, rounded to the nearest integer.) So, the number of times we get down to a base case is exponential in <em>n</em>, meaning that it gets very large very quickly.</p>
+<p>This recursive Fibonacci program is easy to write, but there are far more efficient ways to compute Fibonacci numbers. (In fact, I just told you one: compute the value of a particular expression and round it.)</p>
+<h2 id="graphics-and-recursion">Graphics and recursion</h2>
+<p>If we want to draw something that is similar to itself, recursion can be a good way to go about it. A branch of a tree looks a bit like a little tree, for example, and a piece of a snowflake may itself look like a little snowflake.</p>
+<p>Here are a few fun examples. Here's the code that draws the Sierpinsky Gasket from before, in <a href="sierpinsky.py">sierpinsky.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># sierpinsky.py</span><br /><span class="co"># Draws a Sierpinksy Gasket.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br /><span class="co"># Draw a Sierpinsky Gasket of width and height d,</span><br /><span class="co"># with upper left at (x, y).</span><br /><span class="kw">def</span> draw_sierpinsky(x, y, d):<br />    <span class="kw">if</span> d &lt;= <span class="dv">1</span>:<br />        draw_point(x, y)<br />    <span class="kw">else</span>:<br />        draw_sierpinsky(x + d/<span class="dv">2</span>, y, d/<span class="dv">2</span>)<br />        draw_sierpinsky(x + d/<span class="dv">2</span>, y + d/<span class="dv">2</span>, d/<span class="dv">2</span>)    <br />        draw_sierpinsky(x, y, d/<span class="dv">2</span>)<br /><br /><span class="kw">def</span> main():<br />    set_clear_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)<br />    clear()<br />    set_stroke_color(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)<br /><br />    draw_sierpinsky(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">400</span>)<br /><br />start_graphics(main)</code></pre>
+<p>The second is a wheel-like object drawn with circles and lines, in <a href="wheel.py">wheel.py</a>. Wheels within wheels, and animated to boot!</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># wheel.py</span><br /><span class="co"># cs1 class example</span><br /><span class="co">#  based on a cs2 example by Fabio Pellacini</span><br /><span class="co">#  python version October, 2011, Devin Balkcom</span><br /><span class="co">#  Animation by THC.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="ch">from</span> math <span class="ch">import</span> pi, sin, cos<br /><br />OUTER_RADIUS = .<span class="dv">37</span>  <span class="co"># the relative radius of circles around the outer rim of the wheel</span><br />                    <span class="co"># a scaling of .37 causes the circles to just barely touch</span><br /><br />OUTER_DISTANCE = <span class="dv">1</span> - OUTER_RADIUS<br /><br />FRAME_RATE = <span class="dv">30</span><br />TIMESTEP = <span class="fl">1.0</span> / FRAME_RATE<br /><br />WINDOW_WIDTH = <span class="dv">400</span><br />WINDOW_HEIGHT = <span class="dv">400</span><br /><br /><span class="kw">def</span> radians(degrees):<br />    <span class="kw">return</span> degrees * pi / <span class="fl">180.0</span><br /><br /><span class="co"># Compute the x coordinate of a location that is</span><br /><span class="co">#  a distance 'distance' from a point cx, cy, with angle</span><br /><span class="co">#  'angle' from the horizontal</span><br /><br /><span class="kw">def</span> compute_polar_x(cx, angle, distance):<br />    <span class="kw">return</span> cx + cos(radians(angle)) * distance<br /><br /><span class="kw">def</span> compute_polar_y(cy, angle, distance):<br />    <span class="kw">return</span> cy + sin(radians(angle)) * distance    <br /><br /><span class="co"># Recursively draw the wheels.</span><br /><span class="kw">def</span> draw_wheel(x, y, r, angle):<br />    <span class="co"># Draw this wheel.</span><br />    set_fill_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, .<span class="dv">2</span>)<br />    draw_circle(x, y, r)<br />    set_fill_color(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, .<span class="dv">2</span>)<br />    draw_circle(x, y, r * (OUTER_DISTANCE - OUTER_RADIUS)) <br /><br />    <span class="co"># If this wheel is small enough, we're done.</span><br />    <span class="kw">if</span> r &lt; <span class="dv">20</span>:<br />        <span class="kw">return</span><br /><br />    <span class="co"># Not too small.  Draw the five outer wheels</span><br />    <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">5</span>):<br />        new_x = compute_polar_x(x, angle, r * OUTER_DISTANCE)<br />        new_y = compute_polar_y(y, angle, r * OUTER_DISTANCE)<br /><br />        angle += <span class="dv">72</span><br /><br />        draw_wheel(new_x, new_y, r * OUTER_RADIUS, angle)<br />        draw_line(x, y, new_x, new_y)  <span class="co"># draw the spokes connecting to the outer wheels</span><br /><br /><span class="kw">def</span> main():<br />    enable_smoothing()<br /><br />    set_clear_color(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)<br />    clear()<br /><br />    starting_angle = <span class="dv">0</span><br /><br />    <span class="kw">while</span> not window_closed():<br />        clear()<br />        draw_wheel(WINDOW_WIDTH / <span class="dv">2</span>, WINDOW_WIDTH / <span class="dv">2</span>, <br />                   WINDOW_HEIGHT / <span class="dv">2</span>, starting_angle)<br />        starting_angle += <span class="dv">1</span><br />        request_redraw()<br />        sleep(TIMESTEP)<br /><br />start_graphics(main, <span class="st">&quot;The Wheel&quot;</span>, WINDOW_WIDTH, WINDOW_HEIGHT)</code></pre>
+</body>
+</html>

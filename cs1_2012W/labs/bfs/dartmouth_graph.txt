@@ -1,0 +1,58 @@
+Green Southwest; Green South, Green West, Green Center; 510, 798
+Green Southeast; Green South, Green East, New Hamp, Green Center; 647, 793
+Green Center; Green East, Green West, Green Southeast, Green Southwest, Green Northeast, Green Northwest; 576, 711
+Green Northeast; Rauner, Green North, Green East, Wentworth, Green Center; 636, 619
+Green Northwest; Sanborn, Green North, Green West, Green Center; 503, 622
+Green West; Green Center, Green Northwest, Green Southwest; 503, 710
+Green East; Green Center, Green Southeast, Green Northeast; 641, 707
+Observatory Rd; Gym, New Hamp; 809, 751
+XH; Gym, East Wheelock; 932, 705
+Gym; XH, Observatory Rd, Fayerweather; 873, 725
+New Hamp; Observatory Rd, Green Southeast; 739, 773
+Green North; Green Northeast, Green Northwest; 570, 618
+Green South; Green Southeast, Green Southwest; 580, 798
+Fayerweather; Gym; 844, 644
+East Wheelock; XH, Brace; 993, 687
+Brace; East Wheelock; 958, 623
+Blunt; Butterfield, Baker West; 423, 508
+Baker West; Sanborn, Blunt, Carson; 496, 504
+Sanborn; Baker West, Green Northwest; 498, 560
+Butterfield; Blunt, Gold Coast; 359, 509
+Gold Coast; Tuck Dr, Butterfield; 295, 507
+Tuck Dr; Gold Coast, Buchanan; 240, 509
+Buchanan; Tuck Dr, Thayer, Tuck, Murdough; 178, 509
+Tuck; Murdough, Buchanan; 116, 487
+Thayer; Murdough, Cummings, Buchanan; 127, 548
+Murdough; Tuck, Thayer, Cummings, Buchanan; 84, 523
+Cummings; Thayer, Murdough; 86, 589
+Carson; Rocky, Kemeny, Baker West; 495, 413
+Rocky; FDA, Carson; 421, 389
+FDA; BonesGate, Rocky; 365, 374
+BonesGate; FDA, KDE; 314, 358
+KDE; BonesGate, AXA; 262, 337
+AXA; KDE; 205, 321
+Kemeny; Choate, Carson; 499, 333
+Rauner; Green Northeast, Wheeler, Richardson; 637, 556
+Wheeler; Steele, Rauner, Wilder; 646, 485
+Wilder; Richardson, Steele, Wheeler; 730, 477
+Steele; Wheeler, Wilder, Fairchild; 681, 434
+Richardson; Wilder, Wentworth, Rauner; 725, 533
+Wentworth; Richardson, Green Northeast; 727, 606
+Fairchild; Burke, Steele; 729, 381
+Burke; Sudikoff, Bildner, Fairchild; 775, 327
+Sudikoff; Raven, Burke; 736, 288
+Raven; Sudikoff, Moore; 696, 251
+Choate; LALACS, Kemeny; 532, 270
+LALACS; Sherman, Choate; 569, 221
+Sherman; LALACS, Moore, Rope Ferry; 598, 180
+Moore; Sherman, Raven; 644, 213
+Rope Ferry; Dicks House, Sherman; 625, 129
+Dicks House; 11 Rope Ferry, Rope Ferry; 657, 81
+11 Rope Ferry; Dicks House; 686, 46
+Bildner; Gilman, Burke; 819, 280
+Gilman; Dana, Bildner; 858, 233
+Dana; Gilman, Traffic Light, LSC West, LSC East; 901, 206
+Traffic Light; LSC East, Dana, LSC West; 975, 183
+LSC North; LSC East, LSC West; 936, 71
+LSC West; LSC North, Traffic Light, Dana; 924, 121
+LSC East; LSC North, Traffic Light, Dana; 960, 115

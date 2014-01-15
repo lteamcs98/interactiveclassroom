@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-1-printing-to-the-screen-due-friday-september-14">Short assignment #1: Printing to the screen <br />Due: Friday, September 14</h1>
+<p>This short assignment is a bit wordier than will be typical. It also has a lot of technical detail about installing the Eclipse software and using it. It is to get you started off. Future assignments will be more creative and will require less following of picky instructions.</p>
+<h2 id="things-to-do-to-get-started">Things to do to get started</h2>
+<ol style="list-style-type: decimal">
+<li><p>Familiarize yourself with the layout of the CS 1 web site. All materials for the course, other than the textbook, will reside on the website, <a
+href="http://www.cs.dartmouth.edu/~cs1/">www.cs.dartmouth.edu/~cs1</a>. If you are using one of the Macs in 003 Sudikoff, skip to item 4.</p></li>
+<li><p>Install Eclipse and the course software on your computer:</p>
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/mac_installation/mac_installation.html">Instructions for Mac OS X</a></li>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/windows_installation/windows_installation.html">Instructions for Windows</a></li>
+</ul>
+<p>The amount of disk space you will need to do this will vary according to your system, but shouldn't exceed 0.5 gigabytes.</p>
+<p>Pay careful attention to the instructions. <em>Follow them exactly. Do not skip steps.</em> From here on, we'll assume that you have installed Eclipse and the course software correctly. If you have, then you will have already created a project in Eclipse and run a couple of programs.</p></li>
+<li><p>If Eclipse is not already running, launch it.</p></li>
+<li><p>Under the <em>File</em> menu, select <em>New</em>, then <em>PyDev Project</em>. Since you already created a project when installing and checking your software, you've done this before. You may enter whatever project name you like. I used <em>SA1</em>, and after I entered the project name, my Eclipse window looked like this:</p>
+<div class="figure">
+<img src="proj.png" /><p class="caption"></p>
+</div>
+<p>I'm using a Mac. If you're using Windows, it will be similar, but Windows-like and with plus-signs instead of triangles in the <em>PyDev Package Explorer</em> tab.</p></li>
+<li><p>Remember how you were supposed to keep the file <em>cs1lib.py</em> that you downloaded nice and accessible? Find it, and drag it onto the name of your project in the <em>PyDev Package Explorer</em> tab. You'll see this:</p>
+<div class="figure">
+<img src="cs1lib.png" /><p class="caption"></p>
+</div></li>
+<li><p>The code that you'll first run is mystery.py. Download this <a href="mystery.py">link</a> onto your hard drive. How you do so depends on whether you're running Mac OS X or Windows:</p>
+<ul>
+<li>On Mac OS X, hold the option key while clicking the link, which should save the file to your <em>Downloads</em> folder.</li>
+<li>On Windows running Internet Explorer or Firefox, right-click the link and choose <em>Save Target As...</em>.</li>
+</ul>
+<p>Don't save this file into the workspace folder that you made, however. Just save it someplace innocuous, such as your Desktop, or leave it in your <em>Downloads</em> folder.</p>
+<p>Drag the mystery.py file from wherever you saved it onto the name of your project in the <em>PyDev Package Explorer</em> tab. You'll see this:</p>
+<div class="figure">
+<img src="mystery.png" /><p class="caption"></p>
+</div></li>
+<li><p>Single-click on <em>mystery.py</em> in the <em>PyDev Package Explorer</em> tab. Then under the <em>Run</em> menu, select <em>Run As</em>, then <em>1 Python Run</em>. If you're on a Mac, don't worry about the red text you get in the <em>Console</em> tab.</p>
+<p>An easy alternative to <em>Run</em>, then <em>Run As</em>, then <em>1 Python Run</em> is to click on the green circle with the white triangle:</p>
+<div class="figure">
+<img src="run-arrow.png" /><p class="caption"></p>
+</div></li>
+<li><p>Write down what you see.</p></li>
+<li><p>Double click on the <em>mystery.py</em> name under <em>src</em>. You should see a listing of the mystery.py program in the center of the window with <em>mystery.py</em> as a tab above it. When you open a number of different files, each will have its own tab, so you can quickly select any of them. You may edit and save this listing, though you don't need to for this program. This panel is where you will enter and debug your programs. It should look like this:</p>
+<div class="figure">
+<img src="mystery-code.png" /><p class="caption"></p>
+</div></li>
+<li><p>Next, remove mystery.py from the project. To do so, select it again by clicking on <em>mystery.py</em> in the <em>PyDev Package Explorer</em> tab, go to the <em>Edit</em> menu, and select <em>Delete</em>. When you are asked, <em>Are you sure you want to delete 'mystery.py' from the file system?</em>, click <em>OK</em>.</p></li>
+<li><p>Now you will type in a new program that you will write. This program prints your name with a simple text-based logo.</p>
+<p>First, click on <em>SA1</em> (or your project name) in the <em>PyDev Package Explorer</em> tab. Then go to the <em>File</em> menu, choose <em>New</em>, and then choose <em>File</em>. You need to select a parent folder. Because you have already selected <em>SA1</em> (or whatever you named your project), you will see that <em>SA1</em> (replace <em>SA1</em> with your project name) has already been chosen as a parent folder; that's just what you want.</p>
+<p>You then need to type in the name of your new file next to where it says, <em>File name:</em>. Let's assume that you choose <em>logo.py</em> as the file name. The <em>.py</em> is essential, because the file extension has to be the same as the type of code inside it:</p>
+<div class="figure">
+<img src="filename.png" /><p class="caption"></p>
+</div>
+<p>Click <em>Finish</em>.</p>
+<p>The middle of the window will be a tab labeled with the name of your program (<em>logo.py</em> in our example, or it might say just <em>logo</em>). Type in the logo program, with a logo of your choosing. (See the explanation below under Exercises.) You can model it after the class examples. Note that Eclipse automatically indents your program as you type it, and does things like putting closing braces and parentheses when you type the opening ones. Also, if a line has an error in it, a red error mark will appear in the left margin in front of it.</p>
+<p>Type in your program.</p>
+<p>Run your program by highlighting the file name in the <em>PyDev Package Explorer</em> tab and clicking the green play arrow, as you did with mystery.py. If Eclipse asks you to <em>Select the resources to save</em>, just click <em>OK</em>. Either your program will run correctly (writing to the <em>Console</em> panel) or Eclipse will describe the errors in the program in the <em>Problems</em> panel.</p>
+<p>Your program may not run correctly the first time. If that's the case, then you have had an early initiation into the world of programming. Errors are common in programming. We all make them. Even me. Fixing mistakes is a significant part of developing programs. If you have an error, check the syntax of your program carefully. Are the tabs, parentheses, colons, and quotation marks correctly placed? Did you misspell something?</p>
+<p>If you need help, you can contact a section leader, Weifu, or me to get help. Remember that if you email cs1help at cs dot dartmouth dot edu, the first available person will respond. If you ask for help by email, please remember to enclose a copy of your program: without it, we cannot tell you what's wrong with it. Remember that when you email a program it must be an attachment. Please do not copy and paste your program into the message; we will have a hard time running it if you copy and paste, but it's easy for us to run it if you make it an enclosure. Your program is found in the <em>SA1</em> folder within the folder that you selected as your workspace. (For example, on my Mac, it's in /Users/thc/Documents/workspace/cs1SA.)</p></li>
+<li><p>When your program execution completes, you'll be left with the <em>Console</em> panel containing the output of your program. We want to see the output of your program. Take a screenshot.</p>
+<ul>
+<li><strong>Mac screenshot instructions</strong>: You can take a shot of just the window you want by using the Grab utility; save the screenshot as logo_output.tiff.</li>
+<li><strong>Windows screenshot instructions</strong>: Press the PrntScrn button on your keyboard, open the Microsoft Paint utility, and save the screenshot as logo_output.bmp.</li>
+</ul></li>
+</ol>
+<h2 id="exercises">Exercises:</h2>
+<p>(These are the &quot;official&quot; things to do and turn in Monday.)</p>
+<ol style="list-style-type: decimal">
+<li><p>Run the Python program mystery.py, and write a short text file describing what you observe, using Notepad (Windows) or TextEdit (Mac). Save your text file as observation.txt.</p></li>
+<li><p>Write a Python program that prints out a logo containing your name. I chose the following:</p></li>
+</ol>
+<pre><code>       ***
+       *  *
+       *   *
+       *    *
+       *  *******     Devin
+       *    **            J.
+       *   * *      Balkcom
+       *  *  *
+       ***   ****
+         *   *   *
+          ****    *
+             *   *
+             ****
+             *   *
+             *    *
+             *   *
+             ****
+</code></pre>
+<blockquote>
+<p>Please feel free to create your own design. (As I often say, &quot;I don't know what I like, but I know art.&quot;) The program should be very simple, essentially consisting of just a few print statements. In this example, the third statement might be</p>
+</blockquote>
+<pre><code>print &quot; *  *  *&quot;
+</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Take a screenshot of the Eclipse window (or the entire screen) showing the console window after running your logo.py. Save the result as either logo_output.tiff (Mac) or logo_output.bmp (Windows).</li>
+</ol>
+<h2 id="what-to-turn-in">What to turn in</h2>
+<p>There are three things you need to turn in:</p>
+<ol style="list-style-type: decimal">
+<li><p>observation.txt (your description of the result of running mystery.py)</p></li>
+<li><p>logo.py (or whatever you called the program you wrote to display your logo.)</p></li>
+<li><p>logo_output.tiff or logo_output.bmp.</p></li>
+</ol>
+<p>Please remember in all assignments that editing the output of the program before printing it is a violation of the Academic Honor Principle. Make sure that the output you turn in comes from the very same program that you turn in. <em>If you make any change to the code, no matter how insignificant you think they might be, rerun your program to produce new output!</em></p>
+<h2 id="how-to-turn-in-your-assignment">How to turn in your assignment</h2>
+<p>You have a section leader. You will be able to find out which section you're in on the course <a href="https://blackboard.dartmouth.edu/">Blackboard site</a> starting some time Thursday afternoon or evening. Click on the <em>Recitation sections</em> link.</p>
+<p>Your section leader has a special email account, which we have set up just for CS 1:</p>
+<p>cs1-xxx@cs.dartmouth.edu</p>
+<p>where xxx is replaced with your section leader's first name. For example, if your section leader is Bertha, then your section leader's special email account is cs1-bertha@cs.dartmouth.edu.</p>
+<p>Send your section leader an email to his or her special account with the title &quot;Short assignment 1 submission.&quot; Attach the three files that you need to turn in. Make sure to send the files as attachments.</p>
+<p>You are done. Whew! Future short assignments will have far fewer picky details. This one was really detailed because it's your first time using Eclipse and your first time running and writing a Python program.</p>
+<h2 id="an-important-reminder">An important reminder</h2>
+<p>Keep up to date. Do your studying for each class—not just once a week. Do lots of simple exercises on your computer. Even when you think you understand how to do something, you will discover that it is still important to actually do it with your own fingers, on your own computer. Unlike mixed martial arts, programming is not a spectator sport.</p>
+</body>
+</html>

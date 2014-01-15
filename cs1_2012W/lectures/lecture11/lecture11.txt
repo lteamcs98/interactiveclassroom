@@ -1,0 +1,1163 @@
+# Lab Assignment 2
+
+[Lab Assignment 2](../../labs/gravity/lab_gravity.html) is now posted,
+and it's due next Monday, February 6.
+
+# Short Assignment 7
+
+[Short Assignment 7](../../shortassign/timer/sa_timer.html) is posted
+and due on Wednesday.
+
+# Object-oriented program design
+
+In the previous lecture, we saw that a class can be used to define our
+own new data type.  We can then create an object of that new class
+using the **constructor**.  We can call **methods** (functions) on the
+object to change or make use of the instance variables stored in the
+object.
+
+This technique of creating special-purpose data types turns out to be
+a very useful way to organize and design code.  Today, in front of
+your very eyes, I wrote a program to simulate the mathematical "Game
+of Life" invented by John Conway.
+
+You should follow four steps when you design and write any software:
+
+1. **Understand** the problem you are trying to solve.
+
+2. **Design** your program at a high level.  How will you represent
+the data in the problem?  What functions or methods will you use to
+modify or update the data over time?  What are the inputs and outputs
+of those functions?  How will you display the data?  How will your
+program interact with the user?
+
+3. **Implement** the program in code.  Your code should always work;
+test as you go.  Write only a little code before testing.  Write a
+little more code, then test.  A little more code, then test.  And so
+on.
+
+    The code you write to test other code is called a **driver** or a
+    **test harness**.  Sometimes your driver will evolve into code
+    that you'll actually use, but much of the time it will not.  Most
+    drivers exist *only* to exercise other code.
+
+4. **Test** some more.  In particular, once you have your entire
+program built, exercise it as best you can.  Even if each individual
+piece of code works properly, that doesn't guarantee that the pieces
+interact in the way that you want them to.
+
+As with many science and engineering problems, you will probably learn
+as you go, and these steps may not be strictly in order.
+
+## The game of life
+
+A quick internet search will turn up all sorts of detailed
+descriptions of how "Life" works.  (In fact, here's a link to a
+picture of a fellow with a [Life
+tattoo](http://catb.org/hacker-emblem/Alberto_glider.jpg).)  Here are
+the simplified rules.
+
+The game simulates a bunch of (biological) cells that live in a
+colony.  The colony is a two-dimensional grid; each cell is a square
+in the grid.  Each cell is either alive or dead.  Living cells are
+blue, and dead cells are yellow.
+
+Time moves in steps, called generations.  In each new generation,
+cells might be born, others survive, and some might die.
+
+A cell has eight neighbors.  The number of living neighbors that a
+cell has in one generation determines its fate in the next generation:
+
+* If the cell is alive and has 0 or 1 living neighbors, it dies of
+exposure and is dead in the next generation.
+
+* If the cell is alive and has 4 or more living neighbors, it dies of
+overcrowding and is dead in the next generation.
+
+* If the cell is dead and has exactly 3 living neighbors, it is born
+and is alive in the next generation.  (Yes, it takes 3 living cells to
+create a new living cell.  Them cells must have some wild parties.)
+
+* Otherwise, the cell stays the same in the next generation as it is
+in the current generation:
+
+    * If it's dead and has anything but 3 living neighbors, it stays
+      dead.
+    * If it's alive and has 2 or 3 living neighbors, it stays alive.
+
+Note that the colony wraps around both horizontally and vertically.
+The row "above" the top row is the bottom row, and the row "below" the
+bottom row is the top row.  The column "to the left" of the leftmost
+column is the rightmost column, and the column "to the right" of the
+rightmost column is the leftmost column.  (In topology, a
+configuration like this is called a *torus*.  A torus is a donut
+shape.  An *un*filled donut, that is, so that it has a hole in the
+middle.)
+
+To make sure I understood the problem, I worked out a few examples
+using graph paper.  One thing that I originally found confusing was
+the idea of generations.  When a new cell is born, is that used in the
+count to create other cells?  No, not until the next generation.  To
+compute the living cells in generation 18, we consider only the cells
+from generation 17.
+
+## State of the game
+
+A very useful idea for many programming problems is the idea of
+**state**.  We've discussed state before: for example, the state of a
+ball (its position, velocity, and acceleration).  State is the
+information required to exactly reproduce a situation.  Here is an
+example.  You and I are playing an intense game of chess.  Between
+turns, the board gets knocked over.  What information do we need to
+have to reproduce the game exactly, so that we can keep playing?
+That's the state.
+
+In general, the **state of a game** is the information we would need
+to resume the game if it were interrupted between turns.  Of course,
+what we mean by a "turn" depends on the particular game.  For chess,
+we know that the players take turns.  In baseball, each "turn" is an
+individual pitch.  In Monopoly, each "turn" is a roll of the dice.
+
+In the Game of Life, which I'll call just "Life" from now on, the
+state of the game is which cells are alive and which are dead.  Of
+course, since every cell is either alive or dead, but not both,
+knowing just the living cells would suffice, as would knowing just the
+dead cells.
+
+## `Cell` class
+
+Recall that classes give us a way to create new data types to
+represent things that we'd like to represent.  A class tells us what
+each object from that class is going to look like: what instance
+variables it has and what methods we can run on it.  Recall the
+analogy: a class is like a blueprint, and an object is like a house
+that is built based on the blueprint.
+
+I would like to represent cells in Life.  I'm going to have a lot of
+cells, so I'll create a class for a cell, and then I can make as many
+instances of objects from this class as I wish.  What information will
+a `Cell` object need to maintain, and what operations will I want to
+perform on a `Cell` object.  Put another way, what instance variables
+will a `Cell` have, and what methods will I define in the `Cell`
+class?
+
+What does a `Cell` object need to know about itself?  Clearly, it
+needs to know whether it's living.  Since a cell is either living or
+dead, but not both, this sounds like we should define a boolean
+instance variable.  Let's make one called `am_living`.
+
+Maybe a `Cell` object will need to know more about itself.  Let's
+think about the methods that we'll want in the `Cell` class, and then
+we might come up with more instance variables necessary to support
+those methods.  We will want methods to do the following:
+
+* Initialize a `Cell` object's instance variables: `__init__`.
+* Make a `Cell` object be dead: `kill`.
+* Make a `Cell` object be alive: `revive`.
+* Return a boolean saying whether the `Cell` object is alive or dead:
+  `is_living`.
+* Make a `Cell` object be dead if it's alive, and alive if it's dead:
+  `flip`.
+* Draw a `Cell` object: `draw`.
+
+The first four methods seem pretty obvious.  Why a `flip` method?
+Because when we're setting up the colony initially, I'd like to be
+able to flip the living/dead state of each cell when I click on it.
+Why a `draw` method?  Although I could have some other piece of code
+draw the cell once it's told whether the cell is alive or dead, it
+seems cleaner to me to have each cell know how to draw itself.
+
+In order for a cell to draw itself, however, it needs to know *where*
+in the window to draw itself.  So, each `Cell` object will need to
+know where in the colony it is.  I need instance variables for that.
+So I'll add two more instance variables:` x` and `y`, indicating the
+coordinates of the upper left corner of the cell.  But that's not
+quite enough to draw each cell.  I also need to know how big each cell
+is, in pixels.  That number is the *same for all cells*, however, and
+so perhaps it should not be an instance variable.  After all, why
+replicate the exact same information in *every* `Cell` object?  So
+I'll just make a constant, `CELL_SIZE`, holding this number.
+
+The original version of these notes contained the following:
+
+> Eventually, I will post my first cut at a `Cell` class.  I'm not
+> posting it before the lecture because I want *you* to help me write
+> it, and no peeking at the answer!
+
+Now that we've written the `Cell` class together, here's what we
+wrote, in [cell.py](cell.py):
+
+~~~{.python}
+# cell.py
+# Class for a cell in the Game of Life.
+
+from cs1lib import *
+
+CELL_SIZE = 20      # width and height of each cell, in pixels
+
+class Cell:
+    # Initialize a new Cell.
+    def __init__(self, row, column):
+        self.am_living = False
+        self.x = column * CELL_SIZE
+        self.y = row * CELL_SIZE
+        
+    # Kill this Cell.
+    def kill(self):
+        self.am_living = False
+        
+    # Make this Cell be alive.
+    def revive(self):
+        self.am_living = True
+        
+    # If this Cell is alive, make it dead.
+    # If it's dead, make it alive.
+    def flip(self):
+        self.am_living = not self.am_living
+        
+    # Return whether this Cell is alive.
+    def is_living(self):
+        return self.am_living
+    
+    # Have a Cell draw itself.
+    def draw(self):
+        enable_stroke()
+        if self.am_living:
+            set_fill_color(0, 0, 1)     # living cells are blue
+        else:
+            set_fill_color(1, 1, 0)     # dead cells are yellow
+            
+        set_stroke_color(0, 0, 0)       # black border for all cells
+        
+        draw_rectangle(self.x, self.y,
+                       CELL_SIZE, CELL_SIZE)
+~~~
+
+## Testing the `Cell` class
+
+Once I've got a first cut at the `Cell` class, I want to test it.
+*Notice that I'm testing the `Cell` class before I write any other
+classes, especially classes that use the `Cell` class.* I want to be
+highly confident that my `Cell` class works properly.
+
+Therefore, I will write a driver that calls the methods of the `Cell`
+class and tells me whether they work.  It doesn't have to be
+fancy&mdash;just some calls that tell me that the `Cell` methods work
+the way I expect them to.  Here's my [cell_driver.py](cell_driver.py)
+code:
+
+~~~{.python}
+from cs1lib import *
+from cell1 import *
+
+def main():
+    c1 = Cell(0, 0)
+    c1.draw()
+    request_redraw()
+    print "c1 is living = ", c1.is_living()
+    sleep(1)
+    c1.flip()
+    c1.draw()
+    request_redraw()
+    print "c1 is living = ", c1.is_living()
+    sleep(1)
+    c1.flip()
+    c1.draw()
+    request_redraw()
+    print "c1 is living = ", c1.is_living()
+    sleep(1)
+    c2 = Cell(1, 1)
+    c2.draw()
+    request_redraw()
+    print "c2 is living = ", c2.is_living()
+    sleep(1)
+    c2.revive()
+    c2.draw()
+    request_redraw()
+    print "c2 is living = ", c2.is_living()
+    sleep(1)
+    c2.kill()
+    c2.draw()
+    request_redraw()
+    print "c2 is living = ", c2.is_living()
+    sleep(1)
+
+start_graphics(main)
+~~~
+
+Like most driver programs, it is not interesting on its own.  But it
+creates a couple of `Cell` objects, at different locations such that I
+can tell whether they are placed correctly when drawn.  It calls all
+six `Cell` methods in such a way that I can tell whether they behave
+as expected.  And that's all I need from the driver.
+
+## `Colony` class
+
+Now that I've got a `Cell` class that seems good, I'll make a class
+for the entire colony of cells.
+
+You might ask a legitimate question here:
+
+> We know that I'll be making lots of cells, and so there's clear
+> justification for a `Cell` class.  But we'll have just one colony,
+> so why bother with a `Colony` class?  Why not just have functions
+> that deal directly with `Cell` objects?
+
+Indeed, I could.  But I think of the entire colony as an object on
+which I'll be performing operations.  After all, *you* are a colony of
+cells, but you're also a "thing."
+
+When we looked at the `Cell` class, it was obvious from the start that
+each `Cell` object would need to know whether it was alive.  But it
+was only once we thought about the `draw` method that we realized that
+a `Cell` object would also need to know where it was.  For the
+`Colony` class, let's think about the methods first, and then we can
+think about the instance variables that we'll need to support the
+methods.
+
+Here are the methods I think I'll need for the `Colony` class:
+
+* Initialize a `Colony` object's instance variables: `__init__`.
+* Draw the entire colony: `draw`.
+* Before simulating generations, I need to flip the live/dead state of
+  pixels that I click on.  I won't make the `Colony` class deal with
+  mouse clicks per se (we'll see later how I do that), but I need a
+  method in the `Colony` class that, given a pixel location within the
+  window, flips the live/dead state of the cell at that location:
+  `flip_cell`.
+* And, of course, a method that computes the next generation of the
+  colony: `compute_generation`.
+
+For an instance variable, I need a way to represent a two-dimensional
+grid of `Cell` objects.  Now, if the colony were one-dimensional, a
+list would be great.  If the instance variable `cells` was a reference
+to a list of references to `Cell` objects, then I could get a
+reference to the *i*th `Cell` object by writing `self.cells[i]`.  For
+a small, one-dimensional colony with, say, three cells, here's a
+picture of what I'd have:
+
+![](1d-colony.png)
+
+But the colony has two dimensions.  How can I represent two dimensions
+with a list?
+
+Here's one way.  Let's say that the colony has $r$ rows and $c$
+columns, so that it has $rc$ cells altogether.  I could make a list
+with $rc$ items, and let the first $c$ items be references to the
+cells in the top row, the next $c$ items be references to the cells in
+the next row, and so on.  I would need a way to convert an index $i$
+into the list into the row and column number.  That's not too hard,
+however: the row number would be $i / c$ and the column number would
+be $i \: \% \: c$, using integer division.
+
+But this scheme seems like a kluge.  (That is, an inelegant solution.)
+I'd really like to represent a two-dimensional grid of `Cell` objects
+with a two-dimensional structure.  Recall that we can put anything we
+want in a list item.  How about *another list*?  Or, more precisely, a
+reference to another list.  My "master list," referenced by the
+instance variable `cells`, would contain references to $r$ lists, each
+of which holds $c$ references to `Cell` objects.  Here's the picture
+for a 3 &times; 3 colony:
+
+![](2d-colony.png)
+
+So you can see where the cells are in the colony, the blackened `Cell`
+object is in row 1, column 2.
+
+So now, assuming that we have already followed a reference to a
+`Colony` object, we have to follow not one, not two, but *three*
+references to get to a `Cell` object!  How is this scheme any better
+than using a one-dimensional list?
+
+Here's how, within a method of the `Colony` class, I can get a
+reference to the cell in row `row` and column `column`:
+`self.cells[row][column]`.  No integer division and modulo operations
+necessary!  Let's dissect what I'm doing here.  `self` references the
+`Colony` object.  `self.cells` references the list of references to
+lists, which I've drawn vertically.  `self.cells[row]` is a reference
+to one of the lists of references to `Cell` objects; that is,
+`self.cells[row]` references one of the lists that I've drawn
+horizonally.  Finally, `self.cells[row][column]` is a particular item
+in that horizontal list, which references a particular `Cell` object.
+
+It's easy to *use* the two-dimensional structure, but how do I create
+it?  Here's one way.  Let's assume that we're writing code in the
+`__init__` method of `Colony`, and we have variables `rows` and
+`columns` giving the number of rows and columns in the entire colony.
+
+~~~{.python}
+self.cells = []
+
+for row in range(rows):
+    self.cells.append([])
+    for column in range(columns):
+        self.cells[row].append(Cell(row, column))
+~~~
+
+This way works, but there's something about it that bothers me.  I
+don't like all that appending.  My intution is that when you append to
+the end of a list, something has to happen that might be inefficient.
+That extra space for the item you're appending has to come from
+somewhere.  Does Python make a copy of the list, now one item longer,
+and copy the entire list into it?  I don't think so, because when you
+have a reference to a list and you append to the list, the reference
+doesn't change.  Try this sequence:
+
+~~~{.python}
+l1 = [0, 1]
+print l1
+l2 = [l1]
+print l2
+l1.append(2)
+print l2
+~~~
+
+You'll get
+
+~~~
+[0, 1]
+[[0, 1]]
+[[0, 1, 2]]
+~~~
+
+Does Python over-allocate when it creates a list, expecting that you
+might append to it?  If so, how much does it over-allocate, and what
+happens if that's not enough?  Does Python chunk up the list in
+memory, so that part of it is in one place, another part in another
+place, and so on?  Frankly, I have no idea, but you can see why I'm a
+little concerned.
+
+So, instead, I'm going to allocate everything I need from each list
+all at once.  Python has a neat way to say "give me a list of the
+value `v` repeated `t` times": `[v] * t`.  If I wanted a list of `n`
+0s, I could write `[0] * n`.
+
+There's still a problem.  I know *how many* references to `Cell`
+objects I need in each row, and I know *how many* rows I need.  But I
+don't yet have the `Cell` objects when I'm allocating the row of
+references, and I don't yet have all the row lists when I'm allocating
+the "master list" that `cells` references.  I'd like to have a
+placeholder that I'll fill in later.  Something that says "this item
+is a reference to no object at all," knowing that I'll fill it in with
+a real reference later.
+
+Python provides me with a way to say this: `None`.  In Python, `None`
+is how you say that there's nothing here.  You might have even seen
+`None` before, when you tried to use the value of a function that
+doesn't return a value.  Here's a simple example:
+
+~~~{.python}
+def f():
+    x = 5
+
+print f()
+~~~
+
+Because the function `f` doesn't return a value, the output is
+
+~~~
+None
+~~~
+
+I made the body of `f` be a useless statement, assigning to a local
+variable, `x`, that I'm not even using.  What I'd really like to say
+is "`f` has an empty body."  And Python has a way to say "empty body"
+for a function, a loop body, or even the body of an if-statement
+(which includes any part of an if-ladder).  That way is `pass`.  So I
+could have done the previous example as
+
+~~~{.python}
+def f():
+    pass
+
+print f()
+~~~
+
+We'll come back to the `pass` statement later.
+
+Getting back to the grid of cells, here's how I can create it:
+
+~~~{.python}
+# Create cells as a list of references to rows.
+self.cells = [None] * rows
+
+for row in range(rows):
+    # Create a row of new Cell objects.
+    self.cells[row] = [None] * columns
+    for column in range(columns):
+       self.cells[row][column] = Cell(row, column)
+~~~
+
+I like this way better.  I allocate the lists to be the right size
+when I create them.
+
+Now, you might wonder why I need to allocate each row separately.
+Since I'm just repeating rows, couldn't I have written
+
+~~~{.python}
+self.cells = [ [None] * columns ] * rows
+~~~
+
+This doesn't work!  That's because Python allocates *one* list with
+`columns` copies of `None` and makes all `rows` items in the list that
+`cells` references be references to this one list.  Here's what it
+would look like for a 3 &times; 3 colony:
+
+![](bad-alloc.png)
+
+Try this Python code:
+
+~~~{.python}
+l = [ [None] * 3 ] * 3
+l[1][0] = 5
+print l
+~~~
+
+Although you'd expect to see
+
+~~~
+[[None, None, None], [5, None, None], [None, None, None]]
+~~~
+
+instead you see
+
+~~~
+[[5, None, None], [5, None, None], [5, None, None]]
+~~~
+
+Now that I've beaten how to create the `cells` instance variable to
+death, do we anticipate any of the methods needing any other instance
+variables?  Well, we need to know how many rows and columns of cells
+the colony has.  Although we can give these values as inputs to the
+`__init__` method, we might want to keep them around.  So let's make
+instance variables `rows` and `columns`, initializing them in the
+`__init__` method (lest I be tempted to give myself a dope slap for
+failing to initialize instance variables).
+
+Strictly speaking, we don't *have* to make instance variables for the
+numbers of rows and columns.  Why not?  We have perfectly good lists
+on which we can call the built-in `len` function.  To get the number
+of rows, we can call `len(self.cells)`.  To get the number of columns,
+we can call `len(self.cells[i])`, where `i` is any legitimate row
+number.  For example, we could call `len(self.cells[0])`.  But it's
+easier to just use `self.rows` and `self.columns` where we need the
+colony's dimensions, so let's add these two instance variables,
+despite them being redundant with information we can get from `cells`.
+
+<!-- Like the `Cell` class, I'm not posting my first cut at the `Colony` -->
+<!-- class, because I want *you* to help me write it. --> The
+`__init__`, `draw`, and `flip_cell` methods will be pretty
+straightforward.  But the `compute_generation` method will be a bit
+tricky.  How do I decide what to do with each cell?  How do I find the
+neighbors of a cell when the colony wraps around?
+
+We'll see exactly how to code it all up, but the basic idea is that
+I'm going to keep a two-dimensional list of lists giving the count of
+how many living neighbors each cell has.  If I call this list of lists
+`living_neighbors`, then `living_neighbors[row][column]` will contain
+the number of living neighbors the cell in row `row` and column
+`column` has, some integer from 0 to 8.
+
+I'll go through the colony, and every time I find a living cell, I'll
+increment the `living_neighbors` count for each of its eight
+neighboring cells.  Of course, I'll need to start all the counts at 0
+before doing any incrementing.
+
+How do I find neighboring cells?  Suppose that I find a living cell in
+row `row` and column `column`.  I need to increment the
+`living_neighbor` counts cells in rows `row-1`, `row`, and `row+1` and
+columns `column-1`, `column`, and `column+1`, but *not* the cell in
+row `row` and column `column`, because it's not its own neighbor.
+Right?  *Wrong!* What if the living cell is in the top or bottom row?
+What if it's in the leftmost or rightmost column?  The top row is row
+0, and there is no row &ndash;1.  Conversely, there is no row whose
+number is one greater than the number of the bottom row.  The same
+goes for the columns.  We'd be looking at some "list index out of
+range" errors.
+
+Here's where modular arithmetic saves us.  In Python, `(4 + 1) % 5`
+gives 0, and `(0 - 1) % 5` gives 4.  So all we have to do is take our
+row and column numbers modulo the numbers of rows and columns.
+
+Here's the code that we wrote in class, in [colony.py](colony.py):
+
+~~~{.python}
+# colony.py
+# Class for a colony of cells in the Game of Life.
+
+from cell import *
+from cs1lib import *
+
+class Colony:
+    # Create a colony, with a given number of rows and columns.
+    def __init__(self, rows, columns):
+        # Remember the number of rows and columns.
+        self.rows = rows
+        self.columns = columns
+        
+        # Create cells as a reference to a list of references to rows.
+        self.cells = [None] * rows
+        
+        for row in range(rows):
+            # Create a row of references to Cell objects.
+            self.cells[row] = [None] * columns
+            for column in range(columns):
+                self.cells[row][column] = Cell(row, column)
+                
+    # Draw a colony of cells.
+    def draw(self):
+        # Draw each row of cells.
+        for row in range(self.rows):
+            # Have each cell in this row draw itself.
+            for column in range(self.columns):
+                self.cells[row][column].draw()
+                
+    # Called when a click occurs.
+    def flip_cell(self, x, y):
+        # Compute the row and column number corresponding to the mouse position.
+        row = y / CELL_SIZE
+        column = x / CELL_SIZE
+        
+        if (0 <= row < self.rows) and (0 <= column < self.columns):
+            self.cells[row][column].flip()
+            self.cells[row][column].draw()
+            request_redraw()
+            
+    # Compute the next generation of cells.
+    def compute_generation(self):
+        # Initialize a list of lists of counts of living neighbors.
+        living_neighbors = [None] * self.rows
+        for row in range(self.rows):
+            living_neighbors[row] = [0] * self.columns
+            
+        # Go through the entire colony, incrementing the living neighbor
+        # count of each neighbor of each living cell.
+        for row in range(self.rows):
+            for column in range(self.columns):
+                if self.cells[row][column].is_living():
+                    # It's living, so increment.
+                    row_above = (row-1) % self.rows
+                    row_below = (row+1) % self.rows
+                    column_left = (column-1) % self.columns
+                    column_right = (column+1) % self.columns
+                    living_neighbors[row_above][column_left] += 1
+                    living_neighbors[row_above][column] += 1
+                    living_neighbors[row_above][column_right] += 1
+                    living_neighbors[row][column_left] += 1
+                    living_neighbors[row][column_right] += 1
+                    living_neighbors[row_below][column_left] += 1
+                    living_neighbors[row_below][column] += 1
+                    living_neighbors[row_below][column_right] += 1
+                    
+        # Now go back through the entire colony, killing cells with too few
+        # or too many living neighbors, and making cells with 3 living neighbors
+        # be alive.
+        for row in range(self.rows):
+            for column in range(self.columns):
+                if (living_neighbors[row][column] <= 1) or \
+                    (living_neighbors[row][column] >= 4):
+                    self.cells[row][column].kill()
+                elif living_neighbors[row][column] == 3:
+                    self.cells[row][column].revive()
+                    
+        # Having updated the entire colony, redraw it.
+        clear()
+        self.draw()
+        request_redraw()
+~~~        
+
+## Testing the `Colony` class
+
+I'd like to test the `Colony` class before I make a full-blown Life
+program.  Then again, testing the `Colony` class is pretty darned
+close to a full-blown Life program.  But here's my code for testing
+it, in [colony_driver.py](colony_driver.py):
+
+~~~{.python}
+from cs1lib import *
+from colony import *
+
+def on_click():
+    global hive
+    hive.flip_cell(mouse_x(), mouse_y())
+
+def main():
+    global hive
+    hive = Colony(10, 10)
+    hive.draw()
+    request_redraw()
+    set_mouse_button_function(on_click)
+    
+    # Wait for the space bar to be pressed.
+    while not is_key_pressed(" "):
+        pass
+
+    while not window_closed():
+        hive.compute_generation()
+        sleep(1)    
+        
+start_graphics(main)
+~~~
+
+Three facets of this code bear some explanation.
+
+First, I had to make `hive`, the reference to the `Colony` object,
+global, so that both the `main` and `on_click` functions could use it.
+
+Second, I want to start the generation updates only once the space bar
+is pressed.  I decided to make what is called a **busy-wait** loop.
+The idea is to do nothing until a certain condition occurs.  In this
+case, the condition is that the space bar is pressed.  And how do I
+indicate that I want to do nothing while the space bar is *not*
+pressed?  I use `pass`, which gives me an empty loop body.
+
+Third, I'd really like to base setting up the cells on *mouse clicks*
+rather than *button presses*.  That's because if I flip the live/dead
+state of a cell every time the mouse button is found to be down, I
+could flip the cell numerous times in one click action.
+
+So how can I set up the cell flipping to be based on mouse clicks?
+cs1lib provides a function called `set_mouse_button_function`.  You
+give it as a parameter the name of a function that takes no
+parameters.  This function will be called upon every mouse-click
+event.  We call a situation like this a **callback**.  Notice that my
+code never calls `on_click`, which is the parameter I pass to
+`set_mouse_button_function`.  But whenever the mouse is clicked,
+`on_click` will be called.
+
+You might not realize it, but we've worked with callbacks for a while.
+Look at `start_graphics`.  You give it the name of a function (`main`
+in this example), and `start_graphics` calls that function.  My code
+never calls `main`.  So, `start_graphics` uses a callback.  What
+separates `start_graphics` from `set_mouse_button_function` is that
+`start_graphics` calls `main` just once, and we know in advance when
+that will be: when the graphics window appears.  But
+`set_mouse_button_function` could call `on_click` any number of times,
+and we don't know in advance when that will be, because we don't know
+in advance how many times or when the mouse will be clicked.
+
+## The main Life program
+
+Here is the main Life program, in [life.py](life.py):
+
+~~~{.python}
+# life.py
+# Plays the Game of Life.
+# A colony of cells undergoes generations.
+# Each cell is either alive (blue) or dead (yellow).
+# In each generation, count the number of living neighbors
+# of each cell:
+#    If 0 or 1, the cell dies of exposure.
+#    If 4 or more, the cell dies of overcrowding.
+#    If 3, the cell is revived.
+#    If 2, the cell does not change.
+
+from cs1lib import *
+from colony import *
+from cell import CELL_SIZE
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+# Callback for mouse clicks.  Flips the cell
+# at the location of the click, if there's a
+# cell there.
+def on_click():
+    global hive
+    hive.flip_cell(mouse_x(), mouse_y())
+    
+# Callback for key presses.
+def on_key_press():
+    global timestep
+    # If f ("faster") key is pressed, halve the timestep.
+    # If s ("slower") key is pressed, double the timestep.
+    if is_key_pressed("f"):
+        timestep /= 2.0
+    elif is_key_pressed("s") and timestep <= 8.0:
+        timestep *= 2.0
+
+# Main function for running the game.
+def main():
+    global hive, timestep
+    
+    # Create and draw the colony.
+    # It should fill the window without going over.
+    hive = Colony(WINDOW_HEIGHT / CELL_SIZE,
+                  WINDOW_WIDTH / CELL_SIZE)
+    hive.draw()
+    request_redraw()
+    
+    # Whenever the mouse is clicked, call on_click.
+    set_mouse_button_function(on_click)
+    
+    # Wait for the space bar to be pressed.
+    while not is_key_pressed(" "):
+        pass
+    
+    # Whenever a key is pressed, call on_key_press.
+    set_keypress_function(on_key_press)
+    
+    timestep = 1.0  # seconds
+
+    # Compute a new generation every timestep.
+    while not window_closed():
+        hive.compute_generation()
+        sleep(timestep)    
+        
+start_graphics(main, "Life", WINDOW_WIDTH, WINDOW_HEIGHT)
+~~~
+
+It really just a souped-up version of
+[colony_driver.py](colony_driver.py).  I've added two features:
+
+* The number of rows and columns in the colony depend on the window
+  size and the cell size.  They are designed so that we can fit in the
+  window as many rows and columns of the given cell size as possible.
+
+* I've added callbacks for when the 'f' and 's' keys are pressed.  To
+  register the callback, I call `set_keypress_function(on_key_press)`.
+  The callback function, `on_key_press`, asks whether the 'f' key is
+  pressed, halving the timestep if it is, thereby speeding up the
+  simulation.  Otherwise, it asks whether the 's' key is pressed,
+  doubling the timestep and slowing down the simulation if it is.  A
+  timestep of more than 16 seconds is excrutiatingly slow, however,
+  and so I don't allow the timestep to exceed 16 seconds.
+
+## *Bonus coverage:* Fortifying the code
+
+I didn't get to cover this material in lecture, and so you are not
+responsible for it.  But it's good stuff to know.
+
+I am bothered that the instance variables in the `Cell` and `Colony`
+classes are public: any piece of code, anywhere, can read or write
+them directly.
+
+### Fortifying the `Cell` class
+
+Although any piece of code can kill or revive a `Cell` object by
+calling the `kill` or `revive` methods, I'd like to prevent any code
+from outside the `Cell` class to be able to move a cell to a different
+location.
+
+We know how to fix that problem: begin each instance variable name
+with two underscores.  If we change `am_living` to `__am_living`, `x`
+to `__x`, and `y` to `__y`, then these instance variables will be
+accessible only within the `Cell` class.
+
+But what about the constant `CELL_SIZE` within cell.py?  Could that be
+changed from outside the `Cell` class?  Yes, it can.  Try adding these
+lines at the beginning of the body of the `main` function in
+cell_driver.py:
+
+~~~{.python}
+    import cell
+    cell.CELL_SIZE = 50
+~~~
+
+These lines say "from the module named `cell` (i.e., from cell.py),
+set the `CELL_SIZE` variable to 50."  So even `CELL_SIZE` is not safe
+from being altered by code outside of cell.py.
+
+So how can we protect `CELL_SIZE` from being altered?  Could we rename
+it to `__CELL_SIZE`?  That won't work.  When we first try to access it
+from within a method of the `Cell` class&mdash;presumably the line of
+`__init__` that assigns to `self.__x`&mdash;we get this error message:
+
+~~~
+NameError: global name '_Cell__CELL_SIZE' is not defined
+~~~
+
+Here's another option: make `__CELL_SIZE` an instance variable.  Then
+it's known only within the `Cell` methods.  What's wrong with that?
+We want every cell to have the same size, right?  So we'd have an
+instance variable that has the same value in every `Cell` object.
+That's not why we have instance variables.  Instance variables should
+be allowed to take on different values in different objects.  It's a
+waste of an instance variable if the instance variable always has the
+same value in every object of the class.
+
+### Class variables
+
+What we really want is a variable (here, a constant) that is
+accessible *only* to methods in the `Cell` class *but for which there
+is only one version overall*, not one version per object.  That is,
+each `Cell` object sees the *same* variable.  We call that a **class
+variable.**
+
+How can we define a class variable in Python?  How can we use one?
+Here's an updated version of [cell.py](cell_fort.py) that begins
+instance variables with two underscores and also makes the cell size a
+class variable:
+
+~~~{.python}
+# cell.py
+# Class for a cell in the Game of Life.
+
+from cs1lib import *
+
+class Cell:
+    __CELL_SIZE = 20        # width and height of each cell, in pixels
+    
+    # Initialize a new Cell.
+    def __init__(self, row, column):
+        self.__am_living = False
+        self.__x = column * Cell.__CELL_SIZE
+        self.__y = row * Cell.__CELL_SIZE
+    
+    # Kill this Cell.
+    def kill(self):
+        self.__am_living = False
+        
+    # Make this Cell be alive.
+    def revive(self):
+        self.__am_living = True
+        
+    # If this Cell is alive, make it dead.
+    # If it's dead, make it alive.
+    def flip(self):
+        self.__am_living = not self.__am_living
+        
+    # Return whether this Cell is alive.
+    def is_living(self):
+        return self.__am_living
+        
+    # Have a Cell draw itself.
+    def draw(self):
+        enable_stroke()
+        if self.__am_living:
+            set_fill_color(0, 0, 1)     # living cells are blue
+        else:
+            set_fill_color(1, 1, 0)     # dead cells are yellow
+            
+        set_stroke_color(0, 0, 0)       # black border for all cells
+
+        draw_rectangle(self.__x, self.__y, Cell.__CELL_SIZE, Cell.__CELL_SIZE)
+       
+    # Return the size of each Cell, in pixels.
+    # This is a class method, so it is not called on an instance.
+    @classmethod
+    def get_cell_size(cls):
+        return cls.__CELL_SIZE
+~~~
+
+A few things to notice here:
+
+* The class variable `__CELL_SIZE` not only begins with two
+  underscores, but it is defined *within* the `Cell` class.
+
+* When I want to use the class variable, I have to denote it as
+  `Cell.__CELL_SIZE`.  In general, to use a class variable, you have
+  to denote it by `class_name.variable_name`.
+
+* Because the class variable `__CELL_SIZE` begins with two
+  underscores, it cannot be accessed directly from outside the `Cell`
+  class.  We will need to know the cell size in the `flip_cell`
+  method, to convert from (*x*, *y*) coordinates to (row, column).
+  And so the `Cell` class provides a method, `get_cell_size`, that
+  returns the value of `__CELL_SIZE`.
+
+    But this method is a special method.  It is not invoked on any
+  particular `Cell` object, because it deals only with a class
+  variable.  It doesn't need to access the instance variables of any
+  `Cell` object.  We call this type of method a **class method**, and
+  you can see that we precede its header with `@classmethod`, thereby
+  indicating that it's a class method.
+
+    Because `get_cell_size` is not called on an object, we don't call it
+  with the `reference.methodname(...)` syntax.  After all, to which
+  object would we supply a reference?
+
+    Instead, we call it with the name of the class, `Cell` in this case,
+  to the left of the dot: the call `Cell.get_cell_size()` returns the
+  value of the class variable `__CELL_SIZE`.
+
+* If you look carefully at the header of `get_cell_size`, you'll see
+  that the parameter it takes is not a reference to an object (i.e.,
+  `self`), but rather a class name.  Eclipse filled it in for me as
+  `cls`, and so the body of the function is just `return
+  cls.__CELL_SIZE`.  I could just as easily have made the body of the
+  function be `return Cell.__CELL_SIZE`.  Either one works.
+
+Here's another advantage of class variables.  Because there's only one
+version of a class variable overall, and not one per object, if we
+want to make a change that *all* objects in the class can see, we need
+change only the one class variable.  If we had kept this information
+in an instance variable instead, we would have to go through *every*
+object in the class that currently exists and change the instance
+variable in the object.  With class variables, we have one-stop
+shopping!
+
+We didn't avail ourselves of this advantage, but you could imagine how
+we might.  Suppose that the cell size *could* change.  We could
+provide a class method to change the cell size, which would store into
+the class variable.  Then every `Cell` object would see this new cell
+size each time that it accessed the class variable.
+
+### Fortifying the `Colony` class
+
+We can fortify the `Colony` class in a similar way.  We begin each
+instance variable name with two underscores.  We don't need any class
+variables for `Colony`, though we do have to access the cell size by
+calling `Cell.get_cell_size()`.  Here's an updated version of
+[colony.py](colony_fort.py):
+
+~~~{.python}
+# colony.py
+# Class for a colony of cells in the Game of Life.
+# CS 1 class example by THC.
+
+from cell import *
+from cs1lib import *
+
+class Colony:
+    # The instance variable __cells is a list of references to rows,
+    # and each row is a list of references to Cell objects.
+    
+    # Create a colony with a given number of rows and columns.
+    def __init__(self, rows, columns):
+        # Remember the number of rows and columns.
+        self.__rows = rows
+        self.__columns = columns
+        
+        # Create __cells as a list of references to rows.
+        self.__cells = [None] * rows
+        
+        for row in range(rows):
+            # Create a row of new Cell objects.
+            self.__cells[row] = [None] * columns
+            for column in range(columns):
+                self.__cells[row][column] = Cell(row, column)
+            
+    # Draw a colony of cells.
+    def draw(self):
+        # Draw each row of cells.
+        for row in range(self.__rows):
+            # Have each Cell in this row draw itself.
+            for column in range(self.__columns):
+                self.__cells[row][column].draw()
+
+    # Called when a click occurs.
+    def flip_cell(self, x, y):
+        # Compute the row and column corresponding to the mouse position.
+        row = y / Cell.get_cell_size()
+        column = x / Cell.get_cell_size()
+        
+        # If within the colony, flip the cell at that row and column.
+        if (0 <= row < self.__rows) and (0 <= column < self.__columns):
+            self.__cells[row][column].flip()
+            self.__cells[row][column].draw()
+            request_redraw()
+            
+    # Compute the next generation of cells.
+    def compute_generation(self):
+        # Initialize a list of lists of counts of living neighbors.
+        living_neighbors = [None] * self.__rows
+        for row in range(self.__rows):
+            living_neighbors[row] = [0] * self.__columns
+        
+        # Go through the entire colony, incrementing the living neighbor
+        # count of each neighbor of each living cell.
+        for row in range(self.__rows):
+            for column in range(self.__columns):
+                if self.__cells[row][column].is_living():
+                    # It's living, so increment, wrapping around as necessary.
+                    row_above = (row - 1) % self.__rows
+                    row_below = (row + 1) % self.__rows
+                    column_left = (column - 1) % self.__columns
+                    column_right = (column + 1) % self.__columns
+                    living_neighbors[row_above][column_left] += 1
+                    living_neighbors[row_above][column] += 1
+                    living_neighbors[row_above][column_right] += 1
+                    living_neighbors[row][column_left] += 1
+                    living_neighbors[row][column_right] += 1
+                    living_neighbors[row_below][column_left] += 1
+                    living_neighbors[row_below][column] += 1
+                    living_neighbors[row_below][column_right] += 1
+                    
+        # Now go back through the entire colony, killing cells with too few
+        # or too many living neighbors, and making cells with 3 living neighbors
+        # be alive.
+        for row in range(self.__rows):
+            for column in range(self.__columns):
+                if (living_neighbors[row][column] <= 1) or \
+                    (living_neighbors[row][column] >= 4):
+                    self.__cells[row][column].kill()
+                elif living_neighbors[row][column] == 3:
+                    self.__cells[row][column].revive()
+        
+        # Having updated the entire colony, redraw it.
+        clear()
+        self.draw()
+        request_redraw()
+~~~
+
+### Fortifying the main Life program
+
+Not much needs to change in the [main Life program](life_fort.py) to
+use the fortified classes.
+
+~~~{.python}
+# life.py
+# Plays the Game of Life.
+# A colony of cells undergoes generations.
+# Each cell is either alive (blue) or dead (yellow).
+# In each generation, count the number of living neighbors
+# of each cell:
+#    If 0 or 1, the cell dies of exposure.
+#    If 4 or more, the cell dies of overcrowding.
+#    If 3, the cell is revived.
+#    If 2, the cell does not change.
+
+from cs1lib import *
+from colony import *
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+# Callback for mouse clicks.  Flips the cell
+# at the location of the click, if there's a
+# cell there.
+def on_click():
+    global hive
+    hive.flip_cell(mouse_x(), mouse_y())
+    
+# Callback for key presses.
+def on_key_press():
+    global timestep
+    # If f ("faster") key is pressed, halve the timestep.
+    # If s ("slower") key is pressed, double the timestep.
+    if is_key_pressed("f"):
+        timestep /= 2.0
+    elif is_key_pressed("s") and timestep <= 8.0:
+        timestep *= 2.0
+
+# Main function for running the game.
+def main():
+    global hive, timestep
+    
+    # Create and draw the colony.
+    # It should fill the window without going over.
+    hive = Colony(WINDOW_HEIGHT / Cell.get_cell_size(),
+                  WINDOW_WIDTH / Cell.get_cell_size())
+    hive.draw()
+    request_redraw()
+    
+    # Whenever the mouse is clicked, call on_click.
+    set_mouse_button_function(on_click)
+    
+    # Wait for the space bar to be pressed.
+    while not is_key_pressed(" "):
+        pass
+    
+    # Whenever a key is pressed, call on_key_press.
+    set_keypress_function(on_key_press)
+    
+    timestep = 1.0  # seconds
+
+    # Compute a new generation every timestep.
+    while not window_closed():
+        hive.compute_generation()
+        sleep(timestep)    
+        
+start_graphics(main, "Life", WINDOW_WIDTH, WINDOW_HEIGHT)
+~~~

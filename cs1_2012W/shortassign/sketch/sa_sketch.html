@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-2-sketch-due-wednesday-january-11">Short assignment 2: Sketch <br />Due: Wednesday, January 11</h1>
+<h2 id="green-eggs-and-ham">Green Eggs and Ham</h2>
+<p>The goal of this assignment is to familiarize you with the CS1 graphics library (or <strong>module</strong> as it is called in Python). This library contains functions that draw shapes to a window on your computer. To get you comfortable with <code>cs1lib</code>, we are sending you to kindergarten—that time of blocks, snack time, glue (which sometimes was snack time), and most relevantly, drawing.</p>
+<p>You will create an illustration inspired by the cover of a book that is required reading at Dartmouth: Dr. Seuss's <em>Green Eggs and Ham</em>. You will draw a triangular plate containing two eggs with green yolks, green ham, and a fork. Like any self-respecting artiste, you will also sign your work.</p>
+<p>Here's mine:</p>
+<div class="figure">
+<img src="green-eggs-ham.png" /><p class="caption"></p>
+</div>
+<p>You don't have to draw it exactly as I did, but you are required to have at least the following elements. (You may include more if you like.)</p>
+<ul>
+<li>A red background.</li>
+<li>A white, triangular plate with a black outline.</li>
+<li>Two eggs, with black outlines and green yolks. The yolks should not have an outline.</li>
+<li>Green ham with a white bone in the center. Neither the ham nor the bone should have an outline.</li>
+<li>A blue fork with four tines (&quot;tine&quot; is another word for one of the prongs of a fork), sticking up vertically from the green ham. The tines should be centered horizontally around the handle of the fork.</li>
+<li>Your name in the lower left of the window, in black.</li>
+</ul>
+<p>When you draw the plate, the egg whites, and the fork, use a stroke width of two pixels. When you draw the egg whites and the ham, draw them as ellipses. An ellipse has two radii: one horizontal and one vertical. When you draw the egg yolks and the ham bone, draw them as circles.</p>
+<p>Your program should define the following six functions, and each one will need to be called at least one time somewhere in your program:</p>
+<ul>
+<li><code>set_fill_white</code> sets the fill color to white.</li>
+<li><code>set_fill_green</code> sets the fill color to green.</li>
+<li><code>set_stroke_blue</code> sets the stroke color to blue.</li>
+<li><code>set_stroke_black</code> sets the stroke color to black.</li>
+<li><code>make_background_red</code> makes the background red.</li>
+<li><code>draw_green_eggs_and_ham</code> makes the entire drawing.</li>
+</ul>
+<p>The stroke color is the color that outlines of filled objects (such as circles, ellipses, triangles, and rectangles) are drawn in. It's also the color that lines are drawn in.</p>
+<p>The first five of the above functions are simple. In fact, you should be able to write the bodies of each of the first four in one line, and you should be able to write the body of <code>make_background_red</code> in two lines.</p>
+<p>Most of the action will be in the <code>draw_green_eggs_and_ham</code> function. I found it to be a really good idea to define some variables for the locations of various points in the fork, and then I could do some simple arithmetic to draw the tines. But I'll leave it to you how to write the code to draw everything, as long as you define and use the above six functions correctly.</p>
+<p>Of course, you'll want to import functions from <code>cs1lib</code>, and you'll want to have <code>start_graphics</code> call <code>draw_green_eggs_and_ham</code>. But you need to know about some functions from <code>cs1lib</code>, so here are the ones that you'll find useful. I'll give example calls for those you have not seen in lecture.</p>
+<ul>
+<li><p><code>set_fill_color</code>: As we saw in lecture, this function takes three parameters that give the fraction of red, green, and blue in the fill color for filled objects, such as ellipses, circles, triangles, and rectangles. This fill color is in effect until the next call of <code>set_fill_color</code>.</p></li>
+<li><p><code>set_stroke_color</code>: This function is like <code>set_fill_color</code>, except that it gives the stroke color. Example: <code>set_stroke_color(1, 0,   1)</code> makes the stroke color magenta.</p></li>
+<li><p><code>set_clear_color</code>: This function is like <code>set_fill_color</code>, except that it gives the color that the background will appear the next time you call <code>clear</code>. Example: 'set_clear_color(1, 0, 1)` makes the background color magenta.</p></li>
+<li><p><code>clear</code>: As we saw in lecture, this parameterless function clears the graphics window. And now you know that it also sets the background color to the color given in a previous call to <code>set_clear_color</code>.</p></li>
+<li><p><code>set_stroke_width</code>: This function takes one parameter, which is the number of pixels for each stroke's width. Like <code>set_fill_color</code> and <code>set_stroke_color</code>, it remains in effect until the next call of <code>set_stroke_width</code>. Example: <code>set_stroke_width(4)</code> makes strokes be four pixels wide.</p></li>
+<li><p><code>draw_triangle</code>: As we saw in lecture, this function draws a triangle whose vertices (i.e., corners) are given in the six parameters. The first two parameters give the coordinates of the first vertex, the next two parameters give the coordinates of the second vertex, and the last two parameters give the coordinates of the third vertex.</p></li>
+<li><p><code>draw_circle</code>: As we saw in lecture, this function draws a circle. It takes three parameters. The first two give the <em>x</em>- and <em>y</em>-coordinates of the circle's center, and the third parameter gives the circle's radius, in pixels.</p></li>
+<li><p><code>draw_ellipse</code>: This function is like <code>draw_circle</code>, except that it draws an ellipse and takes four parameters, not three. The first two are like <code>draw_circle</code>'s first two: the coordinates of the center. The third parameter is the ellipse's horizontal radius, and the fourth parameter is the ellipse's vertical radius. Example: <code>draw_ellipse(100, 200, 50, 25)</code> draws an ellipse centered at (100, 200). Its topmost point is at (100, 150), its bottommost point is at (100, 250), its leftmost point is at (75, 200), and its rightmost point is at (125, 200).</p></li>
+<li><p><code>enable_stroke</code>: This parameterless function makes it so that when you draw an object with an outline or when you draw a line, the outline or line appears. Example: <code>enable_stroke()</code>.</p></li>
+<li><p><code>disable_stroke</code>: This parameterless function makes it so that when you draw an object with an outline or when you draw a line, the outline or line does not appear. Example: <code>disable_stroke()</code>.</p></li>
+<li><p><code>draw_line</code>: This function takes four parameters and draws a line. The first two parameters give the <em>x</em>- and <em>y</em>-coordinates of one endpoint of the line, and the second two parameters give the coordinates of the other endpoint. Example: <code>draw_line(100, 200,   150, 300)</code> draws a line between the points (100, 200) and (150, 300).</p></li>
+<li><p><code>draw_text</code>: This function takes three parameters and draws a text string. The first parameter is the text string to draw. (Remember to enclose it in quotes if it's a string literal.) The last two parameters say where to draw the text string, giving the <em>x</em>- and <em>y</em>-coordinates of where the lower left pixel of the first character should appear. Example: <code>draw_text(&quot;CS 1 is wicked awesome&quot;, 50,   100)</code> draws the text <code>CS 1 is wicked awesome</code>, with the lower left corner of the &quot;<code>C</code>&quot; at (50, 100).</p></li>
+</ul>
+<p>The goal of this assignment is for you to learn to use <code>cs1lib</code>, so we are less interested in your drawing and more interested in your code. Remember that style counts—a lot!</p>
+<ul>
+<li>Organize logically.</li>
+<li>Use whitespace to make your code pretty, and use comments to make your code comprehensible to wetware.</li>
+<li>Write at least the six functions that you are required to write.</li>
+<li>If you make variables, choose meaningful names for them, and use them consistently. For example, if you make a variable <code>fork_top</code> for the <em>y</em>-coordinate of the top of the fork's handle, and you give it the value 100, then use <code>fork_top</code> everywhere that you want the <em>y</em>-coordinate of the top of the fork's handle; don't use <code>fork_top</code> in some of these places and 100 in other places where you mean the <em>y</em>-coodinate of the top of the fork's handle.</li>
+<li>Put a header comment at the top of the file that has the file's name, your name, the date, the course, and a short description of what the program does.</li>
+<li>Be consistent with style. There are few hard and fast style rules, meaning you have freedom regarding many style choices, but apply those decisions consistently.</li>
+</ul>
+<h3 id="helpful-hints">Helpful hints:</h3>
+<ul>
+<li><p>Your <strong>canvas</strong>—the window in which you draw—is 400 by 400 pixels with (0, 0) in the upper left corner and (400, 400) in the lower right.</p></li>
+<li><p>This website is useful to find RGB values for colors: <a href="http://www.colorschemedesigner.com">http://www.colorschemedesigner.com/</a> . Specifically, look at the percent values below and to the left of the color wheel and convert them to floating point values. For instance, RGB values of 7%, 27%, 67% would translate to <code>set_fill_color(.07, .27, .67)</code>. You don't have to use this website, however, since you can form all the colors I'm asking for with parameter values of 0 and 1 in calls to <code>set_fill_color</code>, <code>set_stroke_color</code>, and <code>set_clear_color</code>.</p></li>
+<li><p>Python draws shapes in the order you tell it to, so the order of your code will affect how your shapes overlay each other.</p></li>
+<li><p>Try creating the objects one at a time, then seeing how you like the result after creating each one. That way, if you don't like where you put an object, or you don't like how it looks, you can fix it before you create and place the next one. I also suggest creating them from back to front, so first make the red background, then the white, triangular plate, etc. I recommend making the fork last, because it has the most intricate code.</p></li>
+</ul>
+<p>Have fun, even if you don't like green eggs and ham, and even if your name is Sam.</p>
+<h2 id="what-to-turn-in">What to turn in</h2>
+<p>There are two things you need to turn in:</p>
+<ol style="list-style-type: decimal">
+<li><p>drawing.py (or whatever you called the program you wrote to draw your picture.)</p></li>
+<li><p>A screenshot of your drawing, in whatever popular image format you prefer (.tiff, .png, .bmp, .jpg, etc).</p></li>
+</ol>
+<p>Please remember in all assignments that editing the output of the program before printing it is a violation of the Academic Honor Principle. Make sure that the output you turn in comes from the program that you turn in. If you make any change to the code, no matter how insignificant you think it might be—even if you're just adding or editing comments—rerun your program to produce new output.</p>
+<h2 id="how-to-turn-in-your-assignment">How to turn in your assignment</h2>
+<p>You have a section leader. That section leader has a special e-mail account</p>
+<p>cs1-xxx@cs.dartmouth.edu</p>
+<p>where xxx will be replaced with your section leader's first name. So for example, if your section leader is Bertha, then e-mail cs1-bertha@cs.dartmouth.edu. You can find this email account in the Recitation Sections area on the course <a href="https://blackboard.dartmouth.edu/">Blackboard site</a>.</p>
+<p>Send your section leader an e-mail with the title &quot;Short assignment 2 submission.&quot; Attach the two files that you need to turn in.</p>
+</body>
+</html>

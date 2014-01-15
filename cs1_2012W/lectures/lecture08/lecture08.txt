@@ -1,0 +1,666 @@
+# Short Assignment 6
+
+<a
+href="http://www.cs.dartmouth.edu/~cs1/shortassign/movingblocks/sa_movingblocks.html">Short
+Assignment 6</a> is due on Monday.
+
+# Exam 1
+
+A reminder that Exam 1 will be next Thursday at 6:00 pm.  **It will
+not be here.  It will be in Life Sciences Center, Room 100 (Oopik
+Auditorium).**
+
+**If you cannot take the exam at 6:00 pm on January 26, you must
+contact me by email by 5:00 pm on Monday, January 23.**
+
+I have posted a [web page](../../exams/exam1-review.html) with the
+ground rules and sample questions.
+
+# Lists, continued
+
+## Using `range` to create a list of `int` values
+
+Last time, we saw that the built-in Python function `range` gives ints
+in a specified range.  (By built-in, I mean that you don't even have
+to import it from anywhere.)  For example, `range(3, 10)` gives the
+list
+
+~~~
+[3, 4, 5, 6, 7, 8, 9]
+~~~
+
+`range` can save you some typing if you want to count over integers.
+Here's an example, in [interest.py](interest.py):
+
+
+~~~{.python}
+RATE = 1.05
+YEAR = 2012
+balance = 1.0
+
+for year in range(0, YEAR):
+    balance = balance *  RATE
+
+print "The balance is " + str(balance) + "."
+~~~	
+
+If you only give range one parameter, then the list will start at 0.
+
+~~~{.python}
+print range(5)
+~~~
+
+would give 
+
+~~~
+[0, 1, 2, 3, 4]
+~~~
+
+## You can treat a string like a list (sort of)
+
+You can get a character from a string almost as though the string were
+a list:
+
+~~~{.python}
+mystring = "Chevy!"
+print "The fifth character in " + mystring + " is " + mystring[4].  
+~~~
+
+You can even loop over characters in a string, as in
+[for_string.py](for_string.py):
+
+~~~{.python}
+mystring = "Chevy!"
+for char in mystring:
+    print char
+~~~
+
+You might think you could change a character in a string this way too.
+It won't work.  `mystring[3] = 'r'` will give an error.  Python
+strings are **immutable**; their values cannot be changed.
+
+If you wanted to do something like changing the third letter to *r*,
+you would have to build an entirely new string, using the old string
+and the new letter.  We'll see how to do that later in the course.
+
+# List algorithms
+
+## How it works: The list in memory
+
+Consider when we first assign to a variable, such as `x = 5`.  Python
+knows that `x` is an integer, and Python knows that four bytes of
+memory are typically enough to store that integer.  Python allocates
+those four bytes, and it copies a binary code corresponding to the
+value 5 into those bytes.  We say that the value 5 is stored in the
+variable.
+
+Something different happens when you create a list.  Space in memory
+is allocated for the list *somewhere other than at the variable's
+address*.  The variable just stores the *address* of the list.  Let's
+look at an example:
+
+~~~{.python}
+mice = ["Minnie", "Mickey", "Mighty"]
+~~~
+
+Here is what happens.  First, Python sees a list literal on the
+right-hand side of the equals sign.  Python finds memory space for the
+list data `["Minnie", "Mickey", "Mighty"]` in an area of memory called
+the **heap**.  This new list now has an address.  Let's say the
+address of that list data is 1000.
+
+Now Python looks at the left-hand side of the assignment operator.
+Python has to create a new variable, `mice`.  Python copies the value
+1000&mdash;the address of the list&mdash;into the variable `mice`.
+Here's how you should think of it:
+
+![](mice-list.png)
+
+I drew the arrow to indicate that the variable `mice` is really just
+telling us that the list itself is somewhere else, in this case at
+address 1000.
+
+**Important note.** As I began to explain last time, it would be
+*incorrect* to say that the variable `mice` contains the list.  In our
+earlier example, `x = 5`, the variable `x` really did contain the
+value 5 (or at least its binary representation), not an address or
+anything else.  For a list, however, the variable naming the
+list&mdash;`mice` in this example&mdash;contains only the address of
+the list data, not the list data itself.
+
+## Aliasing and the assignment operator
+
+Because the *address* of a list is stored in a variable, rather than
+actually storing the list data itself in the variable, an important
+property follows: any variable that stores that address can be used to
+change the list.  Look at this example, in
+[list_addr.py](list_addr.py):
+
+~~~{.python}
+ivies = [ "Dartmouth", "Columbia", "Yale", "Cornell", "Penn",
+         "Brown", "Princeton", "Harvard"]
+expensive_schools = ivies
+expensive_schools[3] = "Stanford"
+print ivies
+~~~
+
+This program prints
+
+~~~
+['Dartmouth', 'Columbia', 'Yale', 'Stanford', 'Penn', 'Brown', 'Princeton', 'Harvard']
+~~~
+
+Notice that `ivies[3]` is no longer `'Cornell'`; it has become
+`'Stanford'`, even though we made the change to
+`expensive_schools[3]`, not to `ivies[3]`.
+
+What happened here?  
+
+The assignment operator always copies the *value* of a variable.  But
+in this case, the value of the variable `ivies` is some address
+(perhaps 2000), *not* the list itself.  The list is not copied by the
+assignment operator in `expensive_schools = ivies`.  Only the address
+is copied.  There are *not* two different lists in the heap; there's
+still just one list, but both `ivies` and `expensive_schools` hold its
+address:
+
+![](schools1.png)
+
+Now, when the item at index 3 in the list whose address is held in
+`expensive_schools` is changed to `"Stanford"`, the one and only list
+at address 2000 changes:
+
+![](schools2.png)
+
+I wrote the item at index 3 in italics just to highlight it.  When we
+print the list using the `ivies` variable (which contains the address
+of the same list), we see that the list has changed.
+
+You can think of it like this.  Let's say you have a savings account
+number.  You can think of that number as the address used to refer to
+a pile of money in some bank vault somewhere.  Now if the bank assigns
+me the same address (savings account number), then I can use that
+number to withdraw half of the money.  When you go to look at the
+account, half of the money is gone.
+
+When two names refer to the same thing, those names are called
+**aliases** of each other.  *Samuel Clemens* and *Mark Twain* both
+refer to the same person.  Aliasing can be a source of tricky-to-find
+bugs.  (You might view it as a bug if I withdrew half of your money
+from your savings account, and you didn't even know that we had the
+same account number.)
+
+For integers, floats, or booleans, the assignment operator makes a new
+copy of the data, not a copy of the address, so for these **primitive
+types**, changing the value of one variable never has an effect on the
+value of another variable.  For strings, the assignment operator
+copies the address, but because strings are **immutable**, you'll
+never notice that aliasing is occuring.
+
+Why the difference between how primitive types and lists are treated?
+I surmise that it is because lists can be long; copying a list is an
+expensive operation for the computer.  Copying the address of the list
+might be enough.  We'll see later that we can still tell Python that
+we really do want to copy the list itself, and not just the address,
+using a special function `list`.
+
+## Passing lists to functions (and aliasing)
+
+Although aliasing can lead to heartache, it can also be a thing of
+beauty.  If you pass the address of a list to a function, then the
+function can change the data at that address.  Let's look at an
+example.  Reversing a list seems like a useful thing to do; we already
+wrote the code to do it.  Aliasing lets us move that code into a
+function, as in [reverse_list_func.py](reverse_list_func.py):
+
+~~~{.python}
+def reverse_list(l):
+    index = 0
+    while index < len(l) / 2:
+        # We'll call the index of the item to swap with the right_index,
+        # since it's the index into the right half of the list.
+    
+        # Because indices start at 0, the last item of the list is at 
+        # index len(l) - 1.
+        right_index = len(l) - 1 - index
+    
+        # Swap the items at index and right_index.
+        temp = l[index]  # store the value at l[index] before clobbering
+        l[index] = l[right_index]
+        l[right_index] = temp
+    
+        index = index + 1
+    
+test_list = [1, 3, 5, 7, 9, 11, 13, 15]
+print "The list before reversing:  " + str(test_list)
+reverse_list(test_list)
+print "The list after reversing:  " + str(test_list)
+~~~
+
+Notice that when `reverse_list(test_list)` is called, the formal
+parameter `l` now contains the address of the list `[1, 3, 5, 7, 9,
+11, 13, 15]`.  The function can therefore change the list, and the
+list *stays changed* when the function returns.  The function *does
+not* change the value of `test_list`, which is just some address.  But
+the list itself is changed.
+
+## Copying a list with `list`
+
+Sometimes, you really do want a copy of a list.  You can use the
+function `list` to make a copy of a list.  The `list` function
+copies all the data in the list into a new area in the heap, and
+returns the address of the new data.
+
+~~~{.python}
+test_list = [1, 3, 5, 7, 9, 11, 13, 15]
+rlist = list(test_list)
+reverse_list(rlist)
+print "Reversed:  " + str(rlist)    
+print "Not reversed:  " + str(test_list)
+~~~
+
+## Sorting a list with `sorted`
+
+Python contains a useful built-in function, `sorted`, which makes a
+sorted copy of the original list, and returns that list.  The `sorted`
+function does not change the original list.  Look at this example, in
+[sorted.py](sorted.py):
+
+~~~{.python}
+ivies = [ "Dartmouth", "Columbia", "Yale", "Cornell", "Penn",
+         "Brown", "Princeton", "Harvard"]
+alphabetized_ivies = sorted(ivies)
+print ivies
+print alphabetized_ivies
+~~~
+
+It has this output:
+
+~~~
+['Dartmouth', 'Columbia', 'Yale', 'Cornell', 'Penn', 'Brown', 'Princeton', 'Harvard']
+['Brown', 'Columbia', 'Cornell', 'Dartmouth', 'Harvard', 'Penn', 'Princeton', 'Yale']
+~~~
+
+How does the `sorted` function work?  Over the years, computer
+scientists have developed dozens of different algorithms for sorting.
+We'll see a little later a simple sorting algorithm called *selection
+sort*.
+
+## Good programming practice:  Lists should contain only data of similar types
+
+It is possible to store different types of items in a single list.
+However, you should avoid doing so most of the time.
+
+~~~{.python}
+weird_list = ["test", "2", "5", 1, 3]
+~~~
+
+The problem is that if you want to apply some operation to all items
+of the list, you can't be sure that it makes sense to do so.  Imagine
+you tried to sort `weird_list` using the `sorted` function.  What
+would the result be?  It turns out Python will do it, but I just can't
+remember or predict the behavior.  It's terrible programming practice
+to rely on surprising behavior that you cannot predict!
+
+## Appending to an existing list
+
+If you have an existing list and would like to add an item to the end,
+you can do that with the `append` function, as in
+[append.py](append.py):
+
+~~~{.python}
+former_candidates = [ "Pawlenty", "Cain", "Bachmann", "Huntsman" ]
+print former_candidates
+former_candidates.append("Perry")
+print former_candidates
+~~~
+
+The output is
+
+~~~
+['Pawlenty', 'Cain', 'Bachmann', 'Huntsman']
+['Pawlenty', 'Cain', 'Bachmann', 'Huntsman', 'Perry']
+~~~
+
+The syntax for `append` is probably not what you expected.  You might
+have expected something like `append(former_candidates, "Perry")`,
+since `append` clearly needs two things: the variable referring to the
+list, `former_candidates`, and the data to append, `"Perry"`.
+
+What's the period doing in `former_candidates.append("Perry")`?  It
+turns out that a list is an example of a special type of data called
+an **object**.  We'll see objects in a few lectures, in all their
+glory.  It turns out that objects have associated with them special
+functions called **methods**.  These functions can take parameters in
+the usual way, in the parentheses, but also *always* have a special
+parameter before the dot.  This parameter is a reference to (the
+address of) the object.
+
+In our case, the object is the list of former candidates.  The method
+`append` acts on this object, appending the item `"Perry"`.
+
+## Example:  A photograph screen saver
+
+Let's look at a closing example of using lists to do something very
+cool: display photographs of Dartmouth as part of a screen saver.
+(Photos are by recently retired College Photographer Joseph Mehling
+'69.)  An image is an object, but a different type of object from a
+list; for now we can just use images, without knowing exactly how they
+work.  The code is in [photosaver.py](photosaver.py).  Before running
+this program, you have to add not only photosaver.py to your project,
+but also the image files [photo1.png](photo1.png),
+[photo2.png](photo2.png), [photo3.png](photo3.png), and
+[photo4.png](photo4.png).
+
+~~~{.python}
+#  Simple photo display screensaver.
+#  Devin Balkcom, March 2011.
+#  Modified by THC.
+
+from cs1lib import *
+from random import randint
+
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 800
+FRAME_CYCLE_LENGTH = 100
+DELAY = 0.02
+IMAGE_DURATION = 0.6    # fraction of time to display each image
+
+def main():
+    set_clear_color(0, 0, 0)    # black background
+    clear()
+    
+    # Filenames for images.
+    image_names = ["photo1.png", "photo2.png", "photo3.png",  "photo4.png"]
+    
+    # A list to store the addresses of loaded images.
+    images = []
+    
+    for image_name in image_names:
+        # Store the address of the loaded image object in img.
+        img = load_image(image_name)
+        images.append(img)
+    
+    # Keep track of how many frames have been drawn
+    frame_counter = 0
+    image_index = 0     # index of most recently displayed image
+
+    while not window_closed():
+        # Draw a new image every cycle.   
+        if frame_counter == 0:
+            clear()
+            
+            # Pick random pixel coordinates.
+            x = randint(0, WINDOW_WIDTH / 2)
+            y = randint(0, WINDOW_HEIGHT / 2) 
+            
+            # Draw the next image in the list, wrapping around.
+            image_index = (image_index + 1) % len(images)
+            draw_image(images[image_index], x, y)
+            
+        elif frame_counter < 0.6 * FRAME_CYCLE_LENGTH:
+            # Redisplay the most recent image.
+            draw_image(images[image_index], x, y)
+            
+        else:
+            # Draw a black, nearly transparent rectangle to fade
+            # the previous pictures out.
+            set_fill_color(0, 0, 0, .05)
+            draw_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+        
+        request_redraw()
+        sleep(DELAY)
+    
+        frame_counter = (frame_counter + 1) % FRAME_CYCLE_LENGTH
+
+start_graphics(main, "Photo screen saver", WINDOW_WIDTH, WINDOW_HEIGHT)
+~~~
+
+I don't want to get too deep into how this program works, but there
+are a few things worth noting.  I want the variable `image_index` to
+cycle through the numbers 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, &hellip;
+.  The way I do that is with the line `image_index = (image_index + 1)
+% len(images)`, where we know that `len(images)` is 4.  Similarly, I
+want `frame_counter` to cycle through the integers 0 through 99, so I
+update it with the line `frame_counter = (frame_counter + 1) %
+FRAME_CYCLE_LENGTH`, where `FRAME_CYCLE_LENGTH` is 100.
+
+This program divides time up into chunks, or *cycles*, of 100 frames.
+In the first 60 frames of each cycle, it displays the next image from
+the list of four images, wrapping back to the beginning after the last
+image.  In the last 40 frames of each cycle, it draws a partially
+transparent black rectangle over the entire window.  Each of these 40
+partially transparent rectangles obscures the image below it a little
+more, giving a fade-out effect.  How do we get a partially transparent
+rectangle?  That fourth parameter to `set_fill_color`, .05, says that
+the black fill color is only 5% opaque and 95% transparent.  Keep
+stacking 5% opaque rectangles on the window, and you get the
+progressive fading effect.  Cool, huh?
+
+## A quick detour: More about `print` and strings
+
+We've seen that lists are an example of something called *objects*.
+We've also seen that there is a special type of function for acting on
+an object, called a *method*.  The method is called by writing the
+name of the object, followed by a period, followed by the name of the
+method, and any parameters to the method in parentheses.
+
+It turns out that strings are objects, too.  One of the methods
+defined on a string is the `rjust(n)` method that returns a
+right-justified copy of the string, padded with spaces so that its
+length is `n`.  A short example, in [rjust.py](rjust.py):
+
+~~~{.python}
+mystring = "Otter"
+print "Hairy" + mystring.rjust(10)
+~~~
+
+Output:
+
+~~~
+Hairy     Otter
+~~~
+
+The `rjust` method is not terribly important, but it is useful for
+doing things like making a table of values.
+
+Here's another little trick.  If you'd like to print multiple things
+on one line (for example, during a loop), you can tell `print` not to
+advance to the next line by putting a comma after the last item to
+print.  Like in [print_line.py](print_line.py):
+
+~~~{.python}
+print "all",
+print "on",
+print "one",
+print "line."
+~~~
+
+Output: 
+
+~~~
+all on one line.
+~~~
+
+It might surprise you that the comma also adds a space after each item
+printed.  It surprises Professor Balkcom, too, but that's just how it
+works.  (Me?  I hadn't really thought about it.)
+
+## Nested loops
+
+You've already seen that, for example, a while-loop might contain an
+if-statement.  (*Not* an "if-loop," right?  Right?  RIGHT?)  A
+while-loop can also contain another while-loop.  This structure is
+called a **nested* loop*, since one loop, the **inner loop**, is
+"nested" inside of another "larger" loop, the **outer loop**.  Here's
+an example to print out a times table, in
+[times_table.py](times_table.py):
+
+~~~{.python}
+row = 1
+
+while row < 10:     # the header for the outer loop
+    column = 1
+    while column < 10:   # the header for the inner loop
+        print str(row * column).rjust(2),
+        column += 1
+
+    print ""
+
+    row += 1
+~~~
+
+Output:
+
+~~~
+ 1  2  3  4  5  6  7  8  9 
+ 2  4  6  8 10 12 14 16 18 
+ 3  6  9 12 15 18 21 24 27 
+ 4  8 12 16 20 24 28 32 36 
+ 5 10 15 20 25 30 35 40 45 
+ 6 12 18 24 30 36 42 48 54 
+ 7 14 21 28 35 42 49 56 63 
+ 8 16 24 32 40 48 56 64 72 
+ 9 18 27 36 45 54 63 72 81 
+~~~
+
+What's this `+=` business?  In Python, you can combine a binary
+operator, such as `+`, `-`, `*`, `/`, or `%` with assignment, using
+the combination operators `+=`, `-=`, `*=`, `/=`, and `%=`.  The
+pattern is `variable op= expression`, which is the same as `variable =
+variable op expression`, where `op` is any of the five binary
+operators above, `variable` is a variable, and `expression` is any
+expression that can be an operand of `op`.  So to multiply `money` by
+10 and store the result back into `money`, you can write `money *=
+10`.
+
+The code calls `rjust(2)` to create a string of length 2 to hold each
+number, even if the number has only one digit.  In this way, the
+columns of the table line up so that the table is easy to read.
+
+Let's step through what happens.  
+
+1.  Set `row` to the value 1.  
+2.  If `row < 10` evaluates to `True`, go to the line after `while row < 10`.  
+3.  OK, 1 < 10 evaluates to  `True`.
+4.  `column` is set to 1.
+5.  `column < 10` is True.  Go to the next line.
+6.  Print `row * column`, with some fancy formatting.  So print 1, 
+7.  Add 1 to the value in `column`.
+8.  We finished the body of the *inner* loop.  Go back up to `while column < 10`.  True?  Yes.
+9.  Print `row * column`.  So print 2,
+10. We finished the body of the *inner* loop.  Go back up to `while column < 10`.  True?  Yes.
+
+A lot more steps happen.  Eventually, the condition of the inner loop,
+`column < 10` evaluates to `False`.  The inner loop is done and we get
+to the line `print ""`.  `row` is increased by 1, and we go to the
+header of the *outer loop*.  `row` has the value 2, so `row < 10` is
+`True`.  We go to the next line.  `column` is reset to the value 1.
+Now the *entire inner loop* is executed again, for columns 1 to 9.
+Then `row` gets the value 3.  And so on, through `row` getting the
+value 9, printing out the entire row for `row` equaling 9.  Then `row`
+is incremented to 10, and we drop out of the *outer loop*.
+
+Nested loops will eventually be very familiar and comfortable to you,
+but they can be tricky at first.  Here's what I recommend.  Get an
+index card.  Use it to cover all lines below the current line (the
+line the program counter is pointing at).  Step through the code one
+line at a time until you are comfortable with it.
+
+You can often use for-loops to make code easier to read.  The
+following code with nested for-loops, in
+[times_table2.py](times_table2.py), prints out the same table as the
+example above.
+
+~~~{.python}
+for row in range(1, 10):
+    for column in range(1, 10):
+        print str(row * column).rjust(2),  
+
+    print ""
+~~~
+
+In this case, you don't have to explicitly add to `row` or `column`,
+or reset their values, since stepping through the lists created by the
+`range` function takes care of these details.  If you wanted to print
+out a times table that showed only products of even numbers (though I
+have no idea why you want to do that), it would be harder to use
+for-loops, since `range` always gives sequential integers.
+
+A good rule of thumb is to use a for-loop if the for-loop is easier to
+read than the corresponding while-loop, and if the goal of the loop is
+to *iterate over* some set of values in a list (or for which a list
+can be easily created).
+
+## Selection sort
+
+On the first day, I gave an example of how quickly you could find a
+name in a phone book using a process called *binary search*.  Tear the
+book in half.  If the name you want is before the middle, keep the
+first half and throw away the second half.  If the name you want is
+after the middle, keep the second half instead.  Repeat, starting with
+the tear operation, until you have found the name or run out of pages.
+
+Binary search was much faster than looking through every name in
+sequence.  But binary search relied on knowing that the book was
+already sorted.  Let's look at a method for sorting a list of items.
+This is not the most efficient possible method in all cases; we'll see
+other methods later.
+
+The method we will look at now is called **selection sort**.  We're
+looking at selection sort because sorting a list is sometimes useful,
+and second, because it is an example of an algorithm design problem
+that uses a list.  Selection sort works like this:
+
+1.  Find the smallest item in the list.  Swap it into the 0 position
+(the item at index 0).
+
+2) Find the second-smallest item in the list.  Swap it into the 1
+position.
+
+3) Find the third-smallest item in the list.  Swap it into the 2
+position.
+
+4)  &hellip;
+
+5) Stop when we have swapped the second-largest item into the
+second-to-last position.  At that point, the largest item must already
+be in the last position.
+
+You can see a PowerPoint demo in
+[selection_sort.ppt](selection_sort.ppt).
+
+Here is the code that we walked through in class.  It's in
+[selection_sort.py](selection_sort.py).
+
+~~~{.python}
+grade_list = [89, 45, 85, 81, 77, 94, 22, 79, 92, 91]
+print "grade_list before sorting: ", grade_list
+
+# Selection sort algorithm pseudo-code:
+#   for each consecutive index i in the list:
+#     find the minimum value in the sublist starting at index i.
+#     call the index of this value index_smallest.  
+#     swap the items at indices i and index_smallest.
+
+for i in range(len(grade_list) - 1):
+    # Find the minimum value in the sublist starting at index i.
+    # minval will hold the smallest value we have found so far in the sublist
+    minval = grade_list[i]
+    index_smallest = i
+
+    for j in range(i, len(grade_list)):
+        if grade_list[j] < minval:
+            minval = grade_list[j]
+            index_smallest = j
+
+    # After the inner loop, minval has the smallest value in the sublist
+    # starting at index i, and index_smallest has the index of this
+    # smallest value.  Swap it into index i.
+    temp = grade_list[i]
+    grade_list[i] = minval
+    grade_list[index_smallest] = temp
+
+print "grade_list after sorting:  ", grade_list
+~~~    
+

@@ -1,0 +1,320 @@
+# Short Assignment #10: File Input and Output \
+Due: Wednesday, February 15
+
+In [Lab Assignment 3](../../labs/quicksort/lab_quicksort.html), you
+will need to read and write text files, and we won't be covering how
+to do so in class.  This short assignment will teach you how to read
+and write text files, and how to do some simple text processing.
+
+You will read the file [states.txt](states.txt), which contains the
+names of U.S. states, separated by commas, on several lines:
+
+~~~
+Maine, New Hampshire,  Vermont, Massachusetts
+  Rhode Island,Connecticut  , New York,  New Jersey   , Delaware,Pennsylvania
+Maryland,  Virginia    ,West Virginia  , North Carolina,South Carolina,
+Georgia
+	Florida,Alabama,   Mississippi, Tennessee,Kentucky	,
+Ohio,   Indiana, Michigan, Wisconsin,Illinois,   Missouri, Arkansas,	Louisiana	,	
+		 Texas, Oklahoma,Kansas,	Nebraska ,	,  ,
+Iowa,		 Minnesota, South Dakota,North Dakota,  ,  
+  Montana, Wyoming,  Colorado,New Mexico,      Arizona, , , , Utah,
+Idaho, Washington,   Oregon,Nevada, California,
+Alaska,		     Hawaii
+~~~
+
+Some of the state names are empty, and you will need to ignore these.
+Your program should read the names of the states (I've put all 50 in
+the file, but your code should not rely on this property when reading
+the file) into a Python list, sort the list alphabetically, and then
+write it out to a file named sorted_states.txt, with exactly five
+states per line, and with states on a line separated by a comma and a
+space.  Here are the first two lines of what your sorted_states.txt
+file should look like:
+
+~~~
+Alabama, Alaska, Arizona, Arkansas, California
+Colorado, Connecticut, Delaware, Florida, Georgia
+~~~
+
+To sort the list of states, you may use whichever sorting algorithm
+you like.  We've seen selection sort and merge sort in lecture, and
+you've written insertion sort in [Short Assignment
+9](../insertion/sa_insertion.html).
+
+## How to read from a file
+
+Reading from a file follows this basic paradigm:
+
+1. Open the file for reading.
+2. For each line in the file:
+
+    a. Read the line from the file.
+    b. Process the line.  In other words, do whatever you need to do
+    with the line.
+
+3. Close the file.
+
+To open a file for reading, call the built-in Python function `open`.
+It takes two parameters, both strings.  The first parameter gives the
+name of the file.  The second parameter should be the string `"r"`,
+which indicates that you're reading from the file.  The function
+returns a reference to an object representing the file.  For example,
+to open the file moby_dick.txt for reading:
+
+~~~{.python}
+file_name = "moby_dick.txt"
+in_file = open(file_name, "r")
+~~~
+
+Of course, you could get that down to a single line:
+
+~~~{.python}
+in_file = open("moby_dick.txt", "r")
+~~~
+
+To read lines from the file, you use a for-loop:
+
+~~~{.python}
+for line in in_file:
+    # Do something with line
+~~~
+
+Here, in each iteration of the loop, the variable `line` will be a
+line from the file.  In particular, it will be a string containing
+*all* the characters in the line, including the newline character
+(`"\n"`).  For example, if you open the file states.txt and print
+`line` in the first iteration of the for-loop, you'll print
+
+~~~
+Maine, New Hampshire,  Vermont, Massachusetts
+~~~
+
+with a newline at the end.  Consequently, the for-loop
+
+~~~{.python}
+for line in in_file:
+    print line
+~~~
+
+would produce the following console output:
+
+~~~
+Maine, New Hampshire,  Vermont, Massachusetts
+
+  Rhode Island,Connecticut  , New York,  New Jersey   , Delaware,Pennsylvania
+
+Maryland,  Virginia    ,West Virginia  , North Carolina,South Carolina,
+
+Georgia
+
+	Florida,Alabama,   Mississippi, Tennessee,Kentucky	,
+
+Ohio,   Indiana, Michigan, Wisconsin,Illinois,   Missouri, Arkansas,	Louisiana	,	
+
+		 Texas, Oklahoma,Kansas,	Nebraska ,	,  ,
+
+Iowa,		 Minnesota, South Dakota,North Dakota,  ,  
+
+  Montana, Wyoming,  Colorado,New Mexico,      Arizona, , , , Utah,
+
+Idaho, Washington,   Oregon,Nevada, California,
+
+Alaska,		     Hawaii
+
+~~~
+
+Notice the extra newline at the end of each line.  Why the extra
+newline?  Because `line` contains the newline from the file, and the
+print statement also adds a newline at the end of the line.  If we
+were to add a comma at the end of the print statement, we'd get just
+one newline per line.  That is,
+
+~~~{.python}
+for line in in_file:
+    print line,
+~~~
+
+would produce the console output
+
+~~~
+Maine, New Hampshire,  Vermont, Massachusetts
+  Rhode Island,Connecticut  , New York,  New Jersey   , Delaware,Pennsylvania
+Maryland,  Virginia    ,West Virginia  , North Carolina,South Carolina,
+Georgia
+	Florida,Alabama,   Mississippi, Tennessee,Kentucky	,
+Ohio,   Indiana, Michigan, Wisconsin,Illinois,   Missouri, Arkansas,	Louisiana	,	
+		 Texas, Oklahoma,Kansas,	Nebraska ,	,  ,
+Iowa,		 Minnesota, South Dakota,North Dakota,  ,  
+  Montana, Wyoming,  Colorado,New Mexico,      Arizona, , , , Utah,
+Idaho, Washington,   Oregon,Nevada, California,
+Alaska,		     Hawaii
+~~~
+
+When you're all done reading from a file, you must close it.  (Your
+mother told you to close something you'd opened when you were done
+with it, right?  I know *my* mother told *me*.)  To close a file, you
+call the `close` *method* on the object that `open` returned:
+
+~~~{.python}
+in_file.close()
+~~~
+
+Putting it all together, here's how you read and process a file:
+
+~~~{.python}
+in_file = open(file_name, "r")
+
+for line in in_file:
+    # Do something with line
+
+in_file.close()
+~~~
+
+There's nothing special about the identifiers `in_file` and `line`.
+You may use whatever name you like for the reference to the file
+object and for the string that is read from each line of the file.
+
+## How to write to a file
+
+Writing to a file is similar to reading from a file, but it differs in
+some important ways.
+
+First, you have to open the file for writing.  The second parameter to
+the `open` function shouldn't be `"r"`.  Instead, you have your choice
+of `"w"` or `"a"`.  If you want to *append* to a file, choose `"a"`.
+If you want to overwrite the file if it already exists, choose `"w"`.
+If the file doesn't exist and you choose `"a"`, you get the same
+effect as choosing `"w"`.  So, for example:
+
+~~~{.python}
+out_file = open(file_name, "w")
+~~~
+
+There's nothing special about the name `out_file`; use whatever name
+you like.
+
+Just as you close a file that you're reading when you're done reading
+from it, you *must* close a file that you're writing when you're done
+writing to it.  You call the `close` method just as you call it for
+reading:
+
+~~~{.python}
+out_file.close()
+~~~
+
+To write to a file, call the `write` method on the file.  This method
+takes one parameter, a string, and it writes to the end of the file.
+If you want a newline in the file, you have to put it into the string
+yourself.
+
+For example:
+
+~~~{.python}
+out_file = open("gettysburg.txt", "w")
+out_file.write("Four score and seven years ago,\n")
+out_file.write("our fathers brought forth on this continent, a new nation,\n")
+out_file.write("conceived in Liberty, and dedicated to the proposition ")
+out_file.write("that all men are created equal.\n")
+out_file.close()
+~~~
+
+produces the file gettysburg.txt:
+
+~~~
+Four score and seven years ago,
+our fathers brought forth on this continent, a new nation,
+conceived in Liberty, and dedicated to the proposition that all men are created equal.
+~~~
+
+Of course, you may call the `write` method within a loop.
+
+### How to process a line of text from a file
+
+In this short assignment, as well as in [Lab Assignment
+3](../../labs/quicksort/lab_quicksort.html), you will read and process
+a text file in which each line contains meaningful text separated by
+commas.  There might be whitespace (spaces, tabs, newlines) around the
+meaningful text, however.  You are in luck, because Python provides
+two E-Z methods for separating text based on a delimiter (such as a
+comma) and for stripping away the whitespace around text.
+
+To separate text, use the `split` method on the string.  It returns a
+list of the strings that, concatenated with the delimiter added in,
+gives you back the string.  This idea is best shown by an example:
+
+~~~{.python}
+s = "a man, a plan, a canal,"
+clauses = s.split(",")
+print clauses
+~~~
+
+prints
+
+~~~
+['a man', ' a plan', ' a canal', '']
+~~~
+
+Note that every character other than the commas becomes part of one of
+the strings in the list.  Not only do the spaces after the first two
+commas become part of strings in the list, but we also get an empty
+string at the end.  Why?  Because the string `s` ends with a comma,
+and so the `split` method gives back the empty string after the comma.
+
+You can use any character as the delimiter, and the default is a space
+character.  More examples:
+
+~~~{.python}
+s = "Roll out the barrel"
+words = s.split()
+print words
+~~~
+
+prints
+
+~~~
+['Roll', 'out', 'the', 'barrel']
+~~~
+
+And
+
+~~~{.python}
+s = "commander--in-chief"
+parts = s.split("-")
+print parts
+~~~
+
+prints
+
+~~~
+['commander', '', 'in', 'chief']
+~~~
+
+Again, note the empty string caused by two delimiters in a row.
+
+To strip away whitespace from the beginning and end of a string, call
+the `strip` method on the string:
+
+~~~{.python}
+s = "  The thousand injuries of Fortunato I had borne as best I could, \n"
+t = "|" + s.strip() + "|"
+print t
+~~~
+
+prints
+
+~~~
+|The thousand injuries of Fortunato I had borne as best I could,|
+~~~
+
+I put the vertical bar characters in so that you could see where the
+string returned by the call `s.strip()` begins and ends.
+
+For this short assignment, remember that you are to construct a list
+containing only non-empty state names, with no whitespace before or
+after each name.  Then sort the list, using the sorting algorithm of
+your choice, and write it to a file as described above.
+
+## What to hand in
+
+Submit your Python code and the sorted_states.txt file.
