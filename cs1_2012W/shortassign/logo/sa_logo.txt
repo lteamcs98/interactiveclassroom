@@ -1,0 +1,262 @@
+# Short assignment #1: Printing to the screen \
+Due: Friday, September 14
+
+This short assignment is a bit wordier than will be typical.  It also
+has a lot of technical detail about installing the Eclipse software
+and using it.  It is to get you started off.  Future assignments will
+be more creative and will require less following of picky
+instructions.
+
+## Things to do to get started
+    
+1.  Familiarize yourself with the layout of the CS 1 web site.  All
+materials for the course, other than the textbook, will reside on the
+website, <a
+href="http://www.cs.dartmouth.edu/~cs1/">www.cs.dartmouth.edu/~cs1</a>.
+If you are using one of the Macs in 003 Sudikoff, skip to item 4.
+
+2. Install Eclipse and the course software on your computer:
+
+    * [Instructions for Mac OS X](http://www.cs.dartmouth.edu/~cs1/mac_installation/mac_installation.html)
+    * [Instructions for Windows](http://www.cs.dartmouth.edu/~cs1/windows_installation/windows_installation.html)
+
+    The amount of disk space you will need to do this will vary
+according to your system, but shouldn't exceed 0.5 gigabytes.
+
+    Pay careful attention to the instructions.  *Follow them exactly.
+Do not skip steps.* From here on, we'll assume that you have installed
+Eclipse and the course software correctly.  If you have, then you will
+have already created a project in Eclipse and run a couple of
+programs.
+
+3.  If Eclipse is not already running, launch it.
+
+4.  Under the *File* menu, select *New*, then *PyDev Project*.  Since
+you already created a project when installing and checking your
+software, you've done this before.  You may enter whatever project
+name you like.  I used *SA1*, and after I entered the project name, my
+Eclipse window looked like this:
+
+    ![](proj.png)
+
+    I'm using a Mac.  If you're using Windows, it will be similar, but
+Windows-like and with plus-signs instead of triangles in the *PyDev
+Package Explorer* tab.
+
+5.  Remember how you were supposed to keep the file *cs1lib.py* that you
+downloaded nice and accessible?  Find it, and drag it  onto the name
+of your project in the *PyDev Package Explorer* tab.  You'll see this:
+
+    ![](cs1lib.png)
+
+6.  The code that you'll first run is mystery.py.  Download this
+[link](mystery.py) onto your hard drive.  How you do so depends on
+whether you're running Mac OS X or Windows:
+
+    * On Mac OS X, hold the option key while clicking the link, which
+      should save the file to your *Downloads* folder.
+    * On Windows running Internet Explorer or Firefox, right-click the
+      link and choose *Save Target As...*.
+
+    Don't save this file into the workspace folder that you made,
+however.  Just save it someplace innocuous, such as your Desktop, or
+leave it in your *Downloads* folder.
+
+    Drag the mystery.py file from wherever you saved it onto the name
+of your project in the *PyDev Package Explorer* tab.  You'll see this:
+
+    ![](mystery.png)
+
+7.  Single-click on *mystery.py* in the *PyDev Package Explorer* tab.
+Then under the *Run* menu, select *Run As*, then *1 Python Run*.  If
+you're on a Mac, don't worry about the red text you get in the
+*Console* tab.
+
+    An easy alternative to *Run*, then *Run As*, then *1 Python Run*
+is to click on the green circle with the white triangle:
+
+    ![](run-arrow.png)
+
+8.  Write down what you see.
+
+9.  Double click on the *mystery.py* name under *src*.  You should see
+a listing of the mystery.py program in the center of the window with
+*mystery.py* as a tab above it.  When you open a number of different
+files, each will have its own tab, so you can quickly select any of
+them.  You may edit and save this listing, though you don't need to
+for this program.  This panel is where you will enter and debug your
+programs.  It should look like this:
+
+    ![](mystery-code.png)
+
+10.  Next, remove mystery.py from the project.  To do so, select it
+again by clicking on *mystery.py* in the *PyDev Package Explorer* tab,
+go to the *Edit* menu, and select *Delete*.  When you are asked, *Are
+you sure you want to delete 'mystery.py' from the file system?*, click
+*OK*.
+
+11.  Now you will type in a new program that you will write.  This
+program prints your name with a simple text-based logo.
+
+    First, click on *SA1* (or your project name) in the *PyDev Package
+Explorer* tab.  Then go to the *File* menu, choose *New*, and then
+choose *File*.  You need to select a parent folder.  Because you have
+already selected *SA1* (or whatever you named your project), you will
+see that *SA1* (replace *SA1* with your project name) has already been
+chosen as a parent folder; that's just what you want.
+
+    You then need to type in the name of your new file next to where
+it says, *File name:*.  Let's assume that you choose *logo.py* as the
+file name.  The *.py* is essential, because the file extension has to
+be the same as the type of code inside it:
+
+    ![](filename.png) 
+
+    Click *Finish*.
+
+    The middle of the window will be a tab labeled with the name of
+your program (*logo.py* in our example, or it might say just *logo*).
+Type in the logo program, with a logo of your choosing.  (See the
+explanation below under Exercises.)  You can model it after the class
+examples.  Note that Eclipse automatically indents your program as you
+type it, and does things like putting closing braces and parentheses
+when you type the opening ones.  Also, if a line has an error in it, a
+red error mark will appear in the left margin in front of it.
+
+    Type in your program.
+
+    Run your program by highlighting the file name in the *PyDev
+Package Explorer* tab and clicking the green play arrow, as you did
+with mystery.py.  If Eclipse asks you to *Select the resources to
+save*, just click *OK*.  Either your program will run correctly
+(writing to the *Console* panel) or Eclipse will describe the errors
+in the program in the *Problems* panel.
+
+    Your program may not run correctly the first time.  If that's the
+case, then you have had an early initiation into the world of
+programming.  Errors are common in programming.  We all make them.
+Even me.  Fixing mistakes is a significant part of developing
+programs.  If you have an error, check the syntax of your program
+carefully.  Are the tabs, parentheses, colons, and quotation marks
+correctly placed?  Did you misspell something?
+
+    If you need help, you can contact a section leader, Weifu, or me
+to get help.  Remember that if you email cs1help at cs dot dartmouth
+dot edu, the first available person will respond.  If you ask for help
+by email, please remember to enclose a copy of your program: without
+it, we cannot tell you what's wrong with it.  Remember that when you
+email a program it must be an attachment.  Please do not copy and
+paste your program into the message; we will have a hard time running
+it if you copy and paste, but it's easy for us to run it if you make
+it an enclosure.  Your program is found in the *SA1* folder within the
+folder that you selected as your workspace.  (For example, on my Mac,
+it's in /Users/thc/Documents/workspace/cs1SA.)
+
+12. When your program execution completes, you'll be left with the
+*Console* panel containing the output of your program.  We want to see
+the output of your program.  Take a screenshot.
+
+    * **Mac screenshot instructions**: You can take a shot of just the
+        window you want by using the Grab utility; save the screenshot
+        as logo_output.tiff.
+    * **Windows screenshot instructions**: Press the PrntScrn button
+        on your keyboard, open the Microsoft Paint utility, and save
+        the screenshot as logo_output.bmp.
+
+## Exercises: 
+
+(These are the "official" things to do and turn in Monday.)
+
+1.  Run the Python program mystery.py, and write a short text file
+describing what you observe, using Notepad (Windows) or TextEdit
+(Mac).  Save your text file as observation.txt.
+
+2.  Write a Python program that prints out a logo containing your
+name.  I chose the following:
+
+
+~~~    
+       ***
+       *  *
+       *   *
+       *    *
+       *  *******     Devin
+       *    **            J.
+       *   * *      Balkcom
+       *  *  *
+       ***   ****
+         *   *   *
+          ****    *
+             *   *
+             ****
+             *   *
+             *    *
+             *   *
+             ****
+~~~	
+
+> Please feel free to create your own design.  (As I often say, "I don't
+know what I like, but I know art.")  The program should be very
+simple, essentially consisting of just a few print statements.  In
+this example, the third statement might be
+
+~~~
+print " *  *  *"
+~~~  
+  
+3. Take a screenshot of the Eclipse window (or the entire screen)
+showing the console window after running your logo.py.  Save the
+result as either logo_output.tiff (Mac) or logo_output.bmp (Windows).
+
+## What to turn in
+
+There are three things you need to turn in:
+
+1. observation.txt (your description of the result of running
+mystery.py)
+
+2. logo.py (or whatever you called the program you wrote to display
+your logo.)
+
+3. logo_output.tiff or logo_output.bmp.
+
+Please remember in all assignments that editing the output of the
+program before printing it is a violation of the Academic Honor
+Principle.  Make sure that the output you turn in comes from the very
+same program that you turn in.  *If you make any change to the code,
+no matter how insignificant you think they might be, rerun your
+program to produce new output!*
+
+## How to turn in your assignment
+
+You have a section leader.  You will be able to find out which section
+you're in on the course [Blackboard
+site](https://blackboard.dartmouth.edu/) starting some time Thursday
+afternoon or evening.  Click on the *Recitation sections* link.
+
+Your section leader has a special email account, which we have set up
+just for CS 1:
+
+cs1-xxx@cs.dartmouth.edu
+
+where xxx is replaced with your section leader's first name.  For
+example, if your section leader is Bertha, then your section leader's
+special email account is cs1-bertha@cs.dartmouth.edu.
+
+Send your section leader an email to his or her special account with
+the title "Short assignment 1 submission."  Attach the three files
+that you need to turn in.  Make sure to send the files as attachments.
+
+You are done.  Whew!  Future short assignments will have far fewer
+picky details.  This one was really detailed because it's your first
+time using Eclipse and your first time running and writing a Python
+program.
+
+## An important reminder
+
+Keep up to date.  Do your studying for each class&mdash;not just once
+a week.  Do lots of simple exercises on your computer.  Even when you
+think you understand how to do something, you will discover that it is
+still important to actually do it with your own fingers, on your own
+computer.  Unlike mixed martial arts, programming is not a spectator
+sport.

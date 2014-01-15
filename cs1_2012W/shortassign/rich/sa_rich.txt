@@ -1,0 +1,120 @@
+# Short Assignment #3:  How Rich Am I? \
+Due: Friday, January 13
+
+*Read the entire assignment before you start designing your program or
+writing any code.*
+
+In the year 0 A.D., my ancestor Brutus Cormen deposited `$`1.00 in the
+Bank of Rome.  (OK, it wasn't a real dollar; it was the Roman
+equivalent of a dollar. Probably some kind of big coin with a hole in
+the middle.)  The bank promised to pay 5% interest compounded once a
+year.  Each year the bank added to his account 5% of the previous
+year's balance.  In other words, they multiplied his balance by 1.05
+once each year, so that at the end of the year 1 A.D., the balance was
+`$`1.05; at the end of the year 2 A.D., the balance was `$`1.1025; at
+the end of the year 3 A.D., the balance was `$`1.157625; and so on.
+Since old Brutus was not around to withdraw it (Julie Caesar's
+descendants took care of that), the balance has accumulated nicely up
+to the present day.  Because I am his rightful heir, the bank account
+is now mine.  Bwa-ha-ha!!
+
+## Problem 1
+
+Your first job is to write a Python program that computes my current
+wealth: the balance of the account after 5% interest was compounded
+2012 times.
+
+## Problem 2
+
+In an amazing coincidence, our section leader Steffi Ostrowski has an
+ancestor, Portia Ostrowski, who also deposited money in the Bank of
+Rome in the year 0 A.D.  Back then, the Ostrowskis were much better
+off than the Cormens, and Portia Ostrowski deposited `$`100,000.00.
+But P. O. did not know that in business, you don't get what you
+deserve&mdash;you get what you negotiate&mdash;and she was able to get
+only a 4% interest rate on her deposit, so that her balance multiplied
+by 1.04 each year.
+
+Your job is to write a Python program that computes the first year in
+which Brutus's balance exceeds Portia's balance, and prints out that
+year and the two balances in that year.
+
+## What to do and how to do it
+
+You should use variables with names in all-capitals at the top of your
+program for the initial deposit amounts, interest rates, and for
+Problem 1, the current year.  By convention, variable names in
+all-capitals indicate that the variable's value should never be
+changed after the initial assignment.
+
+When you print out balances, they will be large.  You will want to
+store them as floats, and just let the float values print normally.
+(They should print with scientific notation.)  Your output should be
+nicely formatted.  For example, if the current year were year 2 (not
+year 2012), the output of Problem 1 should read something like
+
+~~~
+At year 2, the balance is 1.1025.
+~~~
+
+Your output does not have to read exactly the same as mine, but it
+should read like an English sentence with spaces and punctuation in
+the right places.  Remember that you can concatenate strings with the
+`+` operator, and you can convert a number to a string with Python's
+`str` function.  And, of course, you should program your solution to
+Problem 1 to use the year 2012.
+
+To compute the balances, use while-loops in which each iteration
+multiplies each balance by the appropriate factor.  Do not use
+exponentiation to calculate balances.  Start with the appropriate
+balances, and use loops to repeatedly multiply the balances by the
+appropriate amounts each time.  Each iteration should correspond to
+one year.
+
+Submit your programs for the two problems, along with runs that show
+the answers.
+
+##  A helpful hint
+
+I found it quite helpful, when developing my programs, to include a
+print statement within the body of the loop to show the year and the
+balances in each iteration of the loop.  That way, I could verify that
+my program was doing the right thing.  I then removed the print
+statement from my loop before declaring my program complete.  Of
+course, I left in a print call after the loop, to print the answer.
+You should consider doing the same thing, but make sure to remove the
+print call within the loop body&mdash;or comment it out&mdash;before
+submitting your program and its output.
+
+## What to turn in
+
+1. how_rich.py (or whatever you called the program for Problem 1).
+
+2. portia.py (or whatever you called the program for Problem 2).
+
+3. A screenshot to show the output of running how_rich.py.
+
+4. A screenshot to show the output of running portia.py.
+
+Please remember in all assignments that editing the output of the
+program before printing it is a violation of the Academic Honor
+Principle.  Make sure that the output you turn in comes from the
+program that you turn in.  If you make any change to the code, no
+matter how insignificant you think it might be, rerun your program to
+produce new output!
+
+## How to turn in your assignment
+
+You have a section leader.  That section leader has a special e-mail
+account
+
+cs1-xxx@cs.dartmouth.edu
+
+where xxx will be replaced with your section leader's first name.  So
+for example, if your section leader is Bertha, then e-mail
+cs1-bertha@cs.dartmouth.edu.  You can find this email account in the
+Recitation Sections area on the course [Blackboard
+site](https://blackboard.dartmouth.edu/).
+
+Send your section leader an e-mail with the title "Short assignment 3
+submission."  Attach the files that you need to turn in.

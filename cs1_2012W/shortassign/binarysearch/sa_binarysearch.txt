@@ -1,0 +1,139 @@
+# Short Assignment #8: Recursive Binary Search \
+Due: Wednesday, February 8
+
+This assignment will give you a little practice in programming
+a recursive function.  It uses no graphics.
+
+Do you recall how in the first lecture, we found the page with my
+address and phone number by taking the phone book, tearing it in half,
+throwing away the half that did *not* contain my listing, and
+repeating this procedure until only one page remained, and that page
+had to have my listing (assuming of course, that my phone number is
+listed, which it is)?
+
+You're going to program this idea as a recursive method.  I've started
+a recursive function for you:
+
+~~~{.python}
+# Perform binary search for key on the sublist of the_list
+# starting at index left and going up to and including index right.
+# If key appears in the_list, return the index where it appears.
+# Otherwise, return None.
+# Requires the_list to be sorted.
+def binary_search(the_list, key, left = None, right = None):
+    # If using the default parameters, then search the entire list.
+    if left == None and right == None:
+        left = 0
+        right = len(the_list) - 1
+    
+        # YOU FILL IN THE REST OF THIS FUNCTION.
+~~~
+
+As you can see from the comment before this function, it returns
+either the index where `key` appears in `the_list`, or `None` if `key`
+does not appear in `the_list`.  A given recursive call takes
+parameters `left` and `right`, and it looks *only* in the sublist
+starting at index `left` and going through *and including* index
+`right`.  The function requires `the_list` to be sorted.
+
+The little bit of code that I've provided makes it so that if `left`
+and `right` are both `None`, then binary search considers the entire
+list, setting `left` to 0 and `right` to the highest index in the
+list.
+
+For example, suppose that `the_list` is
+
+~~~
+[27, 78, 105, 135, 411, 431, 434, 468, 493, 501, 525, 534, 551, 654, 780]
+~~~
+
+which contains 15 items, indexed 0 to 14.  If I call
+`binary_search(the_list, 135)`, then I'm considering the entire list,
+and the return value should be 3, since the value 135 appears at index
+3 in `the_list`.  If I call `binary_search(the_list, 500)`, the return
+value should be `None`, since the value 500 is absent from `the_list`.
+
+Moreover, the call `binary_search(the_list, 135, 2, 12)` should return
+3 since, as before, the value 135 appears at index 3 in `the_list`.
+Notice that the index returned is the index in the entire list, not
+the relative index in the sublist starting at index `left`.  The
+parameters `left` and `right` just give the range of indices into the
+list that we're considering in a given call of `binary_search`.
+
+Here's what you need to do in the rest of the `binary_search` function
+(the part I didn't write for you):
+
+* If the sublist of `the_list` starting at index `left` and going up
+  to and including index `right` is empty&mdash;that is, it contains
+  no items&mdash;then clearly, `key` cannot be in this sublist.
+  Return `None`.
+
+* Otherwise, the sublist is not empty.
+
+    * Compute `midpoint`, the midpoint of this sublist, by averaging
+      `left` and `right`.
+
+    * If `key` is equal to the item at index `midpoint` of `the_list`,
+      then it has been found.  Return this index.
+
+    * Otherwise, because `the_list` is sorted, you can tell whether
+      `key`, if in `the_list`, is either in the sublist before the
+      midpoint or in the sublist after the midpoint.
+
+    * If `key` is less than the item at the midpoint, then it must be
+      in the sublist before the midpoint.  Recursively return the
+      result of calling `binary_search` on the sublist starting at
+      index `left` and going up to and including the index just before
+      `midpoint`.
+
+    * Only one other possibility remains: `key` is greater than the
+      item at the midpoint, and so it must be in the sublist after the
+      midpoint.  Recursively return the result of calling
+      `binary_search` on the sublist starting at the index just after
+      `midpoint` and going up to and including index `right`.
+
+If you think carefully about the indices, you should be able to write
+your part in 10 lines of Python, plus comments.  Think carefully about
+how you can determine whether the sublist from index `left` to index
+`right` is empty.  Remember that you should not assume that `left` is
+always 0, nor that `right` is always 1 less than the length of
+`the_list`; I provide default parameters for `left` and `right`, but
+they can be provided explicitly in a call.
+
+I have also provided driver code.  Download
+[binary_search.py](binary_search.py).  Here's a sample run:
+
+~~~
+How many items in the list? 15
+The list: [12, 34, 36, 37, 61, 100, 288, 438, 466, 467, 478, 618, 631, 771, 939]
+What value to search for? 618
+618 found at index 11
+What value to search for? 37
+37 found at index 3
+What value to search for? 500
+500 not found
+What value to search for? 3
+3 not found
+What value to search for? ?
+The list: [12, 34, 36, 37, 61, 100, 288, 438, 466, 467, 478, 618, 631, 771, 939]
+What value to search for? 100
+100 found at index 5
+What value to search for? 1000
+1000 not found
+What value to search for? 288
+288 found at index 6
+What value to search for? 
+~~~
+
+## What to turn in
+
+Turn in binary_search.py with your code replacing where I wrote `# YOU
+FILL IN THE REST OF THIS FUNCTION.` Also turn in a text file
+containing the console output from a run of your program.  It should
+be on a list large enough to be interesting but not so large that we
+can't tell what's going on.  Make sure that you have some successful
+searches and some unsuccessful searches, where you search for values
+that would be in the midst of the list if they had been present, a
+value that would have appeared before the first item, and a value that
+would have appeared after the last item.
+

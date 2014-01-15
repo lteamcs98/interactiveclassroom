@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-5">Short Assignment 5</h1>
+<p><a
+href="http://www.cs.dartmouth.edu/~cs1/shortassign/chalkboard/sa_chalkboard.html">Short Assignment 5</a> is due on Friday.</p>
+<h1 id="more-on-functions">More on functions</h1>
+<h2 id="good-programming-practice-know-what-type-of-value-your-function-can-return">Good programming practice: Know what type of value your function can return</h2>
+<p>A function can return any type of data that Python uses: a string, an int, a float, a boolean, or other types that we will see later in the course. In Python, the only way to know what type a function returns is to read the documentation, or to read the source code (UTSL—Use The Source, Luke) and check the return-statements. Some would argue that this is a weakness of the Python language design; other languages (including Java) force the programmer to explicitly declare what type a function returns.</p>
+<p>Here's an example of where things can go wrong. Both of these statements</p>
+<ol style="list-style-type: decimal">
+<li><code>return sqrt(4.0) + 2</code></li>
+<li><code>return 24 / 4 - 2</code></li>
+</ol>
+<p>seem to compute the value four. But one statement computes 4, and one computes 4.0. This means that the functions <code>compute_four</code> and <code>calculate_four</code> defined above are subtly different. See how this plays out in the program <a href="compute_four.py">compute_four.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> math <span class="ch">import</span> sqrt<br /><br /><span class="kw">def</span> compute_four():<br />    <span class="kw">print</span> <span class="st">&quot;Your wish is my command!  I compute four!&quot;</span><br />    <span class="kw">return</span> <span class="dv">24</span> / <span class="dv">4</span> - <span class="dv">2</span><br /><br /><span class="kw">def</span> calculate_four():<br />    <span class="kw">print</span> <span class="st">&quot;Your wish is my command!  I compute four!&quot;</span><br />    <span class="kw">return</span> sqrt(<span class="fl">4.0</span>) + <span class="dv">2</span><br /><br /><span class="kw">print</span> <span class="st">&quot;Result of compute_four():&quot;</span>, compute_four()<br /><span class="kw">print</span> <span class="st">&quot;Result of calculate_four():&quot;</span>, calculate_four()<br /><span class="kw">print</span> <span class="dv">33</span> / compute_four()    <span class="co"># prints 8</span><br /><span class="kw">print</span> <span class="dv">33</span> / calculate_four()  <span class="co"># prints 8.25</span></code></pre>
+<p>So make sure that when you write a function that you are clear on what type of value you intend it to return. When you use a function from a library, one of the first questions you should ask is what type of value it returns, if any.</p>
+<h2 id="side-effects-of-functions">Side effects of functions</h2>
+<p>In mathematics, functions <em>only</em> compute values. Mathematical functions don't print things on the screen, draw circles, or vacuum the floors. Python functions can do all these things. In Python, functions can do a lot more than return values, as we have already seen. A <strong>side effect</strong> of a function is any result of a function other than the return of a value.</p>
+<p>The print statements in the <code>compute_four</code> and <code>calculate_four</code> functions above cause the side effect that sentences are printed on the screen when the functions are called. Side effects can be very useful. A side effect might even be the main purpose of a function. The <code>draw_circle</code> function from the last lecture doesn't compute a value. But as a side effect of running the function, a circle gets drawn on the screen.</p>
+<p>Side effects also mean that the order in which functions are called in an expression can matter. A lot. Even though we know that by commutativity, 4 + 4.0 and 4.0 + 4 both evaluate to 8.0, swapping the order of the function calls as below will change the output of the program:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> compute_four() + calculate_four()</code></pre>
+<p>To understand these programs, you will need to think like a computer, and step through each line of code carefully to make sure you understand the order in which lines of code are executed.</p>
+<p>Side effects of functions are particularly interesting when combined with short-circuiting of the <code>and</code> and <code>or</code> boolean operators. One of the robot functions I did not tell you about was <code>destroy_the_world()</code>. It has a particularly deleterious side effect. Let's try it.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> robotlib <span class="ch">import</span> destroy_the_world<br /><br /><span class="kw">print</span> <span class="ot">False</span> and destroy_the_world()</code></pre>
+<p>Since False short-circuits the <code>and</code> operator, the <code>destroy_the_world</code> function is never called. Presumably, that's good.</p>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>Here is an example of a program, <a href="prime.py">prime.py</a>, that defines a function that takes a parameter, does some computations, and returns a value (in this case, a boolean value). The program contains a &quot;generate-and-test&quot; step. For a possible prime, generate possible factors, and test to see whether each is actually a factor. If you don't find any factors, then the number is prime.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co">## Program to check if a number is prime</span><br /><span class="co">## Devin Balkcom</span><br /><span class="co">## July 2011</span><br /><br /><span class="ch">from</span> math <span class="ch">import</span> sqrt<br /><br /><span class="co"># Check if a value is prime, and return True or False.</span><br /><span class="kw">def</span> is_prime(possible_prime): <br />    <span class="co"># Check if the input to the function is reasonable.</span><br />    <span class="kw">assert</span> <span class="dt">type</span>(possible_prime) == <span class="dt">int</span><br />    <span class="kw">assert</span> possible_prime &gt; <span class="dv">0</span><br /><br />    <span class="co"># A number is prime if it has no integer divisors</span><br />    <span class="co"># greater than the square root of the number.</span><br /><br />    max_factor = <span class="dt">int</span>(sqrt(possible_prime)) <br /><br />    <span class="co"># Loop over all possible factors less than or equal to</span><br />    <span class="co"># the max that we need to check.</span><br />    factor = <span class="dv">2</span><br />    <span class="kw">while</span> factor &lt;= max_factor:<br />        <span class="kw">if</span> possible_prime % factor == <span class="dv">0</span>:<br />            <span class="co"># It's divisible by factor, and therefore is not prime.</span><br />            <span class="kw">return</span> <span class="ot">False</span><br />        factor = factor + <span class="dv">1</span><br /><br />    <span class="co"># The while loop completed, so no integer factors were found.</span><br />    <span class="co"># It's a prime!</span><br />    <span class="kw">return</span> <span class="ot">True</span><br /><br />value = <span class="dv">22</span><br /><span class="kw">if</span> is_prime(value):<br />    <span class="kw">print</span> <span class="dt">str</span>(value) + <span class="st">&quot; is prime!&quot;</span><br /><span class="kw">else</span>:<br />    <span class="kw">print</span> <span class="dt">str</span>(value) + <span class="st">&quot; is not prime!&quot;</span><br /><br /><span class="co"># This call should cause an assertion error.</span><br /><span class="kw">print</span> is_prime(<span class="st">&quot;rib&quot;</span>)<br /><br /><span class="co"># So should this call.</span><br /><span class="kw">print</span> is_prime(-<span class="dv">3</span>)</code></pre>
+<p>In the definition of <code>is_prime</code>, the formal parameter is the variable <code>possible_prime</code>. When <code>is_prime</code> is called, the value 22 is <em>copied</em> into the formal parameter <code>possible_prime</code>. Then the body of the function <code>is_prime</code> can use that variable <code>possible_prime</code> (now containing the value 22).</p>
+<p>The value 22 in <code>is_prime(22)</code>is the actual parameter. The variable <code>possible_prime</code> used in the function is the formal parameter. The value passed by the function call is the value of the actual parameter.</p>
+<h3 id="good-programming-practice-check-that-parameter-values-are-reasonable">Good programming practice: Check that parameter values are reasonable</h3>
+<p>What would happen if the function <code>is_prime</code> was passed the string <code>&quot;rib&quot;</code> as the actual parameter? It seems like whoever wrote the line of code <code>is_prime(&quot;rib&quot;)</code> perhaps did not understand the point of our function. What about <code>is_prime(3.14)</code>? Or <code>is_prime(-7)</code>? We just didn't design our function to deal with these cases.</p>
+<p>We can design our function to check that the values are reasonable and quit the program if not. The huge benefit of checking for reasonable values is that it is easier to catch bugs earlier than later. We <em>want</em> our program to crash if there is a mistake, like passing something that is not even a positive integer to <code>is_prime</code>. It is way better for a program to crash than to quietly give a wrong answer.</p>
+<p>You could argue in a court of law that 3.14 is not a prime, since it is not an integer, and that we should therefore return <code>False</code> rather than crashing the program. You might even win the case. However, if someone passes 3.14 to the <code>is_prime</code> function it's a darn good bet that they made a simple mistake. The safest thing is to alert the programmer to that fact, so that it can be corrected. Nothing grabs a programmer's attention like a program crash.</p>
+<p>A good way to check if a value is what we expect it to be is to use Python's <code>assert</code> statement. <code>assert</code> takes a boolean value, either <code>True</code> or <code>False</code>. If the value is <code>True</code>, then <code>assert</code> does nothing and lets your program go its merry way. If, however, the value is <code>False</code>, <code>assert</code> quits the program and prints the line number where the failed assertion occurred.</p>
+<p>Here's an example from the primes program:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">assert</span> possible_prime &gt; <span class="dv">0</span> </code></pre>
+<p>We can also check that the type of the variable is reasonable. <code>is_prime(&quot;beef&quot;)</code> seems like an incorrect usage, since the actual parameter is a string when it should be an int. Python has a function called <code>type</code>, which returns the type of the parameter passed to it. In the case of determining whether a number is prime, only an int will do, so we use the line</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">assert</span> <span class="dt">type</span>(possible_prime) == <span class="dt">int</span></code></pre>
+<p>Carefully ensuring that all parameters are of the correct type and value does take more time for the programmer, and it is a judgement call how many such checks are the right number. Still, it is worth some effort to consider probable mistakes that programmers might make when using your function, and to try to check for at least those most common problems.</p>
+<h1 id="animations-and-the-mouse">Animations and the mouse</h1>
+<h2 id="local-variables">Local variables</h2>
+<p>When the first time you assign to a variable is <em>inside</em> a function, that variable is a local variable. A <strong>local variable</strong> is not accessible by any code outside the function in which they are defined. They exist during that call of the function, and then they cease to exist. You can think of local variables as disposable—use them in the function, and throw them away.</p>
+<p>In this example, in <a href="local.py">local.py</a>, the variable <code>x</code> is local to <code>some_function</code>. The line <code>print x</code> <em>within <code>some_function</code></em> prints 4.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> some_function():<br />    <span class="co"># create the variable x, and give x the value 4:</span><br />    x = <span class="dv">4</span>        <br />    <span class="kw">print</span> x<br /><br />some_function()<br /><span class="kw">print</span> x</code></pre>
+<p>But the line <code>print x</code> <em>after the call to <code>some_function</code></em> is an error. Eclipse will give you the error &quot;Undefined variable: x&quot;. That's because the first time that <code>x</code> is assigned is within <code>some_function</code>, and so <code>x</code> is local to <code>some_function</code>. Therefore, <code>x</code> is not known outside <code>some_function</code>.</p>
+<h2 id="global-variables-named-constants-and-state">Global variables, named constants, and state</h2>
+<p>Every now and then, you want a variable to be available to many functions. Such a variable cannot be local, because a local variable is accessible only within the function in which it's first assigned to.</p>
+<p>A variable that is accessible by many functions is a <strong>global variable</strong>. Useful though may be, global variables also have their seamy underbelly, and so you should use them only when necessary.</p>
+<p>Global variables are initialized outside of function definitions. In any function where you want to access a global variable, you must declare the variable as global using the <code>global</code> keyword. Here's an example, in <a href="global.py">global.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> print_x():<br />    <span class="kw">global</span> x      <span class="co"># print_x will use the global variable x</span><br />    x = x + <span class="dv">1</span><br />    <span class="kw">print</span> x      <br /><br />x = <span class="dv">5</span>             <span class="co"># x is a global variable</span><br />print_x()<br /><span class="kw">print</span> x</code></pre>
+<p>Here, the function <code>print_x</code> accesses the global variable <code>x</code>. Because <code>x</code> has the value 5 when the function is called, the assignment statement within the function assigns the value 6 to <code>x</code>, and both print statements print the value 6.</p>
+<p>If you are simply using the value of a global variable, and not changing that value, you can omit the line that declares the variable to be global in the function, as in <a href="read_global.py">read_global.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> print_e():<br />    <span class="kw">print</span> e      <br /><br />e = <span class="fl">2.71</span>             <span class="co"># e is a global variable</span><br />print_e()</code></pre>
+<p><em>Changing the value of a global variable is a big deal</em>. Why? Doing so may affect countless other functions, some of which you might not even know about or have written. Where possible, you should avoid changing global variables, and Python forces you to explicitly tell it that the variable is global before using any assignment statements.</p>
+<p>There's another reason. Any function can read or write a global variable. How secure is that? If you wanted to tell someone something confidentially, would you write it in a note and tack it on the wall in Novack? Then anyone could read it and, even worse, change it.</p>
+<h3 id="global-variables-can-serve-as-named-constants">Global variables can serve as named constants</h3>
+<p>There is one use of global variables that is fairly safe and, in fact, good programming practice: as named constants. For example, a chemistry program might use Avogadro's number in several functions. If you typed the actual number in every time you used it in an equation, you might make a mistake, and it might be hard for a reader to figure out the equations, if they don't recognize the number. A global variable can store the number, make it easy to change that number without searching and replacing, and makes the code more readable.</p>
+<pre class="sourceCode"><code class="sourceCode python">AVOGADRO = <span class="fl">6.0221415e23</span></code></pre>
+<p>We call global variables used to store values that don't change <strong>constants</strong>. It's good programming practice to type constants using all uppercase letters, so that they are recognizable as constants.</p>
+<p>There are some built-in global variables in Python modules that you can use by importing them.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> math <span class="ch">import</span> pi<br /><span class="kw">print</span> pi</code></pre>
+<p>Notice that <code>pi</code> is not capitalized in this case. The capitalization is just a convention, and apparently the Python designers didn't use that convention. Bad Guido! (That's Guido van Rossum, the designer of Python, who is also known as—this is no joke—The Benevolent Dictator For Life.)</p>
+<p>Although a global variable such as <code>pi</code> imported from the math library is intended to be constant, Python doesn't prevent you from changing it. Here's <a href="kansas.py">kansas.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> math <span class="ch">import</span> pi<br /><br /><span class="kw">def</span> compute_circle_area(r):<br />    <span class="kw">global</span> pi<br />    pi = <span class="dv">3</span>      <span class="co"># changes the value of pi, now and forever.  Scary!</span><br />    <span class="kw">return</span> pi * r * r<br /><br />compute_circle_area(<span class="dv">10</span>)<br /><span class="kw">print</span> pi</code></pre>
+<p>(I checked on the Internet about this story that the Great State of Kansas attempted to change the value of pi to 3. Turns out it's not true. Yay, Kansas!)</p>
+<p>With great power comes great responsibility. (Are you sick of that admonition yet?) <strong>Python lets you change the value of variables intended to serve as named constants. Don't do it.</strong></p>
+<h2 id="function-inputs-and-outputs">Function inputs and outputs</h2>
+<p>When designing a function, or trying to understand a function someone else has written, it can be very helpful to identify what data flows into the function, and what results flow out of the function. Ask yourself the following questions:</p>
+<ol style="list-style-type: decimal">
+<li><p><em>What data flows into the function?</em> What data does this function use or have access to? The inputs are any global variables in the file, and also data in formal parameters, copied from actual parameters. It's also possible that a function will get data internally, from a file or from user input with a mouse or keyboard.</p></li>
+<li><p><em>How does the function work?</em> While the function is executing, it has access to global variables and local variables. Formal parameters are a special type of local variable. What computations are performed? What local variables are created and used?</p></li>
+<li><p><em>What are the results of the function?</em> The primary outputs from a function are the return value and any changes to global variables. There are other ways that a function can have an effect, such as by writing directly to memory, disk, or screen.</p></li>
+</ol>
+<div class="figure">
+<img src="function_inputs.png" /><p class="caption"></p>
+</div>
+<h1 id="user-input-to-your-program-with-the-mouse">User input to your program with the mouse</h1>
+<p>It's often nice, or even necessary, for graphics programs to get mouse and/or keyboard input from the user. Let's see how the functions in cs1lib allow us to do so. Because mouse and keypress events are associated with the window of the program you are currently using, <strong>the mouse and keyboard functions that we use work only after you have called <code>start_graphics</code>.</strong></p>
+<p>The functions that return the location of the mouse pointer are <code>mouse_x</code> and <code>mouse_y</code>. These functions take no parameters, and they return the <em>x</em>- and <em>y</em>-coordinates, respectively, of the last location of the mouse in the graphics window. The coordinates are relative to the upper left corner of the window and are given in pixels, just like <code>draw_circle</code>, <code>draw_rectangle</code>, and other drawing functions you have been using. These functions give you the mouse coordinates, regardless of whether the mouse button has been pressed. Here's a simple example, in <a href="mouse_loc.py">mouse_loc.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br /><span class="kw">def</span> main():<br />    <span class="kw">while</span> not window_closed():<br />        <span class="kw">print</span> mouse_x(), mouse_y()<br /><br />start_graphics(main)</code></pre>
+<p>That's great, but it's nice to be able to determine whether the mouse button is pressed. You can find out by calling the parameterless function <code>mouse_down</code>, which returns <code>True</code> if the button is pressed and <code>False</code> if the button is not pressed.</p>
+<h2 id="example-painting-with-circles">Example: Painting with circles</h2>
+<p>Here is a larger example, in <a href="circle_paint.py">circle_paint.py</a>, that draws a circle at the current mouse position if the mouse button is pressed:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># mouse_circle_1.py</span><br /><span class="co"># Devin Balkcom</span><br /><span class="co"># September 2011</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="ch">from</span> random <span class="ch">import</span> uniform<br /><br /><span class="kw">def</span> main():<br />    enable_smoothing()<br />    clear()<br /><br />    <span class="kw">while</span> not window_closed():<br />        <span class="kw">if</span> mouse_down():<br />            <span class="co"># Pick a circle color at random</span><br />            r = uniform(.<span class="dv">5</span>, <span class="dv">1</span>)<br />            g = uniform(.<span class="dv">5</span>, <span class="dv">1</span>)<br />            b = uniform(.<span class="dv">5</span>, <span class="dv">1</span>)<br />            set_fill_color(r, g, b)<br /><br />            <span class="co"># Draw the circle.</span><br />            draw_circle(mouse_x(), mouse_y(), <span class="dv">20</span>)<br /><br />            <span class="co"># Update the window.</span><br />            request_redraw()<br />            sleep(.<span class="dv">02</span>)<br /><br />start_graphics(main)</code></pre>
+<p>You might notice an annoying behavior of this program: if you keep the mouse button pressed, but you don't move the mouse, the program keeps drawing circles at the same location. We probably only want to draw a new circle if (1) the mouse button is pressed and (2) the mouse is in a different location from where it was the last time we drew a circle.</p>
+<p>How can we tell if the mouse location has moved? We create state variables that keep track of the location of the mouse each time a circle is drawn. We draw a new circle only if <code>mouse_x</code> or <code>mouse_y</code> returns a different value from those in the saved state variables. The result is in <a href="circle_paint2.py">circle_paint2.py</a>:</p>
+<pre class="py"><code># circle_paint2.py
+# Devin Balkcom
+# September 2011
+
+from cs1lib import *
+from random import uniform
+
+def main():
+    enable_smoothing()
+    clear()
+
+    # Set up state variables that will store the coordinates
+    # of the mouse from the last time a circle was drawn.
+    old_x = -1
+    old_y = -1
+
+    while not window_closed():
+        # Draw a circle ONLY if the current mouse location is different
+        # from where it was the last time a circle was drawn.
+        if mouse_down() and (old_x != mouse_x() or old_y != mouse_y()):
+            # Pick a circle color at random
+            r = uniform(.5, 1)
+            g = uniform(.5, 1)
+            b = uniform(.5, 1)
+            set_fill_color(r, g, b)
+
+            # Draw the circle.
+            draw_circle(mouse_x(), mouse_y(), 20)
+
+            # Store the current mouse coordinates into the state variables.
+            old_x = mouse_x()
+            old_y = mouse_y()
+
+            # Update the window.
+            # We have to save the current mouse location BEFORE sleeping.
+            request_redraw()
+            sleep(.02)
+
+start_graphics(main)
+</code></pre>
+<h2 id="computing-the-distance-of-the-mouse-from-some-location">Computing the distance of the mouse from some location</h2>
+<p>To compute the distance <span class="math"><em>d</em></span> between two points with coordinates <span class="math">(<em>x</em><sub>1</sub>, <em>y</em><sub>1</sub>)</span> and <span class="math">(<em>x</em><sub>2</sub>, <em>y</em><sub>2</sub>)</span>, we use the Pythagorean theorem: <span class="math">$d =\sqrt{(x_2 - x_1) ^2 + (y_2 - y_1)^2}$</span>. In Python, how do you square a number? We use a special technique, known to only a few highly trained mathematicians. The technique is called &quot;multiply the number by itself.&quot;</p>
+<p>The following example, in <a href="circle_drag.py">circle_drag.py</a>, shows how to drag out a circle like you would if you were writing a graphical editor. You'll notice that only one circle is drawn at a time; we'll see how to get around this limitation in a future lecture.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># circle_drag.py</span><br /><span class="co"># Class example by Devin Balkcom, minor changes by THC.</span><br /><span class="co"># Drags out a circle with the mouse.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="ch">from</span> math <span class="ch">import</span> sqrt<br /><br /><span class="co"># Compute the distance between points x1, y1 and x2, y2</span><br /><span class="kw">def</span> point_distance(x1, y1, x2, y2):<br />    dx = x2 - x1<br />    dy = y2 - y1<br />    <span class="kw">return</span> sqrt(dx * dx + dy * dy)<br /><br /><span class="kw">def</span> main():<br />    enable_smoothing()<br /><br />    set_clear_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)    <span class="co"># black</span><br />    set_stroke_color(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)   <span class="co"># white</span><br />    set_fill_color(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>)   <span class="co"># orange</span><br />    set_stroke_width(<span class="dv">2</span>)<br /><br />    <span class="co"># State variable that keeps track of whether a circle</span><br />    <span class="co"># is currently being drawn.</span><br />    drawing_circle = <span class="ot">False</span><br /><br />    clear()<br />    request_redraw()<br /><br />    <span class="kw">while</span> not window_closed():<br />        <span class="kw">if</span> mouse_down():<br />            <span class="kw">if</span> not drawing_circle: <br />                <span class="co"># If a circle is not currently being drawn, and</span><br />                <span class="co"># the mouse button is pressed, save the current </span><br />                <span class="co"># mouse location in state variables to use as</span><br />                <span class="co"># the center of the circle.                </span><br />                center_x = mouse_x()<br />                center_y = mouse_y()<br />                drawing_circle = <span class="ot">True</span><br /><br />            clear()     <span class="co"># erase whatever we drew before</span><br /><br />            <span class="co"># Determine the distance from the center to the current mouse location.</span><br />            radius = point_distance(center_x, center_y, mouse_x(), mouse_y()) <br /><br />            <span class="co"># Now we have what we need to draw the circle.</span><br />            draw_circle(center_x, center_y, radius)<br /><br />            request_redraw()<br />            sleep(.<span class="dv">02</span>)<br /><br />        <span class="co"># But if the mouse button is not pressed, we are not drawing a circle.</span><br />        <span class="kw">else</span>:<br />            drawing_circle = <span class="ot">False</span><br /><br />start_graphics(main)</code></pre>
+<p>The logic in this program is a bit tricky. I want to store the center of the circle the first time the button is pressed. I therefore have a boolean state variable <code>drawing_circle</code> that keeps track of whether a circle is already being drawn. If <code>drawing_circle</code> is <code>False</code> and <code>mouse_button</code> is true, then we know that we're starting a new circle, and we store the current mouse location in the state variables <code>center_x</code> and <code>center_y</code>; we also set <code>drawing_circle</code> to <code>True</code>, thereby indicating that we are now in the midst of drawing a circle. Then, regardless of the value of <code>drawing_circle</code>, we erase whatever we drew before, determine the radius of the circle (which is the distance from the center to the current mouse location—we know it will be 0 if we just switched <code>drawing_circle</code> from <code>False</code> to <code>True</code>), draw the circle, refresh the window, and take a brief nap. All this happens only if the mouse button is pressed.</p>
+<p>If the mouse button is not pressed, then we just set <code>drawing_circle</code> to <code>False</code>, indicating that we're not in the process of drawing a circle.</p>
+<h2 id="getting-a-keypress">Getting a keypress</h2>
+<p>You can use the function <code>is_key_pressed</code> to check whether a particular key is currently pressed. <code>is_key_pressed</code> takes one argument, a string containing the character you'd like to check, and it returns a boolean value.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">if</span> is_key_pressed(<span class="st">&quot;a&quot;</span>):<br />    <span class="kw">print</span> <span class="st">&quot;You pressed a!&quot;</span></code></pre>
+<p>There are several caveats with the use of this function that you should be aware of.</p>
+<ol style="list-style-type: decimal">
+<li><p><code>is_key_pressed</code> is a poor way to input an entire string from the user. For example, &quot;Please enter your name:&quot; requests should use another way of getting input that we'll see later in the course.</p></li>
+<li><p><code>is_key_pressed</code> will only work after <code>start_graphics</code> has been called. Furthermore, your program window must have focus (be the top-level window).</p></li>
+<li><p><code>is_key_pressed</code> will not work with special keys like the arrow keys. It will work with the spacebar and return keys, however.</p></li>
+</ol>
+<h2 id="coding-example-checking-whether-a-point-is-inside-a-rectangle">Coding example: Checking whether a point is inside a rectangle</h2>
+<p>Sometimes you will want to check if the mouse location is in some particular rectangular region of the screen. For example, imagine you have a rectangular button on the screen at the location (100, 100) with width of 60 and height of 30. You might like to check to see whether the mouse location is inside this region.</p>
+<p>In words, you can reason about this problem in the following way. The left side of the region is at <em>x</em> = 100, the top is at <em>y</em> = 100, the right side is at <em>x</em> = 160, and the bottom is at <em>y</em> = 130. Therefore, the mouse location is inside the rectangular region if <em>all</em> of the following are true:</p>
+<ul>
+<li>The mouse location is on or to the right of 100.</li>
+<li>The mouse location is on or below 100.</li>
+<li>The mouse location is to the left of 160.</li>
+<li>The mouse location is above 130.</li>
+</ul>
+<p>We could write the code like this, in <a href="point_in_rect1.py">point_in_rect1.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># point_in_rect1.py</span><br /><span class="co"># Class example to show one way to determine whether a point is in a rectangle.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br /><span class="kw">def</span> main():<br />    <span class="kw">while</span> not window_closed():<br />        <span class="kw">if</span> mouse_x() &gt;= <span class="dv">100</span> and mouse_x() &lt; <span class="dv">160</span> and mouse_y() &gt;= <span class="dv">100</span> and mouse_y() &lt; <span class="dv">130</span>:<br />            <span class="kw">print</span> <span class="st">&quot;I'm in a box!&quot;</span><br /><br />start_graphics(main)</code></pre>
+<p>Although this code will work fine, it is not very well designed.</p>
+<h3 id="coding-style-note">Coding style note</h3>
+<p>Good code</p>
+<ol style="list-style-type: decimal">
+<li>is well commented, and</li>
+<li>encapsulates re-usable pieces of code into functions.</li>
+</ol>
+<p>Let's start by adding a function. But be aware that the following code, in <a href="point_in_rect2.py">point_in_rect2.py</a> still has problems:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># point_in_rect2.py</span><br /><span class="co"># Class example to show one way to determine whether a point is in a rectangle.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br /><span class="co"># Determine whether the point (x, y) is in a rectangle with upper left corner</span><br /><span class="co"># (rx, ry), width rw, and height rh.</span><br /><span class="kw">def</span> point_in_rectangle(x, y, rx, ry, rw, rh):<br />    <span class="co"># This if statement is stylistically bad.</span><br />    <span class="kw">if</span> x &gt;= rx and x &lt; rx + rw and y &gt;= ry and y &lt; ry + rh:<br />        <span class="kw">return</span> <span class="ot">True</span><br />    <span class="kw">else</span>:<br />        <span class="kw">return</span> <span class="ot">False</span><br /><br /><span class="kw">def</span> main():<br />    set_fill_color(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)     <span class="co"># red</span><br />    draw_rectangle(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">30</span>)<br /><br />    <span class="kw">while</span> not window_closed():<br />        <span class="kw">if</span> point_in_rectangle(mouse_x(), mouse_y(), <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">60</span>, <span class="dv">30</span>):<br />            <span class="kw">print</span> <span class="st">&quot;I'm in a box!&quot;</span><br />        <span class="kw">else</span>:<br />            <span class="kw">print</span> <span class="st">&quot;Not in the box.&quot;</span><br /><br />start_graphics(main)</code></pre>
+<p>I claim that the <code>point_in_rectangle</code> function body is more complicated than it needs to be. The expression</p>
+<pre class="sourceCode"><code class="sourceCode python">x &gt;= rx and x &lt; rx + rw and y &gt;= ry and y &lt; ry + rh</code></pre>
+<p>evaluates to either <code>True</code> or <code>False</code>, right? So the <code>point_in_rectangle</code> function above goes something like this: &quot;If some quantity is True, return True. Otherwise return False.&quot; Why not just return the quantity directly, since it will have the correct value? In <a href="point_in_rect3.py">point_in_rect3.py</a>, I've rewritten the function to be this:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> point_in_rectangle(x, y, rx, ry, rw, rh):<br />    <span class="kw">return</span> x &gt;= rx and x &lt; rx + rw and y &gt;= ry and y &lt; ry + rh</code></pre>
+<p>We're here to write concise, stylistically beautiful code. You will naturally have points deducted from your assignments if you ever use a structure like</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> some_func(...)  <span class="co"># parameters omitted</span><br />  <span class="kw">if</span> bozo:<br />      <span class="kw">return</span> <span class="ot">True</span><br />  <span class="kw">else</span>:<br />      <span class="kw">return</span> <span class="ot">False</span></code></pre>
+<p>You could have gotten the exact same behavior from your code with the much more succinct:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> some_func(...)<br />  <span class="kw">return</span> bozo</code></pre>
+<p>You might also ask why I wrote the function <code>point_in_rectangle</code> to take parameters <code>x</code> and <code>y</code>, when I could have written a function that would have itself checked the mouse location:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> mouse_in_rectangle(rx, ry, rw, rh):<br />    ...</code></pre>
+<p>I prefer <code>point_in_rectangle</code> because I might one day want to determine whether some point that is not the mouse location is in some rectangle. Also, the inputs to <code>mouse_in_rectangle</code> are not as obvious, since <code>mouse_x</code> and <code>mouse_y</code> would be checked inside the body of the function, rather than being parameters. Where practical, it's good to write functions for which all inputs to the functions are clearly obvious from reading the function header.</p>
+<h2 id="good-programming-practice-avoid-magic-numbers">Good programming practice: Avoid magic numbers</h2>
+<p>You will often need to use actual numbers while writing code. Loop over something 10 times. Multiply this value by 3.141592654. Set the window size to 400 by 400. The problem is that sometimes those numbers are arbitrary and could have easily been set to something else. Another person reading the code may not know what the numbers represent, and may not know whether it is safe to change them. We call these numbers &quot;magic numbers,&quot; because they are so hard to understand when reading code.</p>
+<p>You can make your code much more readable by important built-in constants or by defining constants at the top of your code as global variables, and using those constants.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> math <span class="ch">import</span> cos<br /><span class="kw">print</span> cos(<span class="fl">1.04719755</span>)  <span class="co"># bad, uses a magic number</span></code></pre>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> math <span class="ch">import</span> pi, cos<br /><span class="kw">print</span> cos(pi / <span class="dv">3</span>)     <span class="co"># better -- we can see what the number means</span></code></pre>
+<p>Any time you catch yourself typing a number into your code, ask yourself whether the number represents a quantity or a constant with a name. If so, define a global variable at the top of the code with a name that gives good information about the constant's purpose, and use that global variable consistently.</p>
+<pre class="sourceCode"><code class="sourceCode python">WINDOW_WIDTH = <span class="dv">500</span><br />WINDOW_HEIGHT = <span class="dv">400</span><br /><br /><span class="kw">def</span> main():<br />      clear()<br /><br />start_graphics(main, <span class="st">&quot;My picture&quot;</span>, WINDOW_WIDTH, WINDOW_HEIGHT)</code></pre>
+<p>Notice that the <code>start_graphics</code> function can take additional parameters: the name of the graphics window, the window's width, and the window's height.</p>
+</body>
+</html>

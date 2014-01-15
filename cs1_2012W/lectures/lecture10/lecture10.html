@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="introduction-to-classes-and-objects">Introduction to classes and objects</h1>
+<p>As programs become more complex, it becomes more and more important to find better ways of organizing the code—dividing the code up into easily managed pieces, each of which is easy to debug and understand. Functions are one way to organize your code. A further way to organize your code is by defining <strong>classes</strong>: programmer-defined types of data and functions that work on those types of data.</p>
+<p>Python offers several built-in data types: booleans, integers, floats, strings, and lists. Python also lets you define a new data type that you design specially for your program, by writing a description of how that data type works, called a <strong>class</strong>. You can then use that class to create an <strong>object</strong> of the data type.</p>
+<p>Broadly speaking, there are two benefits to using classes and objects.</p>
+<ol style="list-style-type: decimal">
+<li><p>They provide abstraction. In other words, they give us a way to hide how data is stored in objects of a class. That way, the users of the class need not concern themselves with how data is stored.</p></li>
+<li><p>They provide a set of &quot;parts&quot; that you can use at will. Suppose that you're designing a car. It contains four tires. Do you need to design four different tires? No, since all four tires are essentially the same. You can design just one and reuse the design in each place that you need a tire.</p></li>
+</ol>
+<p>I like to make an analogy to blueprints and houses. A blueprint of a house is a plan for a house. A blueprint is not in itself a house. You cannot live in a blueprint. A blueprint says that <em>when</em> we build a house, here's what it will look like. It also allows for some specialization. For example, the color that the house is to be painted is not typically fixed in the blueprint. So, two houses created from the same blueprint could be painted in different colors.</p>
+<p>In terms of classes and objects, a class is like a blueprint, and an object is like a house. A class tells that <em>when</em> we create an object, here's what it will be like. And we can specialize objects, so that two objects created from the same class may differ in certain ways.</p>
+<p>In the previous lecture, we looked at an example of a bouncing ball. We used several global variables to describe the position and velocity of the ball: <code>x</code>, <code>y</code>, <code>v_x</code>, and <code>v_y</code>. It would be great if we had a data type that represented a ball. We could create a ball object that would internally store the location and velocity of the ball.</p>
+<p>Each object of the ball class would have its own internal variables to store the location and velocity of that ball. We call these variables <strong>instance variables</strong>, and they are how we can specialize each object from a class. Each instance of a ball object would have its own <code>x</code>, <code>y</code>, <code>v_x</code>, and <code>v_y</code> variables. So, balls would have many attributes in common—maybe they're round, they have the same radius—but each ball would have its own location and velocity.</p>
+<p>Let's say that we want a class, <code>Ball</code>, for describing balls, and let's assume that I have defined the <code>Ball</code> class already. We might use it like this example, in <a href="ball_example1.py">ball_example1.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> ball <span class="ch">import</span> Ball<br /><br />myball = Ball(<span class="fl">10.0</span>, <span class="fl">15.0</span>, <span class="fl">0.0</span>, -<span class="fl">5.0</span>)<br /><span class="kw">print</span> <span class="st">&quot;The x coordinate of the myball object is &quot;</span>, myball.x<br /><span class="kw">print</span> <span class="st">&quot;The y coordinate of the myball object is &quot;</span>, myball.y<br />myball.x = <span class="dv">2</span>.<br /><br /><span class="kw">print</span> <span class="st">&quot;Now the x coordinate of the myball object is &quot;</span>, myball.x</code></pre>
+<p>Let's look at the first line after the <code>import</code>.</p>
+<pre class="sourceCode"><code class="sourceCode python">myball = Ball(<span class="fl">10.0</span>, <span class="fl">15.0</span>, <span class="fl">0.0</span>, -<span class="fl">5.0</span>)</code></pre>
+<p>The special function <code>Ball</code> is called the <strong>constructor</strong> for objects of the <strong>Ball</strong> class. The constructor does three things:</p>
+<ol style="list-style-type: decimal">
+<li>The constructor allocates memory for a <code>Ball</code> object.</li>
+<li>The constructor initializes the <code>Ball</code> object with starting values.</li>
+<li>The constructor returns the address of the <code>Ball</code> object in memory.</li>
+</ol>
+<p>So this line of code constructs a brand new object of the <code>Ball</code> class, using the values 10.0, 15.0, 0.0, and –5.0. The address of that <code>Ball</code> object is copied into the variable <code>myball</code>.</p>
+<p>Like lists, objects are created from the <strong>heap</strong>, and we store the <strong>address</strong> of the object in a variable. We don't know much yet about the internals of <code>Ball</code> objects yet, except that they seem to have something called <code>x</code> and something called <code>y</code>. If we imagine that the <code>Ball</code> object we constructed resides at address 3000 in memory, here's our picture:</p>
+<div class="figure">
+<img src="ball1.png" /><p class="caption"></p>
+</div>
+<h2 id="instance-variables-and-the-dot-.-operator">Instance variables and the dot <code>.</code> operator</h2>
+<p>We call each object in memory an <strong>instance</strong> of the class. To go back to the earlier analogy: an instance is like a house, and the class is like a blueprint.</p>
+<p><em>Each object has its own copy of each variable defined by the <code>Ball</code> class.</em> We say that the variables associated with a particular instance of an object are the <strong>instance variables</strong> for that object. You are an instance of the <code>Human</code> class, with your own instance variables height, weight, age, and name. My height instance variable is 67 (inches). Your height instance variable may have some other value.</p>
+<p>To refer to an instance variable of an object, we need two things:</p>
+<ol style="list-style-type: decimal">
+<li><p>The address of the object, which tells us which instance of the object we want.</p></li>
+<li><p>The name of the instance variable.</p></li>
+</ol>
+<p>That's why in the above code, we wrote <code>myball.x</code> and <code>myball.y</code>. Now we know that <code>x</code> and <code>y</code> are instance variables of every object from the <code>Ball</code> class. When we write <code>myball.x</code>, we mean the <code>x</code> instance variable of the specific <code>Ball</code> object whose address is in <code>myball</code>. As see in the above code, we can use the value of an instance variable, and we can assign to an instance variable.</p>
+<p>The above code has only one instance of a <code>Ball</code> object, but we can have as many as we like:</p>
+<pre class="sourceCode"><code class="sourceCode python">ball1 = Ball(<span class="fl">10.0</span>, <span class="fl">15.0</span>, <span class="fl">0.0</span>, -<span class="fl">5.0</span>)<br />ball2 = Ball(<span class="fl">12.0</span>, <span class="fl">23.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>)</code></pre>
+<p>Here, we have created two distinct instances of <code>Ball</code> objects:</p>
+<div class="figure">
+<img src="ball2.png" /><p class="caption"></p>
+</div>
+<p>Here, <code>ball1</code> holds the address of a <code>Ball</code> object at address 3200. This ball object has instance variables that we can access as <code>ball1.x</code> and <code>ball1.y</code>, with values 10.0 and 15.0, respectively. Also, <code>ball2</code> holds the address of a <code>Ball</code> object at address 4500, with instance variables that we can access as <code>ball2.x</code> and <code>ball2.y</code>, with values 12.0 and 23.0, respectively. Both of these <code>Ball</code> objects have additional instance variables. They hold the velocity of the ball in the <em>x</em> and <em>y</em> directions, so that the <em>x</em>-velocity of the <code>Ball</code> object that <code>ball2</code> refers to is 2.0 (in terms of whatever units we're using).</p>
+<h2 id="methods">Methods</h2>
+<p>We might also have functions specially designed to work on <code>Ball</code> objects. For example, functions to move the ball, to draw the ball, or to change the direction of the ball's motion. Functions designed to work on an instance of an object are called <strong>methods</strong>.</p>
+<p>Methods provide yet more abstraction. We don't have to know anything about <em>how</em> methods do what they do. All we care about is that they do <em>what</em> we want them to do. In the case of our <code>Ball</code> objects, when we call <code>Ball</code> methods, we don't have to be concerned with the internal details of <code>Ball</code> objects. We just care that the <code>Ball</code> methods work correctly.</p>
+<p>For example, we would like to have a method that moves the ball (changes the <code>x</code> and <code>y</code> instance variables of a <code>Ball</code> object) using the current velocity of the ball and a duration. We'll call this function <code>update_position</code>. We'll see how to write the <code>update_position</code> function soon, but <a href="move_ball.py">move_ball.py</a> shows how we would use it:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> ball <span class="ch">import</span> Ball  <span class="co"># import the Ball class</span><br /><br /><span class="co"># Create a Ball object and store its address in the variable myball.</span><br />myball = Ball(<span class="fl">5.0</span>, <span class="fl">4.0</span>, <span class="fl">3.0</span>, <span class="fl">6.0</span>)<br /><br /><span class="kw">print</span> <span class="st">&quot;Ball location &quot;</span> + <span class="dt">str</span>(myball.x) + <span class="st">&quot;, &quot;</span> + <span class="dt">str</span>(myball.y)<br /><br /><span class="co"># move the ball at current velocity for 0.1 seconds</span><br />myball.update_position(<span class="fl">0.1</span>) <br /><br /><span class="kw">print</span> <span class="st">&quot;Ball location &quot;</span> + <span class="dt">str</span>(myball.x) + <span class="st">&quot;, &quot;</span> + <span class="dt">str</span>(myball.y)</code></pre>
+<p>Output:</p>
+<pre><code>Ball location 5.0, 4.0
+Ball location 5.3, 4.6
+</code></pre>
+<p>Notice that to call a method on an object, the syntax is</p>
+<pre><code>reference_to_object.method_name(param1, param2, ...)
+</code></pre>
+<p>In our example, <code>myball</code> is a variable that stores the address of a <code>Ball</code> object, the method name is <code>update_position</code>, and the only parameter to the method is the duration 0.1 seconds.</p>
+<h2 id="defining-your-own-classes">Defining your own classes</h2>
+<p>To define a class, you write several functions that operate on objects of that class. Now you know that we call these functions <strong>methods</strong>.</p>
+<p>We have seen how the objects of the <code>Ball</code> class might be created and used. We will soon look at how to define the <code>Ball</code> class itself, by writing the methods of the <code>Ball</code> class. But first, let's look briefly at how import statements let us separate our new class into its own file. The previous example program started with the line</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> ball <span class="ch">import</span> Ball  <span class="co"># import the Ball class</span></code></pre>
+<p>Although we could have defined the <code>Ball</code> class right in the same file with our main code, it is very convenient to write the class definition in some other file, ball.py. Separating each class definition into its own file yields two advantages:</p>
+<ol style="list-style-type: decimal">
+<li><p>Each file is relatively short and easy to debug.</p></li>
+<li><p>We can use objects of the class in many different files and programs written in the future, not just for the program we are writing today.</p></li>
+</ol>
+<p><strong>Good programming practice:</strong> No Python file should have more than a single class definition. By convention, the name of the file should be the same as the name of the class, but all lowercase.</p>
+<p>Like any &quot;good practice&quot; rule; there are exceptions. But for now, you should put each new class in its own file, observing the naming convention.</p>
+<h2 id="the-class-name-and-naming-conventions-for-classes">The class name and naming conventions for classes</h2>
+<p>Now, let's look at <a href="ball.py">ball.py</a>. It starts with</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br />EARTH_GRAVITY_ACCELERATION = -<span class="fl">9.8</span>   <span class="co"># Earth acceleration due to gravity, m/sec^2</span><br />BALL_RADIUS = <span class="dv">10</span>  <span class="co"># radius of the ball in pixels, not used in velocity computations</span></code></pre>
+<p>You know what the import statement does, and the other two lines are just defining some constants, assuming that we're observing the convention that variables written in all uppercase are intended to be constants.</p>
+<p>Next we have</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">class</span> Ball:<br />    <span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>, start_x, start_y, start_v_x, start_v_y, r = .<span class="dv">5</span>, g = .<span class="dv">5</span>, b = .<span class="dv">5</span>):<br />        <span class="co"># Location and velocities of the ball.</span><br />        <span class="ot">self</span>.x = start_x<br />        <span class="ot">self</span>.y = start_y<br />        <span class="ot">self</span>.v_x = start_v_x<br />        <span class="ot">self</span>.v_y = start_v_y<br /><br />        <span class="co"># Color of the ball, for drawing purposes.</span><br />        <span class="ot">self</span>.r = r<br />        <span class="ot">self</span>.g = g<br />        <span class="ot">self</span>.b = b</code></pre>
+<p>The line</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">class</span> Ball:</code></pre>
+<p>gives the name of the class. Don't forget the colon! By convention, class names are capitalized, and rather than using underscores to represent spaces (like you would for a function), use a new capital letter for each word in the class name. For example,</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">class</span> ThreeToedSloth:</code></pre>
+<p>This style of using capital letters for each new word is sometimes called <strong>camel case</strong>, because each new capital looks like the hump of a camel's back.</p>
+<h2 id="the-constructor-and-the-__init__-method">The constructor and the <code>__init__</code> method</h2>
+<p>A class definition is a list of method definitions for interacting with the class. In order to work with an object, you have to construct it. We've seen examples of constructing an object:</p>
+<pre class="sourceCode"><code class="sourceCode python">myball = Ball(<span class="fl">10.0</span>, <span class="fl">15.0</span>, <span class="fl">0.0</span>, -<span class="fl">5.0</span>)</code></pre>
+<p>The <strong>constructor</strong> is a special function defined automatically by Python; it has the same name as the name of the class. We said that the constructor <code>Ball</code> does three things:</p>
+<ol style="list-style-type: decimal">
+<li>The constructor allocates memory for a <code>Ball</code> object.</li>
+<li>The constructor initializes the <code>Ball</code> object with starting values.</li>
+<li>The constructor returns the address of the <code>Ball</code> object in memory.</li>
+</ol>
+<p>Steps 1 and 3 are handled for us by Python, but we will need to write the method that says how to initialize the object with starting values. We call this method the <strong>init</strong> method, and it has the special name <code>__init__</code>, written with two underscores both before and after <code>init</code>.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">class</span> Ball:<br />    <span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>, start_x, start_y, start_v_x, start_v_y, r = <span class="fl">0.5</span>, g = <span class="fl">0.5</span>, b = <span class="fl">0.5</span>):<br />        <span class="co"># Location and velocities of the ball.</span><br />        <span class="ot">self</span>.x = start_x<br />        <span class="ot">self</span>.y = start_y<br />        <span class="ot">self</span>.v_x = start_v_x<br />        <span class="ot">self</span>.v_y = start_v_y<br /><br />        <span class="co"># Color of the ball, for drawing purposes.</span><br />        <span class="ot">self</span>.r = r<br />        <span class="ot">self</span>.g = g<br />        <span class="ot">self</span>.b = b</code></pre>
+<p>The init method for a class:</p>
+<ol style="list-style-type: decimal">
+<li>Always has the special name <code>__init__</code>.</li>
+<li>Always has the first parameter <code>self</code>.</li>
+<li>Sets the values of instance variables of the object based on the parameters to the function.</li>
+</ol>
+<p>There's a lot going on here. Let's take the issues one by one.</p>
+<p>First, you notice that the constructor <code>Ball(10.0, 15.0, 0.0, -5.0)</code> took only four actual parameters, but the definition of the <code>__init__</code> method has eight formal parameters. What's going on? A couple of things, actually.</p>
+<p>The constructor allocates memory for the new <code>Ball</code> object, and it passes the address of that object in the variable <code>self</code> to the <code>__init__</code> method. Having the address of the object in <code>self</code> allows the <code>__init__</code> method to have access to the instance variables (and methods) of the newly created <code>Ball</code> object.</p>
+<p><em>In order to access any instance variables of a <code>Ball</code> object, we need the address of the <code>Ball</code> object.</em> If we don't have an address of a <code>Ball</code> object, we don't have access to any instance variables of any <code>Ball</code> object. Period. <code>self</code> holds that address.</p>
+<p>So the first line of the <code>__init__</code> method</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ot">self</span>.x = start_x</code></pre>
+<p>sets the instance variable <code>x</code> of the object at the address <code>self</code> to have the value of the parameter <code>start_x</code>. If the constructor was called with <code>Ball(10.0, 15.0, 0.0, -5.0)</code>, then <code>start_x</code> has the value 5.0, and <code>__init__</code> copies the value 5.0 into the instance variable <code>x</code> of the object at the address <code>self</code>.</p>
+<p>For clarity of this first explanation, I used the parameter names <code>start_x</code>, <code>start_y</code>, etc. But there's no reason I couldn't have called those parameters simply <code>x</code> and <code>y</code>. Python would not have been confused by the following code:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>, x, y, v_x, v_y):<br />    <span class="ot">self</span>.x = x<br />    <span class="ot">self</span>.y = y<br />    <span class="ot">self</span>.v_x = v_x<br />    <span class="ot">self</span>.v_y = v_y</code></pre>
+<p><code>x</code> by itself is the parameter to <code>__init__</code>. <code>self.x</code> is the instance variable <code>x</code> of the object at address <code>self</code>. I will typically have parameters to <code>__init__</code> that have the same names as the instance variables.</p>
+<p>Now, what about the last three formal parameters? How come I didn't have to supply coresponding actual parameters? That's because Python allows for <strong>optional parameters</strong> with <strong>default values</strong>. If you leave out the corresponding actual parameters, then Python uses the default values. Otherwise, it uses the values of the actual parameters. In this case, the formal parameters <code>r</code>, <code>g</code>, and <code>b</code> all have the same default value of 0.5. Therefore, the call to the <code>Ball</code> constructor is the same as if it had been <code>Ball(10.0, 15.0, 0.0, -5.0, 0.5, 0.5, 0.5)</code>.</p>
+<p>We've used functions with optional parameters before. If you recall, when we first called <code>start_graphics</code>, we supplied just one parameter, the name of a function. Then, as we did fancier stuff with graphics, we supplied a second parameter, a string with the window name, a third and fourth parameter, the window width and height, and a fifth parameter, a boolean indicating whether to flip the coordinates vertically.</p>
+<p>Whenever you define optional parameters, they have to come after all the required (i.e., non-optional) parameters. And whenever you call a function (or method) and omit optional parameters, the parameters you omit must be the last ones. So, if you call the constructor <code>Ball(10.0, 15.0, 0.0, -5.0, 0.7)</code>, then the formal parameter <code>r</code> gets the value 0.7 but the formal parameters <code>g</code> and <code>b</code> each get their default values of 0.5. (We'll see a little later that there is a way to selectively omit optional parameters.)</p>
+<p>Now, what about this business of setting the instance variables of the object being constructed? Think of it this way. Some combinations of instance variables are nonsensical, or just plain illegal in the context of the problem being solved. For the ball in the window, you might want to disallow the ball being outside the window. For a nucular reactor, you might want to disallow certain configurations of the fuel rods.</p>
+<p>If an object can exist with illegal, or even just unknown, values of its instance variables, that is bad. Bad bad bad. So, if you ever find yourself defining a constructor that does not assign to <em>every</em> instance variable, you should follow my simple three-step plan:</p>
+<ul>
+<li>Step 1: Stop typing.</li>
+<li>Step 2: Push back from the keyboard.</li>
+<li>Step 3: Ask yourself &quot;Why have I failed to assign an initial value to <em>every</em> instance variable?&quot;</li>
+</ul>
+<p>If you don't have a Darned Good Answer to the question in step 3, then give yourself a dope slap (either real or virtual, though real tends to produce better programming behavior in the future) and go back and assign a legal initial value to <em>every</em> instance variable.</p>
+<h2 id="defining-your-own-methods">Defining your own methods</h2>
+<p>To recap: A method is a special function defined in a class; it acts on an object of the class in which the method is defined. <em>Every method always takes at least one parameter, <code>self</code>, that refers to (contains the address of) an object of the class in which the method is defined.</em></p>
+<p>For the <code>Ball</code> class, an obvious method would be the function that updates the position of the ball, based on the current velocity and some duration of time, the timestep. With this method, here's what the <code>Ball</code> class would look like:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">class</span> Ball:<br />    <span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>, start_x, start_y, start_v_x, start_v_y, r = .<span class="dv">5</span>, g = .<span class="dv">5</span>, b = .<span class="dv">5</span>):<br />        <span class="co"># location and velocities of the ball</span><br />        <span class="ot">self</span>.x = start_x<br />        <span class="ot">self</span>.y = start_y<br />        <span class="ot">self</span>.v_x = start_v_x<br />        <span class="ot">self</span>.v_y = start_v_y<br /><br />        <span class="co"># Color of the ball, for drawing purposes</span><br />        <span class="ot">self</span>.r = r<br />        <span class="ot">self</span>.g = g<br />        <span class="ot">self</span>.b = b<br /><br />    <span class="kw">def</span> update_position(<span class="ot">self</span>, timestep):<br />        <span class="ot">self</span>.x = <span class="ot">self</span>.x + timestep * <span class="ot">self</span>.v_x<br />        <span class="ot">self</span>.y = <span class="ot">self</span>.y + timestep * <span class="ot">self</span>.v_y </code></pre>
+<h2 id="calling-a-method">Calling a method</h2>
+<p>Let's repeat what we saw before, when we created a <code>Ball</code> object and then updated its position:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> ball <span class="ch">import</span> Ball  <span class="co"># import the Ball class</span><br /><br /><span class="co"># Create a Ball object and store its address in the variable myball.</span><br />myball = Ball(<span class="fl">5.0</span>, <span class="fl">4.0</span>, <span class="fl">3.0</span>, <span class="fl">6.0</span>)<br /><br /><span class="kw">print</span> <span class="st">&quot;Ball location &quot;</span> + <span class="dt">str</span>(myball.x) + <span class="st">&quot;, &quot;</span> + <span class="dt">str</span>(myball.y)<br /><br /><span class="co"># move the ball at current velocity for 0.1 seconds</span><br />myball.update_position(<span class="fl">0.1</span>) <br /><br /><span class="kw">print</span> <span class="st">&quot;Ball location &quot;</span> + <span class="dt">str</span>(myball.x) + <span class="st">&quot;, &quot;</span> + <span class="dt">str</span>(myball.y)</code></pre>
+<p>Several things happen when a method is called:</p>
+<ol style="list-style-type: decimal">
+<li><p>The address before the dot is copied into the variable <code>self</code> of the method.</p></li>
+<li><p>Any values inside the parentheses are copied into remaining formal parameters of the the method.</p></li>
+<li><p>Any optional parameters that do not have corresponding actual parameter values receive their default values.</p></li>
+<li><p>The curent value of the program counter is saved, and then the program counter is set to the first line of the method body. The method executes.</p></li>
+<li><p>When the method completes, either because the program counter reaches the end of the method or a return statement, the program counter goes back to do the next thing after the method call.</p></li>
+</ol>
+<p>Notice that steps 2–5 work the same way for function calls and method calls. Method calls differ from function calls only in that method calls include step 1. <em>Every method call must have a reference to an object before the dot. Every method header (in the definition of the method) must have a first parameter, <code>self</code>.</em></p>
+<p>There are two common programming errors to avoid here:</p>
+<ol style="list-style-type: decimal">
+<li><p>It's easy to forget to type the word <code>self</code> as the first parameter of the method header.</p></li>
+<li><p>It's easy to try to call a method without putting the reference to the object before the dot. In either case, Python will probably complain that you've passed the wrong number of parameters to the method.</p></li>
+</ol>
+<p>You can think of the object reference before the dot as just a special parameter to the method.</p>
+<h2 id="a-longer-example">A longer example</h2>
+<p>Here, in <a href="ball_example_2.py">ball_example2.py</a>, is an example of drawing a ball and letting it drop:</p>
+<pre><code>from cs1lib import *
+from ball import Ball
+
+WINDOW_HEIGHT = 400
+FRAME_RATE = 40
+TIMESTEP = 1.0 / FRAME_RATE
+PIXELS_PER_METER = 10.0
+
+def main():
+    set_clear_color(1, 1, 1)
+    enable_smoothing()
+
+    ball = Ball(20, 20, 0, 0, .3, .3, 1.)
+
+    while not window_closed():
+        clear()
+
+        ball.draw(PIXELS_PER_METER)
+
+        ball.update_position(TIMESTEP)
+        ball.update_velocity(TIMESTEP)
+
+        request_redraw()
+        sleep(TIMESTEP)
+
+start_graphics(main, flipped_y = True)
+</code></pre>
+<p>Before we look at the <code>Ball</code> class, notice the call to <code>start_graphics</code>. I wanted to indicate that the optional parameter that says whether to flip coordinate vertically should have the value <code>True</code>, but I was happy to use the default values for the other optional parameters. If you know the name of a formal parameter, you can include it in the call. So, by writing <code>start_graphics(main, flipped_y = True)</code>, I was able to say that the first actual parameter was <code>main</code>, the actual parameter <code>True</code> should be copied to the formal parameter <code>flipped_y</code>, and use the default values for the other optional parameters.</p>
+<p>Again, the <code>Ball</code> class is in <a href="ball.py">ball.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br />EARTH_GRAVITY_ACCELERATION = -<span class="fl">9.8</span>   <span class="co"># Earth acceleration due to gravity, m/sec^2</span><br />BALL_RADIUS = <span class="dv">10</span>  <span class="co"># radius of the ball in pixels, not used in velocity computations</span><br /><br /><span class="kw">class</span> Ball:<br />    <span class="kw">def</span> <span class="ot">__init__</span>(<span class="ot">self</span>, start_x, start_y, start_v_x, start_v_y, r = <span class="fl">0.5</span>, g = <span class="fl">0.5</span>, b = <span class="fl">0.5</span>):<br />        <span class="co"># Location and velocities of the ball.</span><br />        <span class="ot">self</span>.x = start_x<br />        <span class="ot">self</span>.y = start_y<br />        <span class="ot">self</span>.v_x = start_v_x<br />        <span class="ot">self</span>.v_y = start_v_y<br /><br />        <span class="co"># Color of the ball, for drawing purposes.</span><br />        <span class="ot">self</span>.r = r<br />        <span class="ot">self</span>.g = g<br />        <span class="ot">self</span>.b = b<br /><br />    <span class="kw">def</span> update_position(<span class="ot">self</span>, timestep):<br />        <span class="ot">self</span>.x = <span class="ot">self</span>.x + timestep * <span class="ot">self</span>.v_x<br />        <span class="ot">self</span>.y = <span class="ot">self</span>.y + timestep * <span class="ot">self</span>.v_y <br /><br />    <span class="kw">def</span> update_velocity(<span class="ot">self</span>, timestep):<br />        <span class="ot">self</span>.v_y = <span class="ot">self</span>.v_y + timestep * EARTH_GRAVITY_ACCELERATION<br /><br />    <span class="kw">def</span> animate_step(<span class="ot">self</span>, timestep):<br />        <span class="ot">self</span>.update_position(timestep)<br />        <span class="ot">self</span>.update_velocity(timestep)<br /><br />    <span class="kw">def</span> draw(<span class="ot">self</span>, pixels_per_unit):<br />        disable_stroke()<br />        set_fill_color(<span class="ot">self</span>.r, <span class="ot">self</span>.g, <span class="ot">self</span>.b)<br />        draw_circle(<span class="ot">self</span>.x * pixels_per_unit, <span class="ot">self</span>.y * pixels_per_unit, BALL_RADIUS)</code></pre>
+<h2 id="special-methods-__init__-and-__str__self">Special methods: <code>__init__</code> and <code>__str__(self)</code></h2>
+<p>The <code>__init__</code> method that we've already seen is special because we never ever call it directly. When we call the constructor (the function created automatically by Python that is used to create objects of the class), Python implicitly calls the <code>__init__</code> method for us automatically. The double underscores at the beginning and end of <code>__init__</code> mark that this is a special method that will never be called directly by the programmer, but instead will just be used by the constructor function.</p>
+<p>There are a few other special methods that a designer of a class might write, but are not used directly by a programmer. One of the most useful of these is the method <code>__str__(self)</code>. This method takes one parameter, the reference to the object, and should return a string.</p>
+<p>If the programmer doesn't call <code>__str__</code>, when is it used? It turns out that when you use the function <code>str</code> on the object, the <code>str</code> function calls the <code>__str__</code> method for the class, if you have defined one. In fact, <code>print</code> automatically calls <code>__str__</code> to get a string representation of the object to print, even if you don't use <code>str</code> explicitly. Add a <code>__str__</code> method to the <code>Ball</code> class like this:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> <span class="ot">__str__</span>(<span class="ot">self</span>):<br />    <span class="kw">return</span> <span class="dt">str</span>(<span class="ot">self</span>.x) + <span class="st">&quot;, &quot;</span> + <span class="dt">str</span>(<span class="ot">self</span>.y)</code></pre>
+<p>Now we can easily print out information about a <code>Ball</code> object in two different ways:</p>
+<pre class="sourceCode"><code class="sourceCode python">b = Ball(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.0</span>)<br /><span class="kw">print</span> b<br />ball_string = <span class="dt">str</span>(b)<br /><span class="kw">print</span> ball_string</code></pre>
+<h2 id="lists-of-objects">Lists of objects</h2>
+<p>A Python list can contain references to (i.e., addresses of) objects. The <a href="ball_example3.py">ball_example3.py</a> program creates a new <code>Ball</code> object every time it find that the mouse button is down, and it adds that <code>Ball</code> object to a list. Each time it draws a frame, it loops over the list and draws each <code>Ball</code> object in the list. A separate loop calls a method of the <code>Ball</code> class to update the positions and velocities of each object.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># ball_example3.py</span><br /><span class="co"># Devin Balkcom</span><br /><span class="co"># August 2011</span><br /><span class="co"># Modified by THC.</span><br /><br /><span class="ch">from</span> random <span class="ch">import</span> uniform<br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="ch">from</span> ball <span class="ch">import</span> Ball<br /><br /><span class="co"># Scaling used for drawing the ball and computing</span><br /><span class="co"># the position (in meters) of the mouse click.</span><br />PIXELS_PER_METER = <span class="dv">10</span><br /><br />FRAME_RATE = <span class="dv">40</span><br />TIMESTEP = <span class="fl">1.0</span> / FRAME_RATE<br /><br /><span class="co"># Remove any ball that is off the screen from the list.</span><br /><span class="co"># We loop over the list in reverse, because when an item is removed from the list,</span><br /><span class="co"># all of the items after the item have their location in the list reduced by one.</span><br /><span class="co"># By looping in reverse, we make sure that the next index the loop looks at</span><br /><span class="co"># is the correct one.</span><br /><br /><span class="kw">def</span> remove_offscreen(blist):<br />    i = <span class="dt">len</span>(blist) - <span class="dv">1</span><br />    <span class="kw">while</span> i &gt;= <span class="dv">0</span>:<br />        <span class="kw">if</span> blist[i].y &lt; <span class="dv">2</span>:<br />            <span class="kw">del</span> blist[i]<br />        i -= <span class="dv">1</span><br /><br /><span class="kw">def</span> main():<br />    ball_list = []<br /><br />    enable_smoothing()<br />    set_clear_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)<br /><br />    <span class="kw">while</span> not window_closed():<br />        clear()<br /><br />        <span class="co"># Draw every ball in the list.</span><br />        <span class="kw">for</span> ball in ball_list:<br />            ball.draw(PIXELS_PER_METER)<br /><br />        <span class="co"># If the mouse button has been pressed, add a new ball.</span><br />        <span class="kw">if</span> mouse_down():    <br />            r = uniform(.<span class="dv">5</span>, <span class="dv">1</span>)<br />            g = uniform(.<span class="dv">5</span>, <span class="dv">1</span>)<br />            b = uniform(.<span class="dv">5</span>, <span class="dv">1</span>)<br /><br />            new_ball = Ball(mouse_x() / PIXELS_PER_METER,<br />                            mouse_y() / PIXELS_PER_METER,<br />                            <span class="dv">0</span>, <span class="dv">0</span>,<br />                            r, g, b)<br />            ball_list.append(new_ball)<br /><br />        <span class="co"># Delete any ball from the list that has fallen off the screen.</span><br />        remove_offscreen(ball_list)<br /><br />        <span class="co"># Update the state of every ball in the list.</span><br />        <span class="kw">for</span> ball in ball_list:<br />            ball.animate_step(TIMESTEP)<br /><br />        request_redraw()<br />        sleep(TIMESTEP)<br /><br />start_graphics(main, flipped_y = <span class="ot">True</span>)</code></pre>
+<p>You might notice that I used a method in the <code>Ball</code> class, <code>animate_step</code>, which we haven't discussed yet. It looks like this:</p>
+<pre class="sourceCode"><code class="sourceCode python">  <span class="kw">def</span> animate_step(<span class="ot">self</span>, timestep):<br />        <span class="ot">self</span>.update_position(timestep)<br />        <span class="ot">self</span>.update_velocity(timestep)</code></pre>
+<p>Notice that <code>animate_step</code> itself calls other methods of the Ball class to actually do the real work. Since it has a reference to a <code>Ball</code> object (in the variable <code>self</code>), it can call other methods on that object; for example, <code>self.update_position(timestep)</code>.</p>
+<p>When this program runs, you notice that many balls emanate upon each mouse click. That's because the frame rate is fast enough that several consecutive calls of <code>mouse_down</code> will return <code>True</code>. We'll discuss in lecture how to modify this behavior.</p>
+<h2 id="side-note-deleting-items-from-a-list">Side note: Deleting items from a list</h2>
+<p>I also added a function to check whether any ball has fallen off the screen, and if so, remove it from the list.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> remove_offscreen(blist):<br />    i = <span class="dt">len</span>(blist) - <span class="dv">1</span><br />    <span class="kw">while</span> i &gt;= <span class="dv">0</span>:<br />        <span class="kw">if</span> blist[i].y &lt; <span class="dv">2</span>:<br />            <span class="kw">del</span> blist[i]<br />        i -= <span class="dv">1</span></code></pre>
+<p>We can remove an item from a list using the built-in python command <code>del</code>. For example, <code>del fallen_candidates[3]</code> would remove the item at index 3 from the list <code>fallen_candidates</code>.</p>
+<p>Notice that if you delete the item at index 3, the item previously at index 4 moves into the vacated spot at index 3 and, in fact, all items after index 3 move one spot closer to the beginning of the list. A for-loop that loops to the end of the original size list would therefore run into trouble if the list were shortened during the body of the loop.</p>
+<p>In fact, looping forward through a list while deleting items is also tricky for another reason. Suppose you are considering item at index 4. If you delete this item at index 4, then you should <em>not</em> advance the index, since the list moved the previous item 5 into the vacated spot. You would skip over the item that had been at index 5 and slid over to index 4.</p>
+<p>A convenient workaround is to loop backwards. Even if you delete the item at the current index, you can still reduce the index by 1 to consider a new item.</p>
+</body>
+</html>

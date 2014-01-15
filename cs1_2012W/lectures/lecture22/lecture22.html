@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<!-- <script type="text/javascript" -->
+<!--   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> -->
+<!-- </script> -->
+<script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="final-exam">Final Exam</h1>
+<p>A reminder that the final exam will be Sunday, March 11 at 11:30 am. It will be in 008 Kemeny.</p>
+<p>I have posted a <a href="../../exams/final-review.html">web page</a> with information and review questions.</p>
+<h1 id="parallel-computing">Parallel Computing</h1>
+<p>The algorithms and programs we have seen so far in this course all run <strong>serially</strong>. That is, they run on a computer with a single processor, or <strong>uniprocessor</strong>, that executes one instruction at a time:</p>
+<div class="figure">
+<img src="uniprocessor.png" /><p class="caption"></p>
+</div>
+<p>For many years, most computers had this design—a uniprocessor running one instruction at a time.</p>
+<p>That is no longer true. Most computers sold today—even laptop systems—can run multiple instructions concurrently. We have various ways to design computers to run multiple instructions concurrently, but we'll focus here on what has become the most commonly found design: a single <strong>multicore</strong> chip that houses multiple processing <strong>cores</strong>, each of which is a full-fledged processor. The individual processing cores on a multicore chip access a common memory:</p>
+<div class="figure">
+<img src="multicore.png" /><p class="caption"></p>
+</div>
+<p>Multicore computers can be harder to program than uniprocessors, because we have to be careful about situations in which more than one processor accesses a memory location. For example, suppose processor A writes 5 into variable <code>x</code> at the same time as processor B writes 7 into <code>x</code>. What value does <code>x</code> end up getting? In some cases, we might see 5, and in other cases we might see 7. You can imagine the havoc that such behavior can cause. We call this type of behavior <strong>nondeterministic</strong>, because we cannot determine ahead of time with certainty what will result.</p>
+<p>So why do we have multicore computers at all? Why not just keep making uniprocessors faster? After all, we've been doing just that for decades now. Indeed, processor speeds double approximately every 18 months. (This statement is a variant on the famous <strong>Moore's Law</strong>, which states that the number of transistors that we can fabricate on a chip doubles approximately every two years. The denser we can pack transistors, the faster we can make the processor, because when transistors are closer together, it takes less time for electrical signals to travel between transistors.)</p>
+<p>There are at least two reasons why we cannot rely on uniprocessors continuing to get faster. First, we will eventually hit fundamental physical limits on how small we can make transistors and the tiny wires on chips that connect transistors. After all, once a transistor gets down to the size of an atom, how much smaller can we go? We haven't hit these fundamental limits yet, but we're getting ever closer.</p>
+<p>The other reason is a limit that we have already hit. The faster we run a chip, the more energy it consumes and, in turn, the more heat it has to dissipate. When you use your laptop computer on your lap, you feel the heat, don't you? If a computer gets too hot, bad things happen to it—bad things that require you to replace lots of internal parts, if not the entire system.</p>
+<p>With multicore computers, we can run as many instructions per second as a faster uniprocessor. Because each processing core runs slower, however, a multicore computer can consume less energy, and we can design it to keep away from the fundamental physical limits. That's why today, even laptop systems have two or four processing cores. Predictions are that we'll see chips with 64 or more cores within the next few years.</p>
+<p>Thus, the sequential programs that most programmers have been writing for years, if not decades, will fail to take advantage of the full power of today's and tomorrow's processing chips. It behooves us, therefore, to understand something about how to write programs that can take advantage of <strong>parallel computers</strong> with multiple processing cores.</p>
+<p>Before we go on to look at how to think about parallel programs, it is worth noting that there are other ways to design parallel computers. <strong>Clusters</strong> are built from individual computers—often simple PC-class machines—connected by a dedicated network:</p>
+<div class="figure">
+<img src="uni-cluster.png" /><p class="caption"></p>
+</div>
+<p>A typical cluster costs much more than an individual PC-class computer, but it provides faster aggregate performance. Programming a cluster is different from programming a multicore computer, because the memory is not shared among the processors; it's <strong>distributed</strong> among the <strong>nodes</strong> of the cluster. Each node contains one or more processing cores, some memory, and often one or more disk drives. Each node can directly access only its own memory and disk. To get information from one node to another, clusters typically send <strong>messages</strong> over the dedicated network.</p>
+<p>Now that multicore computers are common, we see clusters in which each node has more than one core:</p>
+<div class="figure">
+<img src="multi-cluster.png" /><p class="caption"></p>
+</div>
+<p>The highest-priced computers are <strong>supercomputers</strong>, which often use a combination of custom processor designs and custom networks to deliver the highest performance, in terms of instructions executed per second. Supercomputers can cost millions of dollars.</p>
+<h2 id="parallel-programming">Parallel programming</h2>
+<p>Let's focus on a multicore computer with a shared memory, which is the simplest to program. Computer scientists have developed several ways to program multicore machines. Unfortunately, I don't know of any that work well with Python and are easy to install on both Mac OS X and Windows. So we will be constrained to <em>thinking</em> about parallel algorithms, rather than <em>running</em> them. We'll still be able to analyze our parallel algorithms, even though we won't run them.</p>
+<p>We'll imagine that we have at our disposal <span class="math"><em>p</em></span> processors, each of which can access a common, shared memory. In other words, any processor can access any variable, any object, any item of any list, etc. To avoid the havoc that we hinted at above—when multiple processors try concurrently to change the value of the same variable—we will consider only programs in which that does not occur. In particular, we will partition our data among the <span class="math"><em>p</em></span> processors, so that for an <span class="math"><em>n</em></span>-item list, each processor is responsible for <span class="math"><em>n</em> / <em>p</em></span> items.</p>
+<p>From a programming point of view, we will call a for-loop that runs for at most <span class="math"><em>p</em></span> iterations, in which the result of each iteration has no effect on other iterations, <strong>parallelizable</strong>. We can imagine each of the at most <span class="math"><em>p</em></span> iterations running on its own processor <strong>in parallel</strong> (i.e., concurrently), so that if each iteration takes time <span class="math"><em>t</em></span>, all the iterations together take time only <span class="math"><em>O</em>(<em>t</em>)</span>, rather than the <span class="math"><em>O</em>(<em>p</em><em>t</em>)</span> time they would take if we ran them serially. For example, if each iteration of a parallelizable for-loop takes constant time, then the for-loop takes constant time when run in parallel. On the other hand, if we have <span class="math"><em>n</em></span> items altogether and <span class="math"><em>n</em> &gt; <em>p</em></span>, then each iteration of a parallelizable for-loop has to work on <span class="math"><em>n</em> / <em>p</em></span> items per processor, so that the best we could hope for from the parallelizable for-loop would be <span class="math"><em>O</em>(<em>n</em> / <em>p</em>)</span> time.</p>
+<p>Let's make this idea more concrete. Suppose we have three lists, <code>a</code>, <code>b</code>, and <code>c</code>, each of length <span class="math"><em>p</em></span>, and we want to add the corresponding items of <code>a</code> and <code>b</code> into the corresponding item of <code>c</code>. Here's a simple for-loop that does the job:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">for</span> i in <span class="dt">range</span>(p):<br />    c[i] = a[i] + b[i]</code></pre>
+<p>This for-loop is parallelizable, since each iteration has no effect on other iterations. Thus, because each iteration takes constant time, if we have <span class="math"><em>p</em></span> processors, then this for-loop runs in constant time, i.e., <span class="math"><em>O</em>(1)</span> time, in parallel.</p>
+<p>Now suppose that each of the lists <code>a</code>, <code>b</code>, and <code>c</code> has <span class="math"><em>n</em></span> items, where <span class="math"><em>n</em> &gt; <em>p</em></span>. To keep things simple, let's assume that <span class="math"><em>n</em></span> is a multiple of <span class="math"><em>p</em></span>, and let <span class="math"><em>m</em> = <em>n</em> / <em>p</em></span>; by our assumption, <span class="math"><em>m</em></span> is an integer. Then here are nested for-loops that add the corresponding items of <code>a</code> and <code>b</code> into the corresponding item of <code>c</code>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># This outer for-loop is parallelizable.</span><br /><span class="kw">for</span> i in <span class="dt">range</span>(p):<br />    <span class="co"># This inner for-loop is not parallelizable.</span><br />    <span class="kw">for</span> j in <span class="dt">range</span>(m):<br />      c[i*m + j] = a[i*m + j] + b[i*m + j]</code></pre>
+<p>The idea here is that processor 0 is responsible for indices <span class="math">0</span> to <span class="math"><em>m</em> - 1</span>, processor 1 is responsible for indices <span class="math"><em>m</em></span> to <span class="math">2<em>m</em> - 1</span>, processor 2 is responsible for indices <span class="math">2<em>m</em></span> to <span class="math">3<em>m</em> - 1</span>, and so on. More generally, processor <span class="math"><em>i</em></span>, for <span class="math"><em>i</em> = 0, 1, 2, …, <em>p</em> - 1</span>, is responsible for indices <span class="math"><em>i</em><em>m</em>, <em>i</em><em>m</em> + 1, <em>i</em><em>m</em> + 2, …, <em>i</em><em>m</em> + <em>m</em> - 1</span>. (Notice that <span class="math"><em>i</em><em>m</em> + <em>m</em> - 1 = (<em>i</em> + 1)<em>m</em> - 1</span>.) We can parallelize the outer for-loop, so that each processor performs its <span class="math"><em>m</em> = <em>n</em> / <em>p</em></span> iterations of the inner for-loop in parallel with the other processors. Since each iteration of the inner for-loop takes constant time, this computation runs in <span class="math"><em>O</em>(<em>n</em> / <em>p</em>)</span> time in parallel.</p>
+<p>We'll see that we use another, familiar idea when we design parallel algorithms: recursively halving the problem size. If we have a parallel algorithm for a problem of size <span class="math"><em>n</em></span>, where <span class="math"><em>n</em> ≤ <em>p</em></span>, and the algorithm uses parallelizable for-loops that take constant time when run in parallel, but the algorithm also recurses on a subproblem of size (approximately) <span class="math"><em>n</em> / 2</span>, then after <span class="math"><em>O</em>(log <em>n</em>)</span> recursions, we get down to a problem size of 1. Such an algorithm runs in <span class="math"><em>O</em>(log <em>n</em>)</span> time in parallel, since each recursive call runs in constant time, plus the time for the recursive calls it makes.</p>
+<h2 id="parallel-reduction">Parallel reduction</h2>
+<p>A <strong>reduction</strong> operation applies an associative operator to the items of a list, giving the single result of applying the operator. For example, a +-reduction on a list <code>a</code> with <span class="math"><em>n</em></span> items gives the value <code>a[0] + a[1] + a[2] + ... + a[n-2] + a[n-1]</code>. (Recall that an associative operator—let's call it <span class="math"> ⊕ </span> to keep it generic—satisfies the property that <span class="math">(<em>x</em> ⊕ <em>y</em>) ⊕ <em>z</em> = <em>x</em> ⊕ (<em>y</em> ⊕ <em>z</em>)</span> for any operands <span class="math"><em>x</em></span>, <span class="math"><em>y</em></span>, and <span class="math"><em>z</em></span>.)</p>
+<p>At first glance, you might think that computing the +-reduction on a list is inherently serial, because we have to first sum <code>a[0] + a[1]</code>, and then add in <code>a[2]</code>, then add in <code>a[3]</code>, and so on. But because the operation we're performing—addition in this case—is associative, we can add values in other orders. For example, we could first compute <code>a[0] + a[1] + a[2] + ... + a[n/2-1]</code>, and we could compute <code>a[n/2] + a[n/2 + 1] + a[n/2 + 2] + ... + a[n-1]</code>, and we could then sum these two results to give the +-reduction of the entire list. In other words, instead of parenthesizing our additions as <code>((...((a[0] + a[1]) + a[2]) + ... + a[n-2]) + a[n-1])</code>, we could parenthesize them as <code>(a[0] + a[1] + a[2] + ... + a[n/2-1]) + (a[n/2] + a[n/2 + 1] + a[n/2 + 2] + ... + a[n-1])</code>, where we can further parenthesize the sums <code>(a[0] + a[1] + a[2] + ... + a[n/2-1])</code> and <code>(a[n/2] + a[n/2 + 1] + a[n/2 + 2] + ... + a[n-1])</code> however we choose.</p>
+<p>The function <code>parallel_reduce</code> in <a href="reduce.py">reduce.py</a> shows how we can compute the +-reduction on a list <code>a</code> in parallel.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># Return the sum of all values in an n-item list a, using parallelizable</span><br /><span class="co"># for-loops and recursion.  Takes O(log n) time in parallel with p processors,</span><br /><span class="co"># assuming that n &lt;= p.</span><br /><span class="kw">def</span> parallel_reduce(a):<br />    n = <span class="dt">len</span>(a)<br /><br />    <span class="kw">if</span> n == <span class="dv">1</span>:<br />        <span class="kw">return</span> a[<span class="dv">0</span>]     <span class="co"># base case: only one value</span><br />    <span class="kw">else</span>:<br />        <span class="co"># Create a new list, sums, of half the size, rounding up if n is odd.</span><br />        half = (n<span class="dv">+1</span>) / <span class="dv">2</span><br />        sums = [<span class="ot">None</span>] * half<br /><br />        <span class="co"># Using a parallelizable for-loop, add pairs of values in a into sums.</span><br />        <span class="kw">for</span> i in <span class="dt">range</span>(half<span class="dv">-1</span>):<br />            sums[i] = a[<span class="dv">2</span>*i] + a[<span class="dv">2</span>*i<span class="dv">+1</span>]<br /><br />        <span class="co"># Need special code to handle the last one or two values in a, in</span><br />        <span class="co"># case n is odd.</span><br />        <span class="kw">if</span> n % <span class="dv">2</span> == <span class="dv">0</span>:<br />            sums[half<span class="dv">-1</span>] = a[<span class="dv">2</span>*half<span class="dv">-2</span>] + a[<span class="dv">2</span>*half<span class="dv">-1</span>]<br />        <span class="kw">else</span>:<br />            sums[half<span class="dv">-1</span>] = a[<span class="dv">2</span>*half<span class="dv">-2</span>]<br /><br />        <span class="co"># Having created sums of pairs, return the +-reduction of the sums.</span><br />        <span class="co"># This recursive call is on a problem of half the size.</span><br />        <span class="kw">return</span> parallel_reduce(sums)</code></pre>
+<p>This function assumes that list <code>a</code> has <span class="math"><em>n</em></span> items, where <span class="math"><em>n</em> ≤ <em>p</em></span>. Instead of breaking the problem down as in the previous paragraph, it works as follows. We create a new list, <code>sums</code>, of half the size. That is, <code>sums</code> has size <span class="math"><em>n</em> / 2</span>, represented by the variable <code>half</code>, except that we round up when <span class="math"><em>n</em></span> is odd by computing <code>half = (n+1) / 2</code>. We then sum consecutive pairs of values of <code>a</code> into <code>sums</code>, so that <code>sums[0]</code> equals <code>a[0] + a[1]</code>, <code>sums[1]</code> equals <code>a[2] + a[3]</code>, <code>sums[2]</code> equals <code>a[4] + a[5]</code>, and so on. The function uses special code to handle the case when <span class="math"><em>n</em></span> is odd, in which case the last item of <code>sums</code> gets just the last value of <code>a</code>. Observe that the +-reduction of <code>a</code> must equal the +-reduction of <code>sums</code>. Hence, we simply recurse on <code>sums</code>, passing <code>sums</code> to the recursive call of <code>parallel_reduce</code>, and we return the result of the recursive call. The base case is when the length of the list is 1, in which case we just return the value of <code>a[0]</code>.</p>
+<p>Pictorially, here's how a single step of the recursion works on a list with the values 2, 3, 4, 2, 3, 6, 5, 2:</p>
+<div class="figure">
+<img src="reduce-single.png" /><p class="caption"></p>
+</div>
+<p>And here's how the entire recursion unfolds:</p>
+<div class="figure">
+<img src="reduce-full.png" /><p class="caption"></p>
+</div>
+<p>To analyze this function, we observe that the for-loop is parallelizable. Why? The computation in each iteration—filling in <code>sums[i]</code>—is independent of the computation in all other iterations. Since <span class="math"><em>n</em> ≤ <em>p</em></span> and we have <span class="math"><em>p</em></span> processors, we can execute this for-loop in constant time in parallel. Thus, each recursive call takes constant time in parallel, plus the time for the recursive call. The number of recursive calls is <span class="math"><em>O</em>(log <em>n</em>)</span>, since we (approximately) halve <span class="math"><em>n</em></span> in each call. (Rounding up <span class="math"><em>n</em> / 2</span> when <span class="math"><em>n</em></span> is odd doesn't affect the number of recursive calls in terms of big-Oh notation.) Thus, we can perform a reduction operation in parallel in <span class="math"><em>O</em>(log <em>n</em>)</span> time.</p>
+<p>Now, what about when <span class="math"><em>n</em> &gt; <em>p</em></span>? The <code>parallel_reduce_many</code> function in <a href="reduce.py">reduce.py</a> handles this case.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># Return the sum of all values in an (m*p-1)-item list a, using parallelizable</span><br /><span class="co"># for-loops and a call to parallel_reduce.  Assumes that processor i works on</span><br /><span class="co"># a[i*m] through a[i*m + m-1].  Takes O(m + log p) time in parallel with p processors.</span><br /><span class="kw">def</span> parallel_reduce_many(a, p, m):<br />    <span class="co"># Create a list for summing the values in each processor.</span><br />    sums = [<span class="dv">0</span>] * p<br /><br />    <span class="co"># Using a parallelizable outer for-loop, sum up the values in each processor's</span><br />    <span class="co"># portion of a.  With p processors, this loop takes O(m) time.</span><br />    <span class="kw">for</span> i in <span class="dt">range</span>(p):<br />        <span class="co"># This inner for-loop is not parallelizable.</span><br />        <span class="kw">for</span> j in <span class="dt">range</span>(m):<br />            sums[i] += a[i*m + j]<br /><br />    <span class="co"># Now we have a list of p sums, so just return what the recursive parallel_reduce</span><br />    <span class="co"># function returns.  This call takes O(log p) time in parallel with p processors.</span><br />    <span class="kw">return</span> parallel_reduce(sums)</code></pre>
+<p>The parameter <span class="math"><em>m</em></span> equals <span class="math"><em>n</em> / <em>p</em></span>. The idea is to create a list <code>sums</code> of length <span class="math"><em>p</em></span> and have each processor sum its own portion of <span class="math"><em>n</em> / <em>p</em></span> items into one position of <code>sums</code>. Then we can call <code>parallel_reduce</code> on <code>sums</code> to produce the reduction of the entire list. The outer for-loop is parallelizable, because processor <span class="math"><em>i</em></span> stores into only <code>sums[i]</code>, and it accesses its own sublist of the list <code>a</code>, namely <code>a[im..im + m-1]</code>. By the time we call <code>parallel_reduce</code> on the <code>sums</code> list, <code>sums[i]</code> has the sum of all the items in the sublist <code>a[im..im + m-1]</code>. Because <code>sums</code> has <span class="math"><em>p</em></span> items, it makes sense to call <code>parallel_reduce</code>, and this call returns the sum of all the items in list <code>a</code>.</p>
+<p>Although the outer for-loop is parallelizable, the inner for-loop is not. But each processor can run <span class="math"><em>n</em> / <em>p</em></span> iterations of the inner for-loop in parallel with the other processors. Hence, the time to run the outer for-loop in parallel is <span class="math"><em>O</em>(<em>n</em> / <em>p</em>)</span>. As we know, the call to <code>parallel_reduce</code> takes <span class="math"><em>O</em>(log <em>p</em>)</span> time when run in parallel, and so <code>parallel_reduce_many</code> takes parallel time <span class="math"><em>O</em>(<em>n</em> / <em>p</em> + log <em>p</em>)</span>. When <span class="math"><em>n</em> / <em>p</em> &gt; log<sub>2</sub> <em>p</em></span>, the <span class="math"><em>n</em> / <em>p</em></span> term dominates the running time, and we get the best parallel speedup possible. When <span class="math">log<sub>2</sub> <em>p</em> &gt; <em>n</em> / <em>p</em></span>, then <span class="math"><em>n</em> / <em>p</em></span> must be pretty small: raise 2 to both sides, getting <span class="math"><em>p</em> &gt; 2<sup><em>n</em> / <em>p</em></sup></span>, so we're not too disappointed that the running time is not <span class="math"><em>O</em>(<em>n</em> / <em>p</em>)</span>; <span class="math"><em>O</em>(log <em>p</em>)</span> is still darned good.</p>
+<h2 id="parallel-scanning">Parallel scanning</h2>
+<p>A <strong>scan</strong> operation is somewhat like a reduction in that we wish to apply an associative operator to all items in a list. Unlike a reduction, which produces one answer, a scan operation on an <span class="math"><em>n</em></span>-item list <code>a[0..n-1]</code> produces <span class="math"><em>n</em></span> answers. In particular, if the result of the scan operation is in the <span class="math"><em>n</em></span>-item list <code>result</code>, then <code>result[i]</code> equals <code>a[0] + a[1] + a[2] + ... + a[i-2] + a[i-1]</code>. That is, the <span class="math"><em>i</em></span>th position of the result should hold the sum of the first <span class="math"><em>i</em> - 1</span> items of <code>a</code>. What about <code>result[0]</code>? It should hold the identity for the associative operator. We'll focus on a +-scan, so that <code>result[0]</code> should equal 0.</p>
+<p>As an aside, we call this type of scan an <strong>exclusive scan</strong>, since the value of <code>result[i]</code> does not include <code>a[i]</code>. In an <strong>inclusive scan</strong>, <code>result[i]</code> equals the sum of the first <span class="math"><em>i</em></span> items (not <span class="math"><em>i</em> - 1</span>) of <code>a</code>. We focus on the exclusive scan for two reasons. First, if we have the result of an exclusive scan, it's easy enough to add in <code>a[i]</code> into each position <span class="math"><em>i</em></span> to get the result of an inclusive scan. We cannot necessarily go backwards, because not all associative operators have an inverse for every operand. (For example, matrix multiplication is associative, but if <span class="math"><em>A</em></span>, <span class="math"><em>B</em></span>, and <span class="math"><em>C</em></span> are matrices, and <span class="math"><em>C</em></span> equals the matrix product <span class="math"><em>A</em> <em>B</em></span>, we cannot necessarily determine <span class="math"><em>B</em></span> given <span class="math"><em>A</em></span> and <span class="math"><em>C</em></span>, since <span class="math"><em>A</em></span> might not be invertible or even square.) Second, exclusive scans have more practical applications than inclusive scans. We'll see a good application of exclusive scan later.</p>
+<p>Now, <em>this</em> operation looks inherently serial. It would certainly be easy enough to compute it serially:</p>
+<pre class="sourceCode"><code class="sourceCode python">result[<span class="dv">0</span>] = <span class="dv">0</span><br /><br /><span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">1</span>, n):<br />    result[i] = result[i<span class="dv">-1</span>] + a[i<span class="dv">-1</span>]</code></pre>
+<p>Seeing this computation makes us think that we need to compute <code>result[i-1]</code> before computing <code>result[i]</code>. Therefore, we would think that we have to compute <code>result[0]</code>, then <code>result[1]</code>, then <code>result[2]</code>, and so on. That's a serial computation, and it would take <span class="math"><em>O</em>(<em>n</em>)</span> time.</p>
+<p>Believe it or not, we can perform a scan operation in <span class="math"><em>O</em>(log <em>n</em>)</span> time when <span class="math"><em>n</em> ≤ <em>p</em></span>. In other words, scanning is no harder than reduction, even though scanning seems inherently sequential.</p>
+<p>Let's take an example of a +-scan, where the list <code>a</code> has the values 2, 3, 4, 2, 3, 6, 5, 2. We expect the result to be 0, 2, 5, 9, 11, 14, 20, 25. Here's a schematic drawing of the process:</p>
+<div class="figure">
+<img src="scan.png" /><p class="caption"></p>
+</div>
+<p>The code is the <code>parallel_scan</code> function in <a href="scan.py">scan.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># Return a list of n values, whose ith value is the sum of all values in</span><br /><span class="co"># the first i-1 items of a, and whose 0th value is 0 (the identity for addition).</span><br /><span class="co"># Uses parallelizable for-loops and recursion.</span><br /><span class="co"># Takes O(log n) time in parallel with p processors, assuming that n &lt;= p.</span><br /><span class="kw">def</span> parallel_scan(a):<br />    <span class="co"># Create a list to hold the result of the scan.</span><br />    n = <span class="dt">len</span>(a)<br />    result = [<span class="ot">None</span>] * n<br /><br />    <span class="kw">if</span> n == <span class="dv">1</span>:<br />        result[<span class="dv">0</span>] = <span class="dv">0</span>       <span class="co"># base case: only one value</span><br />    <span class="kw">else</span>:<br />        <span class="co"># Create a new list, sums, of half the size, rounding up if n is odd.</span><br />        half = (n<span class="dv">+1</span>) / <span class="dv">2</span><br />        sums = [<span class="ot">None</span>] * half<br /><br />        <span class="co"># Using a parallelizable for-loop, add pairs of values in a into sums.</span><br />        <span class="kw">for</span> i in <span class="dt">range</span>(half<span class="dv">-1</span>):<br />            sums[i] = a[<span class="dv">2</span>*i] + a[<span class="dv">2</span>*i<span class="dv">+1</span>]<br /><br />        <span class="co"># Need special code to handle the last one or two values in a, in</span><br />        <span class="co"># case n is odd.</span><br />        <span class="kw">if</span> n % <span class="dv">2</span> == <span class="dv">0</span>:<br />            sums[half<span class="dv">-1</span>] = a[<span class="dv">2</span>*half<span class="dv">-2</span>] + a[<span class="dv">2</span>*half<span class="dv">-1</span>]<br />        <span class="kw">else</span>:<br />            sums[half<span class="dv">-1</span>] = a[<span class="dv">2</span>*half<span class="dv">-2</span>]<br /><br />        <span class="co"># Having created sums of pairs, return the +-scan of the sums.</span><br />        <span class="co"># This recursive call is on a problem of half the size.</span><br />        recursive_result = parallel_scan(sums)<br /><br />        <span class="co"># Now, for even values of i, recursive_result[i/2] holds the sum of</span><br />        <span class="co"># all values from a[0] through a[i-1], so that's what we want in result[i].</span><br />        <span class="co"># For odd values of i, recursive_result[i/2] holds the sum of all values</span><br />        <span class="co"># from a[0] through a[i-2], so result[i] should get the sum of</span><br />        <span class="co"># recursive_result[i/2] and a[i-1].</span><br />        <span class="co"># This for-loop is parallelizable.</span><br />        <span class="kw">for</span> i in <span class="dt">range</span>(n):<br />            <span class="kw">if</span> i % <span class="dv">2</span> == <span class="dv">0</span>:<br />                result[i] = recursive_result[i/<span class="dv">2</span>]<br />            <span class="kw">else</span>:<br />                result[i] = recursive_result[i/<span class="dv">2</span>] + a[i<span class="dv">-1</span>]<br /><br />    <span class="kw">return</span> result</code></pre>
+<p>We first sum pairs of consecutive pairs of values of <code>a</code> into a list <code>sums</code>, exactly as we did in the recursive <code>parallel_reduce</code> function. As in <code>parallel_reduce</code>, the list <code>sums</code> has <span class="math"><em>n</em> / 2</span> items, rounding up if <span class="math"><em>n</em></span> is odd. In our example, <code>sums</code> has the values 5, 6, 9, 7. As in <code>parallel_reduce</code>, we recurse on <code>sums</code>, but now we call <code>parallel_scan</code> recursively, not <code>parallel_reduce</code>. The recursive call is on a problem half the size. We assign the result to a list named <code>recursive_result</code>. In our example, <code>recursive_result</code> has the values 0, 5, 11, 20.</p>
+<p>Let's think about the situation after we return from the recursive call. For even indices <span class="math"><em>i</em></span>, <code>recursive_result[i/2]</code> holds the sum of all values in <code>a[0]</code> through <code>a[i-1]</code>, and that's exactly what we want in the <span class="math"><em>i</em></span>th position of the result. Having created a list <code>result</code> of length <span class="math"><em>n</em></span>, we simply set <code>result[i] = recursive_result[i/2]</code> for even values of <span class="math"><em>i</em></span>. For odd values of <span class="math"><em>i</em></span>, <code>recursive_result[i/2]</code> holds the sum of all values in <code>a[0]</code> through <code>a[i-2]</code>, and so adding in <code>a[i-1]</code> to <code>recursive_result[i/2]</code> gives us what we want in <code>result[i]</code>. We can think of filling in the <code>result</code> list as interleaving and adding, where we take the values in <code>recursive_result</code> and copy them into the even-indexed positions of <code>result</code>, and we add the values of <code>recursive_result</code> to odd-indexed values of <code>a</code>, putting the sums into the odd-indexed positions of <code>result</code>.</p>
+<p>When you look at the code in <code>parallel_scan</code>, you see that both the for-loops are parallelizable. Therefore, the analysis is the same as for the <code>parallel_reduce</code> function, and we get that the parallel running time is just <span class="math"><em>O</em>(log <em>n</em>)</span>. We've succeeded in parallelizing the scan operation!</p>
+<p>The <code>parallel_scan_many</code> function handles the case when <span class="math"><em>n</em> &gt; <em>p</em></span>.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># Return a list of m*p values, whose ith value is the sum of all values in the</span><br /><span class="co"># first i-1 items of a, and whose 0th value is 0 (the identity for addition).</span><br /><span class="co"># Uses parallelizable for-loops and a call to parallel_scan.  Assumes that</span><br /><span class="co"># processor i works on a[i*m] through a[i*m + m-1].  Takes O(m + log p) time</span><br /><span class="co"># in parallel with p processors.</span><br /><span class="kw">def</span> parallel_scan_many(a, p, m):<br />    <span class="co"># Create a list to hold the result of the scan.</span><br />    n = m * p<br />    prefix = [<span class="dv">0</span>] * n<br /><br />    <span class="co"># Using a parallelizable for-loop, perform a scan on the values in each</span><br />    <span class="co"># processor's portion of a, so that prefix[i*m + j] has the sum of the values</span><br />    <span class="co"># in a[i*m] through a[i*m + j-1] and prefix[i*m] has 0.  With p processors,</span><br />    <span class="co"># this loop takes O(m) time.</span><br />    <span class="kw">for</span> i in <span class="dt">range</span>(p):<br />        <span class="co"># This inner for-loop is not parallelizable.</span><br />        <span class="kw">for</span> j in <span class="dt">range</span>(<span class="dv">1</span>, m):<br />            prefix[i*m + j] = prefix[i*m + j<span class="dv">-1</span>] + a[i*m + j<span class="dv">-1</span>]<br /><br />    <span class="co"># Create a list, prior_sums, where prior_sums[i] will hold the sum of all</span><br />    <span class="co"># the values in processor i's portion of a.</span><br />    prior_sums = [<span class="ot">None</span>] * p<br /><br />    <span class="co"># Using a parallelizable for-loop, fill in prior_sums.</span><br />    <span class="kw">for</span> i in <span class="dt">range</span>(p):<br />        prior_sums[i] = prefix[i*m + m<span class="dv">-1</span>] + a[i*m + m<span class="dv">-1</span>]<br /><br />    <span class="co"># Perform a scan on prior_sums, so that prior_sums[i] will hold the</span><br />    <span class="co"># sum of all values in portions of a belonging to processors 0 through i-1.</span><br />    <span class="co"># This call takes O(log p) time in parallel with p processors.</span><br />    prior_sums = parallel_scan(prior_sums)<br /><br />    <span class="co"># Using a parallelizable outer for-loop, add in the prior sums to the</span><br />    <span class="co"># scan values already computed.</span><br />    <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">1</span>, p):<br />        <span class="co"># This inner for-loop is not parallelizable.</span><br />        <span class="kw">for</span> j in <span class="dt">range</span>(m):<br />            prefix[i*m + j] += prior_sums[i]<br /><br />    <span class="kw">return</span> prefix</code></pre>
+<p>As before, we denote <span class="math"><em>n</em> / <em>p</em></span> by <span class="math"><em>m</em></span>. We start by performing a scan on the values in each processor's portion of the list <code>a</code>, placing the results into the list <code>prefix</code>. The <code>prefix</code> list will eventually hold the result of the scan. Processor <span class="math"><em>i</em></span> is responsible for the sublist from <code>a[i*m]</code> through <code>a[i*m + m-1]</code>, and so we want <code>prefix[i*m + j]</code> to hold the sum <code>a[i*m] + a[i*m + 1] + a[i*m + 2] + ... + a[i*m + j-1]</code>, and <code>prefix[i*m]</code> should hold 0. We perform this scan using nested for-loops, where the outer loop is parallelizable and the inner loop is not. If we perform the outer loop in parallel, then the parallel running time of these loops is <span class="math"><em>O</em>(<em>n</em> / <em>p</em>)</span>.</p>
+<p>We need to add into each item of <code>prefix</code> the sum of the values in all previous processors. In other words, we want to add into <code>prefix[i*m + j]</code>, where <span class="math">0 ≤ <em>j</em> &lt; <em>m</em></span>, the sum <code>a[0] + a[1] + a[2] + ... + a[i*m - 1]</code>. We create a list <code>prior-sums</code> of length <span class="math"><em>p</em></span>, where <code>prior_sums[i]</code> will eventually have the sum of all the values belonging to processors 0 through <span class="math"><em>i</em> - 1</span>. Initially, <code>prior_sums[i]</code> gets the sum of all of processor <span class="math"><em>i</em></span>'s values by assigning to it <code>prefix[i*m + m-1] + a[i*m + m-1]</code> (recall that <code>prefix[i*m + m-1]</code> has <code>a[i*m] + a[i*m + 1] + a[i*m + 2] + ... + a[i*m + m-2]</code>, so that adding in <code>a[i*m + m-1]</code> gives the sum of all of processor <span class="math"><em>i</em></span>'s portion of <code>a</code>). We then call <code>parallel_scan</code> on <code>prior_sums</code>, assigning the result back into <code>prior_sums</code>, so that <code>prior_sums[i]</code> does hold the sum of all the values belonging to processors 0 through <span class="math"><em>i</em> - 1</span> We initialize <code>prior_sums</code> in a parallelizable for-loop, and of course the call to <code>parallel_scan</code> takes <span class="math"><em>O</em>(log <em>p</em>)</span> time.</p>
+<p>Once we have <code>prior_sums</code> the way we want it, we just add <code>prior_sums[i]</code> into each value in <code>prefix[i*m..i*m + m-1]</code>. We do so for processors <span class="math">1, 2, …, <em>p</em></span>; we don't need to add anything into processor 0's portion of <code>a</code>. We perform this addition using nested loops, with the outer loop being parallelizable and the inner loop not parallelizable. Once again, the parallel running time is <span class="math"><em>O</em>(<em>n</em> / <em>p</em>)</span>.</p>
+<p>As in the <code>parallel_reduce_many</code> function, the total parallel running time of <code>parallel_scan_many</code> function works out to <span class="math"><em>O</em>(<em>n</em> / <em>p</em> + log <em>p</em>)</span>.</p>
+<h2 id="partitioning-in-parallel">Partitioning in parallel</h2>
+<p>Recall how quicksort relies on partitioning a list. In fact, that's really all that quicksort is: each recursive call partitions a sublist of the full list. We can parallelize quicksort by parallelizing partitioning. Scan operations are key, along with two other parallel operations, meld and permute, which we'll see.</p>
+<h3 id="copy-scans">Copy-scans</h3>
+<p>Earlier, I said that you can scan with any associative operator. The only examples we have seen so far use addition, performing a +-scan. If we're a little bit creative, we can see how to couch other operations as scans. For example, suppose that we want to copy the value in <code>a[0]</code> to each item in <code>a</code>. We can use a scan for that! How? Let's define <span class="math">$@$</span> as a binary operator that just evaluates to its left argument: <span class="math">$x \:@\: y = x$</span>. This operator is associative: <span class="math">$(x \:@\: y) \:@\: z = x \:@\: z = x$</span> and <span class="math">$x \:@\: (y \:@\: z) = x \:@\: y = x$</span>. Just as addition has the identity 0 (<span class="math">0 + <em>x</em> = <em>x</em></span>) and multiplication has the identity 1 (<span class="math">1 * <em>x</em> = <em>x</em></span>), we'll make a special symbol $ for the identity for the <span class="math">$@$</span> operator: <span class="math">$\$ \:@\: x = x$</span> for any value <span class="math"><em>x</em></span>.</p>
+<p>In an exclusive +-scan, position 0 of the resulting list gets the identity 0, so in an exclusive <span class="math">$@$</span>-scan, position 0 of the resulting list will get the identity $. Now we can see how a <span class="math">$@$</span>-scan would copy the value in <code>a[0]</code> to all positions of the resulting list, except for position 0:</p>
+<div class="figure">
+<img src="copy-scan.png" /><p class="caption"></p>
+</div>
+<p>After performing this operation, to get the value 2 into all positions of the resulting list, we just need copy <code>a[0]</code> into the 0th position of the resulting list.</p>
+<h3 id="meld-operations">Meld operations</h3>
+<p>A <strong>meld</strong> operation takes values from <span class="math"><em>k</em></span> lists, where <span class="math"><em>k</em> ≥ 2</span>, and combines them into a single list, according to <span class="math"><em>k</em></span> boolean lists. This operation is best illustrated with an example. Here, we meld <span class="math"><em>k</em> = 3</span> lists—<code>x</code>, <code>y</code>, and <code>z</code>— holding values, according to <span class="math"><em>k</em></span> boolean lists—<code>a</code>, <code>b</code>, and <code>c</code>:</p>
+<pre>
+       index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+
+           a  0  0  <b>1</b>  <b>1</b>  <b>1</b>  0  0  <b>1</b>  0  0  <b>1</b>  <b>1</b>  <b>1</b>  <b>1</b>   
+           x  0  0  <b>0</b>  <b>1</b>  <b>2</b>  3  3  <b>3</b>  4  4  <b>4</b>  <b>5</b>  <b>6</b>  <b>7</b>
+
+           b  <b>1</b>  0  0  0  0  0  <b>1</b>  0  0  0  0  0  0  0
+           y  <b>8</b>  9  9  9  9  9  <b>9</b> 10 10 10 10 10 10 10
+
+           c  0  <b>1</b>  0  0  0  <b>1</b>  0  0  <b>1</b>  <b>1</b>  0  0  0  0
+           z 10 <b>10</b> 11 11 11 <b>11</b> 12 12 <b>12</b> <b>13</b> 14 14 14 14
+
+      result  8 10  0  1  2 11  9  3 12 13  4  5  6  7
+</pre>
+
+<p>We indicate <code>True</code> by 1 and <code>False</code> by 0. If <code>a[i]</code> has a 1, then the <span class="math"><em>i</em></span>th position of the result gets <code>x[i]</code>; if <code>b[i]</code> has a 1, then the <span class="math"><em>i</em></span>th position of the result gets <code>y[i]</code>; and if <code>c[i]</code> has a 1, then the <span class="math"><em>i</em></span>th position of the result gets <code>z[i]</code>. Values of <code>x</code>, <code>y</code>, and <code>z</code> that go into the result are in boldface in the above example, as are the boolean values that cause them to go there. We assume that for each position, exactly one of the boolean lists holds a 1 in that position, as in the above example.</p>
+<p>It's not hard to see how we can perform a meld operation in <span class="math"><em>O</em>(<em>k</em>)</span> time in parallel, assuming that <span class="math"><em>k</em> ≤ <em>p</em></span>.</p>
+<h3 id="permute-operations">Permute operations</h3>
+<p>A <strong>permute</strong> operation takes two lists, say <code>perm</code> and <code>x</code>, and it produces an list, say <code>y</code>, such that <code>x[i]</code> equals <code>y[perm[i]]</code>. We assume that the <code>perm</code> list is a permutation (i.e., a rearrangement) of the indices <span class="math">0, 1, 2, . . . , <em>n</em> - 1</span>, so that what we are really doing is permuting the values in the list <code>x</code> according to the indices in <code>perm</code>. For example, here's a permute operation that uses the result of melding in the previous example as the <code>perm</code> list:</p>
+<pre>
+        index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+         perm  8 10  0  1  2 11  9  3 12 13  4  5  6  7
+            x  4  6  2  1  3  7  4  2  5  6  1  2  1  3
+            y  2  1  3  2  1  2  1  3  4  4  6  7  5  6
+</pre>
+
+<p>Because each value in the <code>perm</code> list is unique and each processor can store into the shared memory, a permute operation takes constant time in parallel, assuming that <span class="math"><em>n</em> ≤ <em>p</em></span>.</p>
+<h3 id="partitioning">Partitioning</h3>
+<p>Now we can see how to partition in parallel, assuming that <span class="math"><em>n</em> ≤ <em>p</em></span>. One difference from how we partitioned in the quicksort code we've seen before is that we use the first item, not the last, as the pivot. Another difference is that we'll make three partitions; in order from left to right: items less than the pivot, items equal to the pivot, and items greater than the pivot. Quicksort would recurse on only the left and right partitions, not the middle. We'll show how to partition by example, using the list <code>x</code> from the previous example.</p>
+<ol style="list-style-type: decimal">
+<li><p>Copy-scan <code>x[0]</code> into a new list <code>pivot</code>, so that <code>pivot[i]</code> equals <code>x[0]</code> for all <span class="math"><em>i</em></span>.</p></li>
+<li><p>In parallel, compute three boolean lists: <code>less[i]</code> indicates whether <code>x[i]</code> <span class="math"> &lt; </span> <code>pivot[i]</code>; <code>eq[i]</code> indicates whether <code>x[i]</code> equals <code>pivot[i]</code>; and <code>greater[i]</code> indicates whether <code>x[i]</code> <span class="math"> &gt; </span> <code>pivot[i]</code>.</p>
+For our example, here's what we have:
+<pre>
+    index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+        x  4  6  2  1  3  7  4  2  5  6  1  2  1  3
+
+    pivot  4  4  4  4  4  4  4  4  4  4  4  4  4  4
+
+     less  0  0  1  1  1  0  0  1  0  0  1  1  1  1
+       eq  1  0  0  0  0  0  1  0  0  0  0  0  0  0
+  greater  0  1  0  0  0  1  0  0  1  1  0  0  0  0
+   </pre>
+</li>
+<li><p>Perform a +-scan on each of <code>less</code>, <code>eq</code>, and <code>greater</code>, and perform a +-reduction on <code>less</code> and <code>eq</code>. Call the scan results <code>less_scan</code>, <code>eq_scan</code>, and <code>greater_scan</code>. Call the reduction results <code>less_red</code> and <code>eq_red</code>.</p>
+<pre>
+       index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+           x  4  6  2  1  3  7  4  2  5  6  1  2  1  3
+
+       pivot  4  4  4  4  4  4  4  4  4  4  4  4  4  4
+
+        less  0  0  1  1  1  0  0  1  0  0  1  1  1  1
+          eq  1  0  0  0  0  0  1  0  0  0  0  0  0  0
+     greater  0  1  0  0  0  1  0  0  1  1  0  0  0  0
+
+   less_scan  0  0  0  1  2  3  3  3  4  4  4  5  6  7
+     eq_scan  0  1  1  1  1  1  1  2  2  2  2  2  2  2
+greater_scan  0  0  1  1  1  1  2  2  2  3  4  4  4  4
+</pre>
+
+
+<p><code>less_red</code> = 8 and <code>eq_red</code> = 2.</p>
+<p>At this point, if <code>x[i]</code> is less than <code>x[0]</code> (the pivot), then <code>less_scan[i]</code> has the index of where we want to permute <code>x[i]</code>. If <code>x[i]</code> equals the pivot, then <code>eq_scan[i]</code> has the index of where we want to permute <code>x[i]</code>, <em>but within the set of items equal to the pivot</em>. And if <code>x[i]</code> is greater than the pivot, then <code>greater_scan[i]</code> has the index of where we want to permute <code>x[i]</code>, <em>but within the set of items greater than the pivot</em>.</p></li>
+<li><p>Copy-scan <code>less_red</code> and <code>eq_red</code>. Add the result of copy-scanning <code>less_red</code> into <code>eq_scan</code>, item by item, giving <code>eq_perm</code>. Add the sum of the results of copy-scanning <code>less_red</code> and <code>eq_red</code> into <code>greater_scan</code>, item by item, giving <code>greater_perm</code>.</p>
+<pre>
+             index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+                 x  4  6  2  1  3  7  4  2  5  6  1  2  1  3
+
+             pivot  4  4  4  4  4  4  4  4  4  4  4  4  4  4
+
+              less  0  0  1  1  1  0  0  1  0  0  1  1  1  1
+                eq  1  0  0  0  0  0  1  0  0  0  0  0  0  0
+           greater  0  1  0  0  0  1  0  0  1  1  0  0  0  0
+
+         less_scan  0  0  0  1  2  3  3  3  4  4  4  5  6  7
+           eq_scan  0  1  1  1  1  1  1  2  2  2  2  2  2  2
+      greater_scan  0  0  1  1  1  1  2  2  2  3  4  4  4  4
+
+copy-scan less_red  8  8  8  8  8  8  8  8  8  8  8  8  8  8
+  copy-scan eq_red  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+
+           eq_perm  8  9  9  9  9  9  9 10 10 10 10 10 10 10
+      greater_perm 10 10 11 11 11 11 12 12 12 13 14 14 14 14
+</pre>
+
+<p>Now if <code>x[i]</code> equals the pivot, then <code>eq_perm[i]</code> has the index of where we want to permute <code>x[i]</code> within the entire list, and if <code>x[i]</code> is greater than the pivot, then <code>greater_scan[i]</code> has the index of where we want to permute <code>x[i]</code> within the entire list.</p></li>
+<li><p>Meld the lists <code>less_scan</code>, <code>eq_perm</code>, and <code>greater_perm</code>, using the boolean lists <code>less</code>, <code>eq</code>, and <code>greater</code>. Call the resulting list <code>perm</code>, and it gives the index where each value of <code>x[i]</code> should go.</p>
+<pre>
+             index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+                 x  4  6  2  1  3  7  4  2  5  6  1  2  1  3
+
+             pivot  4  4  4  4  4  4  4  4  4  4  4  4  4  4
+
+              less  0  0  1  1  1  0  0  1  0  0  1  1  1  1
+                eq  1  0  0  0  0  0  1  0  0  0  0  0  0  0
+           greater  0  1  0  0  0  1  0  0  1  1  0  0  0  0
+
+         less_scan  0  0  0  1  2  3  3  3  4  4  4  5  6  7
+           eq_scan  0  1  1  1  1  1  1  2  2  2  2  2  2  2
+      greater_scan  0  0  1  1  1  1  2  2  2  3  4  4  4  4
+
+copy-scan less_red  8  8  8  8  8  8  8  8  8  8  8  8  8  8
+  copy-scan eq_red  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+
+           eq_perm  8  9  9  9  9  9  9 10 10 10 10 10 10 10
+      greater_perm 10 10 11 11 11 11 12 12 12 13 14 14 14 14
+
+              perm  8 10  0  1  2 11  9  3 12 13  4  5  6  7
+</pre>
+</li>
+<li><p>Permute the list <code>x</code> according to the indices in <code>perm</code>. The resulting list has the list <code>x</code> partitioned around the pivot <code>x[0]</code>.</p>
+<pre>
+             index  0  1  2  3  4  5  6  7  8  9 10 11 12 13
+                 x  4  6  2  1  3  7  4  2  5  6  1  2  1  3
+
+             pivot  4  4  4  4  4  4  4  4  4  4  4  4  4  4
+
+              less  0  0  1  1  1  0  0  1  0  0  1  1  1  1
+                eq  1  0  0  0  0  0  1  0  0  0  0  0  0  0
+           greater  0  1  0  0  0  1  0  0  1  1  0  0  0  0
+
+         less_scan  0  0  0  1  2  3  3  3  4  4  4  5  6  7
+           eq_scan  0  1  1  1  1  1  1  2  2  2  2  2  2  2
+      greater_scan  0  0  1  1  1  1  2  2  2  3  4  4  4  4
+
+copy-scan less_red  8  8  8  8  8  8  8  8  8  8  8  8  8  8
+  copy-scan eq_red  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+
+           eq_perm  8  9  9  9  9  9  9 10 10 10 10 10 10 10
+      greater_perm 10 10 11 11 11 11 12 12 12 13 14 14 14 14
+
+              perm  8 10  0  1  2 11  9  3 12 13  4  5  6  7
+
+     partitioned x  2  1  3  2  1  2  1  3  4  4  6  7  5  6
+</pre>
+
+<p>In this example, indices 0 through 7 of the partitioned list hold values of <code>x</code> that are less than the pivot 4; indices 8 and 9 hold values of <code>x</code> that equal the pivot 4; and indices 10 through 13 hold values of <code>x</code> that are greater than the pivot 4.</p></li>
+</ol>
+<p>Thus, we have successfully partitioned the list <code>x</code>.</p>
+<p>Because <span class="math"><em>n</em> ≤ <em>p</em></span>, each scan or reduce operation takes <span class="math"><em>O</em>(log <em>n</em>)</span> time. All other operations take constant time, and there are a constant number of operations. Therefore, we can partition in <span class="math"><em>O</em>(log <em>n</em>)</span> time in parallel.</p>
+</body>
+</html>

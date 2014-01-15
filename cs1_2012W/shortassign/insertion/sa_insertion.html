@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-9-insertion-sort-due-monday-february-13">Short Assignment #9: Insertion Sort <br />Due: Monday, February 13</h1>
+<p>In class, we have seen two sorting algorithms: selection sort and merge sort. We've also seen one reason why sorting is valuable, namely because binary search relies on having its input list be already sorted. There are a ton of other reasons why we want to sort data.</p>
+<p>Python provides built-in functions to sort items. We've seen the the <code>sorted</code> function that creates a sorted copy of a list. There's also a <code>sort</code> method, which sorts a list in place:</p>
+<pre class="sourceCode"><code class="sourceCode python">the_list = [<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">5</span>]<br />the_list.sort()<br /><span class="kw">print</span> the_list</code></pre>
+<p>produces the output</p>
+<pre><code>[1, 2, 3, 5, 6, 8]
+</code></pre>
+<p>But how does sorting work? Beyond the two that we've already seen, there are dozens of different sorting algorithms. Although the results of each algorithm are the same (a sorted list), some algorithms are more efficient than others, depending on how the data is initially organized in the list. The goal of this short assignment is to implement another sorting algorithm, <strong>insertion sort</strong>.</p>
+<p>It may seem silly to implement a sorting method when Python already has one built-in, but every card-carrying computer scientist knows how insertion sort works. Insertion sort is to the canon of computer science as <em>The Iliad</em> is to the canon of classical literature—and it takes a lot less time to understand insertion sort than it takes to read <em>The Iliad</em>. Furthermore, this short assignment will give you a good chance to practice working with nested loops and manipulating items in a list.</p>
+<h2 id="how-insertion-sort-works">How insertion sort works</h2>
+<p>Let's look at the example in <a href="Insertion-Sort.ppt">this PowerPoint</a>. We have a list, say <code>the_list</code>, and it's initialized with</p>
+<pre class="sourceCode"><code class="sourceCode python">the_list = [<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">3</span>]</code></pre>
+<p>Consider the sublist containing just the item in <code>the_list[0]</code>. Is this sublist sorted? Of course! Any sublist containing just one item is sorted. How can an item be out of order with respect to itself? In the PowerPoint, I color this sublist purple, to indicate that it's sorted.</p>
+<p>Next, we consider the item in <code>the_list[1]</code>. We are going to figure out where in the sublist to its left it should go. Let's give the item in <code>the_list[1]</code> the name <code>key</code>, so that <code>key</code> has the value 2. We compare <code>key</code> with the item immediately to the left of <code>the_list[1]</code>, namely <code>the_list[0]</code>, which has the value 5. We see that <code>key</code>, since it has the value 2, is less than <code>the_list[0]</code>, which has the value 5. So we know that <code>key</code> should go somewhere to the left of the item in <code>the_list[0]</code>. We shift the item in <code>the_list[0]</code> over one position to the right, into <code>the_list[1]</code>. At this point, we have hit the left end of the list, and we stop and drop <code>key</code> into <code>the_list[0]</code>. At this point the sublist of <code>the_list</code> starting at index 0 and going through index 1 is sorted, and <code>the_list</code> is <code>[2, 5, 4, 6, 1, 3]</code>.</p>
+<p>Next, we consider the item in <code>the_list[2]</code>, with value 4. Again, we figure out where in the sublist to its left it should go. We set <code>key</code> to 4 and compare it with the item immediately to its left, in <code>the_list[1]</code>, with value 5. We see that <code>key</code> is less than <code>the_list[1]</code>, and so we know that <code>key</code> will go somewhere to the left of <code>the_list[1]</code>. We shift the item in <code>the_list[1]</code> over one position to the right, into <code>the_list[2]</code>. Next, we compare <code>key</code> with the item in <code>the_list[0]</code>. We see that <code>key</code> is not less than this item, whose value is 2, and so we know that <code>key</code> does not go its left. We stop comparing <code>key</code> with items to its left, and we drop <code>key</code> into the last position out of which we shifted an item, namely <code>the_list[1]</code>. At this point, the sublist of <code>the_list</code> starting at index 0 and going through index 2 is sorted, and <code>the_list</code> is <code>[2, 4, 5, 6, 1, 3]</code>.</p>
+<p>We repeat this process:</p>
+<ul>
+<li><p>Look at the next item in the list, and assign its value to <code>key</code>.</p></li>
+<li><p>Find where in the sublist to its left this item goes, by marching to the left. Whenever we find an item that is greater than <code>key</code>, we shift this item over one position to the right. Eventually, we either hit the beginning of the list (the left end), or we find an item that is not greater than <code>key</code>. In the latter case, because the sublist preceding the item that we assigned to <code>key</code> is already sorted, we know that if we find an item that is not greater than <code>key</code>, then neither will be any items to the left of this item. In either case, drop <code>key</code> into the last position of the list out of which we shifted an item. The sublist known to be sorted has increased by one item.</p></li>
+<li><p>Stop once all items in the list have marched to the left and been placed into the appropriate position in the list.</p></li>
+</ul>
+<p>If we look at our example after each item is processed, we see, in order</p>
+<pre><code>[5, 2, 4, 6, 1, 3]   # initial list
+[2, 5, 4, 6, 1, 3]   # after processing the_list[1]
+[2, 4, 5, 6, 1, 3]   # after processing the_list[2]
+[2, 4, 5, 6, 1, 3]   # after processing the_list[3]: it's already greater than everything to its left
+[1, 2, 4, 5, 6, 3]   # after processing the_list[4]
+[1, 2, 3, 4, 5, 6]   # after processing the_list[5]: done
+</code></pre>
+<p>Notice that finding an item equal to <code>key</code> is just as good as finding an item that is less than <code>key</code>. In either case, there's no need to shift this item to the right, and so we stop marching to the left.</p>
+<h2 id="requirements">Requirements</h2>
+<p>Start with the following code, in <a href="insertion-sort.py">insertion-sort.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python">the_list = [<span class="dv">89</span>, <span class="dv">45</span>, <span class="dv">85</span>, <span class="dv">81</span>, <span class="dv">77</span>, <span class="dv">94</span>, <span class="dv">22</span>, <span class="dv">77</span>, <span class="dv">92</span>, <span class="dv">91</span>]<br /><br /><span class="kw">def</span> insertion_sort(the_list):<br />    <span class="co"># Replace the pass statement by the body of this function.</span><br />    <span class="kw">pass</span><br /><br />insertion_sort(the_list)<br /><br /><span class="kw">print</span> the_list</code></pre>
+<p>You will write the body of the <code>insertion_sort</code> function and replace the pass-statement by it. Submit your .py code and a text file of the output.</p>
+<h2 id="hints">Hints</h2>
+<ol style="list-style-type: decimal">
+<li><p>This assignment is about writing precise nested loops to rearrange the items in a list. It's not about writing a lot of code. The body of the function <code>insertion_sort</code> is eight lines long in my solution, and I could have made it only seven lines long. You can use recursion if you really want to, but it's by no means necessary. Nested loops will be just fine.</p></li>
+<li><p>If you are confused, start with a problem you can solve. For example, assume that the list is sorted except for the very last item. Maybe the list is <code>[45, 81, 85, 89, 77]</code>. Could you write a while-loop that would shift the items in positions 1, 2, and 3 over one position to the right and then drop the item in position 4 into position 1, giving the sorted list <code>[45, 77, 81, 85, 80]</code>? Do it. Test your solution to this simpler problem with various lists.</p></li>
+<li><p>If you have solved step 2, extend your solution to work with a situation where the sublist of the first <em>i</em> items are sorted, the item in position <em>i</em> has to go into its proper place within the sublist of the first <em>i</em>–1 items, and all items to the right of position <em>i</em> are ignored. Test your solution.</p></li>
+<li><p>Write a loop that applies your solution for step 3 over and over, for the item in position 1, then position 2, position 3, and so on.</p></li>
+</ol>
+</body>
+</html>

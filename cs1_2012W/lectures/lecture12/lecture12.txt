@@ -1,0 +1,592 @@
+# Short Assignment 8
+
+[Short Assignment
+8](../../shortassign/binarysearch/sa_binarysearch.html) is posted and
+due on Wednesday.
+
+# Recursion
+
+In computing, **recursion** is defining and solving a problem in terms
+of **smaller instances of the same problem**.
+
+In lecture, I showed you how Manitoulin Island in Lake Huron provides
+a geographical example of recursion.
+
+## Brief example: Sierpinsky Gasket
+
+A fractal known as a "Sierpinsky Gasket" provides another example:
+
+![](sierpinsky.png)
+
+It works as follows.  Divide up a square of pixels into four
+quadrants: upper left, upper right, lower left, and lower right.  Then
+do the same thing in each of the upper left, upper right, and lower
+right quadrants, but not the lower left.  Eventually, you get down to
+a quadrant that is just one pixel in size, and you draw it.  You can
+see this "self similarity" property.
+
+## Factorial
+
+For our first concrete example of recursion, we compute *n*!,
+pronounced "*n* factorial."  Here's one way to define it:
+
+* *n*! = 1, if *n* = 0, and
+* *n*! = *n* (*n*&ndash;1) (*n*&ndash;2) &#x22EF; 1, if *n* > 0.
+
+And code to compute it, in [fact_iterative.py](fact_iterative.py):
+
+~~~{.python}
+# fact_iterative.py
+# Computes n! iteratively.
+
+def factorial(n):
+    fact = 1
+    i = 1
+    while i <= n:
+        fact *= i
+        i += 1
+    return fact
+
+print factorial(5)
+~~~
+
+Note that the product (*n*&ndash;1) (*n*&ndash;2) &#x22EF; 1 equals
+(*n*&ndash;1)!.  With this observation, we can recast the definition
+of *n*! as
+
+* *n*! = 1, if *n* = 0, and
+* *n*! = *n* ((*n*&ndash;1)!), if *n* > 0.
+
+That is, if *n* > 0, we can compute *n*! by first computing
+(*n*&ndash;1)! and then multiplying the result by *n*.
+
+We have defined *n*! in terms of a "smaller" factorial, namely
+(*n*&ndash;1)!.
+
+We call the first case (*n* = 0) the **base case**, and the second
+case (*n* > 0), which uses the value of (*n*&ndash;1)!, is the
+**recursive case**.
+
+Let's put this observation into code in
+[fact_recursive.py](fact_recursive.py):
+
+~~~{.python}
+# fact_recursive.py
+# Computes n! recursively.
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:    
+        return n * factorial(n - 1)
+
+print factorial(5)
+~~~
+
+Note that when *n* is positive, the call `factorial(n)` ends up making
+the call `factorial(n - 1)`.  In other words, the `factorial` function
+calls itself!  We call such a function a **recursive function**.
+
+## How recursion works
+
+Recursive definitions seem inherently circular.  Many people have a
+hard time believing that they can work.  The important two points are
+
+1. The recursive case breaks the problem into one or more *smaller*
+problems of the same kind.  It is very important that the new problems
+be smaller.
+
+2.  The method defines one or more base cases, which are solved
+directly without using recursion.  The recursive subdivision described
+in the first rule must always eventually end up in base cases.
+
+If these two rules are met, recursion works.  You work on smaller and
+smaller problems until you get down to a base case.  It may take you a
+little while to get comfortable with recursion, however.  In the
+meantime, let's see what really happens in the computer.  Thinking
+about what goes on inside the computer while trying to write
+complicated recursive functions is a good way to get a headache.
+Think in terms of the two rules above, and have faith that if you
+follow them that the program will work.
+
+## Stack frames and the call stack
+
+Before looking too closely at recursion, let's look at how function
+calls work.  At any instant in time, the program counter points at
+some location in the code: the line number of the code that is being
+executed and where Python is in that line.
+
+When a function is called, the currently running function is
+suspended.  The current value of the program counter is saved.  The
+actual parameters are copied into the formal parameters of the called
+function.  (I used my screechy voice in that last sentence.)  Finally,
+the program counter is set to the first line of the called function.
+
+We can look at the "lifetime" of a function chronologically:
+
+1. The function is called, and it starts running.
+2. Later, the function might call another function.  If so, the
+function suspends while the other function executes.
+3. Eventually, the original function resumes execution when the
+function it called finishes.
+4. Finally, the function terminates when Python reaches a return
+statement or the end of the function body.
+
+As a function executes, space is created in memory for any local
+variables.  **If a second function is called from within the first
+function, the local variables of the first function are not destroyed,
+but are inaccessible to the second function.** This makes sense,
+right?  Local variables of the first function need to still exist
+after the second function finishes, and the first function is only
+suspended.  Local variables of the first function will not be
+destroyed until the first function itself terminates.
+
+At any instant, just one function is actively running, but there may
+be many suspended functions, these being the functions that directly
+called the current function or the functions that indirectly called
+the current function, by a chain of function calls.  For both the
+currently running function and any suspended functions, Python needs
+to store
+
+1.  where to return the program counter to after the function
+terminates, and
+2.  the values of any parameters and other local variables.
+
+This information is stored internally by Python in a data structure
+called the **call stack** (short for **function call stack**).  I'll
+often refer to it as just the **stack**.  Let's look at an example,
+in [call_stack.py](call_stack.py):
+
+~~~{.python}
+def functionA():
+    print "A called.  x =" 
+    x = 5
+    functionC()
+    print x
+    
+def functionB():
+    y = 10
+    print "B called."    
+    
+def functionC():
+    x = 2
+    k = 6
+    print "C called.  x ="
+    functionB()
+    functionD()
+    print x
+    
+def functionD():
+    z = 12
+    print "D called."
+
+functionA()
+~~~
+
+First, `functionA` is called.  `functionA` has one local variable,
+`x`, which is assigned the value `5`.  Then `functionA` calls
+`functionC`.  When this happens, the current value of the program
+counter in `functionA` is saved, and then the program counter is set
+to the first line of `functionC`; `functionA` is *suspended*.  Now
+`functionC` is executing.  `functionC` has two local variables, `x`
+and `k`.  **Even though one of these local variables has the same name
+as a local variable in `functionA`, a new variable is created.**
+
+Let's look at a picture of the call stack at the point in time after
+`functionC` has been called and its local variables have been set, but
+before it calls `functionB`:
+
+![](callstack1.png)
+
+Each box is called a **stack frame**.  The bottom box has the
+information Python needs about the currently running function.  All
+other boxes have the information Python needs about currently
+suspended functions.
+
+Each time a function is called, a new frame is "pushed onto" (added
+to) the stack.  When a function terminates, that function's frame is
+"popped off of" (removed from) the stack.
+
+We call this arrangement a "stack" because it's like a stack of plates
+in a dining hall.  When you add a plate to the stack, you add it to
+the top (that is, you "push" a plate onto the stack), and when you
+take a plate from the stack, you take it from the top (you "pop" a
+plate from the stack).  So why do I draw the call stack with the
+"top"&mdash;the end where the newest stack frame goes&mdash;at the
+bottom?  Because it's a lot more convenient for me to draw it that
+way; I don't know ahead of time how big the call stack might get.
+
+In the example, the suspended function `functionA` has a stack frame
+containing `functionA`'s local variable `x`.  There is also a
+information in the stack frame that says where to return to when
+`functionA` is finished (in this case, back to the main program).
+
+The function that is running, `functionC`, has a stack frame
+containing local variables `x` and `k`, and their values.  There is
+also information about where to return to when `functionC` is
+finished&mdash;in this case, back to `functionA`.
+
+The next thing that happens is that `functionC` calls `functionB`.
+When this happens, `functionC` temporarily suspends, and a new frame
+is created for `functionB`:
+
+![](callstack2.png)
+
+Then `functionB` finishes.  Its local variables are destroyed, and its
+frame is popped from the call stack, destroyed.  `functionC` resumes
+execution:
+
+![](callstack1.png)
+
+Then `functionC` calls `functionD`:
+
+![](callstack3.png)
+
+`functionD` terminates, its stack is popped, and `functionC` resumes:
+
+![](callstack1.png)
+
+Then `functionC` terminates, and its frame is popped.  Finally,
+`functionA` terminates, and its frame is popped, leaving the stack
+empty.
+
+It is very good practice to draw the stack frame as you work your way
+through any piece of code.  *On an exam, I might ask you to draw the
+stack frame at various points of execution of a given piece of code.*
+
+### Viewing the call stack with the debugger
+
+I also showed in class how to step through Python code using the
+debugging tool, watching the call stack, and checking local variables
+of various suspended and currently executing function using the upper
+two windows.  The Eclipse Debug perspective is *extremely useful* for
+understanding how function calls work.
+
+The main difference between the call stack I drew and the call stack
+in the debugger is that the stacks are reversed; the Eclipse Debug
+perspective puts the currently running function toward the top of the
+screen.
+
+## The call stack in recursive code
+
+Now that we see hwo the call stack is organized, let's examine what
+happens when we call `factorial(3)`. After several recursive calls, we
+hit the base case, and the call stack looks like this:
+
+![](factorial_callstack.png)
+
+I wrote in the return value of the call `factorial(0)`, 1, to the
+right of the stack frame.  After `factorial(0)` terminates and its
+frame is popped, `factorial(1)` multiplies `n` by `1` and returns that
+value (1, since `n` = 1) to `factorial(2)`.  Then `factorial(2)`
+mutliplies the value returned from `factorial(1)` by 2 and returns 2.
+You should walk through the code, crossing off stack frames as they
+are popped, and writing the value each function call returns next to
+its stack frame.
+
+## Infinite recursion
+
+One mistake that you might make when programming recursive methods is
+to fail to ensure that you hit the base case.  Suppose that you called
+`factorial(-1)`. It would call `factorial(-2)` which would call
+`factorial(-3)`, and so on until you got the error message
+`RuntimeError: maximum recursion depth exceeded`.  We didn't make sure
+to hit the base case eventually.
+
+Another mistake is not making the subproblems smaller.  It is true
+that *n*! = (*n*+1)!/(*n*+1).  Try editing fact_recursive.py to change
+the line with the recursive call to
+
+~~~{.python}
+return factorial(n + 1) / (n+1)
+~~~
+
+The call `factorial(n)` makes the call `factorial(n + 1)`, which makes
+the call `factorial(n + 2)`, and so on.  In either case, each call
+causes a new stack frame to be pushed, and eventually you run out of
+memory, resulting once again in the dreaded `RuntimeError: maximum
+recursion depth exceeded` message.
+
+## Side note: Slicing lists and strings
+
+We're going to reverse a string recursively in the next section.
+Before we do that, here are a few Python tricks that are good to know
+for dealing with lists and strings.  It's easy to get the last letter
+of a string, or the last item in a list, using an index of -1:
+
+~~~{.python}
+s = "separate"
+print s[-1]  # prints "e"
+~~~
+
+**Negative indices count items from the end.**
+
+Here's another nifty trick that works on both lists and strings.  If
+you want a substring of a string (or a sublist of a list), you can
+"slice" it by using a colon inside the square brackets:
+
+~~~{.python}
+s = "separate"
+print s[3:7]  # prints "arat"
+print s[3:-1] # also prints "arat"
+~~~
+
+You can get the end of a string even more easily by omitting the number
+after the colon:
+
+~~~{.python}
+s = "separate"
+print s[3:]  # prints "arate"
+~~~
+
+Anoter side note: Since you cannot change the value of a string, you
+cannot use the slice operator to insert characters into a string.
+(You actually can insert values into a list this way, but we will not
+use that trick any time soon.)
+
+## Reversing a string
+
+It is useful to be able to reverse the characters in a string, and
+recursion gives us an easy way to do so.  (Iteration does also, but
+we're focusing on recursion here.)  Let's define the **tail** of the
+string as all characters except for the first one.  For example, in
+the string `ward`, the tail is `ard`.
+
+Then we can reverse a string as follows:
+
+1. Remove the first character of the string, and remember it.
+2. What's left is the tail.  Recursively reverse the tail.
+3. Concatenate the remembered first character onto the end of the
+reversed tail.
+
+For example, when we reverse `ward`, we reverse the tail `ard`,
+getting `dra`.  Concatenating the leading `w` to the end gives us
+`draw`.
+
+Because the tail is shorter than the original string, we are dealing
+with a smaller problem of the same type.
+
+What is the base case?  A string with no characters is its own reverse,
+and we can return it without a recursive call.  Our recursive function
+to reverse a string is in [reverse_string.py](reverse_string.py):
+
+~~~{.python}
+# reverse_string.py
+# Recursively reverses a string.
+
+def reverse(s):
+    if s == "":
+        return s    # an empty string is its own reverse
+    else:
+        # Recursively reverse the tail and concatenate the first character.
+        return reverse(s[1:]) + s[0]
+    
+print reverse("ward")
+~~~
+
+**Recommended exercise**: Draw the call stack and write down the
+  output while tracing through the `reverse` function line-by-line.
+
+## Fibonacci numbers
+
+The *n*th Fibonacci number, fib(*n*), is defined as follows:
+
+* fib(1) = fib(2) = 1, and
+* fib(*n*) = fib(*n*&ndash;1) + fib(*n*&ndash;2), if *n* > 2. 
+
+Here's a table with the first eight Fibonacci numbers:
+
+*n*       1   2   3   4   5   6   7   8
+-------- --- --- --- --- --- --- --- ---
+fib(*n*)  1   1   2   3   5   8  13  21
+
+Expressed recursively:
+
+* **Base cases**: *n* = 1 and *n* = 2.
+* **Recursive case**: We know how to compute fib(*n*&ndash;1) and
+fib(*n*&ndash;2).  Use them to compute fib(*n*).
+
+[fib_recursive.py](fib_recursive.py) recursively computes Fibonacci
+numbers:
+
+~~~{.python}
+# fib_recursive.py
+# Recursively computes the nth Fibonacci number.
+
+def fib(n):    
+    if n == 1 or n == 2:
+        return 1    # base case
+    else:    
+        return fib(n - 1) + fib(n - 2)
+    
+print fib(7)
+~~~
+
+This program uses two recursive calls.  We need to keep track of
+exactly where each call was made.  Are we returning to the first or to
+the second recursive call?  Keeping track of where we are in the
+program is hard for people to do without making mistakes, but
+computers are quite good at it.  They don't get distracted.
+
+A helpful way to visualize what happens in recursive programs is a
+**recursion tree**.  A recursion tree has **nodes** connected by
+**branches**, or **links**.  Here's a recursion tree for computing
+`fib(3)`:
+
+![](small-fib-rec-tree.png)
+
+The way to interpret a recursion tree like this one is that we label
+each node with the value of *n* at a call, and each link denotes a
+call.  In this case, the call for *n* = 3 ends up making two calls,
+one for *n* = 2 and one for *n* = 1.
+
+For our `fib` method, whenever the call is for a value *n* that is
+greater than 2, `fib` will make two recursive calls, one for
+*n*&ndash;1 and one for *n*&ndash;2.
+
+For *n* =6, for example, we get the following recursion tree:
+
+![](big-fib-rec-tree.png)
+
+In computer science, we draw trees with the **root** at the top; for
+this tree, the root is labeled 6.  The nodes on the bottom are **leaf
+nodes**, or **leaves**, because if we drew the tree with the root at
+the bottom, they would look like leaves of the tree.
+
+Notice that we repeat a lot of work.  For example, to compute
+`fib(6)`, we call both `fib(5)` and `fib(4)`.  But we also call
+`fib(4)` in computing `fib(5)`.  Each call to `fib(4)` will return the
+same result.  Yet we end up making separate calls to `fib(4)`,
+repeating the work each time.
+
+Notice also that there are 8 leaf nodes.  Each leaf node corresponds
+to a call that is a base case.  Each base case returns 1, thereby
+contributing 1 to the eventual result.  So it should be no surprise
+that there are 8 leaf nodes, when the call `fib(6)` returns 8.
+
+If fib(*n*) equals *x*, then this recursive program ends up in the
+base case *x* separate times.  In other words, it sums up the value 1
+a total of *x* times.  The problem is that the value of fib(*n*) is
+exponential in *n*.  (In particular, it is $((1 + \sqrt 5 ) / 2)^n /
+\sqrt 5$, rounded to the nearest integer.)  So, the number of times we
+get down to a base case is exponential in *n*, meaning that it gets
+very large very quickly.
+
+This recursive Fibonacci program is easy to write, but there are far
+more efficient ways to compute Fibonacci numbers.  (In fact, I just
+told you one: compute the value of a particular expression and round
+it.)
+
+## Graphics and recursion
+
+If we want to draw something that is similar to itself, recursion can
+be a good way to go about it.  A branch of a tree looks a bit like a
+little tree, for example, and a piece of a snowflake may itself look
+like a little snowflake.
+
+Here are a few fun examples.  Here's the code that draws the
+Sierpinsky Gasket from before, in [sierpinsky.py](sierpinsky.py):
+
+~~~{.python}
+# sierpinsky.py
+# Draws a Sierpinksy Gasket.
+
+from cs1lib import *
+
+# Draw a Sierpinsky Gasket of width and height d,
+# with upper left at (x, y).
+def draw_sierpinsky(x, y, d):
+    if d <= 1:
+        draw_point(x, y)
+    else:
+        draw_sierpinsky(x + d/2, y, d/2)
+        draw_sierpinsky(x + d/2, y + d/2, d/2)    
+        draw_sierpinsky(x, y, d/2)
+
+def main():
+    set_clear_color(0, 0, 0)
+    clear()
+    set_stroke_color(1, 1, 0)
+    
+    draw_sierpinsky(0, 0, 400)
+    
+start_graphics(main)
+~~~
+
+The second is a wheel-like object drawn with circles and lines, in
+[wheel.py](wheel.py).  Wheels within wheels, and animated to boot!
+
+~~~{.python}
+# wheel.py
+# cs1 class example
+#  based on a cs2 example by Fabio Pellacini
+#  python version October, 2011, Devin Balkcom
+#  Animation by THC.
+
+from cs1lib import *
+from math import pi, sin, cos
+
+OUTER_RADIUS = .37  # the relative radius of circles around the outer rim of the wheel
+                    # a scaling of .37 causes the circles to just barely touch
+                    
+OUTER_DISTANCE = 1 - OUTER_RADIUS
+
+FRAME_RATE = 30
+TIMESTEP = 1.0 / FRAME_RATE
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+def radians(degrees):
+    return degrees * pi / 180.0
+
+# Compute the x coordinate of a location that is
+#  a distance 'distance' from a point cx, cy, with angle
+#  'angle' from the horizontal
+
+def compute_polar_x(cx, angle, distance):
+    return cx + cos(radians(angle)) * distance
+    
+def compute_polar_y(cy, angle, distance):
+    return cy + sin(radians(angle)) * distance    
+    
+# Recursively draw the wheels.
+def draw_wheel(x, y, r, angle):
+    # Draw this wheel.
+    set_fill_color(0, 0, 1, .2)
+    draw_circle(x, y, r)
+    set_fill_color(0, 1, 0, .2)
+    draw_circle(x, y, r * (OUTER_DISTANCE - OUTER_RADIUS)) 
+
+    # If this wheel is small enough, we're done.
+    if r < 20:
+        return
+
+    # Not too small.  Draw the five outer wheels
+    for i in range(5):
+        new_x = compute_polar_x(x, angle, r * OUTER_DISTANCE)
+        new_y = compute_polar_y(y, angle, r * OUTER_DISTANCE)
+        
+        angle += 72
+    
+        draw_wheel(new_x, new_y, r * OUTER_RADIUS, angle)
+        draw_line(x, y, new_x, new_y)  # draw the spokes connecting to the outer wheels
+    
+def main():
+    enable_smoothing()
+    
+    set_clear_color(1, 1, 1)
+    clear()
+    
+    starting_angle = 0
+    
+    while not window_closed():
+        clear()
+        draw_wheel(WINDOW_WIDTH / 2, WINDOW_WIDTH / 2, 
+                   WINDOW_HEIGHT / 2, starting_angle)
+        starting_angle += 1
+        request_redraw()
+        sleep(TIMESTEP)
+
+start_graphics(main, "The Wheel", WINDOW_WIDTH, WINDOW_HEIGHT)
+~~~

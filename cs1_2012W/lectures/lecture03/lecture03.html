@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-2">Short Assignment 2</h1>
+<p><a
+href="http://www.cs.dartmouth.edu/~cs1/shortassign/sketch/sa_sketch.html">Short Assignment 2</a> is due on Wednesday.</p>
+<h1 id="data-and-computation">Data and computation</h1>
+<p>The next topics are variables, memory, data types, expressions, and operators.</p>
+<h2 id="variables">Variables</h2>
+<p>It's useful to be able to store values in the computer's memory for later use. A <strong>variable</strong> is a name that refers to a location in the computer's memory where a piece of information can be stored. A simple example:</p>
+<pre class="sourceCode"><code class="sourceCode python">meaning_of_life = <span class="dv">42</span><br /><span class="kw">print</span> meaning_of_life </code></pre>
+<p>output:</p>
+<pre><code>42
+</code></pre>
+<p>The statement</p>
+<pre class="sourceCode"><code class="sourceCode python">meaning_of_life = <span class="dv">42</span></code></pre>
+<p>is called a <strong>variable assignment</strong> and it causes Python to do three things:</p>
+<ol style="list-style-type: decimal">
+<li>Python <strong>reserves</strong> a space in memory to hold the <strong>integer</strong> value 42.</li>
+<li>Python gives the name <code>meaning_of_life</code> to that location.</li>
+<li>Python copies a pattern of 0s and 1s corresponding to the value 42 into that location in memory.</li>
+</ol>
+<p>Later, when the value of the variable is needed (in the <code>print meaning_of_life</code> statement) the central processing unit of the computer (sometimes called the CPU) determines the location in memory with which the name <code>meaning_of_life</code> is associated, goes to that location, and fetches the value it finds there, making that value available to Python. Because this value is used in a <code>print</code> statement, Python prints the value 42.</p>
+<h2 id="choosing-good-variable-names">Choosing good variable names</h2>
+<p>Variable names are sequences of letters, digits, and symbols. The first letter cannot be a digit, and variable names cannot contain spaces. Python is <strong>case-sensitive</strong>: uppercase and lowercase letters are considered to be different characters in variable names, so that the names <code>Earth</code> and <code>earth</code> refer to different variables. You should choose variable names that are descriptive of the value that will be stored.</p>
+<p>By convention, letters appearing in variable names in Python are all lowercase. If you want to make up a variable name from multiple words, use the underscore character <code>_</code> to replace spaces, as in the variable name <code>meaning_of_life</code>. (Some programmers favor &quot;camel case&quot;: <code>meaningOfLife</code>. This is not the time to strike a bold blow for independence—you should follow Python conventions in your Python code, which includes using underscores to separate words in variable names.)</p>
+<h2 id="thanks-for-the-memory-how-memory-works">Thanks for the memory: How memory works</h2>
+<p>Memory in a computer is basically a long sequence of 0s and 1s, or <strong>b</strong>inary dig<strong>its</strong>: bits. You can think of a very long row of on/off switches. Since each switch value doesn't give much information (only a 0 or a 1), it's useful to refer to groups of bits. A group of eight sequential bits is called a <em>byte</em>.</p>
+<p>On a Mac or PC, each byte has its own <strong>address</strong>, a number associated with it that we can use to refer to that byte. The byte at address 0 is the first byte in memory; the byte at address 1 is the second, and so forth. (For historical reasons, computer scientists often start counting at 0. We would have called this course CS 0, but we didn't want to confuse the Registrar.)</p>
+<p>Wait—how do we refer to a location in memory? Do we use variable names or addresses? The answer is both. You have a Hinman box number. I can refer to your mailbox directly by number (address), or I can use your name to refer to the box, assuming I have a directory that tells me what box number is associated with your name. Python acts as the directory that keeps track of the correspondence between variable names and memory addresses where the contents of the variables can be found.</p>
+<h2 id="integer-types">Integer types</h2>
+<p>I just said that memory is a string of 0s and 1s. How in the world are we going to represent the number 42 by a string of 0s and 1s?</p>
+<p>Python uses a special code, relying on how to represent numbers in base 2, or binary. Let's not worry too much about how to represent numbers in binary, but I'll just tell you that 42 in base 2 is 101010. Here are various integers in binary:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Integer</th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left">in binary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">6</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">110</td>
+</tr>
+<tr class="even">
+<td align="left">18</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">10010</td>
+</tr>
+<tr class="odd">
+<td align="left">42</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">101010</td>
+</tr>
+<tr class="even">
+<td align="left">90</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1011010</td>
+</tr>
+<tr class="odd">
+<td align="left">999</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1111100111</td>
+</tr>
+</tbody>
+</table>
+<p>The first thing to notice about these binary representations is that their lengths differ. The integer 6 needs only three bits, but the integer 999 needs ten bits. To be safe, Python allocates a fixed number of bytes of space in memory for each variable of a normal integer type, which is known as <code>int</code> in Python. Typically, an integer occupies four bytes, or 32 bits. Integers whose binary representations require fewer than 32 bits are padded to the left with 0s.</p>
+<p>Let's say you had only one byte of memory. How many different patterns of 0s and 1s can represent integers in eight bits? Let's count them:</p>
+<pre><code>00000000
+00000001
+00000010
+00000011
+00000100
+00000101
+...
+11111011
+11111100
+11111101
+11111110
+11111111
+</code></pre>
+<p>It looks like there are <span class="math">2<sup>8</sup> = 256</span> different patterns. I could use my one byte to represent 256 unique integer numbers, because each integer would need its own bit pattern. If I had two bytes, I could represent 2<sup>16</sup> = 65,536 different integer numbers.</p>
+<p>With four bytes (the usual amount of memory allocated to each <code>int</code> variable), we could store <span class="math">2<sup>32</sup></span> different integer numbers. If the leftmost bit is a 1, the number is construed as negative. If the leftmost bit is a 0, then the number is construed as either 0 (if all the bits are 0) or positive (if the leftmost bit is 0 but some other bit or bits are 1). So we expect half of the <code>int</code> values to be negative, one of them to be 0, and the rest to be positive. Therefore, we expect the largest positive <code>int</code> to be 2<sup>31</sup>–1, or 2,147,483,647, and the most negative integer to be –2<sup>31</sup>, or –2,147,483,648.</p>
+<p><strong>Note:</strong> When you are typing in large integers, whether it's as part of your program, as console input, or as input anywhere else, do <em>not</em> include commas. Do <em>not</em> type <code>100,000</code>; instead, type <code>100000</code>. I included the commas above so that you could easily see that two bytes gives us a little more than 65,000 different numbers and four bytes gives us integer values with magnitudes of 2 billion and change.</p>
+<h2 id="the-long-int-type">The long int type</h2>
+<p>If you want to store a number larger than 2,147,483,647, Python can do it, using the <code>long int</code> data type. Rather than allocating a fixed four bytes of memory for a <code>long int</code> variable, Python decides how many bytes to assign based on the actual size of the number. Larger integers will require more memory, since the shortest representations (with the fewest bits) are assigned first to numbers closer to 0. In addition to the memory cost, computations with long ints are much slower than computations with ints.</p>
+<p><strong>In Python, every datum has a type.</strong> But we don't have to say what the type is; Python can figure it out for itself.</p>
+<h2 id="the-floating-point-type">The floating-point type</h2>
+<p>The <strong>floating-point type</strong> is like scientific notation, e.g., 6.02 × 10<sup>23</sup>. Since you can't type a superscript in plain text for Python, if an exponent on the 10 is needed, you would write it like this:</p>
+<pre class="sourceCode"><code class="sourceCode python">avocado_number = <span class="fl">6.02e23</span>   <span class="co"># the number of molecules in an avocado</span></code></pre>
+<p>Notice that we omit the 10, but it's understood; 6.02e23 is not 6.02 raised to the power 23, but instead is 6.02 × 10<sup>23</sup>.</p>
+<p>Floating-point numbers are stored with three parts:</p>
+<ul>
+<li>a sign: + or –.</li>
+<li>a mantissa, e.g., 6.02.</li>
+<li>an exponent, e.g., 23.</li>
+</ul>
+<p>The floating-point type (or &quot;float type&quot; for short) is used for numbers that have fractional parts or are too large to store in a <code>long int</code> that takes up a reasonable amount of memory. Typically, eight bytes are used for the Python floating type. Notice that this means that there are only 2<sup>64</sup> different floating-point numbers that can be represented. This might seem like a lot of numbers, but remember that the real number line has infinitely many numbers. floating-point numbers, therefore, allow only limited precision.</p>
+<h3 id="floating-point-numbers-get-less-precise-the-further-you-get-from-0">Floating-point numbers get less precise the further you get from 0</h3>
+<p>The difference between 0.01 and 0.02 is, relatively, a lot (100%), but the relative difference between (6.02e23 + 0.01) and (6.02e23 + 0.02) is not a lot, at least compared with the size of the numbers involved.</p>
+<p>For this reason, the 2<sup>64</sup> floating-point numbers are not evenly distributed on the real number line. More of them are allocated near 0 than near numbers with larger magnitudes. When you type in a number with a decimal point, or create one through some mathematical operation, the computer finds a floating-point number close to the correct number. Small fractions are likely to be lost in this rounding process for real numbers that are very large, since the nearest floating-point number that the computer can represent may be relatively quite far away.</p>
+<h2 id="expressions-and-operators">Expressions and operators</h2>
+<p>You can use Python to compute. The program</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="dv">18</span> + <span class="dv">24</span></code></pre>
+<p>would print the following on the screen:</p>
+<pre><code>42
+</code></pre>
+<p>The plus-sign is called an <strong>operator</strong>. An operator takes one or more <strong>operands</strong>, computes a result, and makes that result available to Python for further use.</p>
+<p>In this example, the operand on the left is 18, and the operand on the right is 24. An <strong>expression</strong> is an operator and its operands; we say that the expression can be <strong>evaluated</strong> to give a single value. In our example, the expression is <code>18 + 24</code>; when evaluated, this expression's value is 42.</p>
+<p>An expression can be an operand to an operator:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> (<span class="dv">3</span> * <span class="dv">6</span>) + <span class="dv">24</span> </code></pre>
+<p>Here, the expression <code>(3 * 6)</code> is the left operand to the operator <code>+</code>.</p>
+<p>The character <code>*</code> denotes multiplication in Python, to avoid confusion with the letter <code>x</code>. If Python needs the value of an expression, Python computes that value. In this example, the value of the expression <code>(3 * 6)</code> is needed before the addition can be done, and so the value <code>18</code> is computed first, by the multiplication operator <code>*</code>. That value, 18, can then be used as an operand to the addition operator.</p>
+<p>Arithmetic operators such as '+', '-', '*', and '/' (division) follow the same order of operations as you are used to from mathematics. <code>*</code> and <code>/</code> have higher <strong>precedence</strong> than <code>+</code> and <code>-</code>, meaning that they are evaluated first. Operators with the same precedence are evaluated left to right. Parentheses make the order of operations explicit. When in doubt, use parentheses to make your code as easy to read as possible.</p>
+<p>For example:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="dv">24</span> + <span class="dv">3</span> * <span class="dv">6</span><br /><span class="kw">print</span> (<span class="dv">24</span> + <span class="dv">3</span>) * <span class="dv">6</span><br /><span class="kw">print</span> <span class="dv">100</span> / <span class="dv">5</span> * <span class="dv">2</span><br /><span class="kw">print</span> <span class="dv">100</span> / (<span class="dv">5</span> * <span class="dv">2</span>)</code></pre>
+<p>produces the output</p>
+<pre><code>42
+162
+40
+10
+</code></pre>
+<h3 id="integer-division">Integer division</h3>
+<p>Remember word problems like this? At the Lake Morey Skate-athon, I skate around an oval ice track that is four miles long. I carry a card, and for every full lap I skate, I get my card stamped. If I start at 12:00 noon and skate at 10 miles per hour, how many stamps will I have at 3:00 pm? At 3:00 pm, I will have skated 3 × 10 miles, or 30 miles. Dividing 4 into 30 gives 7 laps, and hence 7 stamps, with half a lap (2/4 of a lap) left over.</p>
+<p>In Python version 2 (the version you are using), the program:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> (<span class="dv">3</span> * <span class="dv">10</span>) / <span class="dv">4</span></code></pre>
+<p>gives the result</p>
+<pre><code>7
+</code></pre>
+<p>This type of division is called integer division, because it takes two integer (whole number) operands and gives an integer result.</p>
+<p>If you type 30 / 4 into a calculator, you'll get 7.5 as the result. Why do Python and your calculator give different results? There are two different division operators, each of which is sometimes useful. <strong>Integer division</strong> takes two <em>integers</em> and evaluates to an integer. <strong>Floating-point</strong> division takes two <em>floating-point numbers</em> (numbers with a decimal point) and evaluates to a floating-point number. If one of the operands is an integer and the other is a floating-point number, then Python performs floating-point division, treating the integer as if it were a floating-point number, but only during the division operation.</p>
+<p>Python can tell what you intended by checking what type of operands are before and after the division sign.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="fl">30.0</span> / <span class="fl">4.0</span></code></pre>
+<p>gives the result</p>
+<pre><code>7.5
+</code></pre>
+<p>Using integer division when you want floating-point division is a very common mistake. If the operands are numbers that you type in and you want floating-point division, make sure to add the <code>.0</code> to at least one of the operands.</p>
+<h3 id="operators-defined-on-integer-and-floating-point-types--">Operators defined on integer and floating-point types: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></h3>
+<p>The operators defined on integer and floating-types types are</p>
+<ul>
+<li><code>+</code>: addition</li>
+<li><code>-</code>: subtraction</li>
+<li><code>*</code>: multiplication</li>
+<li><code>/</code>: division, either integer or floating, as just discussed</li>
+<li><code>%</code>: modulus (usually just called &quot;mod&quot;), which gives the &quot;remainder.&quot; 9 % 4 equals 1.</li>
+</ul>
+<p>The mod operator in Python is unusual in that it can take floating-point operands. (Most other programming languages that support a mod operator insist on only integer operands.) For example, <code>8.0 % 2.5</code> evaluates to <code>0.5</code>, because 2.5 goes into 8 three times, with 0.5 left over.</p>
+<h3 id="the-assignment-operator">The assignment operator '='</h3>
+<p>The equals sign we saw earlier to assign a value to a variable is <em>not</em> the same as the equals sign you see in mathematics.</p>
+<p>In mathematics, the equals sign is used to write down facts: the expression or variable on the left-hand side of the equation is now, and always will be, equal to the expression or variable on the right-hand side.</p>
+<p>In mathematics, <span class="math"><em>x</em> = 5</span> is a fine equation. So is <span class="math"><em>x</em> = 6</span>. But if I gave you both equations, you'd say I screwed up, because then <span class="math"><em>x</em></span> would equal both 5 and 6, and it just can't. But in Python, the following works just fine:</p>
+<pre class="sourceCode"><code class="sourceCode python">x = <span class="dv">5</span><br />x = <span class="dv">6</span></code></pre>
+<p>The <code>=</code> operator in Python does <em>not</em> mean &quot;mathematically equals.&quot; In Python, the <strong>assignment operator</strong>, written with an equals sign, does several things:</p>
+<ol style="list-style-type: decimal">
+<li>If the variable on the left of the equals sign does not exist, space in memory is reserved for the variable.</li>
+<li>The expression on the right-hand side of the equals sign is evaluated.</li>
+<li>The computed value on the right-hand side is assigned (copied into) the space in memory assigned for the variable.</li>
+</ol>
+<p>So the first line of code copies the value 5 into the variable <code>x</code>. The second line of code copies the value 6 into the variable <code>x</code>. When the program is finished, <code>x</code> has the value 6.</p>
+<p>Here are a few statements that wouldn't work in mathematics, but do work in Python:</p>
+<pre class="sourceCode"><code class="sourceCode python">x = <span class="dv">5</span><br />x = x + <span class="dv">1</span></code></pre>
+<p>In mathematics, <span class="math"><em>x</em> = <em>x</em> + 1</span> would mean something like &quot;<span class="math"><em>x</em></span> is the number that is one greater than itself&quot;. That sounds like something that Captain Kirk used to make a computer explode in <em>Star Trek</em>. There is no such number.</p>
+<p>In Python, there's no problem. <strong>Evaluate</strong> the expression on the right-hand side. Fine; <code>x + 1</code> evaluates to 6. <strong>Assign</strong> the value to the variable on the left-hand side. Fine; now the variable <code>x</code> has the value 6. The computer does not explode.</p>
+<p>When you see or write an equals sign in Python, do not think &quot;mathematically equals.&quot; Say in your mind, &quot;assignment operator.&quot; Compute the value on the right-hand side. Put the computed value into the variable on the left-hand side. That's all.</p>
+<p>Will the code <code>5 = x</code> work in Python? No. The left-hand side operand of the assignment operator <em>must</em> be a variable name. 5 is not a variable name.</p>
+<h2 id="the-string-type">The string type</h2>
+<p>There are many different types of data to store. Integers are one type; letters of the alphabet are another. The &quot;string&quot; type of data represents one or more letters of the alphabet, symbols (like <code>@</code> or <code>~</code>), or digits.</p>
+<p>When you type a string value into Python, it must be surrounded by quotes, so that the string does not look like the name of a variable.</p>
+<pre class="sourceCode"><code class="sourceCode python">last_letter = <span class="st">&quot;Z&quot;</span><br /><span class="kw">print</span> last_letter</code></pre>
+<p>We call <code>&quot;Z&quot;</code> a string <strong>literal</strong>, since it should be interpreted by Python literally as the character &quot;Z&quot; and not as some variable name or anything else. (In <code>x = 42</code>, the number 42 is an <strong>integer literal</strong>.)</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="st">&quot;hello&quot;</span></code></pre>
+<p>The quotes say that &quot;hello&quot; is a string, and not a variable name. More examples:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="st">&quot;hello&quot;</span>    <span class="co"># prints the string &quot;hello&quot; (without quotes)</span><br />hello = <span class="dv">5</span><br /><span class="kw">print</span> hello      <span class="co"># prints 5</span><br /><br /><span class="kw">print</span> <span class="st">&quot;4 + 7&quot;</span>    <span class="co"># prints the string &quot;4 + 7&quot; (without quotes)</span><br /><span class="kw">print</span> <span class="dv">4</span> + <span class="dv">7</span>      <span class="co"># prints the integer 11</span></code></pre>
+<p>The quotes just identify the data as a string; the quotes aren't part of the string.</p>
+<h3 id="string-concatenation">String concatenation</h3>
+<p>The plus sign (&quot;<code>+</code>&quot;) behaves differently depending on the types of the data that are on either side of it. If there are ints on either side, the plus sign is the integer-addition operator, and it adds the two ints to get another int. If there are floating-point numbers on each side, they are added to get another floating-point number.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="dv">3</span> + <span class="dv">4</span>                <span class="co"># prints 7</span><br /><span class="kw">print</span> <span class="fl">3.1</span> + .<span class="dv">041592654</span>     <span class="co"># prints 3.141592654</span></code></pre>
+<p>What if there are strings on each side? Then the plus sign is the <strong>string-concatenation operator</strong>. Concatenation means to &quot;combine two strings together&quot;.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="st">&quot;I'm sorry, &quot;</span> + <span class="st">&quot;Dave&quot;</span><br />why = <span class="st">&quot;I'm afraid &quot;</span> + <span class="st">&quot;I can't do that&quot;</span><br /><span class="kw">print</span> why</code></pre>
+<p>produces</p>
+<pre><code>I'm sorry, Dave
+I'm afraid I can't do that
+</code></pre>
+<h3 id="internal-representation-of-strings">Internal representation of strings</h3>
+<p>Given that the memory of a computer stores only sequences of 0s and 1s, then how does Python store a string in memory? Python uses a code to convert a string into a binary representation of the string when the string is stored. When the string is retrieved, Python uses the code in reverse to convert back from binary into the string.</p>
+<p>Which code does Python use? Python version 2.7 (the version we use for this class), uses a popular code called the <em>American Standard Code for Information Interchange</em>, or <strong>ASCII</strong>. Each character (string of length 1) uses eight bits, or one byte. For example, the ASCII code for the character <code>A</code> is 01000001, and the ASCII code for <code>a</code> is 01100001.</p>
+<p>If you'd like to see a full table of ASCII character codes, click <a href="http://www.asciitable.com">here</a>. You rarely need to know a character's ASCII code.</p>
+<h2 id="converting-between-types">Converting between types</h2>
+<p>There are a few special functions that convert between types of data: <code>int</code>, <code>float</code>, <code>str</code> are useful for the types of data we've seen so far.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="dt">float</span>(<span class="dv">4</span>)            <span class="co"># prints 4.0</span><br /><span class="kw">print</span> <span class="dt">int</span>(<span class="fl">3.14</span>)           <span class="co"># prints 3</span><br /><span class="kw">print</span> <span class="dt">str</span>(<span class="dv">4</span>) + <span class="dt">str</span>(<span class="dv">2</span>)     <span class="co"># prints 42</span><br /><span class="kw">print</span> <span class="dt">int</span>(<span class="st">&quot;4&quot;</span>) + <span class="dt">int</span>(<span class="st">&quot;2&quot;</span>) <span class="co"># prints 6</span><br /><span class="kw">print</span> <span class="dt">float</span>(<span class="st">&quot;3.14&quot;</span>) / <span class="dv">2</span>   <span class="co"># prints 1.57</span></code></pre>
+<p>Sometimes conversions are performed automatically by Python behind the scenes, much as what happens when one of the operands for division is a floating-point number and the other is an int. For example, if you try to add a float and an int, the int is converted to a float before addition:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="dv">4</span> + <span class="fl">4.0</span>      <span class="co"># prints 8.0</span></code></pre>
+<h2 id="bonus-coverage-the-function-type">Bonus coverage: The function type</h2>
+<p>A function is itself a data type in Python. You can think of the name of the function as a variable that contains the address of the function's lines of code.</p>
+<p>What this means is that other variables can also store a reference to the function. Here is an example:</p>
+<pre><code>def print_hello():
+    print &quot;Hello!&quot;
+
+a = print_hello
+a()
+print_hello()
+</code></pre>
+<p>We have already seen another example. We wrote the <code>draw_house</code> function, and then gave that function to the <code>start_graphics</code> function. The <code>start_graphics</code> function was then able to use <code>draw_house</code> when it needed it. Slick! The type of the data contained in <code>draw_house</code> is a &quot;reference to a function.&quot;</p>
+<h2 id="the-boolean-type">The boolean type</h2>
+<p>There's one more type of data, which we'll use in the next lecture, called a <code>boolean</code>. There are only two possible values: <code>True</code> and <code>False</code>. Notice that these are capitalized.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span> <span class="ot">True</span>           <br /><span class="kw">print</span> <span class="ot">False</span>  <br />x = <span class="ot">True</span><br /><span class="kw">print</span> x   <span class="co"># prints True</span></code></pre>
+<h2 id="coding-style">Coding style</h2>
+<p>We've already discussed comments, which are one tool to make reading and understanding programs easier. Another way to improve understandability is to use meaningful names for variables. For instance, consider the following code:</p>
+<pre class="sourceCode"><code class="sourceCode python">x = <span class="dv">73</span><br />y = x / <span class="dv">12</span><br />z = x % <span class="dv">12</span><br /><br /><span class="kw">print</span> y<br /><span class="kw">print</span> z</code></pre>
+<p>What does it do? We could tell by running it, or we could add comments. Or we could use more descriptive names than <code>x</code>, <code>y</code>, and <code>z</code>.</p>
+<pre class="sourceCode"><code class="sourceCode python">height_in_inches = <span class="dv">73</span><br />feet = height_in_inches / <span class="dv">12</span><br />inches = height_in_inches % <span class="dv">12</span><br /><br /><span class="kw">print</span> feet<br /><span class="kw">print</span> inches</code></pre>
+<p>Without using comments, we've improved the understandability of the code considerably. This is not to say that comments should be jettisoned completely in favor of meaningful names! Rather, the two strategies work together.</p>
+<p>Next, consider this code, with meaningful names:</p>
+<pre class="sourceCode"><code class="sourceCode python">radius = <span class="dv">12</span><br />circumference = <span class="fl">6.28</span> * radius<br />area = <span class="fl">3.14</span> * radius * radius<br />volume = <span class="fl">4.77</span> * radius * radius * radius<br /><br /><span class="kw">print</span> area<br /><span class="kw">print</span> volume</code></pre>
+<p>It's easy to see what it does because of the names we've chosen. But it could be better, especially the constant floating-point values we've stuck in there. Presumably, we're confident in our ability to calculate 4.0 * 3.0 / pi (notice that I have to make sure that at least one of 4 and 3 is a float so that I don't get integer division), but if we make a mistake, it's going to be very difficult to track down.</p>
+<pre class="sourceCode"><code class="sourceCode python">pi = <span class="fl">3.14</span><br /><br />radius = <span class="dv">12</span><br />circumference = <span class="dv">2</span> * pi * radius<br />area = pi * radius * radius<br />volume = <span class="fl">4.0</span> / <span class="fl">3.0</span> * pi * radius * radius * radius<br /><br /><span class="kw">print</span> area<br /><span class="kw">print</span> volume</code></pre>
+<p>Here, we've replaced the number 3.14 with a variable <code>pi</code> and wrote out 4.0 / 3.0 instead of precomputing its value.</p>
+<p>Some constants are so widely-used that Python defines them for us. For instance, this code:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="ch">from</span> math <span class="ch">import</span> pi<br /><br /><span class="kw">print</span> pi</code></pre>
+<p>prints out 3.141592653589793. An added benefit of using Python's pi is that the Python designers have gone to the trouble to calculate a much more precise approximation of pi than we did.</p>
+</body>
+</html>

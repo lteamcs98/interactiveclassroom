@@ -1,0 +1,727 @@
+# Lab Assignment 1
+
+[Lab Assignment 1](../../labs/pong/lab_pong.html) is now posted, and
+it's due next Monday, January 30.
+
+# Exam 1
+
+A reminder that Exam 1 will be this Thursday at 6:00 pm.  **It will
+not be here.  It will be in Life Sciences Center, Room 100 (Oopik
+Auditorium).**
+
+**If you cannot take the exam at 6:00 pm on January 26, you must
+contact me by email by 5:00 pm today.**
+
+I have posted a [web page](../../exams/exam1-review.html) with the
+ground rules and sample questions.
+
+# Physical simulation: Gravity and springs
+
+One of the more interesting things you can do with a computer is to
+write a program based around a simple physical law, such as $f = ma$
+(force equals mass times acceleration), and use that program to see
+the complex and beautiful behavior of a physical system.  In an
+upcoming lab, you will write your own simulator for celestial bodies,
+and you'll use that simulator to explore the motion of the solar
+system, of the earth and moon, and of binary star systems.  This
+lecture will go over the Newtonian physics you'll need for that
+assignment and give techniques for simulating those physics with a
+computer program.
+
+## A note about problem solving
+
+In computer science, you frequently encounter problems that you do not
+initially know how to solve.  One of the most useful pieces of advice
+I have learned is from a short book called *How to Solve It*; check
+out the abridged version in
+[Wikipedia](http://en.wikipedia.org/wiki/How_to_Solve_It).  That
+advice is
+
+> If you can't solve a problem, then there is an easier problem you
+  can solve: find it.
+
+Or
+
+> If you cannot solve the proposed problem, try to solve first some
+  related problem. Could you imagine a more accessible related
+  problem?
+
+Solving a simpler problem first is not a cop-out; it's just a smart
+first step.  Solving a simpler problem also does not mean use a bad
+design.  It can be helpful also to alternate between thinking about
+the simpler problem and the more complex one that you actually want to
+solve.  It can also be useful to break the problem down into several
+simpler problems, not just one.
+
+## Follow the bouncing ball
+
+I would like to write a program to make a ball bounce on the screen
+under the influence of gravity.  It's a complicated problem: I have to
+take into account acceleration due to gravity, keeping track of
+positions and velocities, a floor and walls that the ball will bounce
+off of, and some graphics to draw as well.  How fast should the
+simulation be, what are the units to use, and do I know the
+gravitational constant measured in units of pixels/sec^2^ (pixels per
+second-squared)?
+
+Having identified all those issues, I admit to myself that I'm just
+not clever enough to solve all those subproblems at once.  (I admit
+that I'm no Sheldon Cooper.  I'm not even Leonard Hofstadter, whose
+work Sheldon derides as "derivative.")
+
+Here's something I can handle.  Write a program to move a ball like
+you'll need to do in the pong game of Lab Assignment 1.  I'll start
+with just making the ball move up and down at a constant speed.
+
+Before we get to the program, a note about physics definitions.
+*Velocity* and *speed* are *not* the same.  **Speed** says how fast an
+object is moving, but it says nothing about the direction in which
+it's moving.  **Velocity** combines speed with a direction.  So "55
+miles per hour" is a speed, and "heading north at 55 miles per hour"
+is a velocity.  If you've ever seen vectors, you'll recognize velocity
+as a vector and speed as the magnitude of the velocity.
+
+Our program will keep track of the *velocity*, which we decompose into
+horizontal (*x*) and vertical (*y*) components.  The sign of each
+component (+ or &ndash;) will tell us the direction in each component.
+
+The program is in [bounce1.py](bounce1.py).
+
+~~~{.python}
+# CS 1 example: Simple animation of a bouncing ball
+# Devin Balkcom
+# August, 2011
+# Modified by THC.
+
+from cs1lib import *
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+# For convenience, this program treats the bottom of the
+# screen as having y coordinate 0, so that y increases
+# in the upwards direction for all calculations.
+# start_graphics is passed a special parameter that
+# indicates that all frames are to be drawn upside down.
+
+FLOOR_Y = 100
+CEILING_Y = WINDOW_HEIGHT - FLOOR_Y
+BALL_RADIUS = 10
+
+def main():
+    # Initial coordinates for the ball.
+    x = WINDOW_WIDTH / 2
+    y = CEILING_Y - BALL_RADIUS
+    
+    # x and y velocities for the ball, in pixels per frame.
+    v_x = 0
+    v_y = -4
+
+    set_clear_color(1, 1, 1)    # white background
+    set_fill_color(.3, .5, 1)   # blue ball
+    
+    set_stroke_width(2)
+    set_stroke_color(0, 0, 0) # black floor   
+
+    while not window_closed():
+        # Draw the current frame.
+        clear()
+    
+        # Draw the ball.
+        disable_stroke()
+        draw_circle(x, y, BALL_RADIUS)
+    
+        # Draw the floor and the ceiling.
+        enable_stroke()
+        draw_line(0, FLOOR_Y, WINDOW_WIDTH, FLOOR_Y)
+        draw_line(0, CEILING_Y, WINDOW_WIDTH, CEILING_Y)
+
+        # Check whether the next y location would cause a bounce.
+        next_y = y + v_y
+        if next_y - BALL_RADIUS < FLOOR_Y or next_y + BALL_RADIUS > CEILING_Y:
+            v_y = -v_y  # reverse the y velocity
+
+        # Update the x and y positions using the velocities.
+        x = x + v_x
+        y = y + v_y
+
+        # Update the display and wait for the next frame.
+        request_redraw()
+        sleep(.05)
+
+# The last parameter of start_graphics, with the value True, indicates
+# that all graphics should be drawn upside down.  Therefore, 0, 0 is the
+# *bottom* left of the graphics window.  This view is convenient for
+# physical simulations.
+start_graphics(main, "Bouncing ball", WINDOW_WIDTH, WINDOW_HEIGHT, True)
+~~~
+
+This program exploits a new feature of cs1lib.  The computer science
+convention of treating the upper-left corner of the window as (0, 0)
+and having the *y* coordinate increase *downward* is counterintuitive
+when we're doing physical simulations.  To me it makes much more sense
+to choose the *bottom* left as (0, 0), and have *y* increase *upward*.
+
+Fortunately, Professor Balkcom designed the `start_graphics`
+function so that if you supply the fifth parameter as `True`, everything
+you draw will be drawn upside down.  Then (0, 0) will be the bottom-left
+corner, as we want.
+
+> Do your computations in the coordinates that makes the most sense,
+  and then figure out the graphical representation.
+
+At this point in the course, you've done a couple of animations, so
+you can probably figure out how this program works.  The only other
+noteworthy part of the program is where we test for whether the ball
+bounces off the floor or ceiling, and then making it reverse
+direction:
+
+~~~{.python}
+        # Check whether the next y location would cause a bounce.
+        next_y = y + v_y
+        if next_y - BALL_RADIUS < FLOOR_Y or next_y + BALL_RADIUS > CEILING_Y:
+            v_y = -v_y  # reverse the y velocity
+~~~
+
+Here, we ask whether, after updating the position of the ball, would
+the ball hit the floor or ceiling?  The variable `next_y` gives the
+*y*-coordinate of the next position of the ball.  If the bottom edge
+of the ball, given by `next_y - BALL_RADIUS`, would be below the
+floor, whose *y*-coordinate is `FLOOR_Y`, then we reverse the
+direction of the ball.  Similarly, if the top edge of the ball,
+`next_y + BALL_RADIUS`, would be above the ceiling, `CEILING_Y`, then
+reverse the direction of the ball.  Reversing the direction is simply
+a matter of negating the ball's velocity in the *y* direction, given
+by `v_y`.
+
+## Follow the bouncing ball, version 2
+
+I'd like to make the animation a bit smoother.  In the last example,
+we drew frames at a rate of 20 frames per second.  That's because the
+parameter to `sleep` was 0.05, or 1/20.  But my computer is fast
+enough to easily draw 60 frames per second.
+
+The problem with increasing the frame rate is that each time
+`draw_frame` is called, the ball moves a constant amount:
+
+~~~{.python}
+y = y + v_y
+~~~
+
+So if `draw_frame` is called 60 times per second, instead of 20, the
+ball will move three times as fast.  (This was a problem in early PC
+computer games: the game would draw as many frames as possible per
+second on the computer the game was written on.  Then a faster
+computer would come out, and the evil ghosts would run far too fast.
+Many computers started to have a "turbo boost" button on the front
+that when pressed, let the computer run at full speed.)
+
+The solution is to compute how much time has passed since the last
+time `draw_frame` was called, and multiply that amount of time by the
+velocity to find out how much to change the position of the ball.  We
+call this amount the `timestep`.  The simplest way to get an
+approximate value for the timestep is to divide 1 by the frame rate.
+(Making sure, of course, that we do floating division, not integer
+division.)
+
+While we're at it, let's refactor the code and move some of the
+drawing and computation code into their own functions, simplifying the
+body of the `main` function.  The new program is in
+[bounce2.py](bounce2.py).
+
+~~~{.python}
+# CS 1 example: Simple animation of a bouncing ball
+# Devin Balkcom
+# August, 2011
+# Modified by THC.
+
+from cs1lib import *
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+FLOOR_Y = 100
+CEILING_Y = WINDOW_HEIGHT - FLOOR_Y
+BALL_RADIUS = 10
+
+FRAME_RATE = 60     # how many frames to display per second
+TIMESTEP = 1.0 / FRAME_RATE    # how often to refresh the frame    
+
+def draw_ball(x, y):
+    disable_stroke()
+    set_fill_color(.3, .5, 1)   # blue ball
+    draw_circle(x, y, BALL_RADIUS)
+
+def draw_boundaries():
+    set_stroke_width(2)
+    set_stroke_color(0, 0, 0) # black floor and ceiling
+    enable_stroke()
+    draw_line(0, FLOOR_Y, WINDOW_WIDTH, FLOOR_Y)
+    draw_line(0, CEILING_Y, WINDOW_WIDTH, CEILING_Y)
+
+def compute_next_position(position, velocity, timestep):
+    return position + velocity * timestep
+
+def main():
+    # Initial coordinates for the ball.
+    x = WINDOW_WIDTH / 2
+    y = CEILING_Y - BALL_RADIUS
+    
+    # x and y velocities for the ball, now in pixels per second.
+    v_x = 0
+    v_y = -80
+
+    set_clear_color(1, 1, 1)    # white background
+    enable_smoothing()
+
+    while not window_closed():
+        # Draw the current frame.
+        clear()
+        draw_ball(x, y)
+        draw_boundaries()
+
+        # Check whether the next y location would cause a bounce.
+        next_y = compute_next_position(y, v_y, TIMESTEP)
+        if next_y - BALL_RADIUS < FLOOR_Y or next_y + BALL_RADIUS > CEILING_Y:
+            v_y = -v_y  # reverse the y velocity
+
+        # Update the x and y positions using the velocities.
+        x = compute_next_position(x, v_x, TIMESTEP)
+        y = compute_next_position(y, v_y, TIMESTEP)
+    
+        # Update the display and wait for the next frame.
+        request_redraw()
+        sleep(TIMESTEP)
+
+# The last parameter of start_graphics, with the value True, indicates
+# that all graphics should be drawn upside down.  Therefore, 0, 0 is the
+# *bottom* left of the graphics window.  This view is convenient for
+# physical simulations.
+start_graphics(main, "Bouncing ball", WINDOW_WIDTH, WINDOW_HEIGHT, True)
+~~~
+
+In the original program, the ball's speed was 4 pixels per frame, so
+at 20 frames per second, the ball's speed was 80 pixels per second.
+That's why, now that the velocities are in terms of pixels per second
+in the new version, I set `v_y` to &mdash;80.
+
+Now we've solved the simpler problem of bouncing the ball with
+constant speed adequately, and we're ready to tackle the original
+problem, where the ball accelerates due to gravity.  We'll remove the
+ceiling, letting gravity bring the ball back to the floor.
+
+What is **acceleration**?  It's how the velocity changes over time.
+Think of it this way.  The velocity measures how the ball's position
+changes over time, and the acceleration measures how the ball's
+velocity changes over time.
+
+<!-- Suppose that the ball is initially at *y* = 0 meters and its velocity -->
+<!-- is 1 meter per second.  Let's use a timestep of 1 second.  So, after 1 -->
+<!-- second the ball is at *y* = 1 meter, after 2 seconds it's at *y* = 2 -->
+<!-- meters, after 3 seconds it's at *y* = 3 meters, and so on.  But now -->
+<!-- let's accelerate the ball at 1 meter per second squared, so that in -->
+<!-- each second, the velocity increases by 1 meter per second.  We start -->
+<!-- with the ball once again at *y* = 0 meters and a velocity of 1 meter -->
+<!-- per second.  After 1 second, the ball is at *y* = 1 meter, but now its -->
+<!-- velocity is 2 meters per second.  So after 2 seconds, the ball is at -->
+<!-- *y* = 3 meters, having moved an additional 2 meters in that second, -->
+<!-- and its velocity is now 3 meters per second.  After 3 seconds, the -->
+<!-- ball is at *y* = 6 meters, having moved an additional 3 meters, and -->
+<!-- its velocity is now 4 meters per second.  After 4 seconds, the ball is -->
+<!-- at *y* = 10 meters with a velocity of 5 meters per second.  And so on. -->
+<!-- As the ball accelerates, the change in its position from the beginning -->
+<!-- to the end of each timestep increases. -->
+
+Now we see that we have to address two issues:
+
+1. The velocity of the ball should change in every timestep, based on
+the acceleration.
+
+2. I remember that acceleration due to gravity is something like 9.8
+meters per second squared.  But I previously measured the location of
+the ball in pixels, not meters.
+
+We can solve the second issue by changing all coordinates in the
+program to be measured in meters.  Then we can have a constant
+PIXELS_PER_METER that we use to actually draw the ball and floor in
+the correct location.  Let's choose a value of 10.0 pixels per meter,
+and we'll start the ball at a location of 20 meters from the bottom of
+the screen.  The floor will be 4 meters from the bottom of the screen.
+
+## Accelerations and velocities
+
+Let's denote the *y*-coordinate of the ball after timestep $t$ by
+$y(t)$.  The ball starts at timestep $0$, so its initial
+*y*-coordinate is $y(0)$.  If the ball moves at constant velocity
+$v_y$, then its position after timestep $t$ is
+
+$y(t) = y(0) + t v_y$,
+
+or in Python,
+
+~~~{.python}
+next_y = y + timestep * v_y
+~~~
+
+What if the velocity is not constant?  Then this equation won't work.
+Imagine that the ball starts at velocity 0, but it is accelerating
+downward.  At the end of the first timestep, the ball would not have
+moved, if `v_y` started at zero, and that can't be correct!  However,
+an observation made by the mathematician Euler is that if the timestep
+is very small, the error won't be very large.  We'll come back to this
+idea soon.
+
+For a ball with velocity $v_y$, with a constant acceleration $a_y$,
+and timestep $t$,
+
+$v_y(t) = v_y(0) + t * a_y$,
+
+or in Python
+
+~~~{.python}
+next_v_y = v_y + timestep * a_y  
+~~~
+
+For our problem, $a_y$ is the acceleration due to Earth's gravity,
+&ndash;9.8 meters/second^2^.
+
+So here's the idea:
+
+1.  Compute the approximate next position using the current position,
+assuming that the velocity remains constant over a small timestep.
+(Our timesteps are 1/FRAME_RATE; that should be small enough.)
+
+2. Compute the next velocity using the current velocity, the value of
+the timestep, and the acceleration due to gravity.
+
+3. Repeat.
+
+## Follow the bouncing ball, new and improved: with gravity
+
+The resulting code is in [bounce3.py](bounce3.py).  We've added side
+walls, converted all units to be relative to meters rather than
+pixels, and moved the velocity and position computations to their own
+functions.
+
+~~~{.python}
+# CS 1 example: Simple animation of a bouncing ball
+# Devin Balkcom
+# August, 2011
+# Modified by THC.
+
+from cs1lib import *
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+FRAME_RATE = 60     # how many frames to display per second
+TIMESTEP = 1.0 / FRAME_RATE    # how often to refresh the frame    
+
+# Computations will now use meters, and we'll convert meters to
+# pixels with a scaling factor during drawing:
+PIXELS_PER_METER = 10.0
+
+FLOOR_Y = 4.0       # location now in meters
+
+INITIAL_X = 5.0     # locations are now measured in meters
+INITIAL_Y = 25.0
+INITIAL_V_X = 4.0
+INITIAL_V_Y = 0.0   # velocity is now measured in meters/second
+
+EARTH_GRAVITY_ACCELERATION = -9.8   # Earth acceleration due to gravity, m/sec^2
+
+BALL_RADIUS = 10  # radius of the ball in pixels, not used in velocity computations
+
+def draw_ball(x, y):
+    disable_stroke()
+    set_fill_color(.3, .5, 1)   # blue ball
+    draw_circle(x * PIXELS_PER_METER, y * PIXELS_PER_METER, BALL_RADIUS)
+
+def draw_floor():
+    set_stroke_width(2)
+    set_stroke_color(0, 0, 0) # black floor   
+    enable_stroke()
+    draw_line(0, FLOOR_Y * PIXELS_PER_METER, WINDOW_WIDTH, FLOOR_Y * PIXELS_PER_METER)
+
+# Computation of position uses meters, not pixels.
+def compute_next_position(position, velocity, timestep):
+    return position + velocity * timestep
+
+def compute_next_velocity(velocity, acceleration, timestep):
+    return velocity + acceleration * timestep
+
+def main():
+    # Initial coordinates for the ball.
+    x = INITIAL_X
+    y = INITIAL_Y
+    
+    # x and y velocities for the ball.
+    v_x = INITIAL_V_X
+    v_y = INITIAL_V_Y
+
+    set_clear_color(1, 1, 1)    # white background
+    enable_smoothing()
+
+    while not window_closed():
+        # Draw the current frame.
+        clear()
+        draw_ball(x, y)
+        draw_floor()
+
+        # Update the state for the next frame.
+        # See where the ball will be at its current velocity.
+        next_y = compute_next_position(y, v_y, TIMESTEP)
+        next_x = compute_next_position(x, v_x, TIMESTEP)
+        
+        # Will the ball bounce off the floor?
+        if next_y - (BALL_RADIUS / PIXELS_PER_METER) < FLOOR_Y:
+            v_y = -v_y
+    
+        # Will the ball bounce off a side wall?
+        if next_x * PIXELS_PER_METER + BALL_RADIUS > WINDOW_WIDTH or \
+                next_x * PIXELS_PER_METER - BALL_RADIUS < 0:
+            v_x = -v_x
+
+        # Now compute the real next position and next velocity.
+        x = compute_next_position(x, v_x, TIMESTEP)
+        y = compute_next_position(y, v_y, TIMESTEP)
+        v_y = compute_next_velocity(v_y, EARTH_GRAVITY_ACCELERATION, TIMESTEP)
+
+        # Update the display and wait for the next frame.
+        request_redraw()
+        sleep(TIMESTEP)
+
+# The last parameter of start_graphics, with the value True, indicates
+# that all graphics should be drawn upside down.  Therefore, 0, 0 is the
+# *bottom* left of the graphics window.  This view is convenient for
+# physical simulations.
+start_graphics(main, "Bouncing ball", WINDOW_WIDTH, WINDOW_HEIGHT, True)
+~~~
+
+## Springs and computing accelerations
+
+The acceleration due to gravity is essentially constant near the
+Earth's surface.  With larger distances and long time scales,
+gravitational accelerations are not constant.  Before looking at this
+problem, we'll look at the related problem of computing the motion of
+a ball attached by a spring to a post.
+
+At each timestep, we compute three quantities:
+
+1. The (approximate) next position, using the current position,
+velocity, and timestep.
+
+2. The current acceleration.
+
+3. The (approximate) next velocity, using the current velocity,
+acceleration, and timestep.
+
+We'll use variables `x`, `y`, `v_x`, `v_y`, `a_x`, and `a_y` to keep
+track of the current position and of the components of the velocity
+and acceleration.
+
+Steps 1 and 3 we have already seen how to do in the previous example.
+Let's look at step 2, computing the current acceleration.
+
+The **force** on a body is the net acceleration on the body,
+multiplied by the mass of the body: $f = ma$.  If we knew the
+magnitude of the force on the ball, and the mass of the ball, we could
+compute the magnitude of the acceleration:
+
+$a = f / m$.
+
+For a spring, it turns out that the force is proportional to how far
+the string has stretched, multiplied by some constant $k$ that depends
+on the particular spring.  For our example, we'll assume that the
+initial length of the spring was 0 (pretend it's an infinitesmally
+small rubber band when not stretched).  Let $d$ be the distance of the
+ball from the spring attachment point, in other words, how far the
+spring has stretched.  Now, if know that constant $k$, we can compute
+the force $f$:
+
+$f = k d$.
+
+The distance $d$ of the center of a ball at $(x, y)$ from some point
+$(s_x, s_y)$ is given by the good ol' distance formula:
+
+$d = \sqrt{(s_x - x)^2 + (s_y - y)^2}$.
+
+So to compute the magnitude of the acceleration $a$:
+
+1. Compute the distance $d$ using the location of the ball and the
+location of the spring attachment.
+
+2) Compute the force $f$ using $d$ and the given spring constant $k$.
+
+3) Compute the magnitude $a$ of the acceleration using the force $f$
+and the mass of the ball $m$.
+
+We're getting there, but we have one more thing to figure out.  The
+quantity $a$ is just the magnitude, or size, of the acceleration.
+But, like velocity, acceleration has $x$ abnd $y$ components.  We have
+to determine how much of that acceleration is in the $x$ direction,
+and how much is in the $y$ direction.  The acceleration should point
+directly from the ball to the post where the spring is attached.  But
+that's not too hard.  We just set the $x$ component of the
+acceleration to be proportional to the ratio of the $x$ distance of
+the ball from the post to the total distance:
+
+$a_x = a (s_x - x)/d$
+
+Similarly,
+
+$a_y = a (s_y - y)/ d$.
+
+The code is in [spring.py](spring.py).
+
+~~~{.python}
+# CS 1 example: Simple animation of a ball on a spring.
+# The spring is attached to a fixed post and to the ball.
+# Devin Balkcom
+# August, 2011
+# Modified by THC.
+
+from cs1lib import *
+from math import sqrt
+
+WINDOW_WIDTH = 400
+WINDOW_HEIGHT = 400
+
+FRAME_RATE = 60     # how many frames to display per second
+TIMESTEP = 1.0 / FRAME_RATE    # how often to refresh the frame    
+
+# Computations use meters, and we'll convert meters to
+# pixels with a scaling factor during drawing:
+PIXELS_PER_METER = 10.0
+
+INITIAL_X = 25.0    # locations are measured in meters
+INITIAL_Y = 10.0
+INITIAL_V_X = 10.0
+INITIAL_V_Y = 10.0  # velocity is measured in meters/second
+
+BALL_RADIUS = 10    # radius of the ball in pixels, not used in velocity computations
+
+BALL_MASS = 0.2     # ball has mass of 0.2 kg, used in force-acceleration computation
+SPRING_CONSTANT = 1.0   # spring constant is 1 kg/sec^2
+
+# Location of the post that the spring is attached to, in meters.
+POST_X = 20.0
+POST_Y = 20.0
+POST_RADIUS = 5     # radius of the post in pixels, not used in computations
+
+def draw_ball(x, y):
+    disable_stroke()
+    set_fill_color(.3, .5, 1)   # blue ball
+    draw_circle(x * PIXELS_PER_METER, y * PIXELS_PER_METER, BALL_RADIUS)
+
+# Draw the post and the spring from the post center to where the ball is.
+def draw_spring(x, y):
+    set_stroke_width(2)
+    set_stroke_color(0, 0, 0) # black spring
+    enable_stroke()
+    draw_line(POST_X * PIXELS_PER_METER, POST_Y * PIXELS_PER_METER,
+              x * PIXELS_PER_METER, y * PIXELS_PER_METER)
+
+    # Draw the post.
+    disable_stroke()
+    set_fill_color(0.6, 0, 0)   # dark red post
+    draw_circle(POST_X * PIXELS_PER_METER, POST_Y * PIXELS_PER_METER,
+                POST_RADIUS)
+
+# Computation of position uses meters, not pixels.
+def compute_next_position(position, velocity, timestep):
+    return position + velocity * timestep
+
+def compute_next_velocity(velocity, acceleration, timestep):
+    return velocity + acceleration * timestep
+
+# Compute the distance between two points.
+def distance(x1, y1, x2, y2):
+    dx = x2 - x1
+    dy = y2 - y1
+    return sqrt(dx * dx + dy * dy)
+
+# The magnitude of the force generated by a linear spring is k * d,
+# where d is the distance between the endpoints of the spring.
+def compute_spring_force(x1, y1, x2, y2, k):
+    return distance(x1, y1, x2, y2) * k
+    
+def main():
+    # Initial coordinates for the ball.
+    x = INITIAL_X
+    y = INITIAL_Y
+    
+    # x and y velocities for the ball.
+    v_x = INITIAL_V_X
+    v_y = INITIAL_V_Y
+
+    set_clear_color(1, 1, 1)    # white background
+    enable_smoothing()
+
+    while not window_closed():
+        # Draw the current frame.        
+        clear()        
+        draw_spring(x, y)
+        draw_ball(x, y)
+        
+        # Update the state for the next frame. 
+        # Given the current velocities, compute the next positions.        
+        x = compute_next_position(x, v_x, TIMESTEP)
+        y = compute_next_position(y, v_y, TIMESTEP)    
+        
+        # Compute the current magnitude of acceleration of the ball.
+        f = compute_spring_force(POST_X, POST_Y, x, y, SPRING_CONSTANT)
+        a = f / BALL_MASS
+        
+        # Compute a_x and a_y, the x and y components of the acceleration.        
+        d = distance(POST_X, POST_Y, x, y)
+        dir_x = (POST_X - x) / d
+        dir_y = (POST_Y - y) / d
+        a_x = dir_x * a
+        a_y = dir_y * a
+        
+        # Given the current accelerations, compute next velocities.        
+        v_x = compute_next_velocity(v_x, a_x, TIMESTEP)
+        v_y = compute_next_velocity(v_y, a_y, TIMESTEP)
+         
+        # Update the display and wait for the next frame.
+        request_redraw()
+        sleep(TIMESTEP)
+        
+# The last parameter of start_graphics, with the value True, indicates
+# that all graphics should be drawn upside down.  Therefore, 0, 0 is the
+# *bottom* left of the graphics window.  This view is convenient for
+# physical simulations.
+start_graphics(main, "Ball on a spring", WINDOW_WIDTH, WINDOW_HEIGHT, True)
+~~~
+
+For a slightly fancier version, where the spring gets thinner as it
+gets longer, and it gets thicker as it gets shorter, look at
+[spring2.py](spring2.py).
+
+## Multibody gravity simulation
+
+What if we had multiple bodies, each with gravitational force exerted
+on it by all the other bodies?  The magnitude of the force exerted on
+body 1 by body 2 is
+
+$f = \displaystyle \frac{G m_1 m_2}{r^2}$ ,
+
+where $r$ is the distance between bodies in meters, $m_1$ and $m_2$
+are the masses measured in kilograms, and $G$, the universal
+gravitational constant, is 6.67384 &times; 10^&ndash;11^.
+
+But that's just the force on body 1 from body 2.  What about the force
+on body 1 from bodies 3, 4, 5, &hellip;?  Because the forces are
+magnitudes, you can't just add them up.  But what you can do is
+compute the components of the acceleration of body 1 due to body 2,
+$a_x$ and $a_y$, just as we did for the spring system.  Then add the
+the components of the acceleration of body 1 due to body 3, due to
+body 4, body 5, etc.  Once you have added accelerations due to all
+other bodies, you have the acceleration of body 1.
+
+For body 2, you can compute the acceleration by computing the
+components of the acceleration due to bodies 1, 3, 4, 5, etc.
+
+Once you have all the accelerations for the bodies, you can compute
+the next velocities for each body.

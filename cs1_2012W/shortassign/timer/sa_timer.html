@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-7-counters-and-timers-due-wednesday-february-1">Short Assignment #7: Counters and Timers <br />Due: Wednesday, February 1</h1>
+<p>This assignment will give you a little practice in defining and working with classes. It uses no graphics.</p>
+<h2 id="a-counter-class">A <code>Counter</code> class</h2>
+<p>Your first task is to define a class <code>Counter</code> for a counter that counts down. When it gets down to 0 and counts down again, it wraps back to a limit, minus 1. For example, if the limit is 60, the counter's value is 0, and it counts down, its next value is 59.</p>
+<p>The <code>Counter</code> class must support the following methods:</p>
+<ul>
+<li><p><code>__init__(self, limit, initial = 0, min_digits = 1)</code> is automatically called by the <code>Counter</code> constructor (but you knew that, right?). The parameters are the counter's limit (60 in the example above), an initial value, and a minimum number of digits (explained below). If the initial value supplied as a parameter is between 0 and limit?1, then that's the counter's initial value. Otherwise, an error message is printed and the counter's initial value is limit–1.</p></li>
+<li><p><code>get_value(self)</code> just returns the counter's value, as an int.</p></li>
+<li><p><code>__str__(self)</code> returns the counter's value, as a string. If the counter's value would print with fewer than the <code>min_digits</code> parameter supplied to the <code>__init__</code> method, then the string contains <code>min_digits</code> characters, padded on the left with zeros. For example, if <code>min_digits</code> was 4 and the counter's value is 15, then the <code>__str__</code> method should return the string <code>0015</code>.</p></li>
+<li><p><code>tick(self)</code> decrements the counter's value, but if the value would go negative, then it becomes limit–1. For example, if the counter's limit is 12 and its current value is 0, then after calling <code>tick</code>, the counter's value should be 11. This method also returns to its caller a boolean value indicating whether it wrapped around, i.e., did the value wrap from 0 back to limit–1. <code>True</code> means that it wrapped, <code>False</code> means that it did not.</p></li>
+</ul>
+<p>Define instance variables as appropriate, though I'd be surprised if you needed more or fewer than three.</p>
+<p>To pad with zeros in the <code>__str__</code> method, you can determine the length of the counter's value as a string (by calling the <code>str</code> function on the counter's value), and then concatenate as many zeros as necessary (the difference between <code>min_digits</code> and the length of this string).</p>
+<h2 id="a-counter-driver">A <code>Counter</code> driver</h2>
+<p>Next, write a driver for the <code>Counter</code> class. It should create two or more <code>Counter</code> objects and demonstrate that all the methods in the <code>Counter</code> class work properly by printing to the console.</p>
+<h2 id="a-timer-class">A <code>Timer</code> class</h2>
+<p>Your next task is to define a class <code>Timer</code> for a 24-hour hours:minutes:seconds timer that counts down. It must support the following methods:</p>
+<ul>
+<li><p><code>__init__(self, hours, minutes, seconds)</code> creates a timer whose initial values for its hours, minutes, and seconds are given by the parameters.</p></li>
+<li><p><code>__str__(self)</code> returns a string giving the timer's current time, in the format hh:mm:ss. That is, two digits for the hours, followed by a colon, followed by two digits for the minutes, followed by a colon, followed by two digits for the seconds. For example, if the timer currently reads 1 hour, 7 minutes, and 52 seconds, <code>__str__</code> should return the string <code>01:07:52</code>.</p></li>
+<li><p><code>tick(self)</code> ticks down the timer by one second. For example, if a timer reads <code>01:07:52</code>, then after calling <code>tick</code>, it should read <code>01:07:51</code>. If a timer reads <code>01:07:00</code>, then after calling <code>tick</code>, it should read <code>01:06:59</code>. If a timer reads <code>01:00:00</code>, then after calling <code>tick</code>, it should read <code>00:59:59</code>. Finally, if a timer reads <code>00:00:00</code>, then after calling <code>tick</code>, it should read <code>23:59:59</code>.</p></li>
+<li><p><code>is_zero(self)</code> returns a boolean that is <code>True</code> if the timer currently reads <code>00:00:00</code>.</p></li>
+</ul>
+<p>Define instance variables as appropriate. Use references to <code>Counter</code> objects where it makes sense. (<em>Hint:</em> Three instance variables, each a reference to a <code>Counter</code> object, would be a Darned Good Idea.)</p>
+<h2 id="a-timer-driver">A <code>Timer</code> driver</h2>
+<p>Finally, write a driver for the <code>Timer</code> class. It should start a timer at 01:30:00 and count it down to 00:00:00, printing to the console all the times between and including 01:30:00 and 00:00:00.</p>
+<h2 id="what-to-turn-in">What to turn in</h2>
+<p>Turn in counter.py, containing your <code>Counter</code> class; timer.py, containing your <code>Timer</code> class; your driver for <code>Counter</code>; and your driver for <code>Timer</code>. Also turn in text files containing the console output from your <code>Counter</code> driver and <code>Timer</code> driver.</p>
+</body>
+</html>

@@ -1,0 +1,684 @@
+# Short Assignment 9
+
+[Short Assignment 9](../../shortassign/insertion/sa_insertion.html) is
+posted and due on Monday.
+
+# Analyzing algorithms, continued
+
+Last time, we started to look at how to analyze algorithms.  One of
+the issues we discussed was base-2 logarithms.
+
+## Analyzing the running time for a program
+
+So far, we've only talked loosely about the running time of
+algorithms.  We can see that binary search, given the worst possible
+input for a binary search, will require fewer "steps" to complete than
+a linear search, given the worst possible input for linear search.
+Let's try to do a more precise analysis, given some code that
+implements an algorithm.
+
+Here is my implementation of linear search, from
+[linear_search.py](linear_search.py).  (I have removed comments to
+save space.  Of course, your own implementation would have comments,
+rrrright?)
+
+~~~{.python}
+def linear_search(the_list, key):
+    index = 0
+    while index < len(the_list):
+        if key == the_list[index]:
+            return index
+        else:
+            index += 1
+        
+    return None
+~~~
+
+Let's say that `the_list` has the length $n$.  Let's analyze how much
+time the function will take to run in terms of $n$.
+
+First, Python has to create a local variable `index`.  That's pretty
+fast, and it's done only once, but let's measure that time anyway, and
+call it $c_1$, where $c_1$ is some constant that does not depend in
+any way on the length $n$ of `the_list`.
+
+Now let's look at the while-loop.  In a worst-case analysis, we have
+to assume that the item is not in the list at all.  The body of the
+while-loop will execute $n$ times.  It seems reasonable to assume that
+each execution of the body will take a constant amount of time (or at
+least an amount upper-bounded by a constant); let's call it $c_2$.  So
+the total time spent executing the body of the while-loop, in the
+worst case, is $c_2 n$.
+
+But we're not quite done.  In the worst case, the last test in the
+while-loop header comes up `False`, and it's when `index` equals
+`len(the_list)`.  That's the $(n+1)$st time we make that test (because
+we've already made the tests for `index` equaling $0, 1, 2, \ldots,
+n-1$).  We also have to return `None` in the worst case.  That last
+test and returning `None`, together, take some constant amount of
+time; let's call it $c_3$ (again, independent of $n$).
+
+Now, as they say in a French restaurant, "L'addition s'il vous plait."
+("The check, please.")  The running time of linear search in the worst
+case is therefore no worse than
+
+$c_1 + c_2 n + c_3$ ,
+
+or
+
+$c_2 n + (c_1 + c_3)$ .
+
+The exact values of $c_1$, $c_2$, and $c_3$ depend on the speed of the
+computer the program is run on and the efficiency of the Python
+implementation.
+
+Here is my implementation of binary search from Short Assignment 8, in
+[binary_search.py](../../shortassign/binarysearch/solution/binary_search.py):
+
+~~~{.python}
+# Perform binary search for key on the sublist of the_list
+# starting at index left and going up to and including index right.
+# If key appears in the_list, return the index where it appears.
+# Otherwise, return None.
+# Requires the_list to be sorted.
+def binary_search(the_list, key, left = None, right = None):
+    # If using the default parameters, then search the entire list.
+    if left == None and right == None:
+        left = 0
+        right = len(the_list) - 1
+    
+    # If the list is empty, then the key is not found.
+    if left > right:
+        return None
+    else:
+        # Find the midpoint of this sublist.
+        midpoint = (left + right) / 2
+        
+        # Is it there?
+        if the_list[midpoint] == key:
+            return midpoint     # yes!
+        elif the_list[midpoint] > key:
+            # Try the left half of the_list.
+            return binary_search(the_list, key, left, midpoint-1)
+        else:
+            # Try the right half of the list.
+            return binary_search(the_list, key, midpoint+1, right)
+~~~
+
+If we look at the time for each recursive call on its own, not
+counting the time for the recursive calls that it makes, we see that
+each recursive call takes a constant amount of time.  We check whether
+we have an empty sublist, compute the midpoint, check whether the key
+is in the position given by the midpoint, and recursively call the
+function on the proper half.  Each of these steps, *within a given
+recursive call* takes constant time; let's call it $c_4$.  And, as
+we've seen, in the worst case, the number of recursive calls is at
+most $\log_2 n + 1$.  So the total worst-case time for binary search
+is
+
+$c_4 (\log_2 n + 1)$ ,
+
+or
+
+$c_4 \log_2 n + c_4$ .
+
+## Comparing linear search and binary search
+
+So which is faster, linear search or binary search?  It depends: on
+the suitability of the input we get for the particular algorithm
+(linear search will find "Afganistan" faster than binary search, for
+the example list), on the length of the list, and on the size of the
+constants.  In the worst case, the question is, when is
+
+$c_4 \log_2 n + c_4$
+
+smaller than 
+
+$c_2 n + (c_1 + c_3)$ ?
+
+I claim that whatever the value of the constants, for large enough
+$n$, binary search will be faster, if you assume the worst-case input
+for each algorithm.  Let's say that linear search is run on a HAL 9000
+computer that is blazingly fast and ultra-modern, and that binary
+search is run on a vintage Apple II.  Let's assume that the HAL 9000
+executes each iteration of the while-loop in linear search in 0.00001
+seconds, so that $c_2 = \mbox{0.00001}$, and let's say that $c_1 + c_3
+= 0$.
+
+Now let's take the Apple II.  It is much slower, and it takes 0.01
+seconds to execute each recursive call of binary search, so that $c_4
+= \mbox{0.01}$.
+
+How large does $n$ have to be before the Apple II wins?  I claim that
+$\log_2 16384 = 14$; you can check for yourself that $2^14 = 16384$.
+So, when $n = 16384$, the Apple II takes $\mbox{0.01} \times 14 +
+\mbox{0.01} = \mbox{0.14} + \mbox{0.01} = \mbox{0.15}$ seconds.  For
+the same input size, the HAL 9000 takes $\mbox{0.00001} \times 16384 =
+\mbox{0.16384}$ seconds.  The Apple II wins!
+
+Perhaps you're thinking that I rigged the game here by choosing
+constants $c_2$ and $c_4$ so that the Apple II would win.  (The HAL
+9000 would not permit me to do that.)  Let's just choose a longer
+list.  Consider a list of length 1 million.  Since $\log_2 10^6$ is
+about 20, the Apple II with binary search will take about $\mbox{0.2}$
+seconds for the search.  The HAL 9000 will take $10$ seconds.  There's
+no way that the difference between $c_2$ and $c_4$ will overcome the
+Apple II's $9.8$-second lead.  From now on, we will ignore these
+leading constant coefficients when comparing algorithms, since once
+$n$ gets large enough, the constants become less important than how
+the running time varies with $n$.
+
+## Orders of growth and big-Oh notation
+
+We say that **in the worst case, linear search takes linear time in
+$n$, the size of the input list** because the running time scales
+linearly with $n$.  If the length of the input list doubles, the
+running time of linear search doubles, in the worst case.  If the size
+of the input list quadruples, the running time quadruples, in the
+worst case.
+
+We say that **in the worst case, binary search takes logarithmic time
+in $n$, the size of the input list** because the running time scales
+like a $\log_2$ function.  If the original size of the list doubles
+from $n$ to $2n$, the running time increases from $c_4\: \log_2 n +
+c_4$ to $c_4\: \log_2 (2n) + c_4$.  How much bigger is this running
+time?  Forget about the additive $c_4$ term; it's insignificant.  We
+can analyze $c_4\: \log_2 n$ vs. $c_4\: \log_2 (2n)$ either by
+thinking about the algorithm or with some equations.  Thinking about
+the algorithm, doubling the length of the list will require that
+binary search recurse just one more time.  That's not very expensive;
+it just costs $c_4$ more time, even though we *doubled* the size of
+the list.  If you prefer to use equations, $c_4\: \log_2 (2n) = c_4\:
+\log_2 n + c_4\: \log_2 2 = c_4\: \log_2 n + c_4$.
+
+We can see that in general, algorithms that take logarithmic time are
+always faster than algorithms that take linear time, at least once $n$
+is large enough.  As $n$ gets even bigger, the algorithm with
+logarithmic time will win by even more.  The function $\log_2 n$ grows
+much more slowly than the function $n$.
+
+We are usually only concerned with running time of an algorithm once
+its input size $n$ gets large.  For large enough $n$, a logarithmic
+running time is better than a linear running time, *regardless of the
+constants*.  Computer scientists use a standard notation to indicate
+that the running time grows "like" some function, ignoring the
+constants.  If the running time is linear (grows linearly with $n$) in
+the worst case, we say that the running time is $O(n)$, pronounced
+"big-Oh of $n$".  If the running time is logarithmic (grows with the
+logarithm of $n$), we say that the running time is $O(\log_2 n)$.
+
+Big-oh notation indicates that for large enough $n$, ignoring
+constants, the running time is no worse than the function in the
+parentheses.  I can therefore say that binary search's running time is
+$O(\log_2 n)$ and that linear search's running time is $O(n)$.
+
+In fact, we can drop the base of the logarithm when we use big-Oh
+notation.  Why?  Because of this mathematical fact: for any constants
+$a$ and $b$,
+
+$\displaystyle \log_a n = \frac{\log_b n}{\log_b a}$ .
+
+So the difference between taking the logarithm of $n$ using base $a$
+vs. base $b$ is just the constant factor $\log_b a$, and we've already
+decided that constant factors don't matter in big-Oh notation.
+
+I slipped something in before, when I said that "Big-oh notation
+indicates that for large enough $n$, ignoring constants, the running
+time *is no worse than* the function in the parentheses."  Big-Oh
+notation gives us an **upper bound** on the running time's rate of
+growth, but it doesn't say *anything* about how low the running time's
+rate of growth might be.  If I tell you that I have an amount of money
+in my wallet, and I guarantee that this amount is at most a thousand
+dollars, I might have a thousand dollars, or I might have only ten
+cents.
+
+So if an algorithm's running time is $O(n)$, it might actually take
+$cn$ time for some constant $c$, but it might be even faster.  For
+example, it might take only $c\: \log_2 n$ time.  In other words, any
+running time that is $O(\log\: n)$ is also $O(n)$: it's at least as good
+as linear, if not better.  Put another way: it is true that *binary*
+search runs in $O(n)$ time, but that is not the most accurate
+statement you can make; it would be more accurate to say that binary
+search runs in $O(\log\: n)$ time.
+
+## Other orders of growth: Constant and quadratic orders of growth
+
+Are there algorithms that are $O(n^2)$?  Sure.  Here's one:
+
+~~~{.python}
+def do_something(n):
+    for i in range(n):
+        for j in range(n):
+            print i, j        
+~~~
+
+Let's assume that the print statement takes some constant amount of
+time to execute, $c$ seconds.  How many times will that statement (the
+body of the innermost loop) be executed?  It looks like $n^2$ times.
+So the runtime is roughly $c n^2$.  Ignoring the constants, we say
+that the function has a running time of $O(n^2)$.
+
+What if an algorithm takes constant time, regardless of the input?
+
+~~~{.python}
+def do_something_else(n):
+    print "My name is Inigo Montoya"
+~~~
+
+We say in this case that the function is $O(1)$, since $1$ is what we
+get for the running time if we drop the constants.
+
+## Ranking algorithms by running time
+
+It's true that not all $O(n^2)$ algorithms take the same time.  The
+constants might be different, and the best-case performance may be
+different for different algorithms.  However, it is true that in the
+worst case, for large enough $n$, any $O(n^2)$-time algorithm runs
+faster than any algorithm for which the runtime is any positive
+constant times $n^3$.  We therefore can think of all $O(n^2)$
+algorithms as being roughly in the same family.  We can do a ranking
+by running time:
+
+$O(1) < O(\log\: n) < O(\sqrt n) < O(n) < O(n\: \log\: n) < O(n^2) <
+O(n^3) < O(2^n) < O(n!)$
+
+An algorithm whose rate of growth depends on the factorial of the
+input $n$ is going to run for a very long time indeed, for large
+values of $n$.
+
+Sometimes, you will see a running time function that looks like this:
+
+$c_1 n^2 + c_2 n + c_3$.
+
+In this case, we can drop all of the lower-order terms and say that
+the function is $O(n^2)$.  Why?  For large enough $n$, $n^2$ grows
+much more quickly than $n$.  For large $n$, another function $c_4 n^2$
+would be larger than $c_1 n^2 + c_2 n + c_3$, if $c_4$ is even a
+little bit larger than $c_1$.  Since $c_4 n^2$ is $O(n^2)$, $c_1 n^2 +
+c_2 n + c_3$ must be, too.
+
+The take home message: compute the running time for a function, using
+constants if you need to.  Then drop the constants and just take the
+term in the expression that grows the fastest.  The running time is
+big-Oh of that term.
+
+## What is this "$n$" anyway?
+
+The value $n$ represents some characteristic of the input that
+determines the running time.  Maybe $n$ is the length of a list that's
+input to the function, or maybe $n$ is the value of some parameter
+that is input to the function.  We use $n$ instead of saying
+specifically what the term is so that we can discuss the rate of
+growth of the running time of an algorithm in more general terms.
+However, we should always know specifically to what $n$ refers before
+discussing the running time.
+
+## Exercises and exams
+
+From now on, given an algorithm or piece of code, you should be able
+to
+
+1. Identify what quantity $n$ the running time depends on (for
+example, $n$ might be the length of a list input to the function)
+
+2. Compute the running time in terms of constants and $n$.
+
+3. Describe the running time using big-Oh notation.
+
+I may very well ask you to do this sort of thing on an exam.
+
+# Merge sort
+
+Next, we're going to use recursion to sort a list.  We've already seen
+the selection sort algorithm, and in Short Assignment 9, you'll
+implement the insertion sort algorithm which, like selection sort, is
+not recursive.  In Lab Assignment 3, you'll implement the quicksort
+algorithm, which is recursive.
+
+The recursive algorithm we'll examine now, **merge sort**, runs in
+$O(n\: \log\: n)$ time in all cases.  We haven't analyzed selection sort
+or insertion sort yet, but they take $O(n^2)$ time in the worst case.
+In the worst case, therefore, merge sort is better than either
+selection sort or insertion sort: we trade a factor of $n$ for a
+factor of only $\log\: n$, and you take that trade any day.
+
+The constants hidden in the big-Oh notation are not as good for merge
+sort as they are for the other two sorting algorithms, however, and so
+merge sort is not the sorting algorithm of choice for small problem
+sizes.  Once the problem size is in the range 500&ndash;1000, merge
+sort beats the other two, and its advantage increases as the problem
+size increases from there.
+
+Another potential disadvantage of merge sort is that it does not work
+in place. That is, it has to make complete copies of the entire input
+list.  Contrast this feature with selection sort and, as you'll see in
+Short Assignment 9, insertion sort, which at any time keep a copy of
+only one list entry rather than copies of all the list entries.  Thus,
+if space is at a premium, merge sort might not be the sorting
+algorithm of choice.
+
+For most occasions, however, merge sort will be just fine.
+
+### Linear-time merging
+
+The key to making merge sort work is a linear-time merging step. The
+idea is follows. Suppose we have two sorted lists, say `a[0:m]`,
+containing $m$ items, and `b[0:n]`, containing $n$ items, and we wish
+to produce a sorted list `c[0:m+n]` containing all $m+n$ items in
+either `a` or `b`.
+
+Here is an important observation: there are only two candidates for
+the value that should be in `c[0]` (the smallest item of the output),
+and these candidates are `a[0]` and `b[0]`.  Why?  Because the lists
+`a` and `b` are sorted, the smallest item overall must be the smallest
+item of whichever list, `a` or `b`, it started in.  So we take the
+smaller of `a[0]` and `b[0]` and copy it into `c[0]`.
+
+Let's say that it turned out that `a[0] < b[0]`, so that we copied
+`a[0]` into `c[0]`.  The value that should go into `c[1]` is the
+second-smallest item overall, and it is also the smallest item of
+those remaining in `a[1:m]` and `b[0:n]`.  Using the same reasoning as
+before, there are only two candidates for this value: `a[1]` and
+`b[0]`.  We pick the smaller of these values and copy it into `c[1]`.
+
+In general, as we are copying values into `c`, we have to look at only
+two candidate values: the smallest remaining value in `a` and the
+smallest remaining value in `b`.  It takes a constant amount of time
+to determine which of these values is smaller, to copy it into the
+correct position of `c`, and to update any indices into lists `a`,
+`b`, and `c`.  In other words, merging costs us only $O(1)$ time per
+item merged.  The time to copy all `m+n` input values to the output
+list `c`, therefore, is (m+n) times $O(1)~, which is $O(m+n)$, or
+linear in the size of the input.
+
+To see linear-time merging in action, look at the slide show in [this
+PowerPoint](Linear-time-merge.ppt).
+
+To see linear-time merging in code, look at the `merge` function in
+[merge_sort.py](merge_sort.py):
+
+~~~{.python}
+# merge_sort.py
+# Merge sort example for cs1
+# Devin Balkcom
+# October, 2011
+# Modified by THC.
+
+# Take two sorted lists, the_list[p : q+1] and the_list[q+1 : r+1],
+# and merge them into the_list[p : r+1].
+def merge(the_list, p, q, r):
+    # Make a copy of the list items.
+    left = the_list[p : q+1]
+    right = the_list[q+1 : r+1]
+ 
+    # Until we've gone through one of left and right, move
+    # the smallest unmerged item into the next position in
+    # the_list[p : r+1].
+    
+    i = 0       # index into left
+    j = 0       # index into right
+    k = p       # index into the_list[p : r+1]
+    
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            the_list[k] = left[i]
+            i += 1
+        else:
+            the_list[k] = right[j]
+            j += 1
+        k += 1
+    
+    # We've gone through one of left and right entirely.
+    # Copy the remainder of the other to the end of the_list[p : r+1].
+    
+    # If left has remaining items, copy them into the_list, using list slices.
+    if i < len(left):
+        the_list[k : r+1] = left[i:]
+    
+    # If right has remaining items, copy them into the_list, using list slices.
+    if j < len(right):
+        the_list[k : r+1] = right[j:]
+        
+# Sort the_list[p : r+1], using merge sort.
+def merge_sort(the_list, p = None, r = None):
+    # If using the default parameters, sort the entire list.
+    if p == None and r == None:
+        p = 0
+        r = len(the_list) - 1
+        
+    if p < r:   # nothing to do if the sublist has fewer than 2 items
+        q = (p + r) / 2                 # midpoint of p and r
+        merge_sort(the_list, p, q)      # recursively sort the_list[p : q+1]
+        merge_sort(the_list, q+1, r)    # recursively sort the_list[q+1 : r+1]
+        merge(the_list, p, q, r)        # and merge them together
+
+l = [19, 18, 24, 72, 16, 49, 13, 12, 1, 66]
+merge_sort(l)
+print l
+~~~
+
+Notice that we can copy part of one list into another using **slice
+notation**, that is the colon within the square brackets.  So this
+line:
+
+~~~{.python}
+the_list[k : r+1] = left[i:]
+~~~
+
+copies the items in `left` starting at `i` into `the_list`, starting
+at index `k`.
+
+The merge function merges the sorted sublists `the_list[p : q+1]`
+(containing the items from index `p` through index `q`&mdash;remember
+that with slice notation, the index after the colon is 1 greater than
+the index of the last item in the sublist) and and `the_list[q+1 :
+r+1]` (containing the items from index `q+1` through index `r`) into
+the sorted sublist `the_list[p : r+1]`.  Notice that here the lists
+being merged are actually two consecutive sublists of `the_list`, and
+that they are being merged into the same locations, indices `p`
+through `r`, that they started in.  The `merge` function creates two
+new temporary lists, `left` and `right`, copied from the original
+list.  It then merges back into the original list.  It repeatedly
+chooses the smaller of the unmerged items in `left` and `right` and
+copies it back into `the_list`.  The index `i` always tells us the
+where to find the next unmerged item in `left`; `j` indexes the next
+unmerged item in `right`, and `k` indexes where the next merged item
+will go in `the_list`.  Eventually, we exhaust either `left` or
+`right`.  At that time, the other list still has unmerged items, and
+we can just copy them back into `the_list` directly.
+
+### Divide-and-Conquer
+
+Now that we have the linear-time merging function `merge`, we need to
+use it well.  Merge sort works by a common computer-science paradigm
+known as **divide-and-conquer**:
+
+1. **Divide** the problem into (approximately) equal-size subproblems.
+2. **Conquer** by solving the subproblems *recursively*.
+3. **Combine** the solutions to the subproblems to solve the original
+problem.
+
+For merge sort, the problem to be solved is sorting the sublist
+`the_list[p : r+1]`.  Initially, for a list with $n$ items, we'll have
+`p` = 0 and `r` = $n – 1$, but these values will be different for the
+recursive calls.  Merge sort follows the divide-and-conquer paradigm
+as follows:
+
+1. **Divide** by finding the index `q` of the midpoint of the sublist
+`the_list[p : r+1]`.
+
+2. **Conquer** by recursing on the sublists `the_list[p : q+1]` and
+`the_list[q+1 : r+1]`.  This step sorts the sublist `the_list[p :
+q+1]`, and it sorts the sublist `the_list[q+1 : r+1]`.
+
+3. **Combine** by merging the sorted sublist `the_list[p : q+1]` and
+`the_list[q+1 : r+1]` to produce the sorted sublist `thelist[p :
+r+1]`.  We merge by calling the `merge` function.
+
+The recursion "bottoms out" when the sublist to be sorted has fewer
+than 2 items, since a sublist with 0 or 1 items is already sorted.
+
+The `merge`_sort function shows how easy divide-and-conquer is for
+merge sort.  It almost seems like cheating!  But if you understand
+recursion, you'll believe that it works.
+
+If you don't understand how the recursion works&mdash;I mean *really*
+understand it&mdash;I recommend that you
+
+* use the debugging tool to step through the code,
+
+* draw the stack frames in the call stack as you step through the code
+  by hand,
+
+* draw out the recursion tree for an example list, labeling each node
+  by the values of the parameters `p` and `r` to `merge_sort`.
+
+## Sorting a list of objects
+
+The merge sort function we saw is fine for sorting lists of items that
+can be easily compared, like strings or ints.  What if we wanted to
+sort a list that contained addresses of (references to) objects?  How
+does Python know which object is "less than" another?
+
+If you are using the Python `.sort` method, it turns out that you can
+write a special method `__lt__` in the class definition.  `__lt__` is
+then used to compare the objects when you use the less-than symbol <.
+
+But here, we're not using the Python `.sort` method.  We're writing
+our own sorting code.  How can we specify how we want to compare
+objects?
+
+Imagine that you have a list of planets.  You might wish to sort by
+mass, by distance from the sun, or by mean orbital velocity.  These
+quantities might be stored in instance variables of a `Planet` object,
+or they might be computable using instance variables of a `Planet`
+object.
+
+There is only one place in the merge sort code where we compare items
+from the list:
+
+~~~{.python}
+        if left[i] < right[l]:
+~~~
+
+We need a function to replace the `<`.  Let's say we had two `Planet`
+objects, each with a `mass` instance variable.  We could write the
+function like this:
+
+~~~{.python}
+def lessthan_mass(body1, body2):
+    return body1.mass < body2.mass
+~~~
+
+I included "mass" in the function name to make it clear that this
+"less than" function compares masses.  Somehow I need to specify to
+the merge sort code that `merge` should use the `lessthan_mass`
+function instead of a simple `<` sign in comparisons.  Fortunately, we
+can pass a function as a parameter to another function.  We rewrite
+the header for `merge_sort` like this:
+
+~~~{.python}
+def merge_sort(the_list, p, r, compare_fn)
+~~~
+
+and for `merge`:
+
+~~~{.python}
+def merge(the_list, p, q, r, compare_fn):
+~~~
+
+When `merge_sort` is called, we just pass in `lessthan_mass` (itself a
+function) as the second parameter.  Within `merge_sort`, we change the
+call to `merge` to include `compare_fn` as the second actual
+parameter.  Finally, in the body of `merge`, we can use `compare_fn`
+to compare items rather than using the `<` sign:
+
+~~~{.python}
+        if compare_fn(left[i], right[j]):
+~~~
+
+## The recursion tree for merge sort
+
+I find drawing the recursion tree to be one of the most helpful ways
+to understand or debug a recursive function.  The recursion tree can
+be used to easily show:
+
+1.  What functions each function calls, and how the problem is broken
+into smaller problems.
+2.  The order functions are called in.
+3.  The base cases of the recursion, at the leaves.
+
+Here is the recursion tree for merge sort:
+
+![](merge_tree.png)
+
+The calls to `merge` are in red.  The order of the function calls is
+shown by small numbers above and to the left of each function call.
+We can also see the parameters of the functions.  To save space, I
+abbreviated calls to `merge_sort` by `msort` and ommited the name of
+the list as a parameter.
+
+You should be able to reconstruct the same tree by just reading and
+analyzing the code for merge sort, and you should be able to draw the
+recursion tree for any new recursive code you see or write.
+
+## Analyzing runtime for recursive function calls
+
+The recursion tree is also often a very good way to analyze the
+running time of a recursive algorithm.  In the following picture, I've
+used dashed lines to separate the recursion tree for a sample call to
+`merge_sort` into four layers.
+
+![](merge_runtime.png)
+
+The top layer contains the initial call to `merge_sort` and its call
+to `merge`.  The second layer contains the two merge sorts of
+half-size lists.  The third layer contains the four merge sorts of
+quarter-size lists.  The fourth layer contains the eight merge sorts
+of eighth-size lists.
+
+Let's analyze the running time of each layer.  A call to `merge_sort`
+has two types of costs:
+
+1. The cost associated with all lines of code except function calls to
+`merge` or `merge_sort`.  Let's call this a constant, $c$.
+2. The cost associated with calls to `merge` and `merge_sort`.
+
+When we account for the runing time, we'll charge the second types of
+cost to the functions where the work is actually done.  For example,
+when we compute the cost of the top layer, we won't include the costs
+incurred by layer 2.
+
+* **Layer 1 (top layer).**  There is one call to `merge_sort`.  The
+    charge for that is $c$.  There is one call to `merge`.  If we
+    analyze the running time of `merge`, the cost is some constant,
+    $k$, times the length of the sublist.  So `merge(0, 7)` costs $8
+    k$ time, or $n k$ time.  The overall cost of the layer is $1
+    \times (c + nk)$.
+
+* **Layer 2.** There are two calls to `merge_sort`.  The charge for
+    that is $2 c$.  There are two calls to `merge`.  The charges are
+    each $n/2 \times k$, for a total "merging charge" of $n k$.  The
+    overall cost of the layer is $2c + nk$.
+
+* **Layer 3.** Four calls to `merge_sort`: $4 c$.  Four calls to
+    `merge`, each of size $n/4$, giving a cost of $n k$.  Total cost:
+    $4c + nk$.
+
+* **Layer 4.** Eight calls to `merge_sort`s: $8 c$.  No merges.  Total
+    cost: $n c$.
+
+Overall, we see that, not counting the cost of merging, the $2 n - 1$
+calls to `merge_sort` cost $(2 n - 1) c$ time.  Now let's look at the
+`merge` costs.  Each layer of the tree costs the same for the
+`merges`: later layers of the tree had more merges, but the merges
+were smaller.  Layers 1, 2, and 3 cost $n k$ each.  How many layers is
+the tree?  Since we divide the sublist in half for each new layer,
+there are $1 + \log_2 n$ layers in the tree.  The last layer doesn't
+have a merge, and so the total merge cost is $n k (\log_2 n)$.
+
+Our total cost for merge sort is therefore $(2 n - 1) c + (\log_2 n) n
+k$.  We see that the fastest growing term is $n k\: \log_2 n$;
+dropping the constants, we get that the running time of merge sort is
+$O(n\: \log_2 n)$.  When the base of the logarithm is a constant, such
+as 2, we can drop that, too: $O(n\: \log\: n)$.

@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="recursion-continued">Recursion, continued</h1>
+<h2 id="fibonacci-numbers">Fibonacci numbers</h2>
+<p>Last time, we started looking at how to compute Fibonacci numbers.</p>
+<p>The <em>n</em>th Fibonacci number, fib(<em>n</em>), is defined as follows:</p>
+<ul>
+<li>fib(1) = fib(2) = 1, and</li>
+<li>fib(<em>n</em>) = fib(<em>n</em>–1) + fib(<em>n</em>–2), if <em>n</em> &gt; 2.</li>
+</ul>
+<p>Here's a table with the first eight Fibonacci numbers:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><em>n</em></th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">fib(<em>n</em>)</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">5</td>
+<td align="center">8</td>
+<td align="center">13</td>
+<td align="center">21</td>
+</tr>
+</tbody>
+</table>
+<p>Expressed recursively:</p>
+<ul>
+<li><strong>Base cases</strong>: <em>n</em> = 1 and <em>n</em> = 2.</li>
+<li><strong>Recursive case</strong>: We know how to compute fib(<em>n</em>–1) and fib(<em>n</em>–2). Use them to compute fib(<em>n</em>).</li>
+</ul>
+<p><a href="fib_recursive.py">fib_recursive.py</a> recursively computes Fibonacci numbers:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># fib_recursive.py</span><br /><span class="co"># Recursively computes the nth Fibonacci number.</span><br /><br /><span class="kw">def</span> fib(n):    <br />    <span class="kw">if</span> n == <span class="dv">1</span> or n == <span class="dv">2</span>:<br />        <span class="kw">return</span> <span class="dv">1</span>    <span class="co"># base case</span><br />    <span class="kw">else</span>:    <br />        <span class="kw">return</span> fib(n - <span class="dv">1</span>) + fib(n - <span class="dv">2</span>)<br /><br /><span class="kw">print</span> fib(<span class="dv">7</span>)</code></pre>
+<p>This program uses two recursive calls. We need to keep track of exactly where each call was made. Are we returning to the first or to the second recursive call? Keeping track of where we are in the program is hard for people to do without making mistakes, but computers are quite good at it. They don't get distracted.</p>
+<p>A helpful way to visualize what happens in recursive programs is a <strong>recursion tree</strong>. A recursion tree has <strong>nodes</strong> connected by <strong>branches</strong>, or <strong>links</strong>. Here's a recursion tree for computing <code>fib(3)</code>:</p>
+<div class="figure">
+<img src="small-fib-rec-tree.png" /><p class="caption"></p>
+</div>
+<p>The way to interpret a recursion tree like this one is that we label each node with the value of <em>n</em> at a call, and each link denotes a call. In this case, the call for <em>n</em> = 3 ends up making two calls, one for <em>n</em> = 2 and one for <em>n</em> = 1.</p>
+<p>For our <code>fib</code> method, whenever the call is for a value <em>n</em> that is greater than 2, <code>fib</code> will make two recursive calls, one for <em>n</em>–1 and one for <em>n</em>–2.</p>
+<p>For <em>n</em> = 6, for example, we get the following recursion tree:</p>
+<div class="figure">
+<img src="big-fib-rec-tree.png" /><p class="caption"></p>
+</div>
+<p>In computer science, we draw trees with the <strong>root</strong> at the top; for this tree, the root is labeled 6. The nodes on the bottom are <strong>leaf nodes</strong>, or <strong>leaves</strong>, because if we drew the tree with the root at the bottom, they would look like leaves of the tree.</p>
+<p>Notice that we repeat a lot of work. For example, to compute <code>fib(6)</code>, we call both <code>fib(5)</code> and <code>fib(4)</code>. But we also call <code>fib(4)</code> in computing <code>fib(5)</code>. Each call to <code>fib(4)</code> will return the same result. Yet we end up making separate calls to <code>fib(4)</code>, repeating the work each time.</p>
+<p>Notice also that there are 8 leaf nodes. Each leaf node corresponds to a call that is a base case. Each base case returns 1, thereby contributing 1 to the eventual result. So it should be no surprise that there are 8 leaf nodes, when the call <code>fib(6)</code> returns 8.</p>
+<p>If fib(<em>n</em>) equals <em>x</em>, then this recursive program ends up in the base case <em>x</em> separate times. In other words, it sums up the value 1 a total of <em>x</em> times. The problem is that the value of fib(<em>n</em>) is exponential in <em>n</em>. (In particular, it is <span class="math">$((1 + \sqrt 5 ) / 2)^n / \sqrt 5$</span>, rounded to the nearest integer.) So, the number of times we get down to a base case is exponential in <em>n</em>, meaning that it gets very large very quickly.</p>
+<p>This recursive Fibonacci program is easy to write, but there are far more efficient ways to compute Fibonacci numbers. (In fact, I just told you one: compute the value of a particular expression and round it.)</p>
+<h2 id="graphics-and-recursion">Graphics and recursion</h2>
+<p>If we want to draw something that is similar to itself, recursion can be a good way to go about it. A branch of a tree looks a bit like a little tree, for example, and a piece of a snowflake may itself look like a little snowflake.</p>
+<p>Here are a couple of fun examples. Here's the code that draws the Sierpinsky Gasket from before, in <a href="sierpinsky.py">sierpinsky.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># sierpinsky.py</span><br /><span class="co"># Draws a Sierpinksy Gasket.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><br /><span class="co"># Draw a Sierpinsky Gasket of width and height d,</span><br /><span class="co"># with upper left at (x, y).</span><br /><span class="kw">def</span> draw_sierpinsky(x, y, d):<br />    <span class="kw">if</span> d &lt;= <span class="dv">1</span>:<br />        draw_point(x, y)<br />    <span class="kw">else</span>:<br />        draw_sierpinsky(x + d/<span class="dv">2</span>, y, d/<span class="dv">2</span>)<br />        draw_sierpinsky(x + d/<span class="dv">2</span>, y + d/<span class="dv">2</span>, d/<span class="dv">2</span>)    <br />        draw_sierpinsky(x, y, d/<span class="dv">2</span>)<br /><br /><span class="kw">def</span> main():<br />    set_clear_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)<br />    clear()<br />    set_stroke_color(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)<br /><br />    draw_sierpinsky(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">400</span>)<br /><br />start_graphics(main)</code></pre>
+<p>The second is a wheel-like object drawn with circles and lines, in <a href="wheel.py">wheel.py</a>. Wheels within wheels, and animated to boot! I won't go through this code in class, but it's cool to watch the result.</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># wheel.py</span><br /><span class="co"># cs1 class example</span><br /><span class="co">#  based on a cs2 example by Fabio Pellacini</span><br /><span class="co">#  python version October, 2011, Devin Balkcom</span><br /><span class="co">#  Animation by THC.</span><br /><br /><span class="ch">from</span> cs1lib <span class="ch">import</span> *<br /><span class="ch">from</span> math <span class="ch">import</span> pi, sin, cos<br /><br />OUTER_RADIUS = .<span class="dv">37</span>  <span class="co"># the relative radius of circles around the outer rim of the wheel</span><br />                    <span class="co"># a scaling of .37 causes the circles to just barely touch</span><br /><br />OUTER_DISTANCE = <span class="dv">1</span> - OUTER_RADIUS<br /><br />FRAME_RATE = <span class="dv">30</span><br />TIMESTEP = <span class="fl">1.0</span> / FRAME_RATE<br /><br />WINDOW_WIDTH = <span class="dv">400</span><br />WINDOW_HEIGHT = <span class="dv">400</span><br /><br /><span class="kw">def</span> radians(degrees):<br />    <span class="kw">return</span> degrees * pi / <span class="fl">180.0</span><br /><br /><span class="co"># Compute the x coordinate of a location that is</span><br /><span class="co">#  a distance 'distance' from a point cx, cy, with angle</span><br /><span class="co">#  'angle' from the horizontal</span><br /><br /><span class="kw">def</span> compute_polar_x(cx, angle, distance):<br />    <span class="kw">return</span> cx + cos(radians(angle)) * distance<br /><br /><span class="kw">def</span> compute_polar_y(cy, angle, distance):<br />    <span class="kw">return</span> cy + sin(radians(angle)) * distance    <br /><br /><span class="co"># Recursively draw the wheels.</span><br /><span class="kw">def</span> draw_wheel(x, y, r, angle):<br />    <span class="co"># Draw this wheel.</span><br />    set_fill_color(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, .<span class="dv">2</span>)<br />    draw_circle(x, y, r)<br />    set_fill_color(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, .<span class="dv">2</span>)<br />    draw_circle(x, y, r * (OUTER_DISTANCE - OUTER_RADIUS)) <br /><br />    <span class="co"># If this wheel is small enough, we're done.</span><br />    <span class="kw">if</span> r &lt; <span class="dv">20</span>:<br />        <span class="kw">return</span><br /><br />    <span class="co"># Not too small.  Draw the five outer wheels</span><br />    <span class="kw">for</span> i in <span class="dt">range</span>(<span class="dv">5</span>):<br />        new_x = compute_polar_x(x, angle, r * OUTER_DISTANCE)<br />        new_y = compute_polar_y(y, angle, r * OUTER_DISTANCE)<br /><br />        angle += <span class="dv">72</span><br /><br />        draw_wheel(new_x, new_y, r * OUTER_RADIUS, angle)<br />        draw_line(x, y, new_x, new_y)  <span class="co"># draw the spokes connecting to the outer wheels</span><br /><br /><span class="kw">def</span> main():<br />    enable_smoothing()<br /><br />    set_clear_color(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)<br />    clear()<br /><br />    starting_angle = <span class="dv">0</span><br /><br />    <span class="kw">while</span> not window_closed():<br />        clear()<br />        draw_wheel(WINDOW_WIDTH / <span class="dv">2</span>, WINDOW_WIDTH / <span class="dv">2</span>, <br />                   WINDOW_HEIGHT / <span class="dv">2</span>, starting_angle)<br />        starting_angle += <span class="dv">1</span><br />        request_redraw()<br />        sleep(TIMESTEP)<br /><br />start_graphics(main, <span class="st">&quot;The Wheel&quot;</span>, WINDOW_WIDTH, WINDOW_HEIGHT)</code></pre>
+<h2 id="the-towers-of-hanoi">The Towers of Hanoi</h2>
+<p>Our next example of recursion solves a puzzle called <em>The Towers of Hanoi</em>. In this problem, we have to find a sequence of actions that lead toward a goal. You might have heard of a generic name for problems of this type: <em>artificial intelligence.</em> Certain situations lend themselves to good AI solutions. For example, the top AI chess programs consistently beat the best human grandmasters.</p>
+<p>The Towers of Hanoi puzzle has three pegs, numbered 1, 2, and 3. On peg 1 are <em>n</em> disks, in increasing order by size, with the smallest disk (disk 1) on top and the largest disk (disk <em>n</em>) on the bottom. The object is to move all disks from peg 1 to peg 2, obeying two rules:</p>
+<ol style="list-style-type: decimal">
+<li><p>Only one disk may be moved at a time. The other disks must be resting on one of the three pegs. These rules imply that only the top disk on a peg may be moved.</p></li>
+<li><p>No disk may ever rest on a smaller disk.</p></li>
+</ol>
+<p>The Towers of Hanoi puzzle is being solved, even now, by monks in the high, inaccessible reaches of Tibet. They use 64 disks, and they believe that when they have completed moving all 64 disks from peg 1 to peg 2, the world will come to an end.</p>
+<p>We solve this problem recursively in <a href="hanoi.py">hanoi.py</a>:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="co"># Hanoi.py</span><br /><span class="co"># Originally by Scot Drysdale</span><br /><span class="co">#  Translated into Python by Devin Balkcom.</span><br /><span class="co">#  Minor changes by THC.</span><br /><span class="co">#  Solves the Towers of Hanoi puzzle.</span><br /><br /><span class="kw">def</span> move_disk(disk_number, from_peg, to_peg):<br />    <span class="kw">print</span> <span class="st">&quot;Move disk &quot;</span> + <span class="dt">str</span>(disk_number) + <span class="st">&quot; from peg &quot;</span> \<br />        + <span class="dt">str</span>(from_peg) + <span class="st">&quot; to peg &quot;</span> + <span class="dt">str</span>(to_peg) + <span class="st">&quot;.&quot;</span>    <br /><br /><span class="kw">def</span> solve_hanoi(n, start_peg, end_peg):<br />    <span class="kw">if</span> n == <span class="dv">1</span>:<br />        <span class="co"># Base case: Move a &quot;tower&quot; of height 1 by simply moving</span><br />        <span class="co"># the only disk.</span><br />        move_disk(n, start_peg, end_peg)<br />    <span class="kw">else</span>:   <span class="co"># recursive case</span><br />        <span class="co"># A trick to compute the number of the spare peg:  1 + 2 + 3 = 6.</span><br />        spare_peg = <span class="dv">6</span> - start_peg - end_peg  <br /><br />        <span class="co"># Move all but the bottom disk from start peg to spare peg.</span><br />        solve_hanoi(n - <span class="dv">1</span>, start_peg, spare_peg) <br /><br />        <span class="co"># Move the bottom disk from the start peg to the end peg.</span><br />        move_disk(n, start_peg, end_peg)<br /><br />        <span class="co"># Move all but the bottom disk from spare peg to end peg.</span><br />        solve_hanoi(n - <span class="dv">1</span>, spare_peg, end_peg)<br /><br />solve_hanoi(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">2</span>)</code></pre>
+<p>The recursive function to solve the problem has the header</p>
+<pre class="sourceCode"><code class="sourceCode python">solve_hanoi(n, start_peg, end_peg)</code></pre>
+<p>This function moves all disks numbered 1 through <em>n</em> from peg <code>start_peg</code> to peg <code>end_peg</code>. It uses the remaining peg as a spare.</p>
+<p>How do you solve this problem? Let's start with a really easy case: <em>n</em> equals 1. There is only disk 1, and we can just move it from peg 1 to peg 2. Notice that there is nothing special about pegs 1 and 2. We could just as easily move disk 1 from peg 1 to peg 3, or from peg 3 to peg 2, etc.</p>
+<p>Now let's look at what happens when <em>n</em> equals 2. We move disk 1 from peg 1 to the spare peg, which is peg 3. Now disk 2 is exposed, and we can move it from peg 1 to peg 2. All that remains is to move disk 1 from peg 3 to peg 2. Again, there is nothing special about pegs 1 and 2. We could just as easily have moved disks 1 and 2 from peg 1 to peg 3 (move disk 1 from peg 1 to peg 2, move disk 2 from peg 1 to peg 3, move disk 1 from peg 2 to peg 3), or from peg 3 to peg 2 (move disk 1 from peg 3 to peg 1, move disk 2 from peg 3 to peg 2, move disk 1 from peg 1 to peg 3), etc.</p>
+<p>How about when <em>n</em> equals 3? We would like to get disk 3 exposed on peg 1 and have no disks on peg 2. In other words, we would like to move disks 1 and 2 from peg 1 to peg 3. But that's a subproblem that we just said we know how to solve! So we do it, by calling <code>hanoi(2, 1, 3)</code>. Now we can move disk 3 from peg 1 to peg 2. It remains to move disks 1 and 2 from peg 3 to peg 2. Again, we know how to solve this subproblem: call <code>hanoi(2, 3, 2)</code>.</p>
+<p>In general:</p>
+<ul>
+<li><p><strong>Base case:</strong> <em>n</em> equals 1. We just move disk 1 from <code>startPeg</code> to <code>endPeg</code>.</p></li>
+<li><p><strong>Recursive case:</strong> <em>n</em> is at least 2. Assume that we already know how to move disks 1 through <em>n</em>–1 from any peg to any other peg.</p>
+<ol style="list-style-type: decimal">
+<li><p>Determine which peg is the spare peg. Trick: We know that the pegs are numbered 1, 2, and 3. Since we know the numbers of two of them, then the remaining peg must be the sum 1+2+3 (by advanced mathematics, you can show that this sum is 6), minus the two pegs whose numbers we know.</p></li>
+<li><p>Solve the subproblem of moving disks 1 through <em>n</em>–1 from the start peg to the spare peg. Now the end peg is empty, and the start peg holds only disk <em>n</em>.</p></li>
+<li><p>Move disk <em>n</em> from the start peg to the end peg.</p></li>
+<li><p>Solve the subproblem of moving disks 1 through <em>n</em>–1 from the spare peg to the end peg.</p></li>
+</ol></li>
+</ul>
+<h3 id="analysis-of-towers-of-hanoi">Analysis of Towers of Hanoi</h3>
+<p>We can draw a recursion tree for the Towers of Hanoi program. Here's a recursion tree for the call <code>solve_hanoi(3, 1, 2)</code>:</p>
+<div class="figure">
+<img src="hanoi_tree.png" /><p class="caption"></p>
+</div>
+<p>Each node is labeled by the three parameters of the call. A node that is underlined represents printed output. For example, the node labeled <u>2,1,3</u> represents the printed output &quot;Move disk 2 from peg 1 to peg 3.&quot; If we read the leaves of this tree from left to right, then the order in which we read then underlined nodes corresponds to the printed output from the program.</p>
+<p>Recall that Tibetan monks are playing a version of Towers of Hanoi with 64 disks, and when they finish, the world will end. Is the world about to end? Should we be going wild in the streets?</p>
+<p>No. It will take 2<sup>64</sup> – 1 moves before the world ends. (Remember that 2<sup>64</sup> is a really, really big number.) Even if the monks could move one disk per second, the sun will have burned out long, long before they finish.</p>
+<h3 id="bonus-coverage-proving-that-264-1-moves-are-needed">Bonus coverage: Proving that 2<sup>64</sup> – 1 moves are needed</h3>
+<p>I won't hold you responsible for this material, but you might be interested to see how we can <em>prove</em> mathematically that the <code>solve_hanoi</code> function makes 2<sup>64</sup> – 1 moves when it is given an instance with 64 disks.</p>
+<p>We need a little mathematical notation. Let's define <span class="math"><em>T</em>(<em>n</em>)</span> to be the number of moves we need to make with <em>n</em> disks. With just one disk, we need to make only one move, and so <span class="math"><em>T</em>(1) = 1</span>. With two disks, we make three moves, and so <span class="math"><em>T</em>(2) = 3</span>. In general, with <em>n</em> disks, we need to solve a subproblem with <em>n</em>–1 disks, requiring <span class="math"><em>T</em>(<em>n</em> - 1)</span> moves; then move disk <em>n</em>, requiring one move; and then solve another subproblem with <em>n</em>–1 disks, requiring another <span class="math"><em>T</em>(<em>n</em> - 1)</span> moves. In other words, we can write <span class="math"><em>T</em>(<em>n</em>) = <em>T</em>(<em>n</em> - 1) + 1 + <em>T</em>(<em>n</em> - 1)</span>, which we simplify to <span class="math"><em>T</em>(<em>n</em>) = 2<em>T</em>(<em>n</em> - 1) + 1</span>. This way of writing a function such as <span class="math"><em>T</em>(<em>n</em>)</span> in terms of the same function on smaller values, such as <span class="math"><em>T</em>(<em>n</em> - 1)</span>, is known as a <strong>recurrence equation</strong>. Several mathematical techniques apply to solving recurrence equations. We'll use mathematical induction to prove a solution for this one.</p>
+<p>In <strong>mathematical induction</strong>, we are trying to prove that some statement is true for all integers that are greater than or equal to some value. We first show that the statement is true for the <strong>base case</strong> (the &quot;some value&quot;). Then we show the <strong>inductive step</strong>: that if it is true for all integers less than <em>k</em>, it's true for <em>k</em> as well. For example, suppose that the base case is 1. We show that our statement is true for 1. Now suppose that we've also shown the inductive step. Since the statement is true for 1, then it's also true for 2. And since it's true for 2, it's also true for 3. And since it's true for 3, it's also true for 4. We can continue this line of reasoning infinitely, and so we have shown that the statement is true for all integers greater than or equal to the base case.</p>
+<p>Let's use mathematical induction to prove that in our Towers of Hanoi problem, <span class="math"><em>T</em>(<em>n</em>) = 2<sup><em>n</em></sup> - 1</span>.</p>
+<p>In the base case, we let <span class="math"><em>n</em> = 1</span>. Then it's easy to see that <span class="math"><em>T</em>(1) = 1 = 2<sup>1</sup> - 1</span>. Thus, our hypothesis that <span class="math"><em>T</em>(<em>n</em>) = 2<sup><em>n</em></sup> - 1</span> holds for the base case.</p>
+<p>Now we show the inductive step. We start with an inductive hypothesis that says our property is true for <span class="math"><em>n</em> - 1</span>, and we want to prove that if our property is true for <span class="math"><em>n</em> - 1</span>, then it's also true for <span class="math"><em>n</em></span>. Here, our inductive hypothesis is that <span class="math"><em>T</em>(<em>n</em> - 1) = 2<sup><em>n</em> - 1</sup> - 1</span>. We want to show that <span class="math"><em>T</em>(<em>n</em>) = 2<sup><em>n</em></sup> - 1</span>. Using our formula for <span class="math"><em>T</em>(<em>n</em>)</span>, we have</p>
+<p><span class="math"><em>T</em>(<em>n</em>) = 2<em>T</em>(<em>n</em> - 1) + 1</span> <br /><span class="math"> = 2(2<sup><em>n</em> - 1</sup> - 1) + 1</span> <br /><span class="math"> = 2(2<sup><em>n</em> - 1</sup>) - 2 + 1</span> <br /><span class="math"> = 2<sup><em>n</em></sup> - 1</span></p>
+<p>And that is precisely what we needed to show! When <span class="math"><em>n</em> = 64</span>, the Tibetan monks will have to make <span class="math">2<sup>64</sup> - 1</span> moves.</p>
+<h1 id="analyzing-algorithms">Analyzing algorithms</h1>
+<p>Computer science is more than about just programming. It's also about understanding characteristics of the problems we study and comparing algorithms for solving problems. Whatever the problem we study, we will be concerned with two aspects when we analyze an algorithm:</p>
+<ul>
+<li><p><strong>Correctness</strong>: Showing that our algorithms produce the correct answer.</p></li>
+<li><p><strong>Efficiency</strong>: Understanding how efficient our algorithms are, in terms of resources used. The resource that we most often analyze is <em>time</em>. (After all, time is money, right?)</p></li>
+</ul>
+<h2 id="linear-search-vs.-binary-search">Linear search vs. binary search</h2>
+<p>One of the most basic problems in computer science is finding the index of an item in a list. Let's assume the list is sorted, so that we can use the technique of binary search on the list if we want to. Maybe it's a list of country names, sorted alphabetically.</p>
+<pre class="sourceCode"><code class="sourceCode python">countries = [<span class="st">&quot;Afghanistan&quot;</span>, <span class="st">&quot;Albania&quot;</span>, <span class="st">&quot;Algeria&quot;</span>, <span class="st">&quot;Andorra&quot;</span>, <span class="st">&quot;Angola&quot;</span>,<br />  <span class="st">&quot;Anguila&quot;</span>, <span class="st">&quot;Argentina&quot;</span>, <span class="st">&quot;Armenia&quot;</span>, <span class="st">&quot;Aruba&quot;</span>, ..., <span class="st">&quot;Zimbabwe&quot;</span>]</code></pre>
+<p>(The ... means that I got tired of typing country names, but let's assume that every country name is in the list.)</p>
+<p>Let's say you'd like to find the index of a country in the list. (Perhaps &quot;Yemen&quot; or &quot;Afghanistan&quot;.) I can think of at least three approaches.</p>
+<ul>
+<li><p>Approach #1: <strong>Random search.</strong> Pick a random index. Check whether that location contains the item you were looking for. If not, repeat.</p></li>
+<li><p>Approach #2: <strong>Linear search.</strong> Loop over the items in the list, starting at the index at index 0, then the item at index 1, index 2, and so on until you find the country name you are looking for, or you have exhausted the entire list without finding it.</p></li>
+<li><p>Approach #3: <strong>Binary search.</strong> (Possible only because the list is sorted.) You did this in <a href="../../shortassign/binarysearch/sa_binarysearch.html">Short Assignment 8</a>. Maintain indices into a sublist under consideration. If the sublist is ever empty, then the country name is not found. Otherwise, divide the current sublist in half. Check whether the item at the midpoint is what we're looking for. If so, return that index. Otherwise, check to see whether the midpoint item is greater than what we're looking for or less than what we're looking for. Based on the results of the comparison, discard either the first or second half the sublist, updating the indices demarcating the sublist appropriately, and repeat with the new sublist.</p></li>
+</ul>
+<h3 id="worst-case-and-best-case-analysis">Worst-case and best-case analysis</h3>
+<p>Which of these methods will find the item we are looking for most quickly? It depends on the input we are given and perhaps on other factors. Let's consider the best and worst possible outcomes for each of our approaches.</p>
+<ul>
+<li><p><strong>Random search.</strong> In the best case, we get lucky, and the item is the first one we look at. The time taken would be however long it takes for Python to examine a single item in the list. In the worst case, however, random numbers are picked forever, and the item is never found. (As time approaches forever, the probability of this unfortunate outcome occuring approaches 0—but we will not do probabalistic analysis of running time in this class.)</p></li>
+<li><p><strong>Linear search.</strong> In the best case, the item we are looking for happens to be the first item of the list, just like the best case for random search. In the worst case, the item we want is at the end of the list. If the list contains <span class="math"><em>n</em></span> items, Python will have to examine <span class="math"><em>n</em></span> items.</p></li>
+<li><p><strong>Binary search.</strong> In the best case, the item we are looking for is at the midpoint of the entire list, and the item is found in the first place we look, just like the best cases of random search and linear search. In the worst case, the algorithm has to divide the list in half over and over again until the remaining sublist is empty. How many times can a list of length <span class="math"><em>n</em></span> be divided in half before the sublist is empty? The answer turns out to be one more than <span class="math">log<sub>2</sub><em>n</em></span>, the &quot;base-2&quot; logarithm of <span class="math"><em>n</em></span>. This number is much less than <span class="math"><em>n</em></span>, for large <span class="math"><em>n</em></span>.</p></li>
+</ul>
+<p>The worst-case running time is often of more interest than best-case running time, since it is nice to be able to guarantee the performance of software. If we can say &quot;the worst case running time for this algorithm is OK, as long as the list is not too long,&quot; that's good information. It's often less useful to say &quot;this algorithm might be really fast, if you give it just exactly the right input and the stars align.&quot;</p>
+<p>Sometimes, the worst-case and best-case running times are the same. For example, if I ask you to find the smallest item in an <em>unsorted</em> list of length <span class="math"><em>n</em></span>, the obvious (and best) algorithm of &quot;look at every every item in the list, always keeping track of the smallest seen so far&quot; will require looking at all <span class="math"><em>n</em></span> items. Even if the smallest item happens to be located in the first spot, you won't <em>know</em> it's the smallest until you've looked at every item. The best and worst cases behave exactly the same.</p>
+<h2 id="the-worst-case-running-time-often-depends-on-the-size-of-the-input">The worst-case running time often depends on the size of the input</h2>
+<p>How fast an algorithm runs often depends on how much data there is. (This is not always true. For example, what if the problem were to simply return a randomly selected item from a list? Or if the problem were to find the smallest item in a <em>sorted</em> list?)</p>
+<h2 id="review-of-logarithms">Review of logarithms</h2>
+<p>The binary-search method above is an example of a repeated halving approach to solving a problem. We divide the list (or phone book, if you recall from our first lecture) in half. We consider each half of the original list and solve the problem for that sublist. One of the sublists is trivial to solve the problem for: the item cannot be in that sublist, and so we eliminate that entire sublist from further consideration. The item <em>might</em> be in the other sublist. We divide that sublist in half and solve the two smaller problems. We repeat this process until either we find what we're looking for or the sublist under consideration is empty.</p>
+<p>The worst-case running time depends on how many times we can divide the list in half before we get down to an empty sublist. The answer turns out to be the base-2 logarithm of the size of the original list. Let's review logarithms in more detail. If you're loga-phobic I would like you to be comfortable with them.</p>
+<p>Suppose we take a number, say <span class="math"><em>n</em></span>, and we halve it, getting <span class="math"><em>n</em> / 2</span>. We halve it again, getting <span class="math"><em>n</em> / 4</span>. And again, getting <span class="math"><em>n</em> / 8</span>. We continue halving, until we get down to a number that is less than 1. Since we cannot have a sublist with, say, half an item, any sublist size that is less than 1 must be 0.</p>
+<p>Now, in order for the sublist size to become 0, it must have been 1 the previous time. Let's answer the following question:</p>
+<blockquote>
+<p>How many times do we halve <span class="math"><em>n</em></span> until we get down to 1 (or less)?</p>
+</blockquote>
+<p>The answer turns out to be the base-2 logarithm of n, which we write as <span class="math">log<sub>2</sub><em>n</em></span>.</p>
+<p>Let's see what base-2 logarithms are, and why <span class="math">log<sub>2</sub><em>n</em></span> turns out to be the answer to our repeated-halving problem.</p>
+<p>Let's try the opposite operation. Let's start with <span class="math">1</span> and keep doubling until we get up to <span class="math"><em>n</em></span>. Since doubling is the inverse operation of halving, the number of times we have to double, starting at <span class="math">1</span>, until we get to <span class="math"><em>n</em></span>, is equal to the number of times we have to halve, starting at <span class="math"><em>n</em></span>, until we get to <span class="math">1</span>.</p>
+<p>Let's make a table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">doublings</th>
+<th align="center">result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">64</td>
+</tr>
+</tbody>
+</table>
+<p>It's pretty easy to see the pattern here. Each time, we're multiplying by another factor of 2. After doubling <span class="math"><em>x</em></span> times, we have the number <span class="math">2<sup><em>x</em></sup></span>.</p>
+<p>The answer to our question of how many times we have to double, starting at 1, until we get to <span class="math"><em>n</em></span> is the same as the answer to the following question: for what value of <span class="math"><em>x</em></span> is <span class="math">2<sup><em>x</em></sup> = <em>n</em></span>?</p>
+<p>That's exactly what <span class="math">log<sub>2</sub><em>n</em></span> is! It's the exponent <span class="math"><em>x</em></span>, that we raise <span class="math">2</span> to, in order to get <span class="math"><em>n</em></span>. Put precisely:</p>
+<blockquote>
+<p><span class="math">2<sup><em>x</em></sup> = <em>n</em></span> if and only if <span class="math">log<sub>2</sub><em>n</em> = <em>x</em></span>.</p>
+</blockquote>
+<p>So, we see that if we start at 1, and we double <span class="math">log<sub>2</sub><em>n</em></span> times, we get <span class="math"><em>n</em></span>. Therefore, if we start at <span class="math"><em>n</em></span>, and we halve <span class="math">log<sub>2</sub><em>n</em></span> times, we get 1. So, the answer to the question, &quot;How many times do we halve <span class="math"><em>n</em></span> until we get down to 1?&quot; is <span class="math">log<sub>2</sub><em>n</em></span> times.</p>
+<p>The above discussion assumes that <span class="math"><em>n</em></span> is a power of 2. That won't always be the case, and we can handle it with some math that we don't cover in CS 1. We also haven't dealt with the case in which we have to get the sublist size down to 0 (recall: that's the worst case for binary search, because what we're looking for is not found). But that's not much of a problem, because once the sublist size gets down to 1, the next sublist size will be 0. So the number of halvings to get down to 0 is one more than the number of halvings to get down to 1.</p>
+<p>Fortunately, the notation that we will see next time for characterizing running times allows us to ignore such inconvenient issues.</p>
+<p>When computer scientists use logarithms, they almost always use base-2 logs.</p>
+<h2 id="analyzing-the-running-time-for-a-program">Analyzing the running time for a program</h2>
+<p>So far, we've only talked loosely about the running time of algorithms. We can see that binary search, given the worst possible input for a binary search, will require fewer &quot;steps&quot; to complete than a linear search, given the worst possible input for linear search. Let's try to do a more precise analysis, given some code that implements an algorithm.</p>
+<p>Here is my implementation of linear search, from <a href="linear_search.py">linear_search.py</a>. (I have removed comments to save space. Of course, your own implementation would have comments, rrrright?)</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> linear_search(the_list, key):<br />    index = <span class="dv">0</span><br />    <span class="kw">while</span> index &lt; <span class="dt">len</span>(the_list):<br />        <span class="kw">if</span> key == the_list[index]:<br />            <span class="kw">return</span> index<br />        <span class="kw">else</span>:<br />            index += <span class="dv">1</span><br /><br />    <span class="kw">return</span> <span class="ot">None</span></code></pre>
+<p>Let's say that <code>the_list</code> has the length <span class="math"><em>n</em></span>. Let's analyze how much time the function will take to run in terms of <span class="math"><em>n</em></span>.</p>
+<p>First, Python has to create a local variable <code>index</code>. That's pretty fast, and it's done only once, but let's measure that time anyway, and call it <span class="math"><em>c</em><sub>1</sub></span>, where <span class="math"><em>c</em><sub>1</sub></span> is some constant that does not depend in any way on the length <span class="math"><em>n</em></span> of <code>the_list</code>.</p>
+<p>Now let's look at the while-loop. In a worst-case analysis, we have to assume that the item is not in the list at all. The body of the while-loop will execute <span class="math"><em>n</em></span> times. It seems reasonable to assume that each execution of the body will take a constant amount of time (or at least an amount upper-bounded by a constant); let's call it <span class="math"><em>c</em><sub>2</sub></span>. So the total time spent executing the body of the while-loop, in the worst case, is <span class="math"><em>c</em><sub>2</sub><em>n</em></span>.</p>
+<p>But we're not quite done. In the worst case, the last test in the while-loop header comes up <code>False</code>, and it's when <code>index</code> equals <code>len(the_list)</code>. That's the <span class="math">(<em>n</em> + 1)</span>st time we make that test (because we've already made the tests for <code>index</code> equaling <span class="math">0, 1, 2, …, <em>n</em> - 1</span>). We also have to return <code>None</code> in the worst case. That last test and returning <code>None</code>, together, take some constant amount of time; let's call it <span class="math"><em>c</em><sub>3</sub></span> (again, independent of <span class="math"><em>n</em></span>).</p>
+<p>Now, as they say in a French restaurant, &quot;L'addition s'il vous plait.&quot; (&quot;The check, please.&quot;) The running time of linear search in the worst case is therefore no worse than</p>
+<p><span class="math"><em>c</em><sub>1</sub> + <em>c</em><sub>2</sub><em>n</em> + <em>c</em><sub>3</sub></span> ,</p>
+<p>or</p>
+<p><span class="math"><em>c</em><sub>2</sub><em>n</em> + (<em>c</em><sub>1</sub> + <em>c</em><sub>3</sub>)</span> .</p>
+<p>The exact values of <span class="math"><em>c</em><sub>1</sub></span>, <span class="math"><em>c</em><sub>2</sub></span>, and <span class="math"><em>c</em><sub>3</sub></span> depend on the speed of the computer the program is run on and the efficiency of the Python implementation.</p>
+<p>In class, we'll look at my implementation of binary search from Short Assignment 8.</p>
+<p>If we look at the time for each recursive call on its own, not counting the time for the recursive calls that it makes, we see that each recursive call takes a constant amount of time. We check whether we have an empty sublist, compute the midpoint, check whether the key is in the position given by the midpoint, and recursively call the function on the proper half. Each of these steps, <em>within a given recursive call</em> takes constant time; let's call it <span class="math"><em>c</em><sub>4</sub></span>. And, as we've seen, in the worst case, the number of recursive calls is at most <span class="math">log<sub>2</sub><em>n</em> + 1</span>. So the total worst-case time for binary search is</p>
+<p><span class="math"><em>c</em><sub>4</sub>(log<sub>2</sub><em>n</em> + 1)</span> ,</p>
+<p>or</p>
+<p><span class="math"><em>c</em><sub>4</sub>log<sub>2</sub><em>n</em> + <em>c</em><sub>4</sub></span> .</p>
+<h2 id="comparing-linear-search-and-binary-search">Comparing linear search and binary search</h2>
+<p>So which is faster, linear search or binary search? It depends: on the suitability of the input we get for the particular algorithm (linear search will find &quot;Afganistan&quot; faster than binary search, for the example list), on the length of the list, and on the size of the constants. In the worst case, the question is, when is</p>
+<p><span class="math"><em>c</em><sub>4</sub>log<sub>2</sub><em>n</em> + <em>c</em><sub>4</sub></span></p>
+<p>smaller than</p>
+<p><span class="math"><em>c</em><sub>2</sub><em>n</em> + (<em>c</em><sub>1</sub> + <em>c</em><sub>3</sub>)</span> ?</p>
+<p>I claim that whatever the value of the constants, for large enough <span class="math"><em>n</em></span>, binary search will be faster, if you assume the worst-case input for each algorithm. Let's say that linear search is run on a HAL 9000 computer that is blazingly fast and ultra-modern, and that binary search is run on a vintage Apple II. Let's assume that the HAL 9000 executes each iteration of the while-loop in linear search in 0.00001 seconds, so that <span class="math"><em>c</em><sub>2</sub> = 0.00001</span>, and let's say that <span class="math"><em>c</em><sub>1</sub> + <em>c</em><sub>3</sub> = 0</span>.</p>
+<p>Now let's take the Apple II. It is much slower, and it takes 0.01 seconds to execute each recursive call of binary search, so that <span class="math"><em>c</em><sub>4</sub> = 0.01</span>.</p>
+<p>How large does <span class="math"><em>n</em></span> have to be before the Apple II wins? I claim that <span class="math">log<sub>2</sub>16384 = 14</span>; you can check for yourself that <span class="math">2<sup>14</sup> = 16384</span>. So, when <span class="math"><em>n</em> = 16384</span>, the Apple II takes <span class="math">0.01 × 14 + 0.01 = 0.14 + 0.01 = 0.15</span> seconds. For the same input size, the HAL 9000 takes <span class="math">0.00001 × 16384 = 0.16384</span> seconds. The Apple II wins!</p>
+<p>Perhaps you're thinking that I rigged the game here by choosing constants <span class="math"><em>c</em><sub>2</sub></span> and <span class="math"><em>c</em><sub>4</sub></span> so that the Apple II would win. (The HAL 9000 would not permit me to do that.) Let's just choose a longer list. Consider a list of length 1 million. Since <span class="math">log<sub>2</sub>10<sup>6</sup></span> is about 20, the Apple II with binary search will take about <span class="math">0.2</span> seconds for the search. The HAL 9000 will take <span class="math">10</span> seconds. There's no way that the difference between <span class="math"><em>c</em><sub>2</sub></span> and <span class="math"><em>c</em><sub>4</sub></span> will overcome the Apple II's <span class="math">9. 8</span>-second lead. From now on, we will ignore these leading constant coefficients when comparing algorithms, since once <span class="math"><em>n</em></span> gets large enough, the constants become less important than how the running time varies with <span class="math"><em>n</em></span>.</p>
+<h2 id="orders-of-growth-and-big-oh-notation">Orders of growth and big-Oh notation</h2>
+<p>We say that <strong>in the worst case, linear search takes linear time in <span class="math"><em>n</em></span>, the size of the input list</strong> because the running time scales linearly with <span class="math"><em>n</em></span>. If the length of the input list doubles, the running time of linear search doubles, in the worst case. If the size of the input list quadruples, the running time quadruples, in the worst case.</p>
+<p>We say that <strong>in the worst case, binary search takes logarithmic time in <span class="math"><em>n</em></span>, the size of the input list</strong> because the running time scales like a <span class="math">log<sub>2</sub></span> function. If the original size of the list doubles from <span class="math"><em>n</em></span> to <span class="math">2<em>n</em></span>, the running time increases from <span class="math"><em>c</em><sub>4</sub>log<sub>2</sub><em>n</em> + <em>c</em><sub>4</sub></span> to <span class="math"><em>c</em><sub>4</sub>log<sub>2</sub>(2<em>n</em>) + <em>c</em><sub>4</sub></span>. How much bigger is this running time? Forget about the additive <span class="math"><em>c</em><sub>4</sub></span> term; it's insignificant. We can analyze <span class="math"><em>c</em><sub>4</sub>log<sub>2</sub><em>n</em></span> vs. <span class="math"><em>c</em><sub>4</sub>log<sub>2</sub>(2<em>n</em>)</span> either by thinking about the algorithm or with some equations. Thinking about the algorithm, doubling the length of the list will require that binary search recurse just one more time. That's not very expensive; it just costs <span class="math"><em>c</em><sub>4</sub></span> more time, even though we <em>doubled</em> the size of the list. If you prefer to use equations, <span class="math"><em>c</em><sub>4</sub>log<sub>2</sub>(2<em>n</em>) = <em>c</em><sub>4</sub>log<sub>2</sub><em>n</em> + <em>c</em><sub>4</sub>log<sub>2</sub>2 = <em>c</em><sub>4</sub>log<sub>2</sub><em>n</em> + <em>c</em><sub>4</sub></span>.</p>
+<p>We can see that in general, algorithms that take logarithmic time are always faster than algorithms that take linear time, at least once <span class="math"><em>n</em></span> is large enough. As <span class="math"><em>n</em></span> gets even bigger, the algorithm with logarithmic time will win by even more. The function <span class="math">log<sub>2</sub><em>n</em></span> grows much more slowly than the function <span class="math"><em>n</em></span>.</p>
+<p>We are usually only concerned with running time of an algorithm once its input size <span class="math"><em>n</em></span> gets large. For large enough <span class="math"><em>n</em></span>, a logarithmic running time is better than a linear running time, <em>regardless of the constants</em>. Computer scientists use a standard notation to indicate that the running time grows &quot;like&quot; some function, ignoring the constants. If the running time is linear (grows linearly with <span class="math"><em>n</em></span>) in the worst case, we say that the running time is <span class="math"><em>O</em>(<em>n</em>)</span>, pronounced &quot;big-Oh of <span class="math"><em>n</em></span>&quot;. If the running time is logarithmic (grows with the logarithm of <span class="math"><em>n</em></span>), we say that the running time is <span class="math"><em>O</em>(log<sub>2</sub><em>n</em>)</span>.</p>
+<p>Big-oh notation indicates that for large enough <span class="math"><em>n</em></span>, ignoring constants, the running time is no worse than the function in the parentheses. I can therefore say that binary search's running time is <span class="math"><em>O</em>(log<sub>2</sub><em>n</em>)</span> and that linear search's running time is <span class="math"><em>O</em>(<em>n</em>)</span>.</p>
+<p>In fact, we can drop the base of the logarithm when we use big-Oh notation. Why? Because of this mathematical fact: for any constants <span class="math"><em>a</em></span> and <span class="math"><em>b</em></span>,</p>
+<p><span class="math">$\displaystyle \log_a n = \frac{\log_b n}{\log_b a}$</span> .</p>
+<p>So the difference between taking the logarithm of <span class="math"><em>n</em></span> using base <span class="math"><em>a</em></span> vs. base <span class="math"><em>b</em></span> is just the constant factor <span class="math">log<sub><em>b</em></sub><em>a</em></span>, and we've already decided that constant factors don't matter in big-Oh notation.</p>
+<p>I slipped something in before, when I said that &quot;Big-oh notation indicates that for large enough <span class="math"><em>n</em></span>, ignoring constants, the running time <em>is no worse than</em> the function in the parentheses.&quot; Big-Oh notation gives us an <strong>upper bound</strong> on the running time's rate of growth, but it doesn't say <em>anything</em> about how low the running time's rate of growth might be. If I tell you that I have an amount of money in my wallet, and I guarantee that this amount is at most a thousand dollars, I might have a thousand dollars, or I might have only ten cents.</p>
+<p>So if an algorithm's running time is <span class="math"><em>O</em>(<em>n</em>)</span>, it might actually take <span class="math"><em>c</em><em>n</em></span> time for some constant <span class="math"><em>c</em></span>, but it might be even faster. For example, it might take only <span class="math"><em>c</em> log<sub>2</sub><em>n</em></span> time. In other words, any running time that is <span class="math"><em>O</em>(log <em>n</em>)</span> is also <span class="math"><em>O</em>(<em>n</em>)</span>: it's at least as good as linear, if not better. Put another way: it is true that <em>binary</em> search runs in <span class="math"><em>O</em>(<em>n</em>)</span> time, but that is not the most accurate statement you can make; it would be more accurate to say that binary search runs in <span class="math"><em>O</em>(log <em>n</em>)</span> time.</p>
+<h2 id="other-orders-of-growth-constant-and-quadratic-orders-of-growth">Other orders of growth: Constant and quadratic orders of growth</h2>
+<p>Are there algorithms that are <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span>? Sure. Here's one:</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> do_something(n):<br />    <span class="kw">for</span> i in <span class="dt">range</span>(n):<br />        <span class="kw">for</span> j in <span class="dt">range</span>(n):<br />            <span class="kw">print</span> i, j        </code></pre>
+<p>Let's assume that the print statement takes some constant amount of time to execute, <span class="math"><em>c</em></span> seconds. How many times will that statement (the body of the innermost loop) be executed? It looks like <span class="math"><em>n</em><sup>2</sup></span> times. So the runtime is roughly <span class="math"><em>c</em><em>n</em><sup>2</sup></span>. Ignoring the constants, we say that the function has a running time of <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span>.</p>
+<p>What if an algorithm takes constant time, regardless of the input?</p>
+<pre class="sourceCode"><code class="sourceCode python"><span class="kw">def</span> do_something_else(n):<br />    <span class="kw">print</span> <span class="st">&quot;My name is Inigo Montoya&quot;</span></code></pre>
+<p>We say in this case that the function is <span class="math"><em>O</em>(1)</span>, since <span class="math">1</span> is what we get for the running time if we drop the constants.</p>
+<h2 id="ranking-algorithms-by-running-time">Ranking algorithms by running time</h2>
+<p>It's true that not all <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span> algorithms take the same time. The constants might be different, and the best-case performance may be different for different algorithms. However, it is true that in the worst case, for large enough <span class="math"><em>n</em></span>, any <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span>-time algorithm runs faster than any algorithm for which the runtime is any positive constant times <span class="math"><em>n</em><sup>3</sup></span>. We therefore can think of all <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span> algorithms as being roughly in the same family. We can do a ranking by running time:</p>
+<p><span class="math">$O(1) &lt; O(\log\: n) &lt; O(\sqrt n) &lt; O(n) &lt; O(n \log\: n) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!)$</span></p>
+<p>An algorithm whose rate of growth depends on the factorial of the input <span class="math"><em>n</em></span> is going to run for a very long time indeed, for large values of <span class="math"><em>n</em></span>.</p>
+<p>Sometimes, you will see a running time function that looks like this:</p>
+<p><span class="math"><em>c</em><sub>1</sub><em>n</em><sup>2</sup> + <em>c</em><sub>2</sub><em>n</em> + <em>c</em><sub>3</sub></span>.</p>
+<p>In this case, we can drop all of the lower-order terms and say that the function is <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span>. Why? For large enough <span class="math"><em>n</em></span>, <span class="math"><em>n</em><sup>2</sup></span> grows much more quickly than <span class="math"><em>n</em></span>. For large <span class="math"><em>n</em></span>, another function <span class="math"><em>c</em><sub>4</sub><em>n</em><sup>2</sup></span> would be larger than <span class="math"><em>c</em><sub>1</sub><em>n</em><sup>2</sup> + <em>c</em><sub>2</sub><em>n</em> + <em>c</em><sub>3</sub></span>, if <span class="math"><em>c</em><sub>4</sub></span> is even a little bit larger than <span class="math"><em>c</em><sub>1</sub></span>. Since <span class="math"><em>c</em><sub>4</sub><em>n</em><sup>2</sup></span> is <span class="math"><em>O</em>(<em>n</em><sup>2</sup>)</span>, <span class="math"><em>c</em><sub>1</sub><em>n</em><sup>2</sup> + <em>c</em><sub>2</sub><em>n</em> + <em>c</em><sub>3</sub></span> must be, too.</p>
+<p>The take home message: compute the running time for a function, using constants if you need to. Then drop the constants and just take the term in the expression that grows the fastest. The running time is big-Oh of that term.</p>
+<h2 id="what-is-this-n-anyway">What is this &quot;<span class="math"><em>n</em></span>&quot; anyway?</h2>
+<p>The value <span class="math"><em>n</em></span> represents some characteristic of the input that determines the running time. Maybe <span class="math"><em>n</em></span> is the length of a list that's input to the function, or maybe <span class="math"><em>n</em></span> is the value of some parameter that is input to the function. We use <span class="math"><em>n</em></span> instead of saying specifically what the term is so that we can discuss the rate of growth of the running time of an algorithm in more general terms. However, we should always know specifically to what <span class="math"><em>n</em></span> refers before discussing the running time.</p>
+<h2 id="exercises-and-exams">Exercises and exams</h2>
+<p>From now on, given an algorithm or piece of code, you should be able to</p>
+<ol style="list-style-type: decimal">
+<li><p>Identify what quantity <span class="math"><em>n</em></span> the running time depends on (for example, <span class="math"><em>n</em></span> might be the length of a list input to the function)</p></li>
+<li><p>Compute the running time in terms of constants and <span class="math"><em>n</em></span>.</p></li>
+<li><p>Describe the running time using big-Oh notation.</p></li>
+</ol>
+<p>I may very well ask you to do this sort of thing on an exam.</p>
+</body>
+</html>

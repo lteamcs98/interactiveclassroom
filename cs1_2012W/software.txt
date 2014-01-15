@@ -1,0 +1,159 @@
+# Course software:  Eclipse and cs1lib
+
+## Installing the course software
+
+* [Mac installation instructions](mac_installation/mac_installation.html)
+* [Windows installation instructions](windows_installation/windows_installation.html)
+
+<!--
+ 
+# The cs1graphics module 
+
+The cs1graphics module is a library of functions written by the course staff that lets you easily draw shapes, pictures, or text in a window, and check if the mouse button or a key are pressed.  
+
+This document describes all of the functions of the cs1graphics module in some detail.  Early in the course, you may not understand some of the more advanced usages of certain functions; that's ok.  
+
+## Introduction and sample code
+
+Here is a simple example from the first lecture.
+
+~~~{.python}
+from cs1graphics import clear, draw_circle, graphics_window
+
+def draw_frame():
+
+    clear()
+
+    draw_circle(125, 100, 50)
+    draw_circle(275, 100, 50)
+
+graphics_window(draw_frame)
+~~~
+
+The program has three parts:
+
+1) First, the program imports the functions that the program will use from the cs1graphics module.  In this case, the program will need the `clear`, `draw_circle`, and `graphics_window` functions.
+
+2) Second, the program defines a function `draw_frame` that will be called repeatedly to draw the contents of the window.  In this case, `draw_frame` clears the window and draws two circles.
+
+3)  Third, the program calls the `graphics_window` function.  This function tells the cs1graphics module to open a window and start drawing it using the `draw_frame` function.
+
+It's important to know that the `graphics_window` function will keep running until you exit the program.  This means that any lines of code after `graphics_window` **will not** be executed.  Therefore, a call to the `graphics_window` function should always be the last line of code in a program that uses cs1graphics.
+
+Early in the course, you may find it easiest to copy the above example program, and modify draw_frame appropriately to draw what you want it to draw.  In this case, I give you explicit permission to not cite this example code.
+
+## `start_graphics`
+
+To open a window to draw graphics, use the `graphics_window` function.  
+
+~~~{.python}
+graphics_window(draw_frame, title = "cs1", width = 400, height = 400)
+~~~
+
+There are four parameters; the first parameter is required, and the other three are optional.  
+
+The first option is the name of a function that will be used to draw the contents of the window.  By convention, the name of this function will be `draw_frame`, but other choices will also work.  
+
+The second parameter is a string that will be used as the title of the window.  If you do not give a value for the second parameter, then the title will have the default value "cs1".  
+
+The third and fourth parameters give the starting width and height of the window, in pixels.  If you do not use these parameters, the window will be 400x400 in size. 
+
+
+Remember that the `graphics_window` function will keep running until you exit the program.  This means that any lines of code after `graphics_window` **will not** be executed.  Therefore, a call to the `graphics_window` function should always be the last line of code in a program that uses cs1graphics.
+
+## Clearing the screen
+
+The function
+
+~~~{.python}
+clear()
+~~~
+
+clears the graphics window.  Typically, `clear()` will be called in the `draw_frame` function.  However, unlike most graphics functions, `clear()` can also be called outside of the `draw_frame` function, before `graphics_window` is called. 
+
+### Setting the clear color
+
+By default, the `clear` function clears the screen to white. To change this, specify the red, green, blue values with `set_clear_color`.  
+
+~~~{.python}
+set_clear_color(r, g, b, alpha = 1)
+~~~
+
+The first three color values (red, green, and blue) are required parameters.  There is a fourth, optional, parameter alpha allows the clearing to be partially transparent.
+
+## Simple shapes
+
+~~~{.python}
+draw_point(x, y)
+draw_line(x1, y1, x2, y2)
+draw_rectangle(x, y, w, h)
+draw_triangle(x1, y1, x2, y2, x3, y3)
+draw_polygon(vertices)
+draw_circle(x, y, r)
+draw_ellipse(x, y, rx, ry)
+~~~
+
+These functions draw simple shapes.  For `draw_point`, the required parameters are the x and y coordinates in pixels, from the upper left of the screen.  For the line, the parameters are coordinates of the two endpoints.  For a rectangle, the first two parameters are the coordinates of the upper left corner; the other parameters are the width and height of the rectangle.  For a triangle, the six parameters give the coordinates of the three vertices of the triangle.
+
+The parameters for the circle are the center of the circle and the radius.  For the ellipse, the parameters `rx` and `ry` describe half of the width and half of the height of the ellipse.  
+
+## Filling shapes
+
+Certain shapes, including rectangles, triangles, circles, and polygons, can be drawn filled-in, or with an border, or both.  To draw shapes in filled mode, you can use the function
+
+~~~{.python}
+enable_fill()			# fill all shapes drawn after this command
+~~~
+
+All shapes drawn after an `enable_fill` call will be filled, until `disable_fill` is called.
+
+~~~{.python}
+disable_fill()			# do not fill shapes 
+~~~
+
+When the program starts, fill is turned on by default.
+
+The boundary of the shapes can be drawn or not drawn.  The boundary is drawn using the current `stroke` (like the stroke of a brush or pen).  Drawing boundaries can be enabled with
+
+~~~{.python}
+enable_stroke()			# draw boundaries in following shapes
+~~~
+
+and disabled with
+
+~~~{.python}
+disable_stroke()		# do not draw boundaries
+~~~
+
+
+## Changing colors
+
+You can change the color of the boundary or fill. 
+
+~~~{.python}
+set_stroke_color(r, g, b, alpha = 1.0)
+set_fill_color(r, g, b, alpha = 1.0)
+~~~
+
+The first three parameters are required and give the red, green, and blue color values, between 0.0 and 1.0.  The final, optional, parameter gives the transparency value, with 1.0 being fully opaque, and 0.0 fully transparent.
+
+## Stroke width
+
+You can change the width of the boundary of a shape:
+
+~~~{.python}
+set_stroke_width(width)
+~~~
+
+the parameter `width` is given in pixels.
+
+## Drawing text
+
+~~~
+draw_text(text, x, y)
+~~~
+
+The parameter `text` should be a a string giving the text you would like to draw.  The `x` and `y` parameters are the coordinates of the lower left corner of the text.  The optional parameter `scale` allows you to draw the text larger or smaller.
+
+
+-->

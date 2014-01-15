@@ -1,0 +1,845 @@
+# Short Assignment 4
+
+<a
+href="http://www.cs.dartmouth.edu/~cs1/shortassign/stringart/sa_stringart.html">Short
+Assignment 4</a> is due on Wednesday.  (We don't have class on Monday
+because of Martin Luther King Day.)
+
+# if-statements, continued
+
+Last time, we saw how to use an if-statement if we want something to
+happen if a condition is `True`.  There's more to if-statements,
+however.
+
+## else-statements
+
+Frequently, you want to execute one set of lines of code if a
+condition holds, but execute a *different* set of lines if that
+condition does not hold.  In this case, you can use an
+**else-statement**:
+
+~~~{.python}
+temperature = 35
+if temperature <= 32:
+    print "It's freezing"
+else:
+    print "It's not so cold."
+~~~
+
+An else-statement must follow an if-statement at the same level of
+indentation, and it has no condition after it, since it is executed if
+the condition of the matching if statement is `False`.  Note that
+there's a colon after `else`.
+
+## elif-statements
+
+Sometimes you want to check if some condition is `True` only if some
+series of previous conditions were all `False`.  You can use `elif`,
+which is short for "else if."  Like in [elif.py](elif.py):
+
+~~~{.python}
+temperature = 72
+
+if temperature <= 32:
+    print "It's freezing."
+elif temperature <= 50:
+    print "It's cool."
+elif temperature <= 75:
+    print "It's warm."
+else:
+    print "It's hot."
+~~~
+
+## A larger example
+
+Here's a larger example that shows if-statements with and without an
+else-part.  It's in [pulse_circle.py](pulse_circle.py):
+
+~~~{.python}
+from cs1lib import *
+
+def pulse_circle():
+    radius= 1
+    growing = True
+
+    disable_stroke()
+    enable_smoothing()
+
+    while not window_closed():
+        # draw current frame onto a "hidden" background image
+        
+        clear()
+    
+        set_fill_color(1, 0, 0)  # set the fill color to red
+        draw_circle(200, 200, radius)
+    
+        set_fill_color(0, 0, 1)  # blue
+        draw_circle(200, 200, radius / 2)
+    
+        set_fill_color(1, 1, 0)  # yellow
+        draw_circle(200, 200, radius / 4)
+    
+        # copy the hidden image into the window
+        request_redraw()
+        
+        # Wait before drawing the next frame,
+        #  so the user can see the frame just drawn
+        sleep(.02)
+        
+        # update the state for the next frame
+        if growing:
+            radius = radius + 2
+        else:
+            radius = radius - 2
+            
+        if radius >= 200 or radius <=1:
+            growing = not growing
+
+        sleep(.02)
+
+start_graphics(pulse_circle)
+~~~
+
+# More on functions
+
+## Passing parameters to functions
+
+A function needs to have information in order to do its job.  Where
+does this information come from?  One way to get information into a
+function is through **parameters**.  We have already seen several
+examples of calling functions that take parameters.  Here's one:
+
+~~~{.python}
+from math import sqrt
+print sqrt(4.0)
+~~~
+
+The `sqrt` function requires one parameter, a float, that it will use
+to compute the function's return value.  That is, the `sqrt` function
+gets some of the information it needs to do its job&mdash;namely, the
+number of which it is to compute the square root&mdash;through a
+parameter.
+
+Here's another function we've seen that takes parameters:
+
+~~~{.python}
+set_fill_color(1.0, 0.0, 0.0)   # set the current fill color to red
+~~~
+
+The `set_fill_color` function requires three parameters: the fractions
+of red, green, and blue in the fill color you would like future
+drawing commands to use.
+
+The functions *you* have defined so far have taken no parameters.
+They did not need any information in order to do their jobs.  Now
+let's see how to define functions that take parameters.
+
+You put the parameters between the parentheses in the header.  Each
+parameter is actually a special variable.  We call a parameter that
+appears in a function's header a **formal parameter**.  If a function
+takes more than one formal parameter, we separate them by commas in
+the function's header.
+
+Here is an example of a program,
+[square_function.py](square_function.py), that contains a function to
+draw the outline of a square:
+
+~~~{.python}
+from cs1lib import *
+
+# Draw a square with upper left x, y and side length s (all ints),
+# using only draw_line.
+def draw_square(x, y, s):
+    draw_line(x, y, x + s, y)
+    draw_line(x + s, y, x + s, y + s)
+    draw_line(x + s, y + s, x, y + s)
+    draw_line(x, y + s, x, y)
+
+# The main function, which will be called when start_graphics is called.
+def main():
+    clear()
+    draw_square(100, 120, 50)
+
+start_graphics(main)
+~~~
+
+The parameters for `draw_square` are three ints.  The formal
+parameters are variables named `x`, `y`, and `s`.  When `draw_square`
+is called, the first value in the function call, 100, is copied into
+the first formal parameter in the function header, `x`.  The second
+value in the function call, 120, is copied into the second formal
+parameter in the function header, `y`.  The third value in the
+function call, 50, is copied into the third formal parameter, `s`.
+
+After Python has copied these three values into the formal parameters,
+it sets the program counter to the first line of the body of
+`draw_square`.  At this point, there are three parameters available:
+`x`, `y`, and `s`.  These parameters work just like any other
+variables; we can use them to compute expressions, or even change
+their values.
+
+We call the numbers 100, 120, 50 that are actually passed into the
+function **actual parameters**.  When a function is called, the values
+of the actual parameters are computed and **copied** into the formal
+parameters.  The actual parameters are **values** (or expressions) in
+the function call instruction, and the formal parameters are the
+**variables** used in the function itself.
+
+Put another way:
+
+> A formal parameter is a variable that is initialized with a copy of
+> an actual parameter at the point of call.
+
+Also:
+
+> The values of the actual parameters are copied into the corresponding
+> formal parameters, position by position, left to right.
+
+In our example, because 100 is the first actual parameter, its value
+is copied into the first formal parameter, `x`.  Because 120 is the
+second actual parameter, its value is copied into the second formal
+parameter, `y`.  And because 50 is the third actual parameter, its
+value is copied into the third formal parameter, `s`.
+ 
+## Some functions return values
+
+Expressions compute values and make those values available for further
+use.  Functions can also compute values and make those values
+available for further use.  They don't *have* to do that, but they
+*can*.  For example, the `sqrt` function returns a value, which is the
+square root of the value of the actual parameter passed to it.  When a
+function computes a value that is available for further use, we say
+that the function **returns** the value.
+
+> Anywhere a value is needed, a call of a function that returns the
+> right type of value (for example, an int, a long, a string, or a
+> boolean) can appear.
+
+For example, in a print statement, we can print the value returned by
+a function call:
+
+~~~{.python}
+from math import sqrt
+print sqrt(4)    # print a float that is (approximately) the square root of 4
+~~~
+
+Let's dissect what I mean by "Anywhere a value is needed, a call of a
+function that returns the right type of value can appear."  Consider
+this line of code:
+
+~~~{.python}
+print 8.0 + 12.0
+~~~
+
+Of course, this code outputs 20.0.  Now, if we were to call
+`int(8.48528137423857)`, the value returned by the call of `int` would
+be 8.0, so let's change the code to
+
+~~~{.python}
+print int(8.48528137423857) + 12.0
+~~~
+
+Do you see what I've done here?  We needed a float value as the left
+operand of `+`.  Instead of 8.0, we used `int(8.48528137423857)`: a
+call to the `int` function, which returns the value 8.  Why did I
+choose `int(8.48528137423857)`?  Because I'm going to go a step
+further.  The `sqrt` function, when passed the actual parameter 72,
+returns the float value 8.48528137423857.  So we can change the code
+to
+
+~~~{.python}
+print int(sqrt(72)) + 12.0
+~~~
+
+And this means *exactly the same thing*.  We needed the value
+8.48528137423857, and instead we used the function call `sqrt(72)`.
+
+## Functions that return random values
+
+If you recall the [mystery.py](../../shortassign/logo/mystery.py)
+program from [Short Assignment
+1](../../shortassign/logo/sa_logo.html), it repeatedly drew ellipses
+at random locations in the window.  How do we get a random value?  We
+call the function `randint` from the `random` module.  For example:
+
+~~~{.python}
+from random import randint
+print randint(5, 20)
+~~~
+
+This line prints a random integer between 5 and 20, inclusive.  In
+other words, it's equally likely to print any integer in the range
+from 5 to 20.
+
+What if you want a random floating-point number?  Call `uniform`,
+also from the `random` module:
+
+~~~{.python}
+from random import uniform
+print uniform(2.0, 4.0)  # print a random float between 2.0 and 4.0 
+~~~
+
+Here's a larger example of the use of `uniform` to return a random
+float in some range.  This program makes use of a cool feature of
+graphics: when we set a fill color, we can supply a fourth parameter,
+which is the **alpha** value, saying how transparent the object is.  I
+won't go into details about alpha values for now.  Instead, focus on
+how we call `uniform` to set red, green, and blue values, and on how
+we call `randint` to determine locations.
+
+~~~{.python}
+#  Draw random pastel circles on the screen. 
+#  Based on an example by Fabio Pellacini
+#  Python version by Devin Balkcom, Feb 2011
+
+from cs1lib import *
+from random import uniform, randint
+
+def random_circles():
+    
+    # Clear the screen and set the pen color to black before we start
+    # the animation loop.  These functions will only be called once.
+    
+    clear()
+    set_stroke_color(0, 0, 0)
+
+    enable_smoothing()
+
+    while not window_closed():
+
+        # fade-out effect
+        set_fill_color(1, 1, 1, .05)  # white, with opacity .05
+        draw_rectangle(0, 0, 400, 400) # draw a semi-transparent rectangle
+
+        # Pick random red, green, and blue color components
+        
+        r = uniform(.5, 1)    
+        g = uniform(.5, 1)    
+        b = uniform(.5, 1)    
+        
+        # set the fill color using the random color components  
+        set_fill_color(r, g, b)    
+    
+        # pick random pixel coordinates 
+        x = randint(0, 400)
+        y = randint(0, 400)
+        
+        # draw a circle of radius 50 at the random coordinates
+        draw_circle(x, y, 50)
+    
+        request_redraw()
+        sleep(.02)
+    
+# Run the start_graphics function to open up a graphics window,
+# and tell the graphics library to run the random_circles function:
+start_graphics(random_circles)
+~~~
+
+You might notice that the structure of this animation loop is subtly different from previous animation loops.  Until this program, we've used this pattern:
+
+1.  Create state variables with initial values.
+2.  Draw the current frame and sleep.
+3.  Update the state variables for the next frame.
+
+But this program creates the state values and changes them at the
+beginning of the loop.  This structure makes sense since the current
+values of the state variables do not depend in any way on the previous
+values.  They are just picked randomly.  There's no need to set
+initial values for the state outside the loop in this particular case.
+
+You might wonder how the `uniform` and `randint` functions can come up
+with random numbers.  They don't.  They compute what we call
+**pseudorandom** numbers.  Pseudorandom numbers are generated from
+mathematical sequences of numbers that change values in ways that have
+the properties of random sequences, but are actually generated from a
+formula.
+
+<!-- Is it good or bad that numbers generated by a pseudorandom number -->
+<!-- generator algorithm aren't really random?  If you really and truly -->
+<!-- needed random numbers, then it's bad.  But it can be good.  Suppose -->
+<!-- you have a program that misbehaves in some way, and you notice the bad -->
+<!-- behavior after having generated and used several pseudorandom numbers. -->
+<!-- It's always easier to debug a program if you can get it to repeat the -->
+<!-- bad behavior.  Because you get the same sequence again from the random -->
+<!-- number generator by starting it in the same place, you'll get the very -->
+<!-- same run again, making it much easier to debug the program. -->
+
+## Built-in functions:  `len`, `int`, `float`, `str`
+
+`len` returns the length of a string, as an int value.
+
+~~~{.python}
+print len("eggplant")    # prints the number 8
+~~~
+
+As we've seen, `int` converts from some other type to an int.  If the
+number is a float, any part of the number to the right of the decimal
+point is truncated (dropped).  If the number is too large to store in
+an int, Python returns a long int instead.
+
+If you try to convert from a string that contains characters that
+represent something other than a number, `int` will fail and your
+program will terminate.  `print int("123")` will work.  `print
+int("buffalo")` will not.
+
+`float` and `str` convert to float and string types, respectively, and
+work as you might expect.
+
+## Defining your own functions with return values
+
+When the value returned by a function is needed, the function is
+called.  The current value of the program counter is saved.  Then the
+program counter is set to the first line of the function.  Python
+executes the body of the function.  The function **returns** and the
+program counter is set to its value before the function call when one
+of two things happens:
+
+1, the program counter gets to the end of the body,
+2. *or* the program counter gets to a return-statement.
+
+Executing a return-statement does two things:
+
+1. `return` returns the value following `return` (if any) to the
+calling code.
+2. `return` *immediately* stops execution of the body of the function
+and resumes execution at the point of call.  That is, the program
+counter goes back to just after the function was called.
+
+Here's a really simple example:
+
+~~~{.python}
+def compute_four():
+    print "Your wish is my command!  I compute four!"
+    return 24 / 4 - 2
+
+print compute_four()
+~~~
+
+As we now know, anywhere a value is needed, you can substitute an
+expression or function call that returns a value.  For example, you
+could do something like this:
+
+~~~{.python}
+from math import sqrt
+
+def calculate_four():
+    print "Your wish is my command!  I compute four!"
+    return sqrt(4.0) + 2
+
+print calculate_four()
+~~~
+
+Here's one more example.
+
+~~~{.python}
+def get_me_four():
+    return 24 / 4 - 2
+    print "I computed the value!"   # this line is "dead code" and never reached
+
+print get_me_four()
+~~~
+
+The line `print "I computed the value!"` is *not* printed on the
+screen, since the return-statement before the print-statement will
+always immediately give control back to the calling function by
+setting the value of the program counter.  In fact, Python will warn
+you that you have done something silly.  Lines of code that cannot be
+reached are called **dead code**.  Normally, you should not include
+dead code in a program.
+
+### Functions do not change actual parameters
+
+Because the value of the actual parameter is *copied* into the formal
+parameter variable, the actual parameter itself is never affected by
+the function.  That's true even if the function assigns to the formal
+parameter.  Here's an example, in [add_five.py](add_five.py):
+
+~~~{.python}
+def add_five(some_number):
+    some_number = some_number + 5
+    return some_number
+
+four = 4
+add_five(four)
+print(four)            # prints the value 4
+print add_five(four)   # prints the value 9
+~~~
+
+### Functions can return only a single value
+
+What if you want to compute two values with a single function?  For
+example, you might hope to use a single function to compute *both* the
+area of a circle and its circumference, given the radius.  But you
+can't use two return-statements to return the two values; the function
+would return control to the caller as soon as the program counter
+reached the first return-statement.  *Immediately.*
+
+There is a sneaky way to "sort of" return multiple values that we'll
+see later in the course, using a Python data type called a "tuple."
+For now, you will just have to be content with returning a single
+value from a function.
+
+Of course, if you have if-statements or other conditionally executed
+code, you might still have multiple return-statements, as in
+[8-ball.py](8-ball.py):
+
+~~~{.python}
+from random import uniform
+
+def cheap_magic_8_ball():
+    r = uniform(0, 4)
+
+    if r > 3:
+        return "Most likely"
+    elif r > 2:
+        return "Ask again later"
+    elif r > 1:
+        return "Don't count on it"
+    else:
+        return "No"
+
+print cheap_magic_8_ball()
+~~~
+
+# Bugs
+
+Even the best programmers make mistakes.  Mistakes in programs that
+lead to incorrect behavior are called [software
+bugs](http://en.wikipedia.org/wiki/Software_bug).  Some of these
+mistakes are simple typing errors, or they might be due to swapping
+parameters in a function call.  Other errors are more fundamental
+logical errors due to an incomplete understanding of the problem being
+solved.
+
+It is not unusual to spend much more time finding a single bug than it
+took to write the entire program.  So try to avoid bugs as you design
+and implement your program.
+
+1.  Understand the problem as completely as possible before you sit
+down at the computer.  What does the program need to do, and in what
+order?  What data will be important?  What functions will you need to
+write?  In the Prudential building in Boston, it reads "The future
+belongs to those who prepare for it."  So does programming.  Don't
+rush to code.  First, understand what problem you're trying to solve,
+and what strategy you're using to solve it.
+
+2.  Write a solution with pencil and paper.  This can be tough, but is
+a very good skill to have; it forces you to think things through.
+Exams and job interviews will not provide you with Eclipse.
+
+3. Implement just a piece of the solution at a time on the computer,
+and test each part.  There are two ways to test: mentally, and by
+running the code.  Both are good.  Do a mental test first: in your
+head, walk through the code, making sure that you understand exactly
+what is happening, what values of variables are, and where the program
+counter is.  When you have finished acting like a computer, then run
+the code.  If the computer doesn't run the code the way you did, then
+someone made a mistake.  Hint: Chances are overwhelming that it wasn't
+the computer.
+
+## Debugging
+
+We often observe a bug for the first time when we run the program, and
+notice unexpected behavior.  Catching and fixing bugs requires you to
+act like a detective: something that should have been a normal
+situation has gone wrong.  Why?  Debugging is as much an art as a
+science, but here is a procedure that can help.
+
+1. Ask yourself what you expected.  What actually happened?  What's
+the difference between what you expected and what you got?  Be as
+precise as possible.  Not, "the circle is in the wrong place," but "I
+expected a circle to be drawn at the location 200, 100, but it seems
+to have been drawn at 100, 200."  Precision can solve the problem
+immediately sometimes.  Aha!  Perhaps I swapped the *x*- and
+*y*-coordinates somewhere.
+
+2.  Find the earliest point in the code where something unexpected
+happens.  Bugs often have a cascading effect: once one bug happens,
+strange behavior can follow.  So you want to find the first place
+where something went haywire.  Based on what you expected to happen
+and what actually happened, come up with a few possible places where
+the earliest problem could have occurred.
+
+3.  Step through the code mentally.  Start at the first executable
+line and work your way through, writing down the values of variables
+as you go.  Be absolutely certain about the *type* of the value that
+you intend to be stored in each variable, and make sure that this is
+the type actually stored.
+
+4. Use the debugging tool in Eclipse to step through the code.  Watch
+variable values closely, and watch where the program counter moves to.
+The minute something happens that you didn't expect, figure out
+precisely what occurred.
+
+Once you've found where a bug in your code is, correcting it is
+usually fairly easy.  When you email cs1help for help, we expect you
+to briefly explain how you've applied the debugging approach to your
+problem.
+
+### The Eclipse debugging tool
+
+On the upper right corner of your Eclipse window you will see the word
+"PyDev" and to the right of that, two little arrows, like this:
+&gt;&gt;.  If you click on those arrows, you can change the
+perspective to the "Debug" perspective.  (A perspective is a different
+way of presenting your code in Eclipse.)  If you don't see the little
+arrows, you might see a small box with a plus sign on it, to the left
+of the word "PyDev".  Click that box and select "Debug" from the
+dialog that opens.
+
+You should now see several windows.  Here, we'll focus on just the
+main source code window and the window in the upper-right corner that
+shows variable values.
+
+Python code runs too fast for you to follow it.  The debugging tool
+lets you stop your code at a particular place, and then run one line
+of code at a time, while you watch the variable values and the program
+counter.  In the source code window, you need to specify where to
+initially stop, using a **breakpoint**: a place in your program where
+the debugger will stop once the program counter gets there, giving you
+control at that time.  Double-clicking in the main source code window
+to the right of your program (where the line numbers show up) lets you
+set a breakpoint.  Set a breakpoint on a line where there is actual
+code, not a blank line or a comment.
+
+Now you need to start your program.  Next to the green "run" arrow
+that you may use to run your program is a little insect-like shape,
+indicating the debugging tool.  Click that, and your program will run
+as usual until the program counter reaches the line containing the
+breakpoint.
+
+Your program will now temporarily stop.  The line of code with the
+breakpoint is highlighted with a gray background.  This line of code
+is where the program counter currently is.  The window in the upper
+right will show you the names and values of available variables.
+
+You can step to the next line of code with the "step over" button.
+It's a little arrow near the top of your Eclipse window, roughly in
+the center.  There is also a "step into" button.  "Step over" executes
+entire functions if there is a function call, without stopping until
+the function returns.  "Step into" follows the program counter as the
+program counter moves into the executing function.  If you don't know
+which button is which, let the cursor hover over the buttons until you
+see the tool tips.
+
+Using the debugging tool is really good practice to see exactly how
+your program behaves as it is executed, and you should get into the
+habit of running the debugger on your code frequently.
+
+Debugging a graphical program is a little trickier.  There are things
+happening behind the scenes to draw the window.  Try to set up your
+Eclipse window so that you can see the graphics window as the program
+is executing.  (You can use the resume button, which looks like the
+play button on a CD player, to continue running the program until it
+reaches another breakpoint.)  Also notice that the window might look
+ugly because it is not being redrawn quickly as you step through the
+program.  That's OK.
+
+## Good programming practice:  Know what type of value your function can return
+
+A function can return any type of data that Python uses: a string, an
+int, a float, a boolean, or other types that we will see later in the
+course.  In Python, the only way to know what type a function returns
+is to read the documentation, or to read the source code
+(UTSL&mdash;Use The Source, Luke) and check the return-statements.
+Some would argue that this is a weakness of the Python language
+design; other languages (including Java) force the programmer to
+explicitly declare what type a function returns.
+
+Here's an example of where things can go wrong.  Both of these
+statements
+
+1. `return sqrt(4.0) + 2`
+2. `return 24 / 4 - 2`
+
+seem to compute the value four.  But one statement computes 4, and one
+computes 4.0.  This means that the functions `compute_four` and
+`calculate_four` defined above are subtly different.  See how this
+plays out in the program [compute_four.py](compute_four.py):
+
+~~~{.python}
+from math import sqrt
+
+def compute_four():
+    print "Your wish is my command!  I compute four!"
+    return 24 / 4 - 2
+
+def calculate_four():
+    print "Your wish is my command!  I compute four!"
+    return sqrt(4.0) + 2
+
+print "Result of compute_four():", compute_four()
+print "Result of calculate_four():", calculate_four()
+print 33 / compute_four()    # prints 8
+print 33 / calculate_four()  # prints 8.25
+~~~
+
+So make sure that when you write a function that you are clear on what
+type of value you intend it to return.  When you use a function from a
+library, one of the first questions you should ask is what type of
+value it returns, if any.
+
+## Side effects of functions
+
+In mathematics, functions *only* compute values.  Mathematical
+functions don't print things on the screen, draw circles, or vacuum
+the floors.  Python functions can do all these things.  In Python,
+functions can do a lot more than return values, as we have already
+seen.  A **side effect** of a function is any result of a function other
+than the return of a value.
+
+The print statements in the `compute_four` and `calculate_four`
+functions above cause the side effect that sentences are printed on
+the screen when the functions are called.  Side effects can be very
+useful.  A side effect might even be the main purpose of a function.
+The `draw_circle` function from the last lecture doesn't compute a
+value.  But as a side effect of running the function, a circle gets
+drawn on the screen.
+
+Side effects also mean that the order in which functions are called in
+an expression can matter.  A lot.  Even though we know that by
+commutativity, 4 + 4.0 and 4.0 + 4 both evaluate to 8.0, swapping the
+order of the function calls as below will change the output of the
+program:
+
+~~~{.python}
+print compute_four() + calculate_four()
+~~~
+
+To understand these programs, you will need to think like a computer,
+and step through each line of code carefully to make sure you
+understand the order in which lines of code are executed.
+
+Side effects of functions are particularly interesting when combined
+with short-circuiting of the `and` and `or` boolean operators.  One of
+the robot functions I did not tell you about was
+`destroy_the_world()`.  It has a particularly deleterious side effect.
+Let's try it.
+
+~~~{.python}
+from robotlib import destroy_the_world
+
+print False and destroy_the_world()
+~~~
+
+Since False short-circuits the `and` operator, the `destroy_the_world`
+function is never called.  Presumably, that's good.
+
+## Putting it all together
+
+Here is an example of a program. [prime.py](prime.py), that defines a
+function that takes a parameter, does some computations, and returns a
+value (in this case, a boolean value).  The program contains a
+"generate-and-test" step.  For a possible prime, generate possible
+factors, and test to see whether each is actually a factor.  If you
+don't find any factors, then the number is prime.
+
+~~~{.python}
+## Program to check if a number is prime
+## Devin Balkcom
+## July 2011
+
+from math import sqrt
+
+# Check if a value is prime, and return True or False.
+def is_prime(possible_prime): 
+    # Check if the input to the function is reasonable.
+    assert type(possible_prime) == int
+    assert possible_prime > 0
+
+    # A number is prime if it has no integer divisors
+    # greater than the square root of the number.
+
+    max_factor = int(sqrt(possible_prime)) 
+
+    # Loop over all possible factors less than or equal to
+    # the max that we need to check.
+    factor = 2
+    while factor <= max_factor:
+        if possible_prime % factor == 0:
+            # It's divisible by factor, and therefore is not prime.
+            return False
+        factor = factor + 1
+
+    # The while loop completed, so no integer factors were found.
+    # It's a prime!
+    return True
+
+value = 22
+if is_prime(value):
+    print str(value) + " is prime!"
+else:
+    print str(value) + " is not prime!"
+
+# This call should cause an assertion error.
+print is_prime("rib")
+
+# So should this call.
+print is_prime(-3)
+~~~
+
+In the definition of `is_prime`, the formal parameter is the variable
+`possible_prime`.  When `is_prime` is called, the value 22 is *copied*
+into the formal parameter `possible_prime`.  Then the body of the
+function `is_prime` can use that variable `possible_prime` (now
+containing the value 22).
+
+The value 22 in `is_prime(22)`is the actual parameter.  The variable
+`possible_prime` used in the function is the formal parameter.  The
+value passed by the function call is the value of the actual
+parameter.
+
+### Good programming practice:  Check that parameter values are reasonable
+
+What would happen if the function `is_prime` was passed the string
+`"rib"` as the actual parameter?  It seems like whoever wrote the line
+of code `is_prime("rib")` perhaps did not understand the point of our
+function.  What about `is_prime(3.14)`?  Or `is_prime(-7)`?  We just
+didn't design our function to deal with these cases.
+
+We can design our function to check that the values are reasonable and
+quit the program if not.  The huge benefit of checking for reasonable
+values is that it is easier to catch bugs earlier than later.  We
+*want* our program to crash if there is a mistake, like passing
+something that is not even a positive integer to `is_prime`.  It is
+way better for a program to crash than to quietly give a wrong answer.
+
+You could argue in a court of law that 3.14 is not a prime, since it
+is not an integer, and that we should therefore return `False` rather
+than crashing the program.  You might even win the case.  However, if
+someone passes 3.14 to the `is_prime` function it's a darn good bet
+that they made a simple mistake.  The safest thing is to alert the
+programmer to that fact, so that it can be corrected.  Nothing grabs a
+programmer's attention like a program crash.
+
+A good way to check if a value is what we expect it to be is to use
+Python's `assert` statement.  `assert` takes a boolean value, either
+`True` or `False`.  If the value is `True`, then `assert` does nothing
+and lets your program go its merry way.  If, however, the value is
+`False`, `assert` quits the program and prints the line number where
+the failed assertion occurred.
+
+Here's an example from the primes program:
+
+~~~{.python}
+assert possible_prime > 0 
+~~~
+
+We can also check that the type of the variable is reasonable.
+`is_prime("beef")` seems like an incorrect usage, since the actual
+parameter is a string when it should be an int.  Python has a function
+called `type`, which returns the type of the parameter passed to it.
+In the case of determining whether a number is prime, only an int will
+do, so we use the line
+
+
+~~~{.python}
+assert type(possible_prime) == int
+~~~
+
+Carefully ensuring that all parameters are of the correct type and
+value does take more time for the programmer, and it is a judgement
+call how many such checks are the right number.  Still, it is worth
+some effort to consider probable mistakes that programmers might make
+when using your function, and to try to check for at least those
+most common problems.

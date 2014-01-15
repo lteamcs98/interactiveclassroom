@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li> <a href="http://greenteapress.com/thinkpython/thinkpython.html">Book</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="short-assignment-5-chalkboard-due-friday-january-20">Short Assignment #5: Chalkboard <br />Due: Friday, January 20</h1>
+<p>In this assignment, you will write a drawing program, a bit like MS Paint or Adobe Photoshop. But missing a few (read: most) of the features.</p>
+<p>Your program should open up a graphics window and allow the user to use the mouse to draw on a simulated chalkboard. If the mouse button is released, the user should be able to move the mouse pointer around without drawing anything. If the mouse button is pressed down, the board is drawn on using the current chalk color.</p>
+<p>The board should be black. The color should initially be white. If the user presses the <em>r</em> key, then the current chalk color should change to red, and everything drawn after this should be red, until another color key is pressed. Likewise, use <em>b</em> for blue, <em>g</em> for green, and <em>y</em> for yellow (form yellow by full red and full green). Also, pressing <em>e</em> makes the chalk &quot;color&quot; black, which erases anything you draw over.</p>
+<p>You can add other colors if you like, but you do not need to. For fun, I added orange (<em>o</em> key, full red and half green) and purple (<em>p</em> key, quarter red and half blue). I also added a feature where if you press <em>E</em>, then the entire chalkboard is erased and the chalk color becomes white; you don't have to add this feature, but it's easy to add.</p>
+<p>Here is a picture I drew with the program I wrote:</p>
+<div class="figure">
+<img src="my_house.png" /><p class="caption"></p>
+</div>
+<h2 id="suggestions">Suggestions</h2>
+<ol style="list-style-type: decimal">
+<li><p>Call <code>clear</code> after you set the clear color to black at the beginning.</p></li>
+<li><p>Make a while-loop that runs as long as the window is open. Each iteration does the following:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calls <code>draw_line</code> to trace out the chalk on the board, <em>but only if the mouse button is pressed</em>. You should draw a line from where the mouse most recently was to where it is now. That means you'll want to create state variables to remember where the mouse was most recently; I called mine <code>old_x</code> and <code>old_y</code>.</p></li>
+<li><p>Checks to see whether a key is pressed. If so, then it changes the stroke color depending on which key is pressed. An if-ladder is good to use here.</p></li>
+<li><p>Updates the state variables to remember the mouse location.</p></li>
+<li><p>Calls <code>request_redraw</code>.</p></li>
+<li><p>Sleeps for 1/50 (one-fiftieth) of a second.</p></li>
+</ol></li>
+<li><p>I found a stroke width of 2 pixels to be reasonable. I also called <code>enable_smoothing</code> to make the drawing look a little better.</p></li>
+<li><p>Start with a simple version of the program. In your first version, don't worry about the keys and changing colors. Once you have everything working, you can add the capability to draw colors.</p></li>
+</ol>
+<h2 id="what-to-turn-in">What to turn in</h2>
+<ol style="list-style-type: decimal">
+<li><p>Turn in a screenshot of something you drew with your program, demonstrating at least four different colors.</p></li>
+<li><p>Turn in your .py source code listing.</p></li>
+</ol>
+<p>At this point, you know how to turn in short assignments, so I don't need to provide the instructions.</p>
+</body>
+</html>

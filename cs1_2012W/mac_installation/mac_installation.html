@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
+
+
+<div id = "menubar">
+<ul>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/syllabus.html">Syllabus</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/schedule.html">Schedule</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/shortassign/short_assignments.html">Short assignments</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
+<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
+<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
+</ul>
+</div>
+
+<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+<h1 id="cs1-mac-installation">CS1 Mac Installation</h1>
+<p>This page shows you how to install the CS 1 software on your Mac. You will install all of the following:</p>
+<ul>
+<li>Python 2.7</li>
+<li>Eclipse IDE</li>
+<li>PyDev add-on for Eclipse</li>
+<li>The CS 1 library, including graphics software</li>
+</ul>
+<p>If you encounter any trouble installing the software, make sure to come to the &quot;Install-Fest,&quot; 7:00 pm to 10:00 pm on Tuesday, September 11, in 003 Sudikoff.</p>
+<h2 id="install-python-2.7">Install Python 2.7</h2>
+<p>You'll first need to download and install Python. There are different versions; which one you should use depends on your version of MacOS X. You can check your MacOS X version number by choosing the <em>About This Mac</em> menu item from the Apple menu at the upper left corner of your screen. You will see three numbers. For example, mine says <em>Version 10.6.8</em>. The first number will be 10, and the last number doesn't matter. The middle number is the important one, and it will probably be 5, 6, or 7, indicating OS X 10.5, 10.6, or 10.7, respectively.</p>
+<p>Then click on one of the links below to download the Python installation package:</p>
+<ul>
+<li><a href="http://www.python.org/ftp/python/2.7.2/python-2.7.2-macosx10.6.dmg">Python for OS X 10.6 or 10.7</a></li>
+<li><a href="http://www.python.org/ftp/python/2.7.2/python-2.7.2-macosx10.3.dmg">Python for OS X 10.3 through 10.6</a>.</li>
+</ul>
+<p>If you get a .dmg file, drag it to your Desktop and double-click it. You will see an icon for <em>Python 2.7.2</em>. If it doesn't open automatically, double-click on <em>Python 2.7.2</em>. You should see something like this:</p>
+<div class="figure">
+<img src="4_pkmg.png" /><p class="caption"></p>
+</div>
+<p>Double click on the <em>Python.mpkg</em> icon to start the Python installer:</p>
+<div class="figure">
+<img src="5_pyinstall.png" /><p class="caption"></p>
+</div>
+<p>Click through this entire installer. At some point it will probably ask you for your password to install; enter your password and continue.</p>
+<p>You will soon get to a &quot;success&quot; screen like this:</p>
+<div class="figure">
+<img src="6_success.png" /><p class="caption"></p>
+</div>
+<p>If you do <em>not</em> get to the &quot;success&quot; screen, first double-check that you downloaded the right installer for your operating system: the 10.3 installer won't work, for example, with 10.7. If things still aren't working, ask Weifu or a section leader for help.</p>
+<p>If everything is OK so far, drag the .dmg file to the Trash.</p>
+<h2 id="install-eclipse">Install Eclipse</h2>
+<p>Eclipse is the name of the software program you will use to type in your Python programs and run them. Download it:</p>
+<ul>
+<li><a href="http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/indigo/R/eclipse-jee-indigo-macosx-cocoa.tar.gz&amp;url=http://carroll.aset.psu.edu/pub/eclipse/technology/epp/downloads/release/indigo/R/eclipse-jee-indigo-macosx-cocoa.tar.gz&amp;mirror_id=546">Eclipse IDE</a>.</li>
+</ul>
+<p>If you're asked what to do with the file, choose to open it with <em>Archive Utility</em>. Otherwise, you should extract it by double-clicking on the downloaded file. A window with a single folder labeled <em>eclipse</em> should pop up. Once you see the <em>eclipse</em> folder, drag this folder to the <em>Applications</em> folder on your hard drive.</p>
+<p>Open the <em>eclipse</em> folder. Because you'll be running Eclipse often, you will probably want to add it to the dock by dragging the <em>Eclipse</em> icon to your dock.</p>
+<p>Run Eclipse, either by clicking on the <em>Eclipse</em> icon in the dock (if you put it here) or by double-clicking on the <em>Eclipse</em> icon in the <em>eclipse</em> folder. Since this is your first time running Eclipse, the following dialog box will pop up:</p>
+<div class="figure">
+<img src="eclipse1.png" /><p class="caption"></p>
+</div>
+<p>Your account name will appear instead of <em>thc</em>. Check the box that says <em>Use this as the default and do not ask again</em>, and click <em>OK</em>.</p>
+<p>Once Eclipse finishes loading, you will see the following screen:</p>
+<div class="figure">
+<img src="eclipse2.png" /><p class="caption"></p>
+</div>
+<p>Click the icon that says <em>Workbench</em> in the top right. You will never see this screen again. Now you'll see this window:</p>
+<div class="figure">
+<img src="eclipse3.png" /><p class="caption"></p>
+</div>
+<h2 id="install-pydev">Install PyDev</h2>
+<p>The PyDev add-on for Eclipse can be downloaded within Eclipse. To start, run Eclipse. You should see the Eclipse window:</p>
+<div class="figure">
+<img src="pydev1.png" /><p class="caption"></p>
+</div>
+<p>From the menu bar, select <em>Help</em> and then <em>Install New Software...</em>.</p>
+<div class="figure">
+<img src="pydev2.png" /><p class="caption"></p>
+</div>
+<p>The following dialog box should pop up:</p>
+<div class="figure">
+<img src="pydev3.png" /><p class="caption"></p>
+</div>
+<p>Click <em>Add...</em> in the top right.</p>
+<p>In this dialog box, under <em>Name</em>, type <em>PyDev</em>. Under <em>Location</em>, type <em>http://pydev.org/updates</em></p>
+<div class="figure">
+<img src="pydev4.png" /><p class="caption"></p>
+</div>
+<p>Click <em>OK</em> on this dialog box. Once Eclipse loads the software list, make sure that <em>PyDev</em> has a check next to it, and then click <em>Next</em>:</p>
+<div class="figure">
+<img src="pydev5.png" /><p class="caption"></p>
+</div>
+<p>You'll see this window:</p>
+<div class="figure">
+<img src="pydev5a.png" /><p class="caption"></p>
+</div>
+<p>Click <em>Next</em>. Read and agree to the Eclipse license, and then click <em>Finish</em>.</p>
+<p>While Pydev is installing, the following dialog box may pop up. Check the box next to <em>Aptana PyDev</em> and click <em>OK</em>:</p>
+<div class="figure">
+<img src="pydev6.png" /><p class="caption"></p>
+</div>
+<p>When Pydev has finished installing, click <em>Restart Now</em> to restart Eclipse.</p>
+<h2 id="configure-eclipse-and-check-your-installation">Configure Eclipse and check your installation</h2>
+<p>Next, you will configure Eclipse and check that you have installed Eclipse and PyDev correctly. Click on the circled icon next to <em>Java EE</em> in the top right:</p>
+<div class="figure">
+<img src="check1.png" /><p class="caption"></p>
+</div>
+<p>Then select <em>Other...</em>:</p>
+<div class="figure">
+<img src="check2.png" /><p class="caption"></p>
+</div>
+<p>You'll see this window:</p>
+<div class="figure">
+<img src="check3.png" /><p class="caption"></p>
+</div>
+<p>Click on <em>PyDev</em> and then click <em>OK</em>.</p>
+<p>Under the <em>File</em> menu, select <em>New</em> and then <em>PyDev Project</em>.</p>
+<div class="figure">
+<img src="check4.png" /><p class="caption"></p>
+</div>
+<p>This window will appear:</p>
+<div class="figure">
+<img src="check5.png" /><p class="caption"></p>
+</div>
+<p>Type in a project name. I used <em>cs1proj</em>, but you can use whatever project name you like.</p>
+<p>Then click on <em>Please configure an interpreter in the related preferences before proceeding.</em> You'll get this window:</p>
+<div class="figure">
+<img src="check6.png" /><p class="caption"></p>
+</div>
+<p>Click <em>New...</em>. You'll see this window:</p>
+<div class="figure">
+<img src="check7.png" /><p class="caption"></p>
+</div>
+<p>Next to <em>Interpreter Name:</em>, type <em>Python 2.7</em>. Then click on the <em>Browse...</em> button to the right of <em>Interpreter Executable:</em>. You'll have to navigate to find where you installed Python. Start at your main hard drive (probably called <em>Macintosh HD</em>, but it might have a different name. I have a solid-state drive, and its name is <em>Macintosh SSD</em>.) From there, select <em>Library</em>, then <em>Frameworks</em>, then <em>Python.framework</em>, then <em>Versions</em>, then <em>2.7</em>, then <em>bin</em>, and finally <em>python2.7</em>. Then click <em>Open</em>, then <em>OK</em>.</p>
+<p>Now you'll see this window:</p>
+<div class="figure">
+<img src="check8.png" /><p class="caption"></p>
+</div>
+<p>Click on <em>OK</em>. Now you'll see this window:</p>
+<div class="figure">
+<img src="check9.png" /><p class="caption"></p>
+</div>
+<p>Click on <em>OK</em>. Now you're back to this one:</p>
+<div class="figure">
+<img src="check10.png" /><p class="caption"></p>
+</div>
+<p>Click <em>Finish</em>.</p>
+<p>Download the file <a href="pyversion.py">pyversion.py</a>. For convenience, move this file from your <em>Downloads</em> folder to your Desktop. Then drag the <em>pyversion.py</em> icon from the Desktop to where it says <em>cs1proj</em> (or whatever project name you chose) in the <em>PyDev Package Explorer</em> tab of your Eclipse window. The triangle next to <em>cs1proj</em> will point downward, and you'll see what's now in your <em>cs1proj</em>:</p>
+<div class="figure">
+<img src="check11.png" /><p class="caption"></p>
+</div>
+<p>Single-click on <em>pyversion.py</em>. Then, from the <em>Run</em> menu, select <em>Run As</em> and then <em>1 Python Run</em>:</p>
+<div class="figure">
+<img src="check12.png" /><p class="caption"></p>
+</div>
+<p>If all went well, you'll see this:</p>
+<div class="figure">
+<img src="check13.png" /><p class="caption"></p>
+</div>
+<p>At the bottom of the window, you'll have a <em>Console</em> tab, and it should read something like</p>
+<pre><code>2.7.2 (v2.7.2:8527427914a2, Jun 11 2011, 15:22:34) 
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)]
+</code></pre>
+<p>At this point, you have a working version of Eclipse that will enable you to run Python programs. But you cannot yet run programs with graphics, so we'll set that up next.</p>
+<h2 id="install-the-graphics-software">Install the graphics software</h2>
+<p>The course staff has written a collection of Python functions that will let you easily draw graphics with your Python programs.</p>
+<p><strong><em>Important note: This software works only with Mac OS 10.6 and 10.7. If you are running Mac OS 10.5 or earlier, you will not be able to use the graphics software on your computer. You should either upgrade to Mac OS 10.6 or 10.7, or do all assignments that require graphics on one of the Macs in 003 Sudikoff.</em></strong></p>
+<p>Download the <a href="http://get.qt.nokia.com/qt/source/qt-mac-opensource-4.7.4.dmg">qt library</a>. Double click the .dmg file to open it, then double-click on <em>Qt.mpkg</em> to install qt. Agree to all questions, and type your password when requested. When the qt installation is done, close up the window, and drag the .dmg file and the <em>Qt 4.7.4</em> icon to the Trash.</p>
+<p>Next, download the <a href="pyside-1.1.0-qt47-py27apple.pkg">pyside library</a>, and then install it by double-clicking on the downloaded file. When it asks <em>How do you want to install this software?</em>, click on <em>Install for all users of this computer</em>. Again, you'll be asked for your password at some point. When the installation is done, drag the .pkg file that you just downloaded to the Trash.</p>
+<p>Now download <a href="http://www.cs.dartmouth.edu/~cs1/cs1lib.py">cs1lib.py</a>. You will be accessing this file <em>a lot</em>, so I suggest putting it in an easily accessed place, such as your Desktop. Drag <em>cs1lib.py</em> onto <em>cs1proj</em> in the <em>PyDev Package Explorer</em> tab of Eclipse:</p>
+<div class="figure">
+<img src="graphics1.png" /><p class="caption"></p>
+</div>
+<p>Next, download <a href="http://www.cs.dartmouth.edu/~cs1/eyes.py">eyes.py</a>. Drag <em>eyes.py</em> from wherever you downloaded it to onto <em>cs1proj</em> in the <em>PyDev Package Explorer</em> tab of Eclipse:</p>
+<div class="figure">
+<img src="graphics2.png" /><p class="caption"></p>
+</div>
+<p>Single-click on <em>eyes.py</em>. Then, from the <em>Run</em> menu, select <em>Run As</em> and then <em>1 Python Run</em>. You should get a window like this one:</p>
+<div class="figure">
+<img src="graphics3.png" /><p class="caption"></p>
+</div>
+<p>If you see this window, you are done! Yay!</p>
+<p><em>A note:</em> You might also see some red text in the <em>Console</em> tab, with some indecipherable but ominous message containing <code>__NSAutoreleaseNoPool()</code>. You'll see this message whenever you use the CS 1 graphics package. Foreboding though it appears to be, it is harmless. Don't worry about it.</p>
+</body>
+</html>
