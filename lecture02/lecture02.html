@@ -119,8 +119,109 @@ chapters, sections, and paragraphs helps readers understand the
 structure of a book.</p>
 
 <div class="hlcode">
-<div class="syntax"><pre><span class="c1">// Program to draw a simple house</span><br /><span class="c1">// cs1 example of use of commenting and whitespace</span><br /><span class="c1">// author Devin Balkcom (adapted from python to JavaScript by L'Team)</span><br /><span class="c1">// Winter, 2014<br /><br /></span><span class="nx">size</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">);</span><br /><span class="nx">noStroke</span><span class="p">();<br /><br /></span><span class="c1">// Function to draw a house.</span><br /><span class="kd">function</span> <span class="nx">drawHouse</span><span class="p">(){</span><br /><span class="c1">	//draw the lawn</span><br /><span class="nx">	</span><span class="p"></span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//dark green</span><br /><span class="nx">	</span><span class="p"></span><span class="nx">rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">100</span><span class="p">);<br /><br /></span><span class="c1">	//draw the main square part of the house</span><br /><span class="nx">	</span><span class="nx">fill</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">51</span><span class="p">);</span> <span class="c1">//brown</span><br /><span class="nx">	</span><span class="p"></span><span class="nx">rect</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">100</span><span class="p">);<br /><br /></span><span class="c1">	//draw the roof</span><br /><span class="nx">	f</span><span class="nx">ill</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="c1">//red</span><br /><span class="nx">	</span><span class="nx">triangle</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">330</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">265</span><span class="p">,</span> <span class="mi">20</span><span class="p">);<br /><br /></span><span class="c1">	// draw the door</span><br /><span class="nx">	</span><span class="nx">fill</span><span class="p">(</span><span class="mi">153</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">77</span><span class="p">);</span> <span class="c1">// light brown</span><span class="nx">	<br /></span><span class="p">	</span><span class="nx">rect</span><span class="p">(</span><span class="mi">280</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">40</span><span class="p">);<br /><br /></span><span class="c1">	//draw the doorknob</span><br /><span class="nx">	</span><span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// black</span><br /><span class="nx">	ellipse</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">330</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><br /><span class="p">}</span><br /><span class="nx">drawHouse</span><span class="p">();</span>
-</pre></div>
+<div class="syntax"><pre><code class="sourceCode python"><span
+ class="co">// Program to draw a simple house</span></code><span
+ class="c1"></span><br /><code
+ class="sourceCode python"><span class="co">// cs1 example of use of commenting and whitespace</span></code><span
+ class="c1"></span><br /><code
+ class="sourceCode python"><span class="co">// author Devin Balkcom (adapted from Python to Javascript by L'Team)</span></code><span
+ class="c1"></span><br /><code
+ class="sourceCode python"><span class="co">// Winter, 2014</span></code><span
+ class="c1"><br /><br /></span><span
+ class="nx">size</span><span class="p">(</span><span
+ class="mi">400</span><span class="p">,</span><span
+ class="mi">400</span><span class="p">);</span><br /><span
+ class="nx">noStroke</span><span class="p">();<br /><br /></span><code
+ class="sourceCode python"><span class="co">// Function to draw a house.</span></code><span
+ class="c1"></span><br /><code
+ class="sourceCode javascript"><span class="kw">function</span></code> <span
+ class="nx">drawHouse</span><span class="p">(){</span><br /><span
+ class="c1">	</span><code class="sourceCode python"><span
+ class="co">//draw the lawn</span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="p"></span><span class="nx">fill</span><span
+ class="p">(</span><span class="mi">0</span><span
+ class="p">,</span><span class="mi">128</span><span
+ class="p">,</span><span class="mi">0</span><span
+ class="p">);</span> <code class="sourceCode python"><span
+ class="co">//dark green</span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="p"></span><span class="nx">rect</span><span
+ class="p">(</span><span class="mi">0</span><span
+ class="p">,</span> <span class="mi">300</span><span
+ class="p">,</span> <span class="mi">400</span><span
+ class="p">,</span> <span class="mi">100</span><span
+ class="p">);<br /><br /></span><span
+ class="c1">	</span><code class="sourceCode python"><span
+ class="co">//draw the main square part of the house</span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="nx">fill</span><span class="p">(</span><span
+ class="mi">128</span><span class="p">,</span> <span
+ class="mi">102</span><span class="p">,</span> <span
+ class="mi">51</span><span class="p">);</span> <code
+ class="sourceCode python"><span class="co">// brown</span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="p"></span><span class="nx">rect</span><span
+ class="p">(</span><span class="mi">200</span><span
+ class="p">,</span> <span class="mi">250</span><span
+ class="p">,</span> <span class="mi">130</span><span
+ class="p">,</span> <span class="mi">100</span><span
+ class="p">);<br /><br /></span><span
+ class="c1">	</span><code class="sourceCode python"><span
+ class="co">/<span style="font-family: monospace;">/draw the roof</span></span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="nx">fill</span><span class="p">(</span><span
+ class="mi">255</span><span class="p">,</span><span
+ class="mi">0</span><span class="p">,</span><span
+ class="mi">0</span><span class="p">);</span><code
+ class="sourceCode python"><span class="co"> // red</span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="nx">triangle</span><span class="p">(</span><span
+ class="mi">200</span><span class="p">,</span> <span
+ class="mi">250</span><span class="p">,</span> <span
+ class="mi">330</span><span class="p">,</span> <span
+ class="mi">250</span><span class="p">,</span> <span
+ class="mi">265</span><span class="p">,</span> <span
+ class="mi">20</span><span class="p">);<br /><br /></span><span
+ class="c1">	</span><code class="sourceCode python"><span
+ class="co">/<span style="font-family: monospace;">/draw a door</span></span></code><span
+ class="c1"></span><br /><span class="nx">	</span><span
+ class="nx">fill</span><span class="p">(</span><span
+ class="mi">153</span><span class="p">,</span><span
+ class="mi">128</span><span class="p">,</span><span
+ class="mi">77</span><span class="p">);</span> <code
+ class="sourceCode python"><span class="co">// light brown</span></code><span
+ class="c1"></span><span class="nx">	<br /></span><span
+ class="p">	</span><span class="nx">rect</span><span
+ class="p">(</span><span class="mi">280</span><span
+ class="p">,</span> <span class="mi">310</span><span
+ class="p">,</span> <span class="mi">25</span><span
+ class="p">,</span> <span class="mi">40</span><span
+ class="p">);<br /><br /></span><span
+ class="c1 co">	</span><code
+ class="sourceCode python"><span class="co">// draw a rectangle</span></code><span
+ class="nx"><br />	</span><span class="nx">fill</span><span
+ class="p">(</span><code class="sourceCode python"></code><span
+ class="p"></span><code class="sourceCode python"><span
+ class="dv">0</span></code><span class="p">,</span><code
+ class="sourceCode python"></code><span class="p"></span><code
+ class="sourceCode python"><span class="dv">0</span></code><code
+ class="sourceCode python"></code><span class="p"></span><code
+ class="sourceCode python"><span class="dv"></span></code><span
+ class="mi"></span><span class="p">,</span><code
+ class="sourceCode python"></code><span class="p"></span><code
+ class="sourceCode python"><span class="dv">0</span></code><span
+ class="mi"></span><span class="p">);</span> <code
+ class="sourceCode python"><span class="co">//black</span></code><span
+ class="c1"></span><br /><span class="nx">	ellipse</span><span
+ class="p">(</span><span class="mi">300</span><span
+ class="p">,</span> <span class="mi">330</span><span
+ class="p">,</span> <span class="mi">3</span><span
+ class="p">,</span><span class="mi">3</span><span
+ class="p">);</span><br /><span class="p">}</span><br /><span
+ class="nx">drawHouse</span><span class="p">();</span>
+</pre>
+</div>
 
 
 <p>We can now see exactly what the program is intended to do, and
