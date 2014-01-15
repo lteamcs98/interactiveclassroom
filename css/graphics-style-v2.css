@@ -1,0 +1,206 @@
+html, body {
+	font-family: 'Lato', sans-serif;
+	font-size: 16px;
+	font-color: gray;
+	line-height: 24px;
+	min-width: 970px;
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+h1 {
+	font-family: 'Lobster', sans-serif;
+	font-size: 42px;
+	padding-bottom: .5em;
+	border-bottom: gray 2px solid;
+}
+
+h2 {
+	font-size: 24px;
+	padding-bottom: .2em;
+}
+
+a {
+	text-decoration: none;
+	color: Tomato;
+}
+
+a:hover, a:active {
+	text-decoration: underline;
+	font-style: italic;
+}
+
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+
+code {font-family: monospace; }
+
+pre { background-color: #eee; padding: 1em; }
+
+img {
+padding-left: 10em;
+}
+
+
+/* Top level layout */
+#content {
+	height: 95%;
+}
+
+#top-component {
+	height: 80%;
+	min-height: 2em;
+}
+
+#divider {
+	top: 80%;
+	height: 5px;
+}
+
+#bottom-component {
+	top: 80%;
+	min-height: 5em;
+	margin-top: 5px;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	overflow: hidden;
+}
+
+/* Split pane styling */
+div.split-pane-frame {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	background: gray;
+}
+
+div.pane-decoration {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	border: 0;
+	background: white;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	overflow: auto;
+}
+
+#nav {
+	background: black;
+	color: white;
+	font: Helvetica, sans-serif 16px bold;
+	text-transform: uppercase;
+	padding: 5px 20px;
+}
+
+#lecture {
+	padding: 2em 5em;
+}
+
+#console-container {
+	width: 50%;
+	height: 100%;
+	float: left;
+	overflow: hidden;
+}
+
+.CodeMirror {
+	width: 100%;
+	height: auto;
+	min-height: 5em;
+}
+
+.CodeMirror-scroll {
+	overflow-y: hidden;
+	overflow-x: auto;
+}
+
+#compile-button {
+	font-family: 'Lato';
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: bold;
+	background: #ccc;
+	text-transform: uppercase;
+	width: 100%;
+	border: 0;
+	overflow: hidden;
+}
+
+#canvas-container {
+	width: 50%;
+	height: 100%;
+	float: left;
+	overflow: hidden;
+}
+
+#canvas {
+	width: 1200px;
+	height: 800px;
+	border: 2px;
+	padding: 10px;
+	overflow: hidden;
+}
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after {
+  content: '\0020';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix {
+  zoom: 1;
+}
+
