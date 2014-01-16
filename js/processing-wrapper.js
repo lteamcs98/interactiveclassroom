@@ -7,14 +7,11 @@ $(document).ready(function() {
 	$("#compile-button").click(processInput);
 });
 
-var canvasCode, textOutput;
-
 // keeps track of the current processing instance (instances are created when a sketch is compiled)
 var currentProcessingInstance = null;
 
 function print(str)
 {
-	console.log("Called");
 	$('#output').append(str);
 	$('#output').append("<br />");
 }
@@ -24,6 +21,9 @@ function processInput()
 {	
     // store the user's code from the code mirror editor
     var code = myCodeMirror.getValue();
+	
+	// Clear the console
+	$('#output').html("");
     
     // grab the canvas element in the html
     var canvas = document.getElementById("canvas1");
