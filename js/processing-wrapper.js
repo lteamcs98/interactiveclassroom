@@ -16,6 +16,7 @@ function print(str)
 {
 	console.log("Called");
 	$('#output').append(str);
+	$('#output').append("<br />");
 }
 
 // Draw on canvas and type to text output area.
