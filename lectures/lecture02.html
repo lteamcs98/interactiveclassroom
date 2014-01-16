@@ -35,6 +35,18 @@
 			$('div.split-pane').splitPane();
 		});
 	</script>
+        <script>
+                function load(url){
+                        // Adding the script tag to the head as suggested before
+                        var head = document.getElementsByTagName('head')[0];
+                        var script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.src = url;
+
+                        // Fire the loading
+                        head.appendChild(script);
+                }
+        </script>
 </head>
 <body>
 	<div id="nav">
@@ -64,11 +76,11 @@
 							<p>Try this exercise some time: consider some other course you have taken, and identify where abstraction came into play.</p>
 							<h2 id="calling-a-library-function">Calling a library function</h2>
 							<p>Here's another big win for functions. You can use a function <em>someone else</em> wrote, without knowing exactly the internal details of the function. Let's look at an example where <a href="lecture02-files/datetime_test.js">datetime_test.js</a> uses a function from  <a href="lecture02-files/simplefunctions.js">simplefunctions.js</a>.
-							<pre class="sourceCode"><code class="sourceCode javascript">load("simplefunctions.js");<br /><br />print_date_and_time();</code></pre>
+							<pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js");<br /><br />print_date_and_time();</code></pre>
 							<p>The first line says that this program will use the <code>simplefunctions</code> library of functions by placing <code>simplefunction.js</code> into the <code>&lt;head&gt;</code> of the HTML document of this web page. The program then calls the <code>print_date_and_time</code> function. When this function is called, the interpreter saves the current value of the program counter, sets the program counter to the beginning of the <code>print_date_and_time</code> function somewhere in the <code>simplefunctions</code> script, executes the code it finds there, and then resets the program counter to the original, saved value.</p>
 							<h2 id="functions-that-take-parameters">Functions that take parameters</h2>
 							<p>Just like the print command, functions can take <strong>parameters</strong>: additional information that influences what the function does. This code, in <a href="lecture02-files/sqrt_text.js">sqrt_text.js</a>:</p>
-							<pre class="sourceCode"><code class="sourceCode javascript">load("simplefunctions.js"); <br /><br />print_sqrt(<span class="dv">4</span>);<br />print_sqrt(<span class="dv">9</span>);</code></pre>
+							<pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js"); <br /><br />print_sqrt(<span class="dv">4</span>);<br />print_sqrt(<span class="dv">9</span>);</code></pre>
 							<p>prints the following to the console window:</p>
 							<pre><code>2
 3
