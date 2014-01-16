@@ -56,7 +56,7 @@ function wrapperClass(processing, code)
         
         // add callbacks so that the sketch will be stopped 
         $("#compile-button").click(stopSketch);
-        $("#stop-button").click(stopSketch);
+        $("#stop-button").click(clearAndStopSketch);
         
         console.log('initialized wrapper class');
         
@@ -192,7 +192,7 @@ function wrapperClass(processing, code)
             exit();            
         }
         
-        function clearSketch()
+        function clearAndStopSketch()
         {
             stopSketch();
             // get the canvas
