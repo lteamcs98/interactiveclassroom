@@ -2,23 +2,46 @@
  * A wrapper class for processing.js that eliminates the use of the Processing instance for users
  */
  
-// call drawSketch when the compile button is clicked
+// call compileInput when the compile button is clicked
 $(document).ready(function() {
-	$("#compile-button").click(drawSketch);
+	$("#compile-button").click(processInput);
 });
 
+var canvasCode, textOutput;
 
 // keeps track of the current processing instance (instances are created when a sketch is compiled)
 var currentProcessingInstance = null;
 
-// this function grabs the 
-function drawSketch()
+// Draw on canvas and type to text output area.
+function processInput()
 {
+	canvasCode = "";	// code to be evaluated on canvas
+	textOutput = "";	// raw strings to be printed by print command
+	
     // store the user's code from the code mirror editor
     var code = myCodeMirror.getValue();
-    
+	
+	var lines = code.split('\n');
+	console.log(lines);
+	
+	var textPattern = new RegExp("^print");
+	
+	for (var i = 0; i < lines.length; i++) {
+		if (textPattern.test(lines[i])) {
+			textOutput += lines[i].substring(7, lines[i].length - 3);
+			textOutput += "<br />";
+		} else {
+			canvasCode += lines[i];
+			canvasCode += '\n';
+		}
+	}
+	
+	console.log(textOutput);
+	// Show the text in the text output area
+    $('#output').html(textOutput);
+	
     // for debugging purposes show the text that was captured
-    console.log(code);
+    //console.log(code);
     
     // grab the canvas element in the html
     var canvas = document.getElementById("canvas1");
@@ -31,7 +54,8 @@ function drawSketch()
 // this function creates an instance of the wrapper class and evaluates the user code given
 function wrapperFunction(processing)
 {
-    var class_instance = new wrapperClass(processing, myCodeMirror.getValue());
+	var class_instance = new wrapperClass(processing, canvasCode);
+    // var class_instance = new wrapperClass(processing, myCodeMirror.getValue());
     // run the code
     class_instance.evalCode();
 }
@@ -177,7 +201,7 @@ function wrapperClass(processing, code)
             exit();
             
             // get the canvas
-            var canvas = $("#canvas")[0].getContext("2d");
+            var canvas = $("#canvas1")[0].getContext("2d");
             
             // Clear the canvas
             canvas.fillStyle="#FFFFFF";
