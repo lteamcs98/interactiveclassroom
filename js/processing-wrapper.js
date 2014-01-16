@@ -189,16 +189,18 @@ function wrapperClass(processing, code)
             }
 
             // exit the current sketch
-            exit();
-            
-            /*
+            exit();            
+        }
+        
+        function clearSketch()
+        {
+            stopSketch();
             // get the canvas
             var canvas = $("#canvas1")[0].getContext("2d");
             
             // Clear the canvas
             canvas.fillStyle="#FFFFFF";
             canvas.fillRect(0, 0, $("#canvas1")[0].width, $("#canvas1")[0].height);
-            */
         }
         
         // evaluate/run the code the user writes 
