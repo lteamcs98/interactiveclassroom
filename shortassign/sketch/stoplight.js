@@ -2,32 +2,32 @@
 //Exercise to draw a stoplight.
 
 function stoplight(){
-  processing.size(100,200);  
+  size(100,200);  
   
   //base  
-  processing.fill(0,0,0);
+  fill(0,0,0);
   ellipse(50,170,50,20);
   
   //pole
-  processing.fill(255,255,255);
-  processing.rect(45,120,10,50);
+  fill(255,255,255);
+  rect(45,120,10,50);
    
   //sign
-  processing.fill(50,50,50);
-  processing.rect(25,25,50,100);
+  fill(50,50,50);
+  rect(25,25,50,100);
   
   //stop
-  processing.fill(128,0,0);
+  fill(128,0,0);
   stroke(255,0,0);
   ellipse(50,50,20,20);
   
   //slow
-  processing.fill(128,128,0,128);
+  fill(128,128,0,128);
   stroke(255,255,0);
   ellipse(50,75,20,20);
   
   //go
-  processing.fill(0,128,0);
+  fill(0,128,0);
   stroke(0,255,0);
   ellipse(50,100,20,20);
     
