@@ -187,7 +187,8 @@ div.pane-decoration {
 	width: 50%;
 	height: 100%;
 	float: left;
-	overflow: hidden;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .CodeMirror {
@@ -197,7 +198,7 @@ div.pane-decoration {
 }
 
 .CodeMirror-scroll {
-	overflow-y: hidden;
+	overflow-y: scroll;
 	overflow-x: auto;
 }
 
