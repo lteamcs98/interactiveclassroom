@@ -34,6 +34,17 @@
 		$(function() {
 			$('div.split-pane').splitPane();
 		});
+        $(document).ready(function() {
+            codeSnippet('codeSnippet1');
+            codeSnippet('codeSnippet2');
+            codeSnippet('codeSnippet3');
+            codeSnippet('codeSnippet4');
+            codeSnippet('codeSnippet5');
+            codeSnippet('codeSnippet6');            
+            codeSnippet('codeSnippet7');            
+            codeSnippet('codeSnippet8');            
+            outputSnippet('outputSnippet1');
+        });
 	</script>
         <script>
                 function load(url){
@@ -70,23 +81,56 @@
 							<h2 id="abstraction-the-value-of-temporary-ignorance">Abstraction: The value of (temporary) ignorance</h2>
 							<p>When we build higher-level concepts from simpler pieces and then work with those higher-level concepts, we are taking advantage of <strong>abstraction</strong>. Abstraction is a major tool in computer science that we'll come back to over and over.</p>
 							<p><strong>Abstraction hides the details of how things work.</strong> Functions are our first example of abstraction. Look at this program, in <a href="lecture02-files/abstraction.js">abstraction.js</a>:</p>
-							<pre class="sourceCode"><code class="sourceCode javascript"><span class="kw">function</span> revenge(){<br />    print(<span class="st">&quot;You killed my father.&quot;</span>);  <br />    print(<span class="st">&quot;Prepare to die.&quot;</span>);  <br />}<br /><br /><span class="kw">function</span> greet(){<br />    print(<span class="st">&quot;Hello.&quot;</span>);  <br />    print(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);  <br />}<br /><br />greet();<br />revenge();  <br />greet(); <br />revenge();</code></pre>
+                            <textarea id="codeSnippet1">function revenge(){
+    print("You killed my father.");  
+    print("Prepare to die.");  
+}
+
+function greet(){
+    print("Hello.");  
+    print("My name is Inigo Montoya.");  
+}
+
+greet();
+revenge();  
+greet(); 
+revenge();</textarea>
+                            <button class="edit-button" id="codeSnippet1Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode javascript"><span class="kw">function</span> revenge(){<br />    print(<span class="st">&quot;You killed my father.&quot;</span>);  <br />    print(<span class="st">&quot;Prepare to die.&quot;</span>);  <br />}<br /><br /><span class="kw">function</span> greet(){<br />    print(<span class="st">&quot;Hello.&quot;</span>);  <br />    print(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);  <br />}<br /><br />greet();<br />revenge();  <br />greet(); <br />revenge();</code></pre> -->
 							<p>We defined two functions, each in terms of a sequence of simpler commands. Once we defined those functions, we were able to just use them without thinking (too much) about how they worked.</p>
 							<p>Abstraction helps us in areas beyond computer science. For example, when I press the gas pedal on my car, a lot of stuff happens, but because I have the higher-level &quot;push-gas-pedal-car-moves&quot; concept, I don't have to think about the details of what is going on in the drive train (engine, transmission, differential, etc.) to make my car go.</p>
 							<p>Try this exercise some time: consider some other course you have taken, and identify where abstraction came into play.</p>
 							<h2 id="calling-a-library-function">Calling a library function</h2>
 							<p>Here's another big win for functions. You can use a function <em>someone else</em> wrote, without knowing exactly the internal details of the function. Let's look at an example where <a href="lecture02-files/datetime_test.js">datetime_test.js</a> uses a function from  <a href="lecture02-files/simplefunctions.js">simplefunctions.js</a>.
-							<pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js");<br /><br />print_date_and_time();</code></pre>
+                            <textarea id="codeSnippet2">load("lecture02-files/simplefunctions.js");
+
+print_date_and_time();</textarea>
+                            <button class="edit-button" id="codeSnippet2Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js");<br /><br />print_date_and_time();</code></pre>-->
 							<p>The first line says that this program will use the <code>simplefunctions</code> library of functions by placing <code>simplefunction.js</code> into the <code>&lt;head&gt;</code> of the HTML document of this web page. The program then calls the <code>print_date_and_time</code> function. When this function is called, the interpreter saves the current value of the program counter, sets the program counter to the beginning of the <code>print_date_and_time</code> function somewhere in the <code>simplefunctions</code> script, executes the code it finds there, and then resets the program counter to the original, saved value.</p>
 							<h2 id="functions-that-take-parameters">Functions that take parameters</h2>
 							<p>Just like the print command, functions can take <strong>parameters</strong>: additional information that influences what the function does. This code, in <a href="lecture02-files/sqrt_text.js">sqrt_text.js</a>:</p>
-							<pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js"); <br /><br />print_sqrt(<span class="dv">4</span>);<br />print_sqrt(<span class="dv">9</span>);</code></pre>
+                            <textarea id="codeSnippet3">load("lecture02-files/simplefunctions.js"); 
+
+print_sqrt(4);
+print_sqrt(9);</textarea>
+                            <button class="edit-button" id="codeSnippet3Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js"); <br /><br />print_sqrt(<span class="dv">4</span>);<br />print_sqrt(<span class="dv">9</span>);</code></pre> -->
 							<p>prints the following to the console window:</p>
-							<pre><code>2
+                            <textarea id="outputSnippet1">2
+3</textarea>
+							<!-- <pre><code>2
 3
-							</code></pre>
+							</code></pre> -->
 							<p>When making a function call, we write the values of the parameters inside the parentheses. We say that we <strong>pass</strong> the parameters to the function at the point of call. Functions may take multiple parameters, in which case we separate them by commas when we call the function. Here's an example, in <a href="lecture02-files/simple_graphics.js">simple_graphics.js</a>.
-							<pre class="sourceCode"><code class="sourceCode javascript">size(250,300);<br /><br />fill(0,0,0);<br /><br />ellipse(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">50</span>);<br />ellipse(<span class="dv">175</span>, <span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">50</span>);</code></pre>
+                            <textarea id="codeSnippet4">size(250,300);
+
+fill(0,0,0);
+
+ellipse(100, 100, 50, 50);
+ellipse(175, 100, 50, 50);</textarea>
+                            <button class="edit-button" id="codeSnippet4Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode javascript">size(250,300);<br /><br />fill(0,0,0);<br /><br />ellipse(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">50</span>);<br />ellipse(<span class="dv">175</span>, <span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">50</span>);</code></pre> -->
 							<p>Let's look at what happens here. First, the function <code>size</code> sets the size of the window. Second, we call the function <code>fill</code> to set the fill color as black. Then we call the function <code>ellipse</code>, passing it four parameters. The first parameter, 125, says to draw the ellipse at <em>x</em> coordinate 175 in the window. The second parameter, 100, says to use the <em>y</em> coordinate 100. The third parameter, 50, says that the radii of the ellipse should be 50. The final line calls the <code>ellipse</code> function again, with different parameters.</p>
 							<h2 id="graphics-coordinates">Graphics coordinates</h2>
 							<p>We glossed over what the coordinates passed to the <code>draw_circle</code> functions really mean. When we open a window for graphics, there's a coordinate system within the window. Coordinate correspond to pixels in the window, with (0, 0) at the upper left corner of the window. The coordinates (125, 100) mean the pixel that is 125 pixels to the right and 100 pixels below the upper left corner.</p>
@@ -106,7 +150,24 @@
 							How to write good, human-readable code is a major focus of this course,
 							and we'll come back to it again and again.</p>
 							<p>Let's look at the following bad program, in <a href="lecture02-files/bad_program.js">bad_program.js</a>:<br /></p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="ch"></span></code>function whatever(){<br /><o:p></o:p>fill(0,128,0);<br />rect(0, 300, 400, 100);<br /><o:p></o:p>fill(128, 102, 51);<br />rect(200, 250, 130, 100);<br /><o:p></o:p>fill(255,0,0);<br /><o:p></o:p>triangle(200, 250, 330, 250, 265, 20);<br /><o:p></o:p>fill(153,128,77);<br />rect(280, 310, 25, 40);<br /><o:p></o:p>fill(0,0,0);<br /><o:p></o:p>ellipse(300, 330, 3,3);<br />}<o:p></o:p>size(400,400);<br /><o:p></o:p>noStroke();<o:p></o:p><br />whatever();</pre>
+                            <textarea id="codeSnippet5">function whatever(){
+    fill(0,128,0);
+    rect(0, 300, 400, 100);
+    fill(128, 102, 51);
+    rect(200, 250, 130, 100);
+    fill(255,0,0);
+    triangle(200, 250, 330, 250, 265, 20);
+    fill(153,128,77);
+    rect(280, 310, 25, 40);
+    fill(0,0,0);
+    ellipse(300, 330, 3,3);
+}
+
+size(400,400);
+noStroke();
+whatever();</textarea>
+                            <button class="edit-button" id="codeSnippet5Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="ch"></span></code>function whatever(){<br /><o:p></o:p>fill(0,128,0);<br />rect(0, 300, 400, 100);<br /><o:p></o:p>fill(128, 102, 51);<br />rect(200, 250, 130, 100);<br /><o:p></o:p>fill(255,0,0);<br /><o:p></o:p>triangle(200, 250, 330, 250, 265, 20);<br /><o:p></o:p>fill(153,128,77);<br />rect(280, 310, 25, 40);<br /><o:p></o:p>fill(0,0,0);<br /><o:p></o:p>ellipse(300, 330, 3,3);<br />}<o:p></o:p>size(400,400);<br /><o:p></o:p>noStroke();<o:p></o:p><br />whatever();</pre> -->
 							<p>What does this program do? Does it describe how to solve a
 							problem? What's the problem? Is this is a good solution? Could you
 							modify it easily to solve a more interesting problem, without even
@@ -131,7 +192,40 @@
 							structure of a book.</p>
 
 							<div class="hlcode">
-							<div class="syntax"><pre><code class="sourceCode python"><span
+                            <textarea id="codeSnippet6">// Program to draw a simple house
+// cs1 example of use of commenting and whitespace
+// author Devin Balkcom (adapted from Python to Javascript by L'Team)
+// Winter, 2014
+
+size(400,400);
+noStroke();
+
+// Function to draw a house.
+function drawHouse(){
+	//draw the lawn
+	fill(0,128,0); //dark green
+	rect(0, 300, 400, 100);
+
+	//draw the main square part of the house
+	fill(128, 102, 51); // brown
+	rect(200, 250, 130, 100);
+
+	//draw the roof
+	fill(255,0,0); // red
+	triangle(200, 250, 330, 250, 265, 20);
+
+	//draw a door
+	fill(153,128,77); // light brown	
+	rect(280, 310, 25, 40);
+
+	// draw a rectangle
+	fill(0,0,0); //black
+	ellipse(300, 330, 3,3);
+}
+
+drawHouse();</textarea>
+                            <button class="edit-button" id="codeSnippet6Edit">Edit</button><br>                            
+							<!--<div class="syntax"><pre><code class="sourceCode python"><span
 							 class="co">// Program to draw a simple house</span></code><span
 							 class="c1"></span><br /><code
 							 class="sourceCode python"><span class="co">// cs1 example of use of commenting and whitespace</span></code><span
@@ -233,7 +327,7 @@
 							 class="p">);</span><br /><span class="p">}</span><br /><span
 							 class="nx">drawHouse</span><span class="p">();</span>
 							</pre>
-							</div>
+							</div> -->
 						</div>
 
 
@@ -252,12 +346,18 @@
 							<p>Good comments add new information, but that does not mean you
 							should comment every single line of code. Here's a distracting comment
 							that is <em>not</em> useful:</p>
-							<pre class="sourceCode"><code class="sourceCode python">rect(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>); <span class="co">// draw a rectangle</span></code></pre>
+                            <textarea id="codeSnippet7">rect(280, 310, 25, 40); // draw a rectangle</textarea>
+                            <button class="edit-button" id="codeSnippet7Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python">rect(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>); <span class="co">// draw a rectangle</span></code></pre> -->
 							<p>We can see from the function name that this line draws a
 							rectangle. A more useful comment would tell us what we are trying to do
 							with the rectangle (in this case, draw a door). Another comment might
 							tell us the fill color:</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="co">// draw the door</span><br />fill(</code><span class="p"></span><code class="sourceCode python"><span class="dv">153, 128, 77</span></code><span class="mi"></span><span class="p"></span><span class="mi"></span><code class="sourceCode python"><span class="dv"></span>); <span class="co">// light brown</span><br />rect(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>);</code></pre>
+                            <textarea id="codeSnippet8">// draw the door
+fill(153, 128, 77); // light brown
+rect(280, 310, 25, 40);</textarea>
+                            <button class="edit-button" id="codeSnippet8Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="co">// draw the door</span><br />fill(</code><span class="p"></span><code class="sourceCode python"><span class="dv">153, 128, 77</span></code><span class="mi"></span><span class="p"></span><span class="mi"></span><code class="sourceCode python"><span class="dv"></span>); <span class="co">// light brown</span><br />rect(<span class="dv">280</span>, <span class="dv">310</span>, <span class="dv">25</span>, <span class="dv">40</span>);</code></pre> -->
 							<h3 id="more-graphics-functions">More graphics functions</h3>
 							<p>In the previous example, we saw some new graphics functions:</p>
 							<ul>

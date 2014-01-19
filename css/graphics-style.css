@@ -225,6 +225,17 @@ div.pane-decoration {
 	width: 50%;
 	border: 0;
 	overflow: hidden;
+}
+
+.edit-button {
+	font-family: 'Lato';
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: bold;
+	background: #ccc;
+	text-transform: uppercase;
+	border: 0;
+	overflow: hidden;
     float: left;
 }
 
