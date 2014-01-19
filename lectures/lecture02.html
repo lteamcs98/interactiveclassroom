@@ -78,9 +78,56 @@
 					<div class="pane-decoration">
 						<div id="lecture">
 							<h1 id="abstraction-functions-graphics-and-coding-style">Abstraction, functions, graphics, and coding style</h1>
-							<h2 id="abstraction-the-value-of-temporary-ignorance">Abstraction: The value of (temporary) ignorance</h2>
+							<h2 id="functions-that-take-parameters">Functions that take parameters</h2>
+							<p>Just like the print command we saw in the first lecture, functions can take <strong>parameters</strong>: additional information that influences what the function does.</p>
+							<p>Suppose you are writing a poem to your love interest. You don't want to write just any generic love poem! This poem must be personalized with your lover's name.</p>
+							<p>Now suppose you have <i>many</i> lovers. It may be tedious to wriet a new poem for each one. To save time, write a function that will produce a personalized poem when given a lover's name.</p>
+							<textarea id="codeSnippet1">function lovePoem(lover){
+    print("Oh darling " + lover + ", my one and my only");
+    print("Come stop by and see me tonight if you're lonely");
+    print("I cannot keep up when I'm in CS 1");
+    print("For I daydream of all the ways we could have fun");
+    print("To focus in class, I try but in vain");
+    print("If I don't get to see you I might go insane!");
+}
+
+lovePoem("Squidward");</textarea>
+							<p>When we declare this function, lover is our parameter. When calling the function, we pass it an <strong>argument</strong>: an instance of the parameter. In the above example, the argument is "Squidward". Try calling this function a few times, each time passing a name of a different love interest as an argument.</p>
+							<p>Functions can take many parameters. You can make your love poems even better by writing a function that also takes a parameter time, letting your lover know what time to call on you. You wouldn't want more than one to show up at once! Or would you? ;)</p>
+							<textarea id="codeSnippet2">function lovePoem(lover, time){
+    print("Oh darling " + lover + ", my one and my only");
+    print("Come stop by and see me at " + time + " if you're lonely");
+    print("I cannot keep up when I'm in CS 1");
+    print("For I daydream of all the ways we could have fun");
+    print("To focus in class, I try but in vain");
+    print("If I don't get to see you I might go insane!");
+}
+
+lovePoem("Squidward", "9");</textarea>
+							<p>Functions can take parameters other than strings of text. Many functions perform mathematical operations on parameters that are numbers. The function <code>print_average</code> takes three numbers and prints their average.</p>
+							<textarea id="codeSnippet3">function print_average(a, b, c){
+    print((a + b + c)/3);
+}
+
+print_average(6, 10, 5);</textarea>
+							<h2 id="abstraction-the-valueof-temporary-ignorance">Abstraction: the value of (temporary) ignorance</h2>
 							<p>When we build higher-level concepts from simpler pieces and then work with those higher-level concepts, we are taking advantage of <strong>abstraction</strong>. Abstraction is a major tool in computer science that we'll come back to over and over.</p>
-							<p><strong>Abstraction hides the details of how things work.</strong> Functions are our first example of abstraction. Look at this program, in <a href="lecture02-files/abstraction.js">abstraction.js</a>:</p>
+							<p>Whenever we want to print out the average of two numbers, all we have to do is call the function <code>print_average</code>. At each call, we don't have to remember the mathematical operations required to compute the average of two numbers; we just need to know that the function somehow computes this average and prints it out.</p>
+							<p>Let's write a program that will print the term GPA that certain students will have based on the grade point values they earned in their three classes.</p>
+							<textarea id="codeSnippet4">function print_average(a, b, c){
+    print((a + b + c)/3);
+}
+
+function termGPAs(){
+    print("Sandy's GPA for this term is:");
+    print_average(4, 4, 3); 
+
+    print("Patrick's GPA for this term is:");
+    print_average(1,2,1); 
+}
+
+termGPAs();</textarea>
+							<p>Using abstraction to print averages made the <code>termGPAs</code> function simpler. As you work with functions that are much more complex than just calculating the average of a few numbers, you will continue to see how useful abstraction is. </p>
                             <textarea id="codeSnippet1">function revenge(){
     print("You killed my father.");  
     print("Prepare to die.");  
@@ -97,41 +144,8 @@ greet();
 revenge();</textarea>
                             <button class="edit-button" id="codeSnippet1Edit">Edit</button><br>                            
 							<!-- <pre class="sourceCode"><code class="sourceCode javascript"><span class="kw">function</span> revenge(){<br />    print(<span class="st">&quot;You killed my father.&quot;</span>);  <br />    print(<span class="st">&quot;Prepare to die.&quot;</span>);  <br />}<br /><br /><span class="kw">function</span> greet(){<br />    print(<span class="st">&quot;Hello.&quot;</span>);  <br />    print(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);  <br />}<br /><br />greet();<br />revenge();  <br />greet(); <br />revenge();</code></pre> -->
-							<p>We defined two functions, each in terms of a sequence of simpler commands. Once we defined those functions, we were able to just use them without thinking (too much) about how they worked.</p>
 							<p>Abstraction helps us in areas beyond computer science. For example, when I press the gas pedal on my car, a lot of stuff happens, but because I have the higher-level &quot;push-gas-pedal-car-moves&quot; concept, I don't have to think about the details of what is going on in the drive train (engine, transmission, differential, etc.) to make my car go.</p>
-							<p>Try this exercise some time: consider some other course you have taken, and identify where abstraction came into play.</p>
-							<h2 id="calling-a-library-function">Calling a library function</h2>
-							<p>Here's another big win for functions. You can use a function <em>someone else</em> wrote, without knowing exactly the internal details of the function. Let's look at an example where <a href="lecture02-files/datetime_test.js">datetime_test.js</a> uses a function from  <a href="lecture02-files/simplefunctions.js">simplefunctions.js</a>.
-                            <textarea id="codeSnippet2">load("lecture02-files/simplefunctions.js");
 
-print_date_and_time();</textarea>
-                            <button class="edit-button" id="codeSnippet2Edit">Edit</button><br>                            
-							<!-- <pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js");<br /><br />print_date_and_time();</code></pre>-->
-							<p>The first line says that this program will use the <code>simplefunctions</code> library of functions by placing <code>simplefunction.js</code> into the <code>&lt;head&gt;</code> of the HTML document of this web page. The program then calls the <code>print_date_and_time</code> function. When this function is called, the interpreter saves the current value of the program counter, sets the program counter to the beginning of the <code>print_date_and_time</code> function somewhere in the <code>simplefunctions</code> script, executes the code it finds there, and then resets the program counter to the original, saved value.</p>
-							<h2 id="functions-that-take-parameters">Functions that take parameters</h2>
-							<p>Just like the print command, functions can take <strong>parameters</strong>: additional information that influences what the function does. This code, in <a href="lecture02-files/sqrt_text.js">sqrt_text.js</a>:</p>
-                            <textarea id="codeSnippet3">load("lecture02-files/simplefunctions.js"); 
-
-print_sqrt(4);
-print_sqrt(9);</textarea>
-                            <button class="edit-button" id="codeSnippet3Edit">Edit</button><br>                            
-							<!-- <pre class="sourceCode"><code class="sourceCode javascript">load("lecture02-files/simplefunctions.js"); <br /><br />print_sqrt(<span class="dv">4</span>);<br />print_sqrt(<span class="dv">9</span>);</code></pre> -->
-							<p>prints the following to the console window:</p>
-                            <textarea id="outputSnippet1">2
-3</textarea>
-							<!-- <pre><code>2
-3
-							</code></pre> -->
-							<p>When making a function call, we write the values of the parameters inside the parentheses. We say that we <strong>pass</strong> the parameters to the function at the point of call. Functions may take multiple parameters, in which case we separate them by commas when we call the function. Here's an example, in <a href="lecture02-files/simple_graphics.js">simple_graphics.js</a>.
-                            <textarea id="codeSnippet4">size(250,300);
-
-fill(0,0,0);
-
-ellipse(100, 100, 50, 50);
-ellipse(175, 100, 50, 50);</textarea>
-                            <button class="edit-button" id="codeSnippet4Edit">Edit</button><br>                            
-							<!-- <pre class="sourceCode"><code class="sourceCode javascript">size(250,300);<br /><br />fill(0,0,0);<br /><br />ellipse(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">50</span>);<br />ellipse(<span class="dv">175</span>, <span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">50</span>);</code></pre> -->
-							<p>Let's look at what happens here. First, the function <code>size</code> sets the size of the window. Second, we call the function <code>fill</code> to set the fill color as black. Then we call the function <code>ellipse</code>, passing it four parameters. The first parameter, 125, says to draw the ellipse at <em>x</em> coordinate 175 in the window. The second parameter, 100, says to use the <em>y</em> coordinate 100. The third parameter, 50, says that the radii of the ellipse should be 50. The final line calls the <code>ellipse</code> function again, with different parameters.</p>
 							<h2 id="graphics-coordinates">Graphics coordinates</h2>
 							<p>We glossed over what the coordinates passed to the <code>draw_circle</code> functions really mean. When we open a window for graphics, there's a coordinate system within the window. Coordinate correspond to pixels in the window, with (0, 0) at the upper left corner of the window. The coordinates (125, 100) mean the pixel that is 125 pixels to the right and 100 pixels below the upper left corner.</p>
 							<p>Think of it this way: starting from the upper left corner of the graphics window, <em>x</em> coordinates increase to the right, and <em>y</em> coordinates increase down from the top. If you think about how <em>x</em> and <em>y</em> coordinates usually work in mathematics, graphics on a computer doesn't quite match up. The <em>x</em> direction works, but in math, increasing <em>y</em> coordinates go <em>up</em>, whereas in computer graphics, increasing <em>y</em> coordinates go <em>down</em>.</p>
