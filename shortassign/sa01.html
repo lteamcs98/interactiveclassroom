@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Short Assignment 1: Make your own JavaScript-powered web page</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text.css" href="../css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../js/codemirror-3.20/lib/codemirror.css">
+	<link rel="stylesheet" type="text/css" href="../css/split-pane.css">
+	<link rel="stylesheet" type="text/css" href="../css/graphics-style.css">
+	
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    
+    <!-- Javascripts -->
+    <script type="text/javascript" src="../js/codemirror-3.20/lib/codemirror.js"></script>
+    <script type="text/javascript" src="../js/codemirror-3.20/mode/javascript/javascript.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="../js/split-pane.js"></script>
+    <script type="text/javascript" src="../js/processing-1.4.1.min.js"></script>
+	
+	<script>
+		$(function() {
+			$('div.split-pane').splitPane();
+		});
+	</script>
+</head>
+<body>
+	<div id="nav">
+		<ul>
+		<li>CS1: FALL 2014</li>
+		<li><a href="../syllabus.html">Syllabus</a>
+		<li><a href="../schedule.html">Schedule</a>
+		<li><a href="../short_assignments.html">Short assignments</a>
+		<li><a href="../lab_assignments.html">Labs</a>
+		<li><a href="../exams.html">Exams</a>
+		<li><a href="../software.html">Course software</a>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="content-text">
+			<h1>SA 1: Make your own JavaScript-powered web page</h1>
+			
+			<p>At this point, you might be wondering how you can create your own JavaScript program, on a web page outside of the console environment. Luckily this is fairly easy to do!</p>
+
+			<p>All you need is a web browser and a text editor. A text editor is an application that can be used to edit plain text files, kind of like a Microsoft Word stripped of all the extra formatting features. If you don't like working with the default text editors that came pre-installed on your computer, more advanced alternatives include <a href="http://notepad-plus-plus.org/" target="_blank">Notepad++</a> and <a href="http://macromates.com/" target="_blank">TextMate</a> for Mac.</p>
+
+			<h2>The HTML base</h2>
+
+			<p>When you have your text editor ready, make an HTML file named my_first_program.html and copy into it the following text:</p>
+
+			<pre class="sourceCode"><code class="sourceCode">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+			<p>This is the minimum amount of text you will need to include in every HTML page (although it is would only show up as a blank page in your browser as is). You can think of HTML as the base or the skeleton of a web page. It defines the general structure, including sections and headings and paragraphs. Let's take a closer look at the text you just added to your HTML and what it means:</p>
+			
+			<ul>
+				<li>HTML is organized by a hierarchy of tags, which are essentially keywords enclosed in angular brackets. Each meaningful unit of content is preceded by a start tag (e.g. &lt;body&gt;) and followed by an end tag with a slash (e.g. &lt;/body&gt;)</li>
+				<li>The purpose of the first line &lt;!DOCTYPE html&gt; is to inform your browser of the file type (in this case, HTML)</li>
+				<li>The text between &lt;html&gt; and &lt;/html&gt; is the entirety of the web page.</li>
+				<li>The text between &lt;body&gt; and &lt;/body&gt; is the static content that will be visible in the browser every time the web page is opened.</li>
+				<li>The text between &lt;head&gt; and &lt;/head&gt; may include some tags that load additional content before the main page content loads.</li>
+			</ul>
+
+			<p>If you'd like to read more on HTML, <a href="http://www.w3schools.com/html/default.asp" target="_blank">W3Schools</a> is an excellent resource to check out.</p>
+
+			<h2>Incorporating the HTML Canvas</h2>
+
+			<p>We will now include a canvas element called "myFirstCanvas" on your HTML page. Add the following tag between the &lt;body&gt;&lt;/body&gt; tags in your HTML file:</p>
+
+			<pre class="sourceCode"><code class="sourceCode">&lt;canvas id="myCanvas" width="600" height="400"&gt;&lt;/canvas&gt;</code></pre>
+
+			<p>A canvas is a special type of graphics element built-in to the HTML language. When adding a canvas to your page, you should specify a name (id), and size (width and height), as the tag above shows.</p>
+
+			<h2>Animating the Canvas with JavaScript</h2>
+
+			<p>Now download processing.js and processing-wrapper.js and save them to the same directory where your my_first_program.html is located. These JS files will enable the use of the ProcessingJS library. ProcessingJS is a selection of additional code that enhances the appearance of the graphics canvas. If you are interested, you can read more about it <a href="http://processingjs.org/">here</a>.</p>
+
+			<p>Since the graphics script we want to include in my_first_program.html depends on ProcessingJS, we must give the browser access to the ProcessingJS code for our animation to work. To incorporate JavaScript into an HTML page, we use the HTML &lt;script&gt; tag. Between the &lt;body&gt; tags of the HTML, and following the &lt;canvas&gt; element, add the following &lt;script&gt; tags:</p>
+
+			<pre class="sourceCode"><code class="sourceCode">&lt;script type="text/javascript" src="processing.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="processing-wrapper.js"&gt;&lt;/script&gt;</code></pre>
+
+			<p>Next download animation.js to the same directory. The code for an animation is written for you, so all you will have to do is to include it in your page as well. Below your Processing script includes, add:</p>
+
+			<pre class="sourceCode"><code class="sourceCode">&lt;script type="text/javascript" src="animation.js"&gt;&lt;/script&gt;</code></pre>
+
+			<p>If everything was done correctly, you should be able to open up my_first_program.html in your browser (Just open your browser and select File > Open from the menu) and see a nice colorful animation appear on your page. Congratulations, you are done! Please submit a screenshot of the animation on your page.</p>
+		</div>
+	</div>
+</body>
+</html>
