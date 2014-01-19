@@ -66,7 +66,7 @@ code {font-family: monospace; }
 pre { background-color: #ccc; padding: 1em; }
 
 img {
-padding-left: 10em;
+padding-left: 0em; /*we could probably just get rid of this line*/
 }
 
 .small-title {
