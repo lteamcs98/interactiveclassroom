@@ -34,6 +34,16 @@
 		$(function() {
 			$('div.split-pane').splitPane();
 		});
+        $(document).ready(function() {
+            codeSnippet('codeSnippet1');
+            codeSnippet('codeSnippet2');
+            codeSnippet('codeSnippet3');
+            codeSnippet('codeSnippet4');
+            codeSnippet('codeSnippet5');
+            codeSnippet('codeSnippet6');            
+            outputSnippet('outputSnippet1');
+            outputSnippet('outputSnippet2');
+        });
 	</script>
 </head>
 <body>
@@ -104,10 +114,19 @@
 							<h2 id="functions.-coding-style.">Functions. Coding style.</h2>
 							<p>A computer program is made up of instructions that a computer follows. Let's get started.</p>
 							<h2 id="printing-to-the-screen">Printing to the screen</h2>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;Hello&quot;</span>);</code></pre>
+                            <textarea id="codeSnippet1">print("Hello");</textarea>
+                            <button class="edit-button" id="codeSnippet1Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;Hello&quot;</span>);</code></pre> -->
 							<p>This program causes the computer to print the word <code>Hello</code> in the console window at the bottom of the page. Notice that the quotation marks around <code>Hello</code> are not printed.</p>
 							<p>Here's another program:</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;Hello&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;my&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;name&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;is&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;Inigo&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;Montoya&quot;</span>);</code></pre>
+                            <textarea id="codeSnippet2">print("Hello");
+print("my");
+print("name");
+print("is");
+print("Inigo");</textarea>
+                            <button class="edit-button" id="codeSnippet2Edit">Edit</button><br>                            
+                            <!--
+							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;Hello&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;my&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;name&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;is&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;Inigo&quot;</span>);<br /><span class="kw">print</span>(<span class="st">&quot;Montoya&quot;</span>);</code></pre> -->
 							<p>In this multi-line program, commands are executed in the order they appear.</p>
 							<h2 id="thinking-like-a-computer-the-program-counter">Thinking like a computer: the program counter</h2>
 							<p>As the Javascript interpreter runs a program, the interpreter keeps track of the line number that is currently being executed, much as you might use a bookmark to keep track of what page you're reading in a book. The bookmark that the computer uses to keep track of the line number is called the <strong>program counter</strong>.</p>
@@ -120,26 +139,65 @@
 							<p>By giving a name to a chunk of lines of code, we can easily reuse that section of code without having to retype all those lines every time.</p>
 							<h2 id="writing-your-own-functions">Writing your own functions</h2>
 							<p>Here's a program that defines our own two functions, <code>say_introduction</code> and <code>threaten_vengeance</code>.</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {<br />    <span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);<br />}<br /><br /><span class="kw">function</span> threaten_vengeance(){<br />    <span class="kw">print</span>(<span class="st">&quot;You killed my father.&quot;</span>);<br />    <span class="kw">print</span>(<span class="st">&quot;Prepare to die.&quot;</span>);<br />}<br /><br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);</code></pre>
+                            <textarea id="codeSnippet3">
+function say_introduction() {
+    print("My name is Inigo Montoya.");
+}
+
+function threaten_vengeance(){
+    print("You killed my father.");
+    print("Prepare to die.");
+}
+
+print("Hello.");</textarea>
+                            <button class="edit-button" id="codeSnippet3Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {<br />    <span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);<br />}<br /><br /><span class="kw">function</span> threaten_vengeance(){<br />    <span class="kw">print</span>(<span class="st">&quot;You killed my father.&quot;</span>);<br />    <span class="kw">print</span>(<span class="st">&quot;Prepare to die.&quot;</span>);<br />}<br /><br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);</code></pre> -->
 							<p>Function definitions have two parts: a <strong>header</strong>, and a <strong>body</strong>. The header gives the name of the function you want to define (as well as some other things we'll see later).
 							<p>The header uses <code>function</code>, the name of the function you'd like to define, parentheses after the name of the function, and a left curly brace. <code>function</code> is an example of a <strong>keyword</strong> in Javascript: a word that has special meaning in a program. Keywords in Javascript may not be used for any other purpose; for example, you cannot give a function the name <code>function</code>.</p>
 							<p>So the header for the first function is</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {</code></pre>
+                            <textarea id="codeSnippet4">function say_introduction() {</textarea>
+                            <button class="edit-button" id="codeSnippet4Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {</code></pre> -->
 							<p>The body of the first function is</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);</code></pre>
+                            <textarea id="codeSnippet5">    print("My name is Inigo Montoya.");</textarea>
+                            <button class="edit-button" id="codeSnippet5Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);</code></pre> -->
 							<p>When we run the complete program, we get the output:</p>
-							<pre><code>Hello.</code></pre>
+                            <textarea id="outputSnippet1">    Hello</textarea>
+							<!-- <pre><code>Hello.</code></pre> -->
 							<p>Wait. Our program only printed <code>Hello.</code>. Javascript now knows how to do the <code>say_introduction</code> and <code>threaten_vengeance</code> functions, but we haven't told it to use them yet.</p>
 							<p>To tell the interpreter to actually run the body of a function, you use a <strong>function call</strong>. To write a function call, write the name of the function followed by parentheses.</p>
-							<pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {<br /><span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);<br />}<br /><br /><span class="kw">function</span> threaten_vengeance() {<br />    <span class="kw">print</span>(<span class="st">&quot;You killed my father.&quot;</span>);<br />    <span class="kw">print</span>(<span class="st">&quot;Prepare to die.&quot;</span>);<br />}<br /><br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />say_introduction();<br />threaten_vengeance();<br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />threaten_vengeance();</code></pre>
+                            <textarea id="codeSnippet6">function say_introduction() {
+print("My name is Inigo Montoya.");
+}
+
+function threaten_vengeance() {
+    print("You killed my father.");
+    print("Prepare to die.");
+}
+
+print("Hello.");
+say_introduction();
+threaten_vengeance();
+print("Hello.");
+threaten_vengeance();</textarea>
+                            <button class="edit-button" id="codeSnippet6Edit">Edit</button><br>                            
+							<!-- <pre class="sourceCode"><code class="sourceCode python"><span class="kw">function</span> say_introduction() {<br /><span class="kw">print</span>(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);<br />}<br /><br /><span class="kw">function</span> threaten_vengeance() {<br />    <span class="kw">print</span>(<span class="st">&quot;You killed my father.&quot;</span>);<br />    <span class="kw">print</span>(<span class="st">&quot;Prepare to die.&quot;</span>);<br />}<br /><br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />say_introduction();<br />threaten_vengeance();<br /><span class="kw">print</span>(<span class="st">&quot;Hello.&quot;</span>);<br />threaten_vengeance();</code></pre> -->
 							<p>Here's the output:</p>
-							<pre><code>Hello.
+                            <textarea id="outputSnippet2">Hello.
 My name is Inigo Montoya.
 You killed my father.
 Prepare to die.
 Hello.
 You killed my father.
-Prepare to die.</code></pre>
+Prepare to die.</textarea>
+							<!--<pre><code>Hello.
+My name is Inigo Montoya.
+You killed my father.
+Prepare to die.
+Hello.
+You killed my father.
+Prepare to die.</code></pre> -->
 							<p>One way to think of the difference between a function definition and a function call is to think of a cookbook containing various recipes. The printed recipes are like function definitions: they tell <em>how</em> to prepare a dish <em>when</em> you decide to prepare it, but they don't, on their own, cause the dish to be prepared. Actually preparing a dish by following the recipe is like a function call.</p>
 							<p>When the program counter reaches a function call, the interpreter takes a note of where the program counter is, moves the program counter to the first line of the body of the appropriate function definition, and executes the lines of code in the function. When the interpreter gets to the end of the body of the function, the program counter is reset to its original value before the function call, and Javascript jumps back to where it started before the function call.</p>
 						</div>
