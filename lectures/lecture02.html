@@ -91,6 +91,7 @@
 }
 
 lovePoem("Squidward");</textarea>
+							<button class="edit-button" id="codeSnippet1Edit">Edit</button><br>
 							<p>When we declare this function, lover is our parameter. When calling the function, we pass it an <strong>argument</strong>: an instance of the parameter. In the above example, the argument is "Squidward". Try calling this function a few times, each time passing a name of a different love interest as an argument.</p>
 							<p>Functions can take many parameters. You can make your love poems even better by writing a function that also takes a parameter time, letting your lover know what time to call on you. You wouldn't want more than one to show up at once! Or would you? ;)</p>
 							<textarea id="codeSnippet2">function lovePoem(lover, time){
@@ -103,12 +104,14 @@ lovePoem("Squidward");</textarea>
 }
 
 lovePoem("Squidward", "9");</textarea>
+							<button class="edit-button" id="codeSnippet2Edit">Edit</button><br>
 							<p>Functions can take parameters other than strings of text. Many functions perform mathematical operations on parameters that are numbers. The function <code>print_average</code> takes three numbers and prints their average.</p>
 							<textarea id="codeSnippet3">function print_average(a, b, c){
     print((a + b + c)/3);
 }
 
 print_average(6, 10, 5);</textarea>
+							<button class="edit-button" id="codeSnippet3Edit">Edit</button><br>
 							<h2 id="abstraction-the-valueof-temporary-ignorance">Abstraction: the value of (temporary) ignorance</h2>
 							<p>When we build higher-level concepts from simpler pieces and then work with those higher-level concepts, we are taking advantage of <strong>abstraction</strong>. Abstraction is a major tool in computer science that we'll come back to over and over.</p>
 							<p>Whenever we want to print out the average of two numbers, all we have to do is call the function <code>print_average</code>. At each call, we don't have to remember the mathematical operations required to compute the average of two numbers; we just need to know that the function somehow computes this average and prints it out.</p>
@@ -126,23 +129,9 @@ function termGPAs(){
 }
 
 termGPAs();</textarea>
+							<button class="edit-button" id="codeSnippet4Edit">Edit</button><br>
 							<p>Using abstraction to print averages made the <code>termGPAs</code> function simpler. As you work with functions that are much more complex than just calculating the average of a few numbers, you will continue to see how useful abstraction is. </p>
-                            <textarea id="codeSnippet1">function revenge(){
-    print("You killed my father.");  
-    print("Prepare to die.");  
-}
 
-function greet(){
-    print("Hello.");  
-    print("My name is Inigo Montoya.");  
-}
-
-greet();
-revenge();  
-greet(); 
-revenge();</textarea>
-                            <button class="edit-button" id="codeSnippet1Edit">Edit</button><br>                            
-							<!-- <pre class="sourceCode"><code class="sourceCode javascript"><span class="kw">function</span> revenge(){<br />    print(<span class="st">&quot;You killed my father.&quot;</span>);  <br />    print(<span class="st">&quot;Prepare to die.&quot;</span>);  <br />}<br /><br /><span class="kw">function</span> greet(){<br />    print(<span class="st">&quot;Hello.&quot;</span>);  <br />    print(<span class="st">&quot;My name is Inigo Montoya.&quot;</span>);  <br />}<br /><br />greet();<br />revenge();  <br />greet(); <br />revenge();</code></pre> -->
 							<p>Abstraction helps us in areas beyond computer science. For example, when I press the gas pedal on my car, a lot of stuff happens, but because I have the higher-level &quot;push-gas-pedal-car-moves&quot; concept, I don't have to think about the details of what is going on in the drive train (engine, transmission, differential, etc.) to make my car go.</p>
 
 							<h2 id="graphics-coordinates">Graphics coordinates</h2>
