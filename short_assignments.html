@@ -1,45 +1,60 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="generator" content="pandoc" />
-  <title></title>
+    <title>Interactive Graphics Lesson</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text.css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="js/codemirror-3.20/lib/codemirror.css">
+	<link rel="stylesheet" type="text/css" href="css/split-pane.css">
+	<link rel="stylesheet" type="text/css" href="css/graphics-style.css">
+	
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    
+    <!-- Javascripts -->
+    <script type="text/javascript" src="js/codemirror-3.20/lib/codemirror.js"></script>
+    <script type="text/javascript" src="js/codemirror-3.20/mode/javascript/javascript.js"></script>
+    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="js/split-pane.js"></script>
+    <script type="text/javascript" src="js/processing-1.4.1.min.js"></script>
+	
+	<script type="text/javascript"
+	  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+	});
+	</script>
+	
+	<script>
+		$(function() {
+			$('div.split-pane').splitPane();
+		});
+	</script>
 </head>
 <body>
-<!-- <script type="text/javascript" -->
-<!--   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> -->
-<!-- </script> -->
-<script type="text/javascript"
- src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
-</script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-
-<link rel="stylesheet" href="http://www.cs.dartmouth.edu/~cs1/azul.css" type="text/css" />
-
-
-<div id = "menubar">
-<ul>
-<li><a href="syllabus.html">Syllabus</a>
-<li><a href="schedule.html">Schedule</a>
-<li><a href="shortassign/short_assignments.html">Short assignments</a>
-<li><a href="http://www.cs.dartmouth.edu/~cs1/labs/lab_assignments.html">Labs</a>
-<li><a href="http://www.cs.dartmouth.edu/~cs1/exams.html">Exams</a>
-<li><a href="http://www.cs.dartmouth.edu/~cs1/software.html">Course software</a>
-<li><A HREF="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%63%73%31%68%65%6C%70%40%63%73%2E%64%61%72%74%6D%6F%75%74%68%2E%65%64%75">Get help</A>
-</ul>
-</div>
-
-<div id = "termtitle"> CS 1:  Winter 2012 </div> 
+	<div id="nav">
+		<ul>
+		<li>CS1: FALL 2014</li>
+		<li><a href="syllabus.html">Syllabus</a>
+		<li><a href="schedule.html">Schedule</a>
+		<li><a href="short_assignments.html">Short assignments</a>
+		<li><a href="lab_assignments.html">Labs</a>
+		<li><a href="exams.html">Exams</a>
+		<li><a href="software.html">Course software</a>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="content-text">
 <h1 id="short-assignments">Short assignments</h1>
 <ul>
 <li><p><a href="sa01.html">Short assignment 1 (webpage)</a>, due Monday, January 9.</p></li>
 <li><p><a href="sa02.html">Short assignment 2 (cartoon sketch)</a>, due Wednesday, January 11.</p></li>
-
-</ul>
+		</div>
+	</div>
 </body>
 </html>
