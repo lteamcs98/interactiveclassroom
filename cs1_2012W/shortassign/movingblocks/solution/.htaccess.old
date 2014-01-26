@@ -1,6 +1,0 @@
-AuthType Basic
-AuthName  "CS 1 Solutions"
-AuthUserFile  /net/class/cs1/public_html/shortassign/.htpasswd
-<Limit GET>
-require valid-user
-</Limit>
