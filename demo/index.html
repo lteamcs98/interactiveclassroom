@@ -1,0 +1,42 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+io = io.connect()
+
+function submit_message()
+{
+    var message = document.getElementById("messageBox").value;
+    document.getElementById("messageBox").value = "";
+    console.log('new message: ' + message);
+    io.emit('submit_message', message);
+}
+
+username = prompt('type in a username:')
+
+// Emit ready event with room name.
+io.emit('validate', username, function(data) {
+    if(data.value)
+    {
+        console.log('logged in!');
+        $('body').append('<textarea id="chatWindow" cols="50" rows="25" disabled></textarea><br>');
+        $('body').append('<textarea id="messageBox" cols="50" rows="1">Enter your comments here...</textarea><br><button id="submitMessage" onclick="submit_message()" type="button">Send Message</button>');
+        $('body').append('<p>'+data.message+'</p>');
+    }
+    else
+    {
+        alert(data.message);
+    }
+})   
+
+// Listen for the announce event.
+io.on('new_message', function(data) {
+    document.getElementById("chatWindow").value += '\n'+data.message;
+})
+
+io.on('login_error', function(data) {
+    alert(data.message);
+})
+
+</script>
+<body>
+</body>
