@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    h1= title
+    form#formRoom(name="room",method="post",action="/joinroom")
+        input#inputRoomName(type="text", placeholder="room", name="room")
+        button#btnSubmit(type="submit") submit

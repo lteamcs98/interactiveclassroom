@@ -1,0 +1,27 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+io = io.connect()
+room = prompt('type a room name')
+
+// Emit ready event with room name.
+io.emit('ready', room)
+
+// Listen for the announce event.
+io.on('announce', function(data) {
+    $('body').append('<p>'+data.message+ new Date().toString()+'</p>')
+})
+
+
+io.on('submit', function(data) {
+    $('body').append('<p>hello</p>')
+})
+
+</script>
+<body>
+    <form name="form">
+      First name: <input type="text" name="fname"><br>
+      Last name: <input type="text" name="lname"><br>
+      <input type="submit" value="Submit">
+    </form>
+</body>
