@@ -44,14 +44,25 @@ app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/userlist', routes.userlist(db));
 
-io.sockets.on('requestChallenge', function() {
-    console.log('challenge requested!');
+io.sockets.on('connection', function (socket) {
+	console.log('Server: In connection');
+
+	socket.on('requestChallenge', function() {
+		console.log('Server: In request challenge');
+		socket.emit('sendChallenge',
+			{
+				problem: 'Write a function called findMax() that returns the maximum in an array of integers.',
+				functionName: 'findMax',
+				input: [ [1, 2, 5, 7, 0], [4, 7, 3, 8, 2]],
+				output: [7, 8]
+			});
     // send data to client: prompt, input, and output
+	});
+
 });
 
-io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+io.sockets.on('requestChallenge', function(socket) {
+	console.log('Server: In request challenge');
+	socket.emit('sendChallenge', { problem: 'write a for loopsdfsdafsdafsdfdssdsfdsf' });
+    // send data to client: prompt, input, and output
 });
