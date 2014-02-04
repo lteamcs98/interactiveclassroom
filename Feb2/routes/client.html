@@ -21,9 +21,10 @@
 
 </script>
 <body>
+    <h1 id="title"></h1>
     <textarea id="codeEditor">Write your code here!</textarea>
     <button id="submitButton" type="button">Submit</button><br>
-    <textarea id="outputBox" disabled>Output Here</textarea>
+    <textarea id="outputBox" rows="10" cols="50" disabled>Results</textarea>
 </body>
 <script>
     var inputs = {};
@@ -38,7 +39,7 @@
 
     socket.on('sendChallenge', function (data) {
         console.log('Client: In send challenge');
-        $("#outputBox").val(data.problem);
+        $("#title").html(data.problem);
         console.log("output = " + data.output.toString());
         inputs = data.input;
         outputs = data.output;
@@ -47,6 +48,7 @@
     
     $('#submitButton').click(function()
     {
+        $('#outputBox').val('Results');
         console.log(editor.getValue());
         console.log("output = " + outputs.toString());
         eval(editor.getValue());
@@ -55,14 +57,21 @@
         for(var i in inputs)
         {
             var output = eval(functionName+'(inputs[i])');
-            console.log(output);
-            console.log(outputs[i]);
             if(output == outputs[i])
             {
                 correct += 1.0;
+                $('#outputBox').val($('#outputBox').val() + '\nTest ' + i + ' PASSED'); 
+            }
+            else 
+            {
+                $('#outputBox').val($('#outputBox').val() + '\nTest ' + i + ' FAILED'); 
+                $('#outputBox').val($('#outputBox').val() + '\nInput: ' + inputs[i]);
+                $('#outputBox').val($('#outputBox').val() + '\nYour output: ' + output);
+                $('#outputBox').val($('#outputBox').val() + '\nCorrect output: ' + outputs[i]);
             }
         }
-        message = 'Percent Correct = ' + (100*correct/total).toString();
+        message = '\n' + (100*correct/total) + '% Correct';
+        $('#outputBox').val($('#outputBox').val() + message);
         console.log(message);
     });
   
