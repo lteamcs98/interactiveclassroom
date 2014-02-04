@@ -12,33 +12,7 @@
         console.log('Client: In connect!');
         socket.emit('requestChallenge');
       });
-    
-    socket.on('sendChallenge', function (data) {
-        
-        console.log('Client: In send challenge');
-        
-        $("#outputBox").val(data.problem);
-        
-        var dataParse = jQuery.parseJSON(data);
-        console.log(dataParse);
-
-        for (var i in dataParse.input){
-          console.log(dataParse.input[i]);
-        }
-
-        function hiltonMax(numbArray){
-          var max = numbArray[0];
-          for (var i = 0; i < numbArray.length; i++){
-            if (numbArray[i] < max) max = numbArray[i];
-          }
-          return max;
-        }
-
-        console.log(hiltonMax(dataParse.input[0]));
-
-        console.log("output = " + data.output.toString());
-      });
-    
+          
     socket.on('news', function (data) {
         console.log('Client: In news');
         console.log(data);
@@ -52,8 +26,55 @@
     <textarea id="outputBox" disabled>Output Here</textarea>
 </body>
 <script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-    lineNumbers: true,
-    mode: "javascript"
-  });
+    var inputs = {};
+    var outputs = {};
+    var functionName;
+    var userFn;
+    var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), 
+    {
+        lineNumbers: true,
+        mode: "javascript"
+    });
+
+    socket.on('sendChallenge', function (data) {
+        console.log('Client: In send challenge');
+        $("#outputBox").val(data.problem);
+        console.log("output = " + data.output.toString());
+        inputs = data.input;
+        outputs = data.output;
+        functionName = data.functionName;
+    });
+    
+    $('#submitButton').click(function()
+    {
+        console.log(editor.getValue());
+        console.log("output = " + outputs.toString());
+        eval(editor.getValue());
+        total = inputs.length;
+        correct = 0.0;
+        for(var i in inputs)
+        {
+            var output = eval(functionName+'(inputs[i])');
+            console.log(output);
+            console.log(outputs[i]);
+            if(output == outputs[i])
+            {
+                correct += 1.0;
+            }
+        }
+        message = 'Percent Correct = ' + (100*correct/total).toString();
+        console.log(message);
+    });
+  
+/*
+var findMax = function(numbArray)
+    {
+        var max = numbArray[0];
+        for (var i = 0; i < numbArray.length; i++)
+        {
+            if (numbArray[i] > max) max = numbArray[i];
+        }
+        return max;
+    }
+*/
 </script>
