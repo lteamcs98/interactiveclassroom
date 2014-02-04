@@ -15,7 +15,7 @@ var db = monk('localhost:27017/demo');
 
 var app = express();
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server, {log : false});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -43,6 +43,11 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/userlist', routes.userlist(db));
+
+io.sockets.on('requestChallenge', function() {
+    console.log('challenge requested!');
+    // send data to client: prompt, input, and output
+});
 
 io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });

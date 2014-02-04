@@ -4,6 +4,19 @@
 <style type="text/css">
       .CodeMirror {border: 1px solid black;}
 </style>
+<script>
+    var socket = io.connect('http://localhost');
+    socket.on('connect', function () {
+        socket.emit('requestChallenge');
+      });
+    socket.on('sendChallenge', function (data) {
+        console.log(data);
+      });
+    socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+    });
+</script>
 <body>
     <textarea id="codeEditor">Write your code here!</textarea>
     <button id="submitButton" type="button">Submit</button><br>
@@ -13,11 +26,5 @@
   var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
     lineNumbers: true,
     mode: "javascript"
-  });
-  
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
   });
 </script>
