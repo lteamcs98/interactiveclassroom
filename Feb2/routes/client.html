@@ -1,15 +1,23 @@
+<link rel="stylesheet" href="./codemirror.css">
 <script src="/socket.io/socket.io.js"></script>
-<script src="../node_modules/codemirror/lib/codemirror.js"></script>
+<script src="./codemirror.js"></script>
+<style type="text/css">
+      .CodeMirror {border: 1px solid black;}
+</style>
+<body>
+    <textarea id="codeEditor">Write your code here!</textarea>
+    <button id="submitButton" type="button">Submit</button><br>
+    <textarea id="outputBox" disabled>Output Here</textarea>
+</body>
 <script>
-  var editor = CodeMirror.fromTextArea(myTextarea, {
-    mode: "text/html"
+  var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+    lineNumbers: true,
+    mode: "javascript"
   });
+  
   var socket = io.connect('http://localhost');
   socket.on('news', function (data) {
     console.log(data);
     socket.emit('my other event', { my: 'data' });
   });
 </script>
-<body>
-Hello World!
-</body>
