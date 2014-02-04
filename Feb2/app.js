@@ -11,7 +11,7 @@ var path = require('path');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/testdb');
+var db = monk('localhost:27017/demo');
 
 var app = express();
 var server = http.createServer(app);
@@ -50,7 +50,3 @@ io.sockets.on('connection', function (socket) {
     console.log(data);
   });
 });
-
-// http.createServer(app).listen(app.get('port'), function(){
-//   console.log('Express server listening on port ' + app.get('port'));
-// });

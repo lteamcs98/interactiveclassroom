@@ -1,8 +1,15 @@
 <script src="/socket.io/socket.io.js"></script>
+<script src="../node_modules/codemirror/lib/codemirror.js"></script>
 <script>
+  var editor = CodeMirror.fromTextArea(myTextarea, {
+    mode: "text/html"
+  });
   var socket = io.connect('http://localhost');
   socket.on('news', function (data) {
     console.log(data);
     socket.emit('my other event', { my: 'data' });
   });
 </script>
+<body>
+Hello World!
+</body>
