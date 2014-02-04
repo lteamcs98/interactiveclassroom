@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="./codemirror.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="./codemirror.js"></script>
 <style type="text/css">
@@ -6,16 +7,44 @@
 </style>
 <script>
     var socket = io.connect('http://localhost');
+
     socket.on('connect', function () {
+        console.log('Client: In connect!');
         socket.emit('requestChallenge');
       });
+    
     socket.on('sendChallenge', function (data) {
-        console.log(data);
+        
+        console.log('Client: In send challenge');
+        
+        $("#outputBox").val(data.problem);
+        
+        var dataParse = jQuery.parseJSON(data);
+        console.log(dataParse);
+
+        for (var i in dataParse.input){
+          console.log(dataParse.input[i]);
+        }
+
+        function hiltonMax(numbArray){
+          var max = numbArray[0];
+          for (var i = 0; i < numbArray.length; i++){
+            if (numbArray[i] < max) max = numbArray[i];
+          }
+          return max;
+        }
+
+        console.log(hiltonMax(dataParse.input[0]));
+
+        console.log("output = " + data.output.toString());
       });
+    
     socket.on('news', function (data) {
+        console.log('Client: In news');
         console.log(data);
         socket.emit('my other event', { my: 'data' });
     });
+
 </script>
 <body>
     <textarea id="codeEditor">Write your code here!</textarea>
