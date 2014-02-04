@@ -53,7 +53,7 @@ io.sockets.on('connection', function (socket) {
 			{
 				problem: 'Write a function called findMax() that returns the maximum in an array of integers.',
 				functionName: 'findMax',
-				input: [ [1, 2, 5, 7, 0], [4, 7, 3, 8, 2]],
+				input: [[1, 2, 5, 7, 0], [4, 7, 3, 8, 2]],
 				output: [7, 8]
 			});
     // send data to client: prompt, input, and output
