@@ -13,8 +13,18 @@ exports.userlist = function(db) {
     };
 };
 
-exports.challenge = function(req, res) {
-	res.render('challenge', {id : req.params.id});
+exports.challenge = function(db) {
+    return function(req, res) {
+        var challenges = db.get('challengecollection');
+        challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
+            console.log(doc.problem);
+            console.log(doc.inputs);
+            console.log(doc.outputs);
+			console.log(new Array(doc.inputs));
+            res.render('challenge', { "id" : doc.challengeId, "problem" : doc.problem, "inputs": doc.inputs, "outputs": doc.outputs, "functionName": doc.functionName});
+        });
+        //console.log('found challenge! ' + challenge.problem);
+    };
 };
 
 exports.challengelist = function(db) {

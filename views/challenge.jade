@@ -1,7 +1,7 @@
 doctype html
 html
 	head
-		title Challenge #{id}
+		title Challenge #{id} 
 		link(rel='stylesheet', href='../codemirror.css')
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
 		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
@@ -9,44 +9,26 @@ html
 		script(src='../codemirror.js')
 		
 		script.
-			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
-			var socket = io.connect('http://localhost');
-			
-			socket.on('connect', function () {
-				console.log('Client: In connect!');
-				socket.emit('requestChallenge');
-			});
-			
-			socket.on('news', function (data) {
-				console.log('Client: In news');
-				console.log(data);
-				socket.emit('my other event', { my: 'data' });
-			});
+
 
 	body
 		h1 Challenge #{id}
 		p This is challenge #{id}
+		p #{problem}
 		textarea(id='codeEditor') Write your code here!
 		button(id='submitButton' type='button') Submit
 		textarea(id='outputBox' rows='10' cols='50' disabled) Results
 		script.
-			var inputs = {};
-			var outputs = {};
-			var functionName;
-			var userFn;
+			var outputs = new Array(#{outputs});
+			var inputs = !{ JSON.stringify(inputs) };
+			console.log('inputs!!!');
+			console.log(inputs[0]);
+			console.log(inputs[1]);
+			var functionName = '#{functionName}';
 			var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), 
 			{
 				lineNumbers: true,
 				mode: "javascript"
-			});
-
-			socket.on('sendChallenge', function (data) {
-				console.log('Client: In send challenge');
-				$("#title").html(data.problem);
-				console.log("output = " + data.output.toString());
-				inputs = data.input;
-				outputs = data.output;
-				functionName = data.functionName;
 			});
 			
 			$('#submitButton').click(function() {
@@ -57,6 +39,7 @@ html
 				total = inputs.length;
 				correct = 0.0;
 				for(var i in inputs) {
+					console.log(inputs[i]);
 					var output = eval(functionName+'(inputs[i])');
 					if(output == outputs[i]) {
 						correct += 1.0;

@@ -47,7 +47,7 @@ app.get('/userlist', routes.userlist(db));
 app.get('/challengelist', routes.challengelist(db));
 
 // Get challenge with this id
-app.get('/challenge/:id', routes.challenge);
+app.get('/challenge/:id', routes.challenge(db));
 
 
 io.sockets.on('connection', function (socket) {
@@ -64,7 +64,6 @@ io.sockets.on('connection', function (socket) {
 			});
     // send data to client: prompt, input, and output
 	});
-
 });
 
 io.sockets.on('requestChallenge', function(socket) {
