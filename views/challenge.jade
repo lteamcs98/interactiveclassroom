@@ -9,8 +9,13 @@ html
 		script(src='../codemirror.js')
 		
 		script.
+			var socket = io.connect('http://localhost');
+			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
-
+			socket.on('connect', function () {
+				console.log('Client: In connect!');
+			});
+			
 	body
 		h1 Challenge #{id}
 		p This is challenge #{id}
@@ -21,6 +26,7 @@ html
 		script.
 			var outputs = new Array(#{outputs});
 			var inputs = !{ JSON.stringify(inputs) };
+			var challengeId = Number(#{challengeId});
 			console.log('inputs!!!');
 			console.log(inputs[0]);
 			console.log(inputs[1]);
@@ -32,6 +38,7 @@ html
 			});
 			
 			$('#submitButton').click(function() {
+				var failedTests = new Array();
 				$('#outputBox').val('Results');
 				console.log(editor.getValue());
 				console.log("output = " + outputs.toString());
@@ -45,13 +52,18 @@ html
 						correct += 1.0;
 						$('#outputBox').val($('#outputBox').val() + '\nTest ' + i + ' PASSED'); 
 					} else {
+						failedTests.push(i);
 						$('#outputBox').val($('#outputBox').val() + '\nTest ' + i + ' FAILED');
 						$('#outputBox').val($('#outputBox').val() + '\nInput: ' + inputs[i]);
 						$('#outputBox').val($('#outputBox').val() + '\nYour output: ' + output);
 						$('#outputBox').val($('#outputBox').val() + '\nCorrect output: ' + outputs[i]);
 					}
 				}
-				message = '\n' + (100*correct/total) + '% Correct';
+				var percent = (100.0*correct/total);
+				var message = '\n' + percent + '% Correct';
 				$('#outputBox').val($('#outputBox').val() + message);
 				console.log(message);
-				});
+				
+				// send data back to server
+				socket.emit('results', { score: percent, user_id: 0, challenge_id: #{challengeId}, failed: failedTests });
+			});

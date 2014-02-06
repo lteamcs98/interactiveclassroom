@@ -21,7 +21,7 @@ exports.challenge = function(db) {
             console.log(doc.inputs);
             console.log(doc.outputs);
 			console.log(new Array(doc.inputs));
-            res.render('challenge', { "id" : doc.challengeId, "problem" : doc.problem, "inputs": doc.inputs, "outputs": doc.outputs, "functionName": doc.functionName});
+            res.render('challenge', { "challengeId" : doc.challengeId, "problem" : doc.problem, "inputs": doc.inputs, "outputs": doc.outputs, "functionName": doc.functionName});
         });
         //console.log('found challenge! ' + challenge.problem);
     };
