@@ -43,6 +43,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/helloworld', routes.helloworld);
 app.get('/userlist', routes.userlist(db));
+app.get('/challengelist', routes.challengelist(db));
 
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
