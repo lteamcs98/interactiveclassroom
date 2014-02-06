@@ -44,6 +44,7 @@ server.listen(app.get('port'));
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/userlist', routes.userlist(db));
+app.get('/challengelist', routes.challengelist(db));
 
 // Get challenge with this id
 app.get('/challenge/:id', routes.challenge);
