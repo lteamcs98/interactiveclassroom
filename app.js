@@ -11,7 +11,7 @@ var path = require('path');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/demo');
+var db = monk('mongodb://Tevn:tevn@ds027769.mongolab.com:27769/heroku_app21896193');
 
 var app = express();
 var server = http.createServer(app);
