@@ -2,14 +2,16 @@ doctype html
 html
 	head
 		title Challenge #{id} 
-		link(rel='stylesheet', href='../codemirror.css')
+		link(rel='stylesheet', href='../css/codemirror.css')
+		link(rel='stylesheet', href='../css/lint.css')
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
 		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
-		script(src="../socket.io/socket.io.js")
-		script(src='../codemirror.js')
-		
-		script.
-
+		script(src='../socket.io/socket.io.js')
+		script(src='../js/codemirror.js')
+		script(src='../js/javascript-lint.js')
+		script(src='../js/javascript.js')
+		script(src='../js/jshint.js')
+		script(src='../js/lint.js')
 
 	body
 		h1 Challenge #{id}
@@ -20,15 +22,15 @@ html
 		textarea(id='outputBox' rows='10' cols='50' disabled) Results
 		script.
 			var outputs = new Array(#{outputs});
-			var inputs = !{ JSON.stringify(inputs) };
-			console.log('inputs!!!');
-			console.log(inputs[0]);
-			console.log(inputs[1]);
+			var inputs = !{JSON.stringify(inputs)};
+
 			var functionName = '#{functionName}';
 			var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), 
 			{
 				lineNumbers: true,
-				mode: "javascript"
+				mode: "javascript",
+				gutters: ["CodeMirror-link-markers"],
+				lint: true
 			});
 			
 			$('#submitButton').click(function() {
