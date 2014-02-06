@@ -23,7 +23,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(express.bodyParser())
+app.use(express.bodyParser());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -52,22 +52,11 @@ app.get('/challenge/:id', routes.challenge(db));
 
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
-
-	socket.on('requestChallenge', function() {
-		console.log('Server: In request challenge');
-		socket.emit('sendChallenge',
-			{
-				problem: 'Write a function called \'findMax\' that returns the maximum in an array of integers.',
-				functionName: 'findMax',
-				input: [[1, 2, 5, 7, 0], [4, 7, 3, 8, 2]],
-				output: [7, 8]
-			});
-    // send data to client: prompt, input, and output
+	
+	socket.on('results', function(results) {
+		console.log('got some results!', results);
+		db.get('resultscollection').insert(results, {safe: true}, function(err, records){
+			console.log('Record added as ' + records);
+		});
 	});
-});
-
-io.sockets.on('requestChallenge', function(socket) {
-	console.log('Server: In request challenge');
-	socket.emit('sendChallenge', { problem: 'write a for loopsdfsdafsdafsdfdssdsfdsf' });
-    // send data to client: prompt, input, and output
 });
