@@ -37,3 +37,42 @@ exports.challengelist = function(db) {
         });
     };
 };
+
+exports.newchallenge = function(req, res){
+    res.render('newchallenge', { title: 'Add New Challenge'});
+}
+
+exports.addchallenge = function(db) {
+    return function(req, res) {
+
+        // Get our form values
+        var challengeId = req.body.challengeId;
+        var problem = req.body.problem;
+        var functionName = req.body.functionName;
+        var inputs = req.body.inputs;
+        var outputs = req.body.outputs;
+
+        // Set our collection
+        var collection = db.get('challengecollection');
+
+        // Submit to the DB
+        collection.insert({
+            "challengeId" : challengeId,
+            "problem" : problem,
+            "functionName" : functionName,
+            "inputs" : inputs,
+            "outputs" : outputs
+        }, function(err,doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+            }
+            else {
+                // If it worked, set the header so the address bar doesn't still say /adduser
+                res.location("userlist");
+                // Add forward to success page
+                res.redirect("userlist");
+            }
+        });
+    }
+}
