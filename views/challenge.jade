@@ -12,21 +12,12 @@ html
 		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
 		script(src="../socket.io/socket.io.js")
 		
-		script.
-			var socket = io.connect('http://localhost');
-			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
-
-			socket.on('connect', function () {
-				console.log('Client: In connect!');
-			});
-			
 		script(src='../socket.io/socket.io.js')
 		script(src='../js/codemirror.js')
 		script(src='../js/javascript-lint.js')
 		script(src='../js/javascript.js')
 		script(src='../js/jshint.js')
 		script(src='../js/lint.js')
-
 	body
 		p(class='challengeTitle') Challenge #{challengeId}
 		p(class='challengeText') #{problem}
@@ -36,20 +27,17 @@ html
 		div(id='rightPanel')
 			div(id='outputBox')
 				p(class='challengeTitle') Results
+		script(src='../js/console_capture.js')
 		script.
 			var socket = io.connect('http://localhost');
 			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
-			socket.on('connect', function () {
-				console.log('Client: In connect!');
-			});
+			var socket = io.connect('http://localhost');
+			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 			
 			var outputs = new Array(#{outputs});
 			var inputs = !{ JSON.stringify(inputs) };
 			var challengeId = Number(#{challengeId});
-			console.log('inputs!!!');
-			console.log(inputs[0]);
-			console.log(inputs[1]);
 			var inputs = !{JSON.stringify(inputs)};
 
 			var functionName = '#{functionName}';
@@ -66,13 +54,10 @@ html
 			$('#submitButton').click(function() {
 				var failedTests = new Array();
 				$('#outputBox').html('<p class="challengeTitle">Results</p>');
-				console.log(editor.getValue());
-				console.log("output = " + outputs.toString());
 				eval(editor.getValue());
 				total = inputs.length;
 				correct = 0.0;
 				for(var i in inputs) {
-					console.log(inputs[i]);
 					var output = eval(functionName+'(inputs[i])');
 					if(output == outputs[i]) {
 						correct += 1.0;
