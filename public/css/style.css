@@ -26,6 +26,7 @@ body {
 	float: left;
 	width: 400px;
 	height: 300px;
+	overflow: scroll;
 }
 
 #codeEditor {
@@ -48,6 +49,21 @@ body {
 .incorrectResult {
 	font-size: 16px;
 	color: #D65654;
+}
+
+.consoleError {
+	font-size: 12px;
+	color: #FF0000;
+}
+
+.consoleWarn {
+	font-size: 12px;
+	color: #FF6600;
+}
+
+.consoleLog {
+	font-size: 12px;
+	color: #000000;
 }
 
 #submitButton {
