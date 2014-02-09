@@ -1,13 +1,16 @@
 doctype html
 html
 	head
-		title Challenge #{id} 
+		title Challenge #{challengeId} 
 		link(rel='stylesheet', href='../css/codemirror.css')
+		link(rel='stylesheet', href='../css/light-table.css')
 		link(rel='stylesheet', href='../css/lint.css')
+		link(rel='stylesheet', href='../css/normalize.css')
+		link(rel='stylesheet', href='../css/style.css')
+		
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
 		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
 		script(src="../socket.io/socket.io.js")
-		script(src='../codemirror.js')
 		
 		script.
 			var socket = io.connect('http://localhost');
@@ -25,12 +28,14 @@ html
 		script(src='../js/lint.js')
 
 	body
-		h1 Challenge #{id}
-		p This is challenge #{id}
-		p #{problem}
-		textarea(id='codeEditor') Write your code here!
-		button(id='submitButton' type='button') Submit
-		textarea(id='outputBox' rows='10' cols='50' disabled) Results
+		p(class='challengeTitle') Challenge #{challengeId}
+		p(class='challengeText') #{problem}
+		div(id='leftPanel')
+			textarea(id='codeEditor')
+			button(id='submitButton' type='button') Submit
+		div(id='rightPanel')
+			div(id='outputBox')
+				p(class='challengeTitle') Results
 		script.
 			var socket = io.connect('http://localhost');
 			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
@@ -53,12 +58,14 @@ html
 				lineNumbers: true,
 				mode: "javascript",
 				gutters: ["CodeMirror-link-markers"],
-				lint: true
+				lint: true,
+				theme: "light-table"
 			});
+			editor.setSize(540, 300);
 			
 			$('#submitButton').click(function() {
 				var failedTests = new Array();
-				$('#outputBox').val('Results');
+				$('#outputBox').html('<p class="challengeTitle">Results</p>');
 				console.log(editor.getValue());
 				console.log("output = " + outputs.toString());
 				eval(editor.getValue());
@@ -69,19 +76,18 @@ html
 					var output = eval(functionName+'(inputs[i])');
 					if(output == outputs[i]) {
 						correct += 1.0;
-						$('#outputBox').val($('#outputBox').val() + '\nTest ' + i + ' PASSED'); 
+						$('#outputBox').append('<p class="correctResult">Test ' + i + ' passed</p>');
 					} else {
 						failedTests.push(i);
-						$('#outputBox').val($('#outputBox').val() + '\nTest ' + i + ' FAILED');
-						$('#outputBox').val($('#outputBox').val() + '\nInput: ' + inputs[i]);
-						$('#outputBox').val($('#outputBox').val() + '\nYour output: ' + output);
-						$('#outputBox').val($('#outputBox').val() + '\nCorrect output: ' + outputs[i]);
+						$('#outputBox').append('<p class="incorrectResult">Test ' + i + ' failed<br />' + 
+												'Input: ' + inputs[i] + '<br />' + 
+												'Your output: ' + output + '<br />' + 
+												'Correct output: ' + outputs[i] + '</p>');
 					}
 				}
-				var percent = (100.0*correct/total);
-				var message = '\n' + percent + '% Correct';
-				$('#outputBox').val($('#outputBox').val() + message);
-				console.log(message);
+				var percent = (100.0 * correct / total);
+				
+				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
 				
 				// send data back to server
 				socket.emit('results', { score: percent, user_id: 0, challenge_id: #{challengeId}, failed: failedTests });
