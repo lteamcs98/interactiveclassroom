@@ -1,8 +1,77 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: #F5F5F5;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 2em;
 }
 
-a {
-  color: #00B7FF;
+.challengeTitle {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #404040;
+}
+
+.challengeText {
+	font-size: 18px;
+	color: #707070;
+}
+
+#leftPanel {
+	float: left;
+	width: 550px;
+}
+
+#rightPanel {
+	background-color: #FFFFFF;
+	float: left;
+	width: 400px;
+	height: 300px;
+}
+
+#codeEditor {
+	float: left;
+	width: 500px;
+	height: 300px;
+}
+
+#outputBox {
+	float: left;
+	padding: 0px 20px;
+	margin: 0;
+}
+
+.correctResult {
+	font-size: 16px;
+	color: #8FC949;
+}
+
+.incorrectResult {
+	font-size: 16px;
+	color: #D65654;
+}
+
+#submitButton {
+	background-color: #8FC949;
+	border: 1px #8FC949 solid;
+	-moz-border-radius: 18px;
+	-webkit-border-radius: 18px;
+	border-radius: 18px;
+	color: #FFFFFF;
+	display:inline-block;
+	float: right;
+	font-size:18px;
+	margin: 5px 22px;
+	padding: 5px 50px;
+	text-decoration:none;
+}
+
+#submitButton:hover {
+	background-color: #B9ED7B;
+}
+#submitButton:active {
+	position:relative;
+	top: 2px;
+}
+#submitButton:focus {
+	outline: none;
 }
