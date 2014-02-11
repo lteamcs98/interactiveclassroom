@@ -27,10 +27,16 @@ html
 		div(id='rightPanel')
 			div(id='outputBox')
 				p(class='challengeTitle') Results
+
 		script(src='../js/console_capture.js')
 		script.
 
-			function arraysEqual(a, b) {
+			function arraysEqual(a, b) {			
+				if(typeof a != "object" && typeof b != "object")
+				{
+					return a==b;
+				}
+				
 				if (a === b) return true;
 				if (a == null || b == null) return false;
 				if (a.length != b.length) return false;
