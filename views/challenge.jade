@@ -35,17 +35,16 @@ html
 			var socket = io.connect('http://localhost');
 			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 			
-			var outputs = new Array(#{outputs});
+			var outputs = !{ JSON.stringify(outputs) };
 			var inputs = !{ JSON.stringify(inputs) };
 			var challengeId = Number(#{challengeId});
-			var inputs = !{JSON.stringify(inputs)};
 
 			var functionName = '#{functionName}';
 			var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), 
 			{
 				lineNumbers: true,
 				mode: "javascript",
-				gutters: ["CodeMirror-link-markers"],
+				gutters: ["CodeMirror-lint-markers"],
 				lint: true,
 				theme: "light-table"
 			});
