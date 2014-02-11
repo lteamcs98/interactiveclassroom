@@ -7,8 +7,8 @@
       .CodeMirror {border: 1px solid black;}
 </style>
 <script>
-    //var socket = io.connect('http://localhost');
-    var socket = io.connect('http://interactiveclassroom.herokuapp.com');
+    var socket = io.connect('http://localhost');
+    //var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
     socket.on('connect', function () {
         console.log('Client: In connect!');
