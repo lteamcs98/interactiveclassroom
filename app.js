@@ -50,7 +50,7 @@ app.post('/addchallenge', routes.addchallenge(db));
 
 // Get challenge with this id
 app.get('/challenge/:id', routes.challenge(db));
-
+app.get('/unitchallenge/:id', routes.unitchallenge(db));
 
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');

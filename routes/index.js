@@ -27,6 +27,17 @@ exports.challenge = function(db) {
     };
 };
 
+exports.unitchallenge = function(db) {
+    return function(req, res) {
+        var challenges = db.get('unitchallengecollection');
+        challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
+            console.log(doc);
+            res.render('unitchallenge', { "challengeId" : doc.challengeId, "title": doc.title, "problem" : doc.problem, "inputArray": doc.inputArray, "outputArray": doc.outputArray, "functionNames": doc.functionNames });
+        });
+        //console.log('found challenge! ' + challenge.problem);
+    };
+};
+
 exports.challengelist = function(db) {
     return function(req, res) {
         var collection = db.get('challengecollection');
