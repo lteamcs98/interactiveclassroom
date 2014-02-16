@@ -11,6 +11,12 @@ body {
 	color: #404040;
 }
 
+.functionTitle {
+	font-size: 12px;
+	font-weight: bold;
+	color: #000066;
+}
+
 .challengeText {
 	font-size: 18px;
 	color: #707070;
