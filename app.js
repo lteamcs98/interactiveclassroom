@@ -4,14 +4,15 @@
  */
 
 var express = require('express');
+var fs = require('fs');
+var http = require('http');
+var jade = require('jade');
+var mongo = require('mongodb');
+var path = require('path');
 var routes = require('./routes');
 var user = require('./routes/user');
-var http = require('http');
-var path = require('path');
-var fs = require('fs');
 var yaml = require('yaml-front-matter');
 
-var jade = require('jade');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193');

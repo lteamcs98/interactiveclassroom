@@ -1,19 +1,23 @@
 {
-  "name": "application-name",
+  "name": "interactive-classroom",
   "version": "0.0.1",
   "private": true,
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-      "express": "~3.4.0",
-      "socket.io": "~0.9.16",
       "async": "0.1.22",
-      "underscore": "1.4.3",
-      "coffee-script": "1.4.0",
+	  "codemirror": "*",
+	  "coffee-script": "1.4.0",
+	  "express": "~3.4.0",
       "jade": "*",
       "mongodb": "*",
 	  "mongoose": "*",
-      "codemirror": "*"
+	  "passport": "~0.2.0",
+	  "passport-local": "~0.1.6",
+	  "passport-local-mongoose": "~0.2.6",
+	  "socket.io": "~0.9.16",
+	  "underscore": "1.4.3"
   }
 }
