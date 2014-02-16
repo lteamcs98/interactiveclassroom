@@ -165,6 +165,7 @@ html
 				console.log(failedTests);
 				var percent = (100.0 * correctTests / totalTests);
 				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
+				
 				// send data back to server
 				//socket.emit('results', { score: percent, user_id: 0, challenge_id: #{challengeId}, failed: failedTests });
 			});
