@@ -42,14 +42,16 @@ exports.newchallenge = function(req, res){
     res.render('newchallenge', { title: 'Add New Challenge'});
 }
 
-exports.addchallenge = function(db, fs) {
+exports.addchallenge = function(db, fs, yaml) {
     return function(req, res) {
 
         // Print to console the contents of user uploaded challenge.
         fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
           if (err) throw err;
            console.log("Content of " + req.files.userChallenge.path + ":");
-           console.log(data)
+           console.log(data);
+	   var JSON = yaml.loadFront(data);
+           db.get('challengecollection').insert(JSON);
         });
 
 
