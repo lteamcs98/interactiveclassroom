@@ -8,6 +8,7 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var fs = require('fs');
 
 var jade = require('jade');
 var mongo = require('mongodb');
@@ -46,7 +47,7 @@ app.get('/users', user.list);
 app.get('/userlist', routes.userlist(db));
 app.get('/challengelist', routes.challengelist(db));
 app.get('/newchallenge', routes.newchallenge);
-app.post('/addchallenge', routes.addchallenge(db));
+app.post('/addchallenge', routes.addchallenge(db, fs));
 
 // Get challenge with this id
 app.get('/challenge/:id', routes.challenge(db));
