@@ -66,7 +66,7 @@ exports.newchallenge = function(req, res){
 
 exports.deletechallenge = function(db) {
     return function(req, res) {
-        var collection = db.get('challengecollection2');
+        var collection = db.get('challengecollection');
         var challengeId = parseInt(req.body.challengeId);
         var selector = { "challengeId" :  challengeId };
 
