@@ -89,6 +89,7 @@ exports.addchallenge = function(db, fs, yaml) {
            console.log("Content of " + req.files.userChallenge.path + ":");
            var msg = error.uploadErrorCheck(data);
 	   if (msg == true) {
+		res.render('newchallenge', {"errorMsg": "Challenge successfully added!"});
 	   	var JSON = yaml.loadFront(data);
            	db.get('challengecollection').insert(JSON);
 	   }
