@@ -4,7 +4,7 @@ block content
     h1.
         Challenge List
     u1
-        each challenge, i in challengelist
+        each challenge in challengelist
             h2
                 p.
                     Challenge #{challenge.challengeId}
@@ -14,5 +14,10 @@ block content
                         input(id="delete", value="Delete", type="submit")
                 p Problem: #{challenge.problem}
                 p Function name: #{challenge.functionName}
-                p Inputs: #{challenge.inputs}
-                p Outputs: #{challenge.outputs}
+                p Inputs: 
+                each input in challenge.inputs
+                    p #{input}
+                p Outputs: 
+                each output in challenge.outputs
+                    p #{output}
+                    
