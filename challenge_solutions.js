@@ -16,7 +16,7 @@ function getSquare(someNumber)
 
 function squareList(numbers)
 {
-	for(i in numbers)
+	for(var i in numbers)
 	{
 		numbers[i] = getSquare(numbers[i]);
 	}
