@@ -1,3 +1,5 @@
+var error = require('../public/js/errorcheck.js');
+
 exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
@@ -52,7 +54,7 @@ exports.userchallenge = function(db) {
 exports.challengelist = function(db) {
     return function(req, res) {
         var collection = db.get('challengecollection');
-        collection.find({}, {}, function(e, docs){
+        collection.find({}, {'sort': 'challengeId'}, function(e, docs){
             res.render('challengelist', {
                 "challengelist" : docs
             });
@@ -63,7 +65,7 @@ exports.challengelist = function(db) {
 exports.editchallengelist = function(db) {
     return function(req, res) {
         var collection = db.get('challengecollection');
-        collection.find({}, {}, function(e, docs){
+        collection.find({}, {'sort': 'challengeId'}, function(e, docs){
             res.render('editchallengelist', {
                 "challengelist" : docs
             });
@@ -96,15 +98,21 @@ exports.addchallenge = function(db, fs, yaml) {
         fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
           if (err) throw err;
            console.log("Content of " + req.files.userChallenge.path + ":");
-           console.log(data);
-	   var JSON = yaml.loadFront(data);
-           db.get('challengecollection').insert(JSON);
+           var msg = error.uploadErrorCheck(data);
+	   if (msg == true) {
+		res.render('newchallenge', {"errorMsg": "Challenge successfully added!"});
+	   	var JSON = yaml.loadFront(data);
+           	db.get('challengecollection').insert(JSON);
+	   }
+	   else {
+           	res.render('newchallenge', {"errorMsg": msg} );
+	   }
         });
 
 
         // If it worked, set the header so the address bar doesn't still say /adduser
-        res.location("challengelist");
+        //res.location("challengelist");
         // Add forward to success page
-        res.redirect("challengelist");
+        //res.redirect("challengelist");
     }
 }

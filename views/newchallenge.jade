@@ -3,5 +3,11 @@ extends layout
 block content
   h1= title
     form(id="uploadForm", enctype="multipart/form-data", action="/addchallenge", method="post")
+      link(rel='stylesheet', href='../css/style.css')
       input(type="file", id="userFileInput", name="userChallenge")
       input(type="submit", value="Upload")
+      p(class = 'errorMessage') #{errorMsg}
+
+      
+
+

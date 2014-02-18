@@ -22,6 +22,11 @@ body {
 	color: #707070;
 }
 
+.errorMessage {
+	font-size: 14px;
+	color: #FF0000;
+}
+
 #leftPanel {
 	float: left;
 	width: 550px;
