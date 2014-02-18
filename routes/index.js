@@ -49,8 +49,33 @@ exports.challengelist = function(db) {
     };
 };
 
+exports.editchallengelist = function(db) {
+    return function(req, res) {
+        var collection = db.get('challengecollection');
+        collection.find({}, {}, function(e, docs){
+            res.render('editchallengelist', {
+                "challengelist" : docs
+            });
+        });
+    };
+};
+
 exports.newchallenge = function(req, res){
     res.render('newchallenge', { title: 'Add New Challenge'});
+}
+
+exports.deletechallenge = function(db) {
+    return function(req, res) {
+        var collection = db.get('challengecollection2');
+        var challengeId = parseInt(req.body.challengeId);
+        var selector = { "challengeId" :  challengeId };
+
+        collection.remove(selector);
+
+        // Redirect back to edit challenge list        
+        res.location("editchallengelist");
+        res.redirect("editchallengelist");
+    }
 }
 
 exports.addchallenge = function(db, fs, yaml) {
