@@ -1,11 +1,14 @@
 ---
-challengeId: 3
+title: Random Test Challenge
+challengeId: 1
 problem: Test problem here.
-functionName: test
-inputs:
+functionNames: 
+ - test
+ - test1
+inputArray:
  - 2
  - 1
-outputs:
+outputArray:
  - 3
  - 4
 ---

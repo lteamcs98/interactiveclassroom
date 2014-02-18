@@ -1,5 +1,6 @@
 ---
-challengeId: 3
+title: Incorrectly written challenge
+challengeId: 1
 problem: Test problem here.
-functionName: test
+functionNames: test
 ---
