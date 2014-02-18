@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    h1.
+        Challenge List
+    u1
+        each challenge, i in challengelist
+            h2
+                p.
+                    Challenge #{challenge.challengeId}
+            u2
+                    form( method="post", action="/deletechallenge") 
+                        input(name="challengeId", type="hidden", value=challenge.challengeId) 
+                        input(id="delete", value="Delete", type="submit")
+                p Problem: #{challenge.problem}
+                p Function name: #{challenge.functionName}
+                p Inputs: #{challenge.inputs}
+                p Outputs: #{challenge.outputs}
