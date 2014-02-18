@@ -34,6 +34,7 @@ exports.challenge = function(db) {
         var challenges = db.get('challengecollection');
         challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
             console.log(doc);
+			console.log(doc.outputArray);
             res.render('unitchallenge', { "challengeId" : doc.challengeId, "title": doc.title, "problem" : doc.problem, "inputArray": doc.inputArray, "outputArray": doc.outputArray, "functionNames": doc.functionNames });
         });
         //console.log('found challenge! ' + challenge.problem);
