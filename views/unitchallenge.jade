@@ -62,8 +62,6 @@ html
 			
 			var outputArray = !{ JSON.stringify(outputArray) };
 			var inputArray = !{ JSON.stringify(inputArray) };
-			console.log(inputArray);
-			console.log(outputArray);
 			
 			var challengeId = Number(#{challengeId});
 
@@ -162,7 +160,7 @@ html
 					correctTests += result[1];
 					failedTests.push({functionName: functions[i], failedTests: result[2]});
 				}
-				console.log(failedTests);
+
 				var percent = (100.0 * correctTests / totalTests);
 				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
 				
