@@ -54,7 +54,8 @@ app.post('/deletechallenge', routes.deletechallenge(db));
 
 // Get challenge with this id
 app.get('/challenge/:id', routes.challenge(db));
-app.get('/unitchallenge/:id', routes.unitchallenge(db));
+//app.get('/unitchallenge/:id', routes.unitchallenge(db));
+app.get('/userchallenge', routes.userchallenge(db));
 
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');

@@ -13,7 +13,7 @@ exports.userlist = function(db) {
     };
 };
 
-exports.challenge = function(db) {
+exports.oldchallenge = function(db) {
     return function(req, res) {
         var challenges = db.get('challengecollection');
         challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
@@ -27,9 +27,20 @@ exports.challenge = function(db) {
     };
 };
 
-exports.unitchallenge = function(db) {
+exports.challenge = function(db) {
     return function(req, res) {
-        var challenges = db.get('unitchallengecollection');
+        var challenges = db.get('challengecollection');
+        challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
+            console.log(doc);
+            res.render('unitchallenge', { "challengeId" : doc.challengeId, "title": doc.title, "problem" : doc.problem, "inputArray": doc.inputArray, "outputArray": doc.outputArray, "functionNames": doc.functionNames });
+        });
+        //console.log('found challenge! ' + challenge.problem);
+    };
+};
+
+exports.userchallenge = function(db) {
+    return function(req, res) {
+        var challenges = db.get('challengecollection');
         challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
             console.log(doc);
             res.render('unitchallenge', { "challengeId" : doc.challengeId, "title": doc.title, "problem" : doc.problem, "inputArray": doc.inputArray, "outputArray": doc.outputArray, "functionNames": doc.functionNames });
