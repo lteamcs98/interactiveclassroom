@@ -21,8 +21,8 @@ function uploadErrorCheck(data){ //data is raw markdown
 		return true;
 	}
 	else {
-		console.log("Missing one of the following essential fields: challenge Id, problem, functionName, inputs, and outputs.");
-		return false;
+		var msg = "Missing one of the following essential fields: challenge Id, problem, functionName, inputs, and outputs.";
+		return msg;
 	}
 }
 
