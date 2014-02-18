@@ -43,7 +43,7 @@ exports.unitchallenge = function(db) {
 exports.challengelist = function(db) {
     return function(req, res) {
         var collection = db.get('challengecollection');
-        collection.find({}, {}, function(e, docs){
+        collection.find({}, {'sort': 'challengeId'}, function(e, docs){
             res.render('challengelist', {
                 "challengelist" : docs
             });
@@ -54,7 +54,7 @@ exports.challengelist = function(db) {
 exports.editchallengelist = function(db) {
     return function(req, res) {
         var collection = db.get('challengecollection');
-        collection.find({}, {}, function(e, docs){
+        collection.find({}, {'sort': 'challengeId'}, function(e, docs){
             res.render('editchallengelist', {
                 "challengelist" : docs
             });
