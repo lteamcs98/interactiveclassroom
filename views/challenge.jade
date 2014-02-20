@@ -10,9 +10,8 @@ html
 		
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
 		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
-		script(src="../socket.io/socket.io.js")
+		script(src="../socket.io/lib/socket.io.js")
 		
-		script(src='../socket.io/socket.io.js')
 		script(src='../js/codemirror.js')
 		script(src='../js/javascript-lint.js')
 		script(src='../js/javascript.js')
@@ -20,6 +19,7 @@ html
 		script(src='../js/lint.js')
 	body
 		p(class='challengeTitle') Challenge #{challengeId}
+		p(class='challengeText') User: #{username}
 		p(class='challengeText') #{problem}
 		div(id='leftPanel')
 			textarea(id='codeEditor')
