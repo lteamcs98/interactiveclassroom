@@ -9,7 +9,8 @@ function uploadErrorCheck(data){ //data is raw markdown
 
 	for (var i = 0; i < lines.length; i++){ //doc or array of documents
 		var field = lines[i].split(" ")[0]; 
-		field = field.slice(0, field.length - 1);//omit colon
+		field = field.split(":")[0];
+		//field = field.slice(0, field.length - 1);//omit colon
 		for (var j = 0; j < fields.length; j++) {
 			if (field == fields[j]) {
 				numFields += 1;
