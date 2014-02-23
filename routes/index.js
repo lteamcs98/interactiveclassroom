@@ -1,4 +1,5 @@
 var error = require('../public/js/errorcheck.js');
+var parser = require('../public/js/JSON_parse.js');
 
 exports.index = function(req, res){
   res.render('index', { title: 'Express' });
