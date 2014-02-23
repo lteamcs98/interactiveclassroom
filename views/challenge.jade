@@ -73,7 +73,8 @@ html
 			$('#submitButton').click(function() {
 				var failedTests = new Array();
 				$('#outputBox').html('<p class="challengeTitle">Results</p>');
-				eval(editor.getValue());
+				userCode = editor.getValue();
+				eval(userCode);
 				total = inputs.length;
 				correct = 0.0;
 				for(var i in inputs) {
@@ -94,5 +95,5 @@ html
 				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
 				
 				// send data back to server
-				socket.emit('results', { score: percent, user_id: 0, challenge_id: #{challengeId}, failed: failedTests });
+				socket.emit('results', { score: percent, user_id: 'd34164d', challenge_id: #{challengeId}, failed: failedTests, userCode: userCode});
 			});
