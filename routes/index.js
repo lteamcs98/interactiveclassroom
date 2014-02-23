@@ -99,6 +99,20 @@ exports.addchallenge = function(db, fs, yaml) {
         // Print to console the contents of user uploaded challenge.
         fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
           if (err) throw err;
+	  var mdDocs = parser.parseMarkdown(data);
+	  console.log(mdDocs);
+	  for (var i = 0; i < mdDocs.length; i++){
+		console.log(mdDocs[i]);
+	  	var msg = error.uploadErrorCheck(mdDocs[i]);
+          	 if (msg == true) {
+			res.render('newchallenge', {"errorMsg": "Challenge successfully added!"});
+	   		var JSON = yaml.loadFront(mdDocs[i]);
+           		db.get('challengecollection').insert(JSON);
+	   	}
+	   	else {
+           		res.render('newchallenge', {"errorMsg": msg} );
+	   	}
+	/*
            console.log("Content of " + req.files.userChallenge.path + ":");
            var msg = error.uploadErrorCheck(data);
 	   if (msg == true) {
@@ -108,7 +122,8 @@ exports.addchallenge = function(db, fs, yaml) {
 	   }
 	   else {
            	res.render('newchallenge', {"errorMsg": msg} );
-	   }
+	   }*/
+	 }
         });
 
 
