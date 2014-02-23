@@ -10,4 +10,11 @@ module.exports = function(app) {
 			'username': req.user.username });
 		});
 	});
+	
+	app.get('/challengelist', function(req, res) {
+		Challenge.find(function(err, challenges) {
+			if (err) return console.error(err);
+			res.render('challengelist', { 'challengelist': challenges });
+		});
+	});
 }

@@ -62,6 +62,18 @@ var Challenge = require('./models/challenge')
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
+// passport.serializeUser(function(user, done) {
+// 	done(null, user.id);
+// });
+// 
+// passport.deserializeUser(function(id, done) {
+// 	User.findbyId(id, function(err, user) {
+// 		done(err, user);
+// 	});
+// });
+
+// Facebook Authentication
+require('./facebook-login.js');
 
 // MongoDB Config
 //var MONGOLAB_URI= 'mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193'
