@@ -77,6 +77,7 @@ html
 				theme: "light-table"
 			});
 			editor.setSize(540, 300);
+			editor.setValue(!{JSON.stringify(oldSub)});
 			
 			function addFunctionOptions(functionNames)
 			{
@@ -136,6 +137,8 @@ html
 				return [total, correct, failedTests];
 			}
 			
+
+
 			$('#submitButton').click(function() {
 				$('#outputBox').html('<p class="challengeTitle">Results</p>');
 
@@ -164,6 +167,16 @@ html
 				var percent = (100.0 * correctTests / totalTests);
 				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
 				
+				console.log("EMIT NOW!!!!!");
+
 				// send data back to server
-				//socket.emit('results', { score: percent, user_id: 0, challenge_id: #{challengeId}, failed: failedTests });
+				socket.emit('results',
+					{
+						score: percent,
+						user_id: 'd34164d',
+						challenge_id: #{challengeId},
+						failed: failedTests,
+						userCode: editor.getValue()
+					}
+				);
 			});
