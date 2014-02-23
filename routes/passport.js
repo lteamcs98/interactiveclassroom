@@ -30,12 +30,13 @@ module.exports = function(app) {
 		res.redirect('/');
 	});
 	
+	app.get('/auth/facebook', passport.authenticate('facebook'));
+	
+	app.get('/auth/facebook/callback', 
+		passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+	
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
-	});
-	
-	app.get('/ping', function(req, res) {
-		res.sent("Pong!", 200);
 	});
 };
