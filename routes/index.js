@@ -108,7 +108,7 @@ exports.challengelist = function(db) {
 
 exports.editchallengelist = function(db) {
     return function(req, res) {
-        var collection = db.get('challengecollection2');
+        var collection = db.get('challengecollection');
         collection.find({}, {'sort': 'challengeId'}, function(e, docs){
             res.render('editchallengelist', {
                 "challengelist" : docs
