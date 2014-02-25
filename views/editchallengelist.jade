@@ -20,27 +20,38 @@ html
                             p Problem: 
                             div.editChallengeDataEntry
                                 p #{challenge.problem}
-                            p Function names: 
-                            div.editChallengeDataEntry
-                                each functionName in challenge.functionNames
-                                    p #{functionName}
-                            p Inputs:
-                            div.editChallengeDataEntry
-                                each input in challenge.inputArray
-                                    p Function name:
-                                    div.editChallengeDataSubEntry
-                                        p #{input.functionName}
-                                    p Inputs:
-                                    div.editChallengeDataSubEntry
-                                        each subInput in input.inputs
-                                            p #{subInput}
-                            p Outputs: 
-                            div.editChallengeDataEntry
-                                each output in challenge.outputArray
-                                    p Function name:
-                                    div.editChallengeDataSubEntry
-                                        p #{output.functionName}
-                                    p Outputs:
-                                    div.editChallengeDataSubEntry
-                                        each subOutput in output.outputs
-                                            p #{subOutput}
+                            if (challenge.functionNames)
+                                p Function names: 
+                                div.editChallengeDataEntry
+                                    each functionName in challenge.functionNames
+                                        p #{functionName}
+                            if (challenge.inputArray)
+                                p Inputs:
+                                div.editChallengeDataEntry
+                                    each input in challenge.inputArray
+                                        if (input.functionName)
+                                            p Function name:
+                                            div.editChallengeDataSubEntry
+                                                p #{input.functionName}
+                                        if (input.inputs)
+                                            p Inputs:
+                                            div.editChallengeDataSubEntry
+                                                each subInput in input.inputs
+                                                    p #{subInput}
+                                        else
+                                            p #{input}
+                            if (challenge.outputArray)
+                                p Outputs: 
+                                div.editChallengeDataEntry
+                                    each output in challenge.outputArray
+                                        if (output.functionName)
+                                            p Function name:
+                                            div.editChallengeDataSubEntry
+                                            p #{output.functionName}
+                                        if (output.outputs)
+                                            p Outputs:
+                                            div.editChallengeDataSubEntry
+                                                each subOutput in output.outputs
+                                                    p #{subOutput}
+                                        else
+                                            p #{output}
