@@ -32,16 +32,58 @@ exports.oldchallenge = function(db) {
 
 exports.challenge = function(db) {
     return function(req, res) {
+
+        var challenges = db.get('challengecollection');
+
+        challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
+
+            var userInput = db.get('userResponse');
+            userInput.findOne({ user_id: 'd34164d', challenge_id: Number(req.params.id) }, {}, function(e, doc2){
+
+                console.log("\n\n\n");
+                console.log(doc);
+                console.log(doc.outputArray);
+                console.log("\n\n\n");
+                console.log(doc2);
+                console.log("\n\n\n");
+
+                ///*
+                var userInputCode;
+                if (doc2 === null) userInputCode =  '';
+                else userInputCode = doc2.userCode;
+                //*/
+                console.log(userInputCode);
+
+                res.render('unitchallenge', 
+                    {
+                        "challengeId" : doc.challengeId,
+                        "title": doc.title,
+                        "problem" : doc.problem,
+                        "inputArray": doc.inputArray,
+                        "outputArray": doc.outputArray,
+                        "functionNames": doc.functionNames,
+                        "oldSub": userInputCode
+                    });
+            });
+        });
+    };
+};
+
+/*
+
+exports.challenge = function(db) {
+    return function(req, res) {
         var challenges = db.get('challengecollection');
         challenges.findOne({ challengeId: Number(req.params.id) }, {}, function(e, doc){
             console.log(doc);
-			console.log(doc.outputArray);
+            console.log(doc.outputArray);
             res.render('unitchallenge', { "challengeId" : doc.challengeId, "title": doc.title, "problem" : doc.problem, "inputArray": doc.inputArray, "outputArray": doc.outputArray, "functionNames": doc.functionNames });
         });
         //console.log('found challenge! ' + challenge.problem);
     };
 };
 
+*/
 exports.userchallenge = function(db) {
     return function(req, res) {
         var challenges = db.get('challengecollection');
@@ -66,7 +108,7 @@ exports.challengelist = function(db) {
 
 exports.editchallengelist = function(db) {
     return function(req, res) {
-        var collection = db.get('challengecollection');
+        var collection = db.get('challengecollection2');
         collection.find({}, {'sort': 'challengeId'}, function(e, docs){
             res.render('editchallengelist', {
                 "challengelist" : docs
