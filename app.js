@@ -61,9 +61,25 @@ io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
 	
 	socket.on('results', function(results) {
-		console.log('got some results!', results);
-		db.get('resultscollection').insert(results, {safe: true}, function(err, records){
+
+		console.log('\n\ngot some results!\n\n', results);
+		
+		///*
+		
+		db.get('userResponse').remove( { user_id : results.user_id, challenge_id : results.challenge_id });
+
+
+		db.get('userResponse').insert(results, function(err, records){
 			console.log('Record added as ' + records);
 		});
+
+		//*/
+
+		/*
+		db.get('userResponse').update(results, {upsert: true}, function(err, records){
+			console.log('Record added as ' + records);
+		});
+
+		*/
 	});
 });

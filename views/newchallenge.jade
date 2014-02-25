@@ -7,4 +7,7 @@ block content
 			input(type="file", id="userFileInput", name="userChallenge")
 			input(type="submit", value="Upload")
 			p(class = 'errorMessage') #{errorMsg}
-			p(class = 'errorMessage') #{htmlSnippet}
+	u1
+		each frame, i in iframes
+			li
+				p(class = 'errorMessage') #{frame}
