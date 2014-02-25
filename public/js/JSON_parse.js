@@ -1,4 +1,5 @@
 var yaml = require('yaml-front-matter');
+exports.parseMarkdown = parseMarkdown; 
 //takes in a block of content data: 
 function parseMarkdown(content){
 	var lines = content.split('\n');
