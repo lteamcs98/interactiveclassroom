@@ -22,10 +22,15 @@ body {
 	color: #707070;
 }
 
+.iframeSnippet {
+	font-size: 10px;
+}
+
 .errorMessage {
 	font-size: 14px;
 	color: #FF0000;
 }
+
 
 #leftPanel {
 	float: left;
