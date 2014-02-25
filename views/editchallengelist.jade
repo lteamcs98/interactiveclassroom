@@ -1,18 +1,46 @@
-extends layout
-
-block content
-    h1.
-        Challenge List
-    u1
-        each challenge, i in challengelist
-            h2
-                p.
-                    Challenge #{challenge.challengeId}
-            u2
-                    form( method="post", action="/deletechallenge") 
-                        input(name="challengeId", type="hidden", value=challenge.challengeId) 
-                        input(id="delete", value="Delete", type="submit")
-                p Problem: #{challenge.problem}
-                p Function name: #{challenge.functionName}
-                p Inputs: #{challenge.inputs}
-                p Outputs: #{challenge.outputs}
+doctype html
+html
+    head
+        title Edit Challenges
+        link(rel='stylesheet', href='../css/style.css')
+    body
+        block content
+            h1.
+                Challenge List
+            u1
+                each challenge in challengelist
+                    div.editChallengeEntry
+                        h2.challengeTitle
+                            p
+                                div.editChallengeTitleText Challenge #{challenge.challengeId}: #{challenge.title}
+                                form( method="post", action="/deletechallenge") 
+                                    input(name="challengeId", type="hidden", value=challengelist.challengeId) 
+                                    input(class="deleteButton", value="Delete", type="submit")
+                        div.editChallengeData
+                            p Problem: 
+                            div.editChallengeDataEntry
+                                p #{challenge.problem}
+                            p Function names: 
+                            div.editChallengeDataEntry
+                                each functionName in challenge.functionNames
+                                    p #{functionName}
+                            p Inputs:
+                            div.editChallengeDataEntry
+                                each input in challenge.inputArray
+                                    p Function name:
+                                    div.editChallengeDataSubEntry
+                                        p #{input.functionName}
+                                    p Inputs:
+                                    div.editChallengeDataSubEntry
+                                        each subInput in input.inputs
+                                            p #{subInput}
+                            p Outputs: 
+                            div.editChallengeDataEntry
+                                each output in challenge.outputArray
+                                    p Function name:
+                                    div.editChallengeDataSubEntry
+                                        p #{output.functionName}
+                                    p Outputs:
+                                    div.editChallengeDataSubEntry
+                                        each subOutput in output.outputs
+                                            p #{subOutput}

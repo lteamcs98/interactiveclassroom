@@ -1,9 +1,10 @@
 var yaml = require('yaml-front-matter');
+exports.parseMarkdown = parseMarkdown; 
 //takes in a block of content data: 
 function parseMarkdown(content){
 	var lines = content.split('\n');
 	var mdDocs = new Array(); //array of markdown docs
-	var jsonDocs = new Array();
+	//var jsonDocs = new Array();
 	var mdDoc = "";//store current markdown doc
 	var numDoc = 0;
 
@@ -19,13 +20,14 @@ function parseMarkdown(content){
 	}
 	
 	//Convert markdown docs to JSON docs
-	for (var i = 0; i < mdDocs.length; i++) {
+	/*for (var i = 0; i < mdDocs.length; i++) {
 		var jsonDoc = yaml.loadFront(mdDocs[i]);
 		jsonDocs[i] = jsonDoc;
 		console.log(jsonDoc);
 	}
 
-	return jsonDocs;
+	return jsonDocs;*/
+	return mdDocs;
 }
 
 /*
