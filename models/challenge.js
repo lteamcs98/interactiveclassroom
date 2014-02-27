@@ -6,9 +6,10 @@ var Schema = mongoose.Schema;
 var challengeSchema = new Schema({
 	challengeId: Number,
 	problem: String,
-	functionName: String,
-	inputs: [],
-	outputs: []
+	functionNames: [],
+	inputArray: [],
+	outputArray: [],
+	title: String
 });
 
 module.exports = mongoose.model('Challenge', challengeSchema);
