@@ -1,11 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  form#formAddChallenge(name="addchallenge", method="post", action="/addchallenge")
-    input#inputChallengeId(type="text", placeholder="id", name="challengeId")
-    input#inputChallengeProblem(type="text", placeholder="problem", name="problem")
-    input#inputChallengeFunctionName(type="text", placeholder="function name", name="functionName")
-    input#inputChallengeInputs(type="text", placeholder="inputs", name="inputs")
-    input#inputChallengeOutputs(type="text", placeholder="outputs", name="outputs")
-    button#btnSubmit(type="submit") submit
+	h1= title
+		form(id="uploadForm", enctype="multipart/form-data", action="/addchallenge", method="post")
+			link(rel='stylesheet', href='../css/style.css')
+			input(type="file", id="userFileInput", name="userChallenge")
+			input(type="submit", value="Upload")
+			p(class = 'errorMessage') #{errorMsg}
+	u1
+		each frame, i in iframes
+			li
+				p(class = 'errorMessage') #{frame}
