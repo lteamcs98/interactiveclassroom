@@ -19,6 +19,8 @@
 	  "passport-local": "~0.1.6",
 	  "passport-local-mongoose": "~0.2.6",
 	  "socket.io": "~0.9.16",
-	  "underscore": "1.4.3"
+	  "underscore": "1.4.3",
+      "yaml-front-matter": "*",
+	  "is-browser": "*"
   }
 }

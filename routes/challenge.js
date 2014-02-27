@@ -26,4 +26,64 @@ module.exports = function(app)
 			res.render('challengelist', { 'challengelist': challenges });
 		});
 	});
+
+	app.get('/newchallenge', function(req, res){
+		res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
+	});
+	
+	app.post('/addchallenge', function(db, fs, yaml) {
+		return function(req, res) {
+			console.log('TEST');
+			res.render('index');
+			
+			// Print to console the contents of user uploaded challenge.
+			fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
+				if (err) throw err;
+				var mdDocs = parser.parseMarkdown(data);
+				console.log(mdDocs);
+				var docs_id = new Array();
+				var htmlSnippets = new Array();
+				for (var i = 0; i < mdDocs.length; i++)
+				{
+					//console.log(mdDocs[i]);
+					var msg = error.uploadErrorCheck(mdDocs[i]);
+					if (msg == true) 
+					{
+						var JSON = yaml.loadFront(mdDocs[i]);
+						var promise = db.get('challengecollection').insert(JSON);
+						function updateID(err, doc)
+						{
+								var id_string = new String(doc._id);
+								id_string = id_string.concat(doc.title);
+								id_string = id_string.concat(doc.problem);
+								var code = Math.abs(id_string.hashCode());
+								doc.challengeId = code;
+								docs_id.push(code);
+								console.log(docs_id);
+								var update_promise = db.get('challengecollection').update( { _id: doc._id }, { title: doc.title, challengeId : code, problem: doc.problem, functionNames: doc.functionNames, inputArray: doc.inputArray, outputArray: doc.outputArray });
+								update_promise.on('complete', renderTemplate);
+								//console.log('New Document: ', doc);
+						}
+						function renderTemplate(err, doc)
+						{
+							console.log('Challenge IDs: ', docs_id);
+							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
+							htmlSnippets.push(htmlSnippet);
+							console.log('hello world!', htmlSnippets.length , mdDocs.length);
+							if(htmlSnippets.length == mdDocs.length)
+							{
+								console.log('snippets: ', htmlSnippets);
+								res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
+							}
+						}
+						promise.on('complete', updateID);
+					}
+					else 
+					{
+						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
+					}
+				}
+			});
+		}
+	});
 }

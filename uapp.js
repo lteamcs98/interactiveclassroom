@@ -32,6 +32,16 @@ var Account = require('./models/account');
 var Submission = require('./models/submission')
 var Challenge = require('./models/challenge')
 
+/**
+ * Module dependencies.
+ */
+var express = require('express');
+var routes = require('./routes');
+var http = require('http');
+var path = require('path');
+var fs = require('fs');
+var yaml = require('yaml-front-matter');
+
 // Passport Config
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
@@ -64,6 +74,17 @@ require('./routes/challenge')(app);
 //});
 
 server.listen(app.get('port'));
+
+// FUNCTIONS THAT NEED TO BE ADDED IN THE APPROPRIATE MODULES
+/*
+app.get('/', routes.index);
+app.get('/userlist', routes.userlist(db));
+app.get('/challengelist', routes.challengelist(db));
+app.get('/editchallengelist', routes.editchallengelist(db));
+app.get('/newchallenge', routes.newchallenge);
+app.post('/addchallenge', routes.addchallenge(db, fs, yaml));
+app.post('/deletechallenge', routes.deletechallenge(db));
+*/
 
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
