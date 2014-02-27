@@ -1,7 +1,18 @@
-if (!user)
-	a(href="/login") Login
-	br
-	a(href="/register") Register
-if (user)
-	p You are currently logged in as #{user.username}
-	a(href="/logout") Logout
+doctype html
+html
+	head
+		title=title
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+		script(src='http://code.jquery.com/jquery.js')
+		script(src='js/bootstrap.min.js')
+	body
+		if (!user)
+			a(href='/login') Login
+			br
+			a(href='/register') Register
+		if (user)
+			p You are currently logged in as #{user.username}
+			a(href='/challengelist') Challenges
+			br
+			a(href='/logout') Logout

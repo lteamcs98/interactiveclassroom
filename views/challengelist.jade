@@ -1,9 +1,9 @@
 extends layout
 
 block content
-    h1.
-        Challenge List
-    u1
-        each challenge, i in challengelist
-            li
-                a(href="/challenge/#{challenge.challengeId}") #{challenge.functionName}
+	h1.
+		Challenge List
+	u1
+		each challenge, i in challengelist
+			li
+				a(href="/challenge/#{challenge.challengeId}") #{challenge.title}

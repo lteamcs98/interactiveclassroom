@@ -10,7 +10,7 @@ var accountSchema = new Schema({
 	username: { type: String, default: '' },
 	provider: { type: String, default: '' },
 	authToken: { type: String, default: '' },
-	facebook: {}
+	//facebook: {}
 });
 
 accountSchema.plugin(passportLocalMongoose);

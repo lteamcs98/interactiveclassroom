@@ -32,32 +32,6 @@ var Account = require('./models/account');
 var Submission = require('./models/submission')
 var Challenge = require('./models/challenge')
 
-// var c1 = new Challenge( {"challengeId": 1,
-//     "problem": "Write a function called findMax that returns the maximum in an array of integers.",
-//     "functionName": "findMax",
-//     "inputs": [
-//         [
-//             1,
-//             2,
-//             5,
-//             7,
-//             0
-//         ],
-//         [
-//             4,
-//             7,
-//             3,
-//             8,
-//             2
-//         ]
-//     ],
-//     "outputs": [
-//         7,
-//         8
-//     ]} );
-// 	
-// c1.save();
-
 // Passport Config
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
@@ -73,7 +47,7 @@ passport.deserializeUser(Account.deserializeUser());
 // });
 
 // Facebook Authentication
-require('./facebook-login.js');
+require('./routes/facebook-login.js');
 
 // MongoDB Config
 //var MONGOLAB_URI= 'mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193'
@@ -95,9 +69,18 @@ io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
 	
 	socket.on('results', function(results) {
-		console.log('got some results!', results);
-		db.get('resultscollection').insert(results, {safe: true}, function(err, records){
-			console.log('Record added as ' + records);
+		console.log('GOT SOME RESULTS', results);
+		Submission.remove({ userId: results.userId, challengeId: results.challengeId }, function(err) {
+			if (err) return handleError(err);
 		});
+		
+		var result = new Submission({ userId: results.userId, challengeId: results.challengeId, code: results.userCode });
+		result.save(function(err, result) {
+			if (err) return console.error(err);
+		})
+
+		//db.get('resultscollection').insert(results, {safe: true}, function(err, records){
+		//	console.log('Record added as ' + records);
+		//});
 	});
 });

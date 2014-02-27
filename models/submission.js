@@ -5,11 +5,8 @@ var Schema = mongoose.Schema;
 
 var submissionSchema = new Schema({
 	challengeId: Number,
-	userId: Number,
-	problem: String,
-	functionName: String,
-	inputs: [],
-	outputs: []
+	userId: String,
+	code: String
 });
 
 module.exports = mongoose.model('Submission', submissionSchema);
