@@ -19,37 +19,9 @@ function parseMarkdown(content){
 		}
 	}
 	
-	//Convert markdown docs to JSON docs
-	/*for (var i = 0; i < mdDocs.length; i++) {
-		var jsonDoc = yaml.loadFront(mdDocs[i]);
-		jsonDocs[i] = jsonDoc;
-		console.log(jsonDoc);
-	}
-
-	return jsonDocs;*/
 	return mdDocs;
 }
 
-/*
-var test = "---\n";
-test += "title: That Night \n";
-test += "author: Alice McDermott \n";
-test += "characters: \n";
-test += "- Rick \n";
-test += "- Sheryl \n";
-test += "--- \n";
-test += "#\n";
-test += "---\n";
-test += "title: The Round House\n";
-test += "author: Louise Erdrich\n";
-test += "characters:\n";
-test += "- Joe\n";
-test += "- Linden Lark\n";
-test += "- Geraldine\n";
-test += "---\n";
-test += "#\n";
-
-parseMarkdown(test); */
 
 
 
