@@ -306,11 +306,13 @@ var JSHINT = (function () {
             proto       : true, // if the `__proto__` property should be allowed
             prototypejs : true, // if Prototype and Scriptaculous globals should be
                                 // predefined
-            regexdash   : true, // if unescaped first/last dash (-) inside brackets
+			quotmark	: true, // enforce one type of quote
+			regexdash   : true, // if unescaped first/last dash (-) inside brackets
                                 // should be tolerated
             regexp      : true, // if the . should not be allowed in regexp literals
             rhino       : true, // if the Rhino environment globals should be predefined
             undef       : true, // if variables should be declared before used
+			unused		: true, // warns if you define and never use a variable
             scripturl   : true, // if script-targeted URLs should be tolerated
             shadow      : true, // if variable shadowing should be tolerated
             smarttabs   : true, // if smarttabs should be tolerated

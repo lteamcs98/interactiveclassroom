@@ -19,7 +19,11 @@ html
 		script(src='../js/jshint.js')
 		script(src='../js/lint.js')
 	body
-		p(class='challengeTitle') Challenge #{challengeId}
+		script.
+			console.log("HELLO");
+			console.log(!{ JSON.stringify(outputArray) });
+	
+		p(class='challengeTitle') Challenge #{challengeId}: #{title}
 		p(class='challengeText') #{problem}
 		div(id='leftPanel')
 			textarea(id='codeEditor')
@@ -27,8 +31,13 @@ html
 		div(id='rightPanel')
 			div(id='outputBox')
 				p(class='challengeTitle') Results
+
+		select(id='codeUnitList')
+			option
+				selected
+				value='All'
 			
-		script(src='../js/console_capture.js')
+		//script(src='../js/console_capture.js')
 		script.
 
 			function arraysEqual(a, b) 
@@ -55,11 +64,14 @@ html
 			var socket = io.connect('http://localhost');
 			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 			
-			var outputs = !{ JSON.stringify(outputs) };
-			var inputs = !{ JSON.stringify(inputs) };
+			var outputArray = !{ JSON.stringify(outputArray) };
+			var inputArray = !{ JSON.stringify(inputArray) };
+			
 			var challengeId = Number(#{challengeId});
 
-			var functionName = '#{functionName}';
+			var functionNames = !{ JSON.stringify(functionNames) };
+			addFunctionOptions(functionNames);
+			
 			var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), 
 			{
 				lineNumbers: true,
@@ -69,15 +81,50 @@ html
 				theme: "light-table"
 			});
 			editor.setSize(540, 300);
+			editor.setValue(!{JSON.stringify(oldSub)});
 			
-			$('#submitButton').click(function() {
+			function addFunctionOptions(functionNames)
+			{
+				var select = document.getElementById("codeUnitList");
+				for(i in functionNames)
+				{
+					var name = functionNames[i];
+					var option = document.createElement("option");
+					option.text = name;
+					option.id = name;
+					select.add(option);
+				}
+			}
+			
+			function evaluateFunction(functionName)
+			{
+				eval(editor.getValue());
+				$('#outputBox').append('<p class="functionTitle">' + functionName + '</p>');
+				
+				var inputs = new Array();
+				var outputs = new Array();
 				var failedTests = new Array();
-				$('#outputBox').html('<p class="challengeTitle">Results</p>');
-				userCode = editor.getValue();
-				eval(userCode);
-				total = inputs.length;
-				correct = 0.0;
-				for(var i in inputs) {
+
+				for(var i in inputArray) 
+				{
+					if(functionName == inputArray[i].functionName)
+					{
+						inputs = inputArray[i].inputs;
+					}
+				}
+				for(var i in outputArray) 
+				{
+					if(functionName == outputArray[i].functionName)
+					{
+						outputs = outputArray[i].outputs;
+					}
+				}
+				
+				var total = inputs.length;
+				var correct = 0.0;
+
+				for(var i in inputs)
+				{
 					var output = eval(functionName+'(inputs[i])');
 					if(arraysEqual(output, outputs[i])) {
 						correct += 1.0;
@@ -89,11 +136,51 @@ html
 												'Your output: ' + output + '<br />' + 
 												'Correct output: ' + outputs[i] + '</p>');
 					}
+				}				
+
+				return [total, correct, failedTests];
+			}
+			
+
+
+			$('#submitButton').click(function() {
+				$('#outputBox').html('<p class="challengeTitle">Results</p>');
+
+				var testIndex = document.getElementById("codeUnitList").selectedIndex;
+				var testAll = (testIndex === 0);
+				var functions = new Array();
+				if (testAll)
+				{
+					functions = functionNames;
+				} else
+				{
+					functions.push(document.getElementById("codeUnitList").options[testIndex].value);
 				}
-				var percent = (100.0 * correct / total);
 				
+				totalTests = 0;
+				correctTests = 0;
+				var failedTests = new Array();
+				for(var i in functions)
+				{
+					result = evaluateFunction(functions[i]);
+					totalTests += result[0];
+					correctTests += result[1];
+					failedTests.push({functionName: functions[i], failedTests: result[2]});
+				}
+
+				var percent = (100.0 * correctTests / totalTests);
 				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
 				
+				console.log("EMIT NOW!!!!!");
+
 				// send data back to server
-				socket.emit('results', { score: percent, user_id: 'd34164d', challenge_id: #{challengeId}, failed: failedTests, userCode: userCode});
+				socket.emit('results',
+					{
+						score: percent,
+						userId: new String("#{username}"),
+						challengeId: !{challengeId},
+						failed: failedTests,
+						userCode: editor.getValue()
+					}
+				);
 			});

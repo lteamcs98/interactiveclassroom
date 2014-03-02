@@ -14,7 +14,7 @@ html
                             p
                                 div.editChallengeTitleText Challenge #{challenge.challengeId}: #{challenge.title}
                                 form( method="post", action="/deletechallenge") 
-                                    input(name="challengeId", type="hidden", value=challengelist.challengeId) 
+                                    input(name="challengeId", type="hidden", value=challenge.challengeId)
                                     input(class="deleteButton", value="Delete", type="submit")
                         div.editChallengeData
                             p Problem: 
@@ -47,7 +47,7 @@ html
                                         if (output.functionName)
                                             p Function name:
                                             div.editChallengeDataSubEntry
-                                            p #{output.functionName}
+                                                p #{output.functionName}
                                         if (output.outputs)
                                             p Outputs:
                                             div.editChallengeDataSubEntry
