@@ -37,7 +37,8 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' == app.get('env')) 
+{
   app.use(express.errorHandler());
 }
 
