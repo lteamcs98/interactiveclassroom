@@ -1,7 +1,10 @@
 var Challenge = require('../models/challenge');
 var Submission = require('../models/submission');
+var parser = require('../public/js/JSON_parse.js');
+var error = require('../public/js/errorcheck.js');
+var hash = require('../public/js/hash.js');
 
-module.exports = function(app) 
+module.exports = function(app, fs, yaml) 
 {
 	app.get('/challenge/:id', function(req, res) 
 	{
@@ -30,12 +33,11 @@ module.exports = function(app)
 	app.get('/newchallenge', function(req, res){
 		res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
 	});
-	
-	app.post('/addchallenge', function(db, fs, yaml) {
+
+	app.post('/addchallenge', addChallenge(fs, yaml));
+
+	function addChallenge(fs, yaml) {
 		return function(req, res) {
-			console.log('TEST');
-			res.render('index');
-			
 			// Print to console the contents of user uploaded challenge.
 			fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
 				if (err) throw err;
@@ -50,8 +52,15 @@ module.exports = function(app)
 					if (msg == true) 
 					{
 						var JSON = yaml.loadFront(mdDocs[i]);
-						var promise = db.get('challengecollection').insert(JSON);
-						function updateID(err, doc)
+						//var promise = db.get('challengecollection').insert(JSON);
+						var newChallenge = new Challenge({"challengeId" : JSON.challengeId, "problem" : JSON.problem, "functionNames" : JSON.functionNames, "inputArray" : JSON.inputArray, "outputArray" : JSON.outputArray, "title" : JSON.title });
+						newChallenge.save();
+						console.log('NEW CHALLENGE CREATED!', newChallenge);
+						updateID(newChallenge);
+						console.log('NEW CHALLENGE UPDATED!', newChallenge);
+						renderTemplate();
+						
+						function updateID(doc)
 						{
 								var id_string = new String(doc._id);
 								id_string = id_string.concat(doc.title);
@@ -60,11 +69,13 @@ module.exports = function(app)
 								doc.challengeId = code;
 								docs_id.push(code);
 								console.log(docs_id);
-								var update_promise = db.get('challengecollection').update( { _id: doc._id }, { title: doc.title, challengeId : code, problem: doc.problem, functionNames: doc.functionNames, inputArray: doc.inputArray, outputArray: doc.outputArray });
-								update_promise.on('complete', renderTemplate);
+								doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray });
+								console.log(doc);
+								//var update_promise = db.get('challengecollection').update( { _id: doc._id }, { title: doc.title, challengeId : code, problem: doc.problem, functionNames: doc.functionNames, inputArray: doc.inputArray, outputArray: doc.outputArray });
+								//update_promise.on('complete', renderTemplate);
 								//console.log('New Document: ', doc);
 						}
-						function renderTemplate(err, doc)
+						function renderTemplate()
 						{
 							console.log('Challenge IDs: ', docs_id);
 							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
@@ -76,7 +87,7 @@ module.exports = function(app)
 								res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
 							}
 						}
-						promise.on('complete', updateID);
+						//promise.on('complete', updateID);
 					}
 					else 
 					{
@@ -85,5 +96,5 @@ module.exports = function(app)
 				}
 			});
 		}
-	});
+	}
 }
