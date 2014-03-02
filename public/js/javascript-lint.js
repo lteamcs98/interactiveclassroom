@@ -1,15 +1,66 @@
+// CodeMirror JavaScript Linter
+// Modified for Dartmouth CS98 Interactive Classroom Project by Michelle Shu
+
 (function() {
   "use strict";
   // declare global: JSHINT
 
   var bogus = [ "Dangerous comment" ];
 
-  var warnings = [ [ "Expected '{'",
-                     "Statement body should be inside '{ }' braces." ] ];
+  var warnings = [ "Missing semicolon",
+  	" was used before it was defined",
+	" is already defined", 
+	"The array literal notation [] is preferrable", 
+	"The object literal notation {} is preferrable", 
+	"Unexpected space ",
+	"Missing space ", 
+	"Bad line breaking before ",
+	" to have an indentation at ", 
+	"Unexpected use of ",
+	"Bad operand", 
+	" is a function", 
+	"Missing name in function declaration", 
+	"Inner functions should be listed", 
+	"Unreachable", 
+	"Expected an assignment or function call and instead saw an expression", 
+	"Unnecessary semicolon", 
+	"Missing semicolon", 
+	" used out of scope", 
+	" is not allowed", 
+	" is out of scope", 
+	"Did you mean to return a conditional instead of an assignment?", 
+	"Unexpected comma", 
+	"Expected a string and instead saw ", 
+	"Mixed double and single quotes", 
+	"Unclosed string", 
+	" and instead saw "];
 
-  var errors = [ "Missing semicolon", "Extra comma", "Missing property name",
-                 "Unmatched ", " and instead saw", " is not defined",
-                 "Unclosed string", "Stopping, unable to continue" ];
+  var errors = [ "Unexpected early end of program", 
+  	 " has already been declared", 
+	 " is initialized to 'undefined'", 
+	 "Attempting to override ",
+	 "Unclosed regular expression", 
+	 "Invalid regular expression", 
+	 "Unclosed comment", 
+	 "Unbegun comment", 
+	 "Unmatched ", 
+	 " to match ", 
+	 "Line breaking error", 
+	 "Missing ':' on a case clause", 
+	 "Missing '}' to match '{' ", 
+	 "Missing ']' to match '[' ", 
+	 "Illegal comma", 
+	 "Unclosed string",
+	 "Expected an identifier and instead saw ", 
+	 "Bad assignment", 
+	 "Expected a small integer or 'false' and instead saw ", 
+	 "Expected an operator and instead saw ", 
+	 "Missing property name", 
+	 "Expected to see a statement and instead saw a block", 
+	 " was not declared properly", 
+	 " is already defined and can't be redefined", 
+	 "Invalid for each loop", 
+	 " cannot be named "];
 
   function validator(text, options) {
     JSHINT(text, options);

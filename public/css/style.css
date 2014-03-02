@@ -5,55 +5,39 @@ body {
 }
 
 .challengeTitle {
-	font-size: 1em;
+	font-size: 14px;
 	font-weight: bold;
 	text-transform: uppercase;
 	color: #404040;
 }
 
-.functionTitle {
-	font-size: 1em;
-	font-weight: bold;
-	color: #000066;
-}
-
 .challengeText {
-	font-size: 1em;
+	font-size: 18px;
 	color: #707070;
 }
 
-.iframeSnippet {
-	font-size: 10px;
-}
-
-.errorMessage {
-	font-size: 1em;
-	color: #FF0000;
-}
-
-
 #leftPanel {
 	float: left;
-	width: 35em;
+	width: 550px;
 }
 
 #rightPanel {
 	background-color: #FFFFFF;
 	float: left;
-	width: 20em;
-	height: 19em;
+	width: 400px;
+	height: 300px;
 	overflow: scroll;
 }
 
 #codeEditor {
 	float: left;
-	width: 40em;
-	height: 19em;
+	width: 500px;
+	height: 300px;
 }
 
 #outputBox {
 	float: left;
-	padding: 0em 1em;
+	padding: 0px 20px;
 	margin: 0;
 }
 
@@ -120,10 +104,12 @@ body {
 .deleteButton:hover {
 	background-color: #F5A9A9;
 }
-#submitButton:active, .deteleButton:active {
+
+#submitButton:active, .deleteButton:active {
 	position:relative;
 	top: 2px;
 }
+
 #submitButton:focus, .deleteButton:focus {
 	outline: none;
 }
