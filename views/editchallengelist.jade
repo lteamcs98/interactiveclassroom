@@ -1,0 +1,57 @@
+doctype html
+html
+    head
+        title Edit Challenges
+        link(rel='stylesheet', href='../css/style.css')
+    body
+        block content
+            h1.
+                Challenge List
+            u1
+                each challenge in challengelist
+                    div.editChallengeEntry
+                        h2.challengeTitle
+                            p
+                                div.editChallengeTitleText Challenge #{challenge.challengeId}: #{challenge.title}
+                                form( method="post", action="/deletechallenge") 
+                                    input(name="challengeId", type="hidden", value=challenge.challengeId)
+                                    input(class="deleteButton", value="Delete", type="submit")
+                        div.editChallengeData
+                            p Problem: 
+                            div.editChallengeDataEntry
+                                p #{challenge.problem}
+                            if (challenge.functionNames)
+                                p Function names: 
+                                div.editChallengeDataEntry
+                                    each functionName in challenge.functionNames
+                                        p #{functionName}
+                            if (challenge.inputArray)
+                                p Inputs:
+                                div.editChallengeDataEntry
+                                    each input in challenge.inputArray
+                                        if (input.functionName)
+                                            p Function name:
+                                            div.editChallengeDataSubEntry
+                                                p #{input.functionName}
+                                        if (input.inputs)
+                                            p Inputs:
+                                            div.editChallengeDataSubEntry
+                                                each subInput in input.inputs
+                                                    p #{subInput}
+                                        else
+                                            p #{input}
+                            if (challenge.outputArray)
+                                p Outputs: 
+                                div.editChallengeDataEntry
+                                    each output in challenge.outputArray
+                                        if (output.functionName)
+                                            p Function name:
+                                            div.editChallengeDataSubEntry
+                                                p #{output.functionName}
+                                        if (output.outputs)
+                                            p Outputs:
+                                            div.editChallengeDataSubEntry
+                                                each subOutput in output.outputs
+                                                    p #{subOutput}
+                                        else
+                                            p #{output}

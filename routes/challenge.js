@@ -30,6 +30,27 @@ module.exports = function(app, fs, yaml)
 		});
 	});
 
+	app.get('/editchallengelist', function(req, res) {
+		Challenge.find(function(err, challenges) {
+			if (err) return console.error(err);
+			res.render('editchallengelist', { 'challengelist': challenges });
+		});
+	});
+
+
+	app.post('/deletechallenge', function(req, res) {
+		var challengeId = parseInt(req.body.challengeId);
+		var selector = { "challengeId" :  challengeId };
+
+		Challenge.findOne(selector).remove(function(err) {
+			if (err) return console.error(err);
+		});
+
+        // Redirect back to edit challenge list        
+        res.location("editchallengelist");
+        res.redirect("editchallengelist");
+	});
+
 	app.get('/newchallenge', function(req, res){
 		res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
 	});

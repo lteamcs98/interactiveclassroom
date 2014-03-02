@@ -81,13 +81,60 @@ body {
 	text-decoration:none;
 }
 
+.deleteButton {
+	background-color: #FA5858;
+	border: 1px #FA5858 solid;
+	-moz-border-radius: 18px;
+	-webkit-border-radius: 18px;
+	border-radius: 18px;
+	color: #FFFFFF;
+	display:inline-block;
+	float: right;
+	font-size:18px;
+	margin: 5px 22px;
+	padding: 5px 50px;
+	text-decoration:none;
+	position: relative;
+}
+
 #submitButton:hover {
 	background-color: #B9ED7B;
 }
-#submitButton:active {
+
+.deleteButton:hover {
+	background-color: #F5A9A9;
+}
+
+#submitButton:active, .deleteButton:active {
 	position:relative;
 	top: 2px;
 }
-#submitButton:focus {
+
+#submitButton:focus, .deleteButton:focus {
 	outline: none;
+}
+
+.editChallengeTitleText {
+	vertical-align: center;
+	margin-right: 250px;
+}
+
+.editChallengeEntry {
+	padding:20px;
+	margin-bottom:20px;
+	border-radius:5px;
+	border:5px solid #404040;
+}
+.editChallengeData {
+	padding: 0px 20px;
+	clear: both;
+}
+
+.editChallengeDataEntry {
+	padding: 1px 0px 1px 15px;
+	background-color: #D8D8D8;
+}
+
+.editChallengeDataSubEntry {
+	padding-left: 10px;
 }
