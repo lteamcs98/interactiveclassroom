@@ -177,8 +177,8 @@ html
 				socket.emit('results',
 					{
 						score: percent,
-						userId: #{username},
-						challengeId: #{challengeId},
+						userId: new String("#{username}"),
+						challengeId: !{challengeId},
 						failed: failedTests,
 						userCode: editor.getValue()
 					}
