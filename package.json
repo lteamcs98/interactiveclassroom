@@ -4,7 +4,7 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "node uapp.js"
+    "start": "node app.js"
   },
   "dependencies": {
       "async": "0.1.22",
