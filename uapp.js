@@ -6,6 +6,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var path = require('path');
+var fs = require('fs');
+var yaml = require('yaml-front-matter');
 
 // Global Config
 var app = express();
@@ -66,7 +68,7 @@ mongoose.connect('mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku
 
 // Routes
 require('./routes/passport')(app);
-require('./routes/challenge')(app);
+require('./routes/challenge')(app, fs, yaml);
 
 // Run server
 //app.listen(app.get('port'), function() {
