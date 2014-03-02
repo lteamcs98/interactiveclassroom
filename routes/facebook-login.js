@@ -5,7 +5,7 @@ var Account = require('../models/account.js')
 passport.use(new FacebookStrategy({
 	clientID: '535674716548501',
 	clientSecret: '2f842fa7f61eee7368af09f5bb2d4119',
-	callbackURL: 'http://localhost:3000/auth/facebook/callback'
+	callbackURL: '/auth/facebook/callback'
 }, function(accessToken, refreshToken, profile, done) {
 	process.nextTick(function() { // asynchronous
 		Account.findOne({ 'username' : profile.username }, function(err, user) {
