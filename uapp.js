@@ -99,9 +99,5 @@ io.sockets.on('connection', function (socket) {
 		result.save(function(err, result) {
 			if (err) return console.error(err);
 		})
-
-		//db.get('resultscollection').insert(results, {safe: true}, function(err, records){
-		//	console.log('Record added as ' + records);
-		//});
 	});
 });
