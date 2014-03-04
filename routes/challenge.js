@@ -8,6 +8,10 @@ module.exports = function(app, fs, yaml)
 {
 	app.get('/challenge/:id', function(req, res) 
 	{
+		if (! req.user) {
+			res.redirect('/');
+		}
+		
 		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal) 
 		{
 			Submission.findOne({ userId: req.user.username, challengeId : Number(req.params.id) }, 'code', function(err, sub) 
