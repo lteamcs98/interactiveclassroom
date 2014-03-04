@@ -12,8 +12,8 @@ html
 				a(href='/login' ) Login
 				br
 				a(href='/register' ) Register
-				if (user)
-					p You are currently logged in as #{user.username}
-					a(href='/challengelist') Challenges
-					br
-					a(href='/logout') Logout
+		if (user)
+			p You are currently logged in as #{user.username}
+			a(href='/challengelist') Challenges
+			br
+			a(href='/logout') Logout
