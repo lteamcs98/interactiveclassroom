@@ -24,10 +24,7 @@ outputArray:
    -
      functionName: sum
      outputs:
-      -
-       - 24
-      -
+       - 111
        - 15
 ---
 #
-
