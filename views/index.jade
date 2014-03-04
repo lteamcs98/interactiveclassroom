@@ -8,11 +8,12 @@ html
 		script(src='js/bootstrap.min.js')
 	body
 		if (!user)
-			a(href='/login') Login
-			br
-			a(href='/register') Register
-		if (user)
-			p You are currently logged in as #{user.username}
-			a(href='/challengelist') Challenges
-			br
-			a(href='/logout') Logout
+			p(class = 'login')
+				a(href='/login' ) Login
+				br
+				a(href='/register' ) Register
+			if (user)
+				p You are currently logged in as #{user.username}
+				a(href='/challengelist') Challenges
+				br
+				a(href='/logout') Logout
