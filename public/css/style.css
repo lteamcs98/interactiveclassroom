@@ -138,3 +138,12 @@ body {
 .editChallengeDataSubEntry {
 	padding-left: 10px;
 }
+
+.login{
+	text-align: center;
+	font-family: Verdana, sans-serif;
+	font-size: 1.5em;
+	font-weight: bold;
+	font-color:#000000;
+
+}
