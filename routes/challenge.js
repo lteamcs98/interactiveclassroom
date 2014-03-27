@@ -1,32 +1,18 @@
 var Challenge = require('../models/challenge');
-var Submission = require('../models/submission');
 var parser = require('../public/js/JSON_parse.js');
 var error = require('../public/js/errorcheck.js');
 var hash = require('../public/js/hash.js');
 
-module.exports = function(app, fs, yaml) 
+module.exports = function(app, fs, yaml)
 {
-	app.get('/challenge/:id', function(req, res) 
+	app.get('/challenge/:id', function(req, res)
 	{
-		if (! req.user) {
-			res.redirect('/');
-		}
-		
-		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal) 
+		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal)
 		{
-			Submission.findOne({ userId: req.user.username, challengeId : Number(req.params.id) }, 'code', function(err, sub) 
-			{
-				var userCode;
-				if (sub === null) userCode = ''; 
-				else userCode = sub.code;
-				
-				res.render('challenge', { 'challengeId': chal.challengeId, 'problem': chal.problem, 
-				'functionNames': chal.functionNames, 'inputArray': chal.inputArray, 'outputArray': chal.outputArray, 
-				'username': req.user.username, 'oldSub': userCode });
-			});
+				res.render('challenge', { 'challengeId': chal.challengeId, 'problem': chal.problem, 'functionNames': chal.functionNames, 'inputArray': chal.inputArray, 'outputArray': chal.outputArray});
 		});
 	});
-	
+
 	app.get('/challengelist', function(req, res) {
 		Challenge.find(function(err, challenges) {
 			if (err) return console.error(err);
@@ -50,7 +36,7 @@ module.exports = function(app, fs, yaml)
 			if (err) return console.error(err);
 		});
 
-        // Redirect back to edit challenge list        
+        // Redirect back to edit challenge list
         res.location("editchallengelist");
         res.redirect("editchallengelist");
 	});
@@ -74,7 +60,7 @@ module.exports = function(app, fs, yaml)
 				{
 					//console.log(mdDocs[i]);
 					var msg = error.uploadErrorCheck(mdDocs[i]);
-					if (msg == true) 
+					if (msg == true)
 					{
 						var JSON = yaml.loadFront(mdDocs[i]);
 						//var promise = db.get('challengecollection').insert(JSON);
@@ -84,7 +70,7 @@ module.exports = function(app, fs, yaml)
 						updateID(newChallenge);
 						console.log('NEW CHALLENGE UPDATED!', newChallenge);
 						renderTemplate();
-						
+
 						function updateID(doc)
 						{
 								var id_string = new String(doc._id);
@@ -114,7 +100,7 @@ module.exports = function(app, fs, yaml)
 						}
 						//promise.on('complete', updateID);
 					}
-					else 
+					else
 					{
 						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
 					}
