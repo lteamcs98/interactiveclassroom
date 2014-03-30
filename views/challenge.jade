@@ -143,7 +143,10 @@ html
 
 			$('#emailButton').click(function() {
 				
-				var personsCode = editor.getValue().replace(/\n/g, '%0D%0A');
+				var personsCode = editor.getValue();
+				personsCode = personsCode.replace(/\n/g, '%0D%0A');
+				personsCode = personsCode.replace(/\t/g, '    ');
+
 				var personsSubject = #{title}
 
 				window.open( 

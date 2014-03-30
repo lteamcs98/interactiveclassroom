@@ -5,7 +5,7 @@ var findMax = function(numbArray)
 	{
 		if (numbArray[i] > max) max = numbArray[i];
 	}
-    return max;
+	return max;
 }
 
 function findMaxFive(numbArray)
