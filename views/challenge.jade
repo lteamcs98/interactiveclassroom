@@ -9,8 +9,6 @@ html
 		link(rel='stylesheet', href='../css/style.css')
 
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
-		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
-		script(src="../socket.io/socket.io.js")
 
 		script(src='../js/codemirror.js')
 		script(src='../js/javascript-lint.js')
@@ -19,7 +17,6 @@ html
 		script(src='../js/lint.js')
 	body
 		script.
-			console.log("HELLO");
 			console.log(!{ JSON.stringify(outputArray) });
 
 		p(class='challengeTitle') Challenge #{challengeId}: #{title}
@@ -61,9 +58,6 @@ html
 				return true;
 			}
 
-			var socket = io.connect('http://localhost');
-			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
-
 			var outputArray = !{ JSON.stringify(outputArray) };
 			var inputArray = !{ JSON.stringify(inputArray) };
 
@@ -81,7 +75,6 @@ html
 				theme: "light-table"
 			});
 			editor.setSize(540, 300);
-			//editor.setValue(!{JSON.stringify(oldSub)});
 
 			function addFunctionOptions(functionNames)
 			{
@@ -137,10 +130,9 @@ html
 												'Correct output: ' + outputs[i] + '</p>');
 					}
 				}
-
 				return [total, correct, failedTests];
 			}
-
+			
 			$('#emailButton').click(function() {
 				
 				var personsCode = editor.getValue();
