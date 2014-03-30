@@ -27,10 +27,10 @@ app.use(app.router);
 // Load Models
 var Challenge = require('./models/challenge')
 
+mongoose.connect('mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193');
+
 // Routes
 require('./routes/challenge')(app, fs, yaml);
-
-mongoose.connect('mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193');
 
 server.listen(app.get('port'));
 

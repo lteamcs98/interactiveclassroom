@@ -1,18 +1,17 @@
 doctype html
 html
 	head
-		title Challenge #{challengeId} 
+		title Challenge #{challengeId}
 		link(rel='stylesheet', href='../css/codemirror.css')
 		link(rel='stylesheet', href='../css/light-table.css')
 		link(rel='stylesheet', href='../css/lint.css')
 		link(rel='stylesheet', href='../css/normalize.css')
 		link(rel='stylesheet', href='../css/style.css')
-		
+
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
-		script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
-		//script(src="../socket.io/socket.io.js")
-		
-		//script(src='../socket.io/socket.io.js')
+		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
+		script(src="../socket.io/socket.io.js")
+
 		script(src='../js/codemirror.js')
 		script(src='../js/javascript-lint.js')
 		script(src='../js/javascript.js')
@@ -22,7 +21,7 @@ html
 		script.
 			console.log("HELLO");
 			console.log(!{ JSON.stringify(outputArray) });
-	
+
 		p(class='challengeTitle') Challenge #{challengeId}: #{title}
 		p(class='challengeText') #{problem}
 		div(id='leftPanel')
@@ -36,17 +35,17 @@ html
 			option
 				selected
 				value='All'
-			
+
 		//script(src='../js/console_capture.js')
 		script.
 
-			function arraysEqual(a, b) 
-			{			
+			function arraysEqual(a, b)
+			{
 				if(typeof a != "object" && typeof b != "object")
 				{
 					return a==b;
 				}
-				
+
 				if (a === b) return true;
 				if (a == null || b == null) return false;
 				if (a.length != b.length) return false;
@@ -54,25 +53,25 @@ html
 				// If you don't care about the order of the elements inside
 				// the array, you should sort both arrays here.
 
-				for (var i = 0; i < a.length; ++i) 
+				for (var i = 0; i < a.length; ++i)
 				{
 					if (a[i] !== b[i]) return false;
 				}
 				return true;
 			}
 
-			//var socket = io.connect('http://localhost');
-			var socket = io.connect('http://interactiveclassroom.herokuapp.com');
-			
+			var socket = io.connect('http://localhost');
+			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
+
 			var outputArray = !{ JSON.stringify(outputArray) };
 			var inputArray = !{ JSON.stringify(inputArray) };
-			
+
 			var challengeId = Number(#{challengeId});
 
 			var functionNames = !{ JSON.stringify(functionNames) };
 			addFunctionOptions(functionNames);
-			
-			var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), 
+
+			var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"),
 			{
 				lineNumbers: true,
 				mode: "javascript",
@@ -81,8 +80,8 @@ html
 				theme: "light-table"
 			});
 			editor.setSize(540, 300);
-			editor.setValue(!{JSON.stringify(oldSub)});
-			
+			//editor.setValue(!{JSON.stringify(oldSub)});
+
 			function addFunctionOptions(functionNames)
 			{
 				var select = document.getElementById("codeUnitList");
@@ -95,31 +94,31 @@ html
 					select.add(option);
 				}
 			}
-			
+
 			function evaluateFunction(functionName)
 			{
 				eval(editor.getValue());
 				$('#outputBox').append('<p class="functionTitle">' + functionName + '</p>');
-				
+
 				var inputs = new Array();
 				var outputs = new Array();
 				var failedTests = new Array();
 
-				for(var i in inputArray) 
+				for(var i in inputArray)
 				{
 					if(functionName == inputArray[i].functionName)
 					{
 						inputs = inputArray[i].inputs;
 					}
 				}
-				for(var i in outputArray) 
+				for(var i in outputArray)
 				{
 					if(functionName == outputArray[i].functionName)
 					{
 						outputs = outputArray[i].outputs;
 					}
 				}
-				
+
 				var total = inputs.length;
 				var correct = 0.0;
 
@@ -131,16 +130,16 @@ html
 						$('#outputBox').append('<p class="correctResult">Test ' + i + ' passed</p>');
 					} else {
 						failedTests.push(i);
-						$('#outputBox').append('<p class="incorrectResult">Test ' + i + ' failed<br />' + 
-												'Input: ' + inputs[i] + '<br />' + 
-												'Your output: ' + output + '<br />' + 
+						$('#outputBox').append('<p class="incorrectResult">Test ' + i + ' failed<br />' +
+												'Input: ' + inputs[i] + '<br />' +
+												'Your output: ' + output + '<br />' +
 												'Correct output: ' + outputs[i] + '</p>');
 					}
-				}				
+				}
 
 				return [total, correct, failedTests];
 			}
-			
+
 
 
 			$('#submitButton').click(function() {
@@ -156,7 +155,7 @@ html
 				{
 					functions.push(document.getElementById("codeUnitList").options[testIndex].value);
 				}
-				
+
 				totalTests = 0;
 				correctTests = 0;
 				var failedTests = new Array();
@@ -170,17 +169,4 @@ html
 
 				var percent = (100.0 * correctTests / totalTests);
 				$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
-				
-				console.log("EMIT NOW!!!!!");
-
-				// send data back to server
-				socket.emit('results',
-					{
-						score: percent,
-						userId: new String("#{username}"),
-						challengeId: !{challengeId},
-						failed: failedTests,
-						userCode: editor.getValue()
-					}
-				);
 			});
