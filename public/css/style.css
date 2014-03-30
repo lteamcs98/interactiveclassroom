@@ -21,6 +21,14 @@ body {
 	width: 550px;
 }
 
+#middlePanel{
+	background-color: #FFFFFF;
+	float: left;
+	width: 250px;
+	height: 300px;
+	overflow: scroll;
+}
+
 #rightPanel {
 	background-color: #FFFFFF;
 	float: left;
@@ -36,6 +44,12 @@ body {
 }
 
 #outputBox {
+	float: left;
+	padding: 0px 20px;
+	margin: 0;
+}
+
+#consoleBox{
 	float: left;
 	padding: 0px 20px;
 	margin: 0;
