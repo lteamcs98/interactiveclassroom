@@ -27,6 +27,7 @@ html
 		div(id='leftPanel')
 			textarea(id='codeEditor')
 			button(id='submitButton' type='button') Submit
+			button(id='emailButton' type='button') Email
 		div(id='rightPanel')
 			div(id='outputBox')
 				p(class='challengeTitle') Results
@@ -140,7 +141,18 @@ html
 				return [total, correct, failedTests];
 			}
 
+			$('#emailButton').click(function() {
+				
+				var personsCode = editor.getValue().replace(/\n/g, '%0D%0A');
+				var personsSubject = #{title}
 
+				window.open( 
+					'mailto:first.middle.last.year@dartmouth.edu?'
+					+ '&subject=Challenge ' + #{challengeId}
+					+ '&body=' + personsCode
+				);
+
+			});
 
 			$('#submitButton').click(function() {
 				$('#outputBox').html('<p class="challengeTitle">Results</p>');
