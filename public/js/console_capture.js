@@ -43,7 +43,7 @@ console.error = function() {
 };
 
 window.onerror = function (msg, url, line) {
-    console.error("Caught[via window.onerror]: '" + msg + "' from " + url + ":" + line);
+    console.error("Console Error: '" + msg + "' from " + url + ":" + line);
     return true; // same as preventDefault
 };
 /*

@@ -1,5 +1,4 @@
 var Challenge = require('../models/challenge');
-var parser = require('../public/js/JSON_parse.js');
 var error = require('../public/js/errorcheck.js');
 var hash = require('../public/js/hash.js');
 
