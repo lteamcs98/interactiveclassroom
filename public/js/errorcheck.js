@@ -9,7 +9,7 @@ function uploadErrorCheck(data){ //data is one JSON object
 	var counter = 0;
 
 	for (var i = 0; i < fields.length; i++){ //doc or array of documents
-		if !(fields[i] in data){
+		if ((fields[i] in data) == false){
 			missing[counter] = fields[i];
 			counter+= 1;
 		}
@@ -29,7 +29,7 @@ function uploadErrorCheck(data){ //data is one JSON object
 			}
 		}
 
-		return msg;
+		return errorMsg;
 	}
 }
 
