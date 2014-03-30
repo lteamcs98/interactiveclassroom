@@ -81,6 +81,21 @@ body {
 	text-decoration:none;
 }
 
+#emailButton {
+	background-color: #00CCFF;
+	border: 1px #00CCFF solid;
+	-moz-border-radius: 18px;
+	-webkit-border-radius: 18px;
+	border-radius: 18px;
+	color: #FFFFFF;
+	display:inline-block;
+	float: right;
+	font-size:18px;
+	margin: 5px 22px;
+	padding: 5px 50px;
+	text-decoration:none;
+}
+
 .deleteButton {
 	background-color: #FA5858;
 	border: 1px #FA5858 solid;
