@@ -32,9 +32,8 @@ if (process.argv[2] == null){
 	process.exit(1);
 }
 else{
-	mongoose.connect(process.argv[2]);//'mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193');
+	mongoose.connect(process.argv[2]);// mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193
 }
-
 
 // Routes
 require('./routes/challenge')(app, fs, yaml);
