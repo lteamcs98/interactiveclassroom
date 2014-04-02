@@ -7,7 +7,7 @@ var _log = console.log,
 function outputArguments(arguments, type)
 {
 	outputBox = document.getElementById('outputBox');
-	for(i in arguments)
+	for(var i in arguments)
 	{
 		if(type == 0)
 		{
