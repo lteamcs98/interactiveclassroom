@@ -4,6 +4,13 @@ var hash = require('../public/js/hash.js');
 
 module.exports = function(app, fs, yaml)
 {
+	app.get('/', function(req, res) {
+		Challenge.find(function(err, challenges) {
+			if (err) return console.error(err);
+			res.render('challengelist', { 'challengelist': challenges });
+		});
+	});
+	
 	app.get('/challenge/:id', function(req, res)
 	{
 		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal)
