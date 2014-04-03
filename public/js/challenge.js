@@ -19,7 +19,7 @@ function arraysEqual(a, b)
 	return true;
 }
 
-var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"),
+var editor = CodeMirror.fromTextArea(document.getElementById("editor"),
 {
 	lineNumbers: true,
 	mode: "javascript",
@@ -57,7 +57,7 @@ function evaluateFunction(functionName) {
 			return -1;
 		}
 
-		$('#outputBox').append('<p class="functionTitle">' + functionName + '</p>');
+		$('#results').append('<p>' + functionName + '</p>');
 
 		var inputs = new Array();
 		var outputs = new Array();
@@ -86,10 +86,10 @@ function evaluateFunction(functionName) {
 			var output = eval(functionName+'(inputs[evalIterator])');
 			if(arraysEqual(output, outputs[evalIterator])) {
 				correct += 1.0;
-				$('#outputBox').append('<p class="correctResult">Test ' + evalIterator + ' passed</p>');
+				$('#results').append('<p class="correctResult">Test ' + evalIterator + ' passed</p>');
 			} else {
 				failedTests.push(evalIterator);
-				$('#outputBox').append('<p class="incorrectResult">Test ' + evalIterator + ' failed<br />' +
+				$('#results').append('<p class="incorrectResult">Test ' + evalIterator + ' failed<br />' +
 										'Input: ' + inputs[evalIterator] + '<br />' +
 										'Your output: ' + output + '<br />' +
 										'Correct output: ' + outputs[evalIterator] + '</p>');
@@ -99,7 +99,7 @@ function evaluateFunction(functionName) {
 }
 
 $('#submitButton').click(function() {
-	$('#outputBox').html('<p class="challengeTitle">Results</p>');
+	$('#results').html('<h2>Results</h2>');
 
 	var testIndex = document.getElementById("codeUnitList").selectedIndex;
 	var testAll = (testIndex === 0);
@@ -131,9 +131,9 @@ $('#submitButton').click(function() {
 		var percent = (100.0 * correctTests / totalTests);
 		$('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
 	}
-	else 
+	else
 	{
 		$('#outputBox').append('<p class="challengeTitle">No results to display</p>');
-	
+
 	}
 });
