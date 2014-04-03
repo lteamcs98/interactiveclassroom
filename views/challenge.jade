@@ -25,6 +25,9 @@ html
 			textarea(id='codeEditor')
 			button(id='submitButton' type='button') Submit
 			button(id='emailButton' type='button') Email
+		div(id='middlePanel')
+			div(id='consoleBox')
+				p(class='challengeTitle') Console Output
 		div(id='rightPanel')
 			div(id='outputBox')
 				p(class='challengeTitle') Results
@@ -47,7 +50,10 @@ html
 
 			$('#emailButton').click(function() {
 				test.apply(null, strings)
-				var personsCode = editor.getValue().replace(/\n/g, '%0D%0A');
+
+				var personsCode = editor.getValue();
+				personsCode = personsCode.replace(/\n/g, '%0D%0A');
+				personsCode = personsCode.replace(/\t/g, '    ');
 				var personsSubject = #{title}
 
 				window.open( 
