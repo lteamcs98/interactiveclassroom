@@ -2,6 +2,10 @@ doctype html
 html
 	head
 		title Challenge #{challengeId}
+
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+
 		link(rel='stylesheet', href='../css/codemirror.css')
 		link(rel='stylesheet', href='../css/light-table.css')
 		link(rel='stylesheet', href='../css/lint.css')
@@ -15,30 +19,32 @@ html
 		script(src='../js/javascript.js')
 		script(src='../js/jshint.js')
 		script(src='../js/lint.js')
+
 	body
-		script.
-			console.log(!{ JSON.stringify(outputArray) });
 
-		p(class='challengeTitle') Challenge #{challengeId}: #{title}
-		p(class='challengeText') #{problem}
-		div(id='leftPanel')
-			textarea(id='codeEditor')
-			button(id='submitButton' type='button') Submit
-			button(id='emailButton' type='button') Email
-		div(id='middlePanel')
-			div(id='consoleBox')
-				p(class='challengeTitle') Console Output
-		div(id='rightPanel')
-			div(id='outputBox')
-				p(class='challengeTitle') Results
+		div(class='grid grid-pad')
+			div(class='col-1')
+				h2 Challenge #{challengeId}: #{title}
+				p #{problem}
 
-		select(id='codeUnitList')
-			option
-				selected
-				value='All'
+			div(class='col-2-3 row-1-2')
+				textarea(id='editor')
+				button(class='button' id='emailButton' type='button') Email
+				button(class='button' id='submitButton' type='button') Submit
+			div(class='col-1-3 row-1-2')
+				select(id='codeUnitList')
+					option
+						selected
+						value='All'
+				div(id='results')
+					h2 Results
+
+			div(class='col-1' id='console')
+				h2 Console
 
 		script(src='../js/console_capture.js')
 		script(src='../js/challenge.js')
+		script(src='../js/cm-resize.js')
 		script.
 			var outputArray = !{ JSON.stringify(outputArray) };
 			var inputArray = !{ JSON.stringify(inputArray) };
@@ -56,7 +62,7 @@ html
 				personsCode = personsCode.replace(/\t/g, '    ');
 				var personsSubject = #{title}
 
-				window.open( 
+				window.open(
 					'mailto:first.middle.last.year@dartmouth.edu?'
 					+ '&subject=Challenge ' + #{challengeId}
 					+ '&body=' + personsCode

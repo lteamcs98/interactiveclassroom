@@ -3,10 +3,10 @@ var logOfConsole = [];
 var _log = console.log,
 	_warn = console.warn,
 	_error = console.error;
-	
+
 function outputArguments(arguments, type)
 {
-	outputBox = document.getElementById('consoleBox');
+	outputBox = document.getElementById('console');
 	for(var i in arguments)
 	{
 		if(type == 0)
@@ -15,7 +15,7 @@ function outputArguments(arguments, type)
 		}
 		else if (type == 1)
 		{
-			outputBox.innerHTML += '<p class="consoleWarn">'+(arguments[i])+'</p>';	
+			outputBox.innerHTML += '<p class="consoleWarn">'+(arguments[i])+'</p>';
 		}
 		else
 		{
