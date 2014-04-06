@@ -31,6 +31,7 @@ p {
 	color: #707070;
 }
 
+
 .correctResult, .incorrectResult, .consoleError, .consoleWarn, .consoleLog {
 	font-family: 'Montserrat', Helvetica, sans-serif;
 	font-size: 14px;
@@ -114,6 +115,10 @@ background: #ecf0f1;
 	width: 33.33%;
 }
 
+.col-1-8 {
+	width: 12.5%;
+}
+
 .row-1-2 {
 	height: 50%;
 	max-height: 400px;
@@ -176,6 +181,17 @@ select:hover {
 	margin: 5px;
 	padding: 7px 20px;
 	text-decoration:none;
+}
+
+#challengetitle{
+	display:inline-block;
+	margin-right:10px;
+
+} 
+
+#challengedelete{
+	display:inline-block;
+	float: right;
 }
 
 #submitButton {
