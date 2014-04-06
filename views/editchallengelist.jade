@@ -15,10 +15,10 @@ html
                    each challenge in challengelist
                         li
                            h2.challengeTitle
-                              div(id='challengetitle')
+                              div(id='challengedelete')
                                 form( method="post", action="/deletechallenge") 
                                     input(name="challengeId", type="hidden", value=challenge.challengeId)
-                                    input(class="deleteButton", value="Delete", type="submit", id="challengedelete")
+                                    input(class="deleteButton", value="Delete", type="submit")
                               div(class='col-2-3')
                                  a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
                                  
