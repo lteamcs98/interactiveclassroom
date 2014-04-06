@@ -59,6 +59,39 @@ p {
 	color: #34495e;
 }
 
+/* Lists */
+
+ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+li {
+background: #bdc3c7;
+border-bottom: 3px solid #F5F5F5;
+line-height: 28px;
+display: block;
+padding-left: 1%;
+margin-right: 2%;
+}
+
+li:last-child {
+border: none;
+}
+
+li a {
+text-decoration: none;
+color: #000;
+display: block;
+width: 100%;
+}
+
+li a:hover {
+padding-left: 2%;
+background: #ecf0f1;
+}
+
 /* Grid layout */
 [class*='col-'] {
 	float: left;
@@ -165,55 +198,30 @@ select:hover {
 	background-color: #3498db;
 }
 
+#newChallengeButton {
+	background-color: #f39c12;
+	border: 1px #f39c12 solid;
+	color: #FFFFFF;
+	float: left;
+}
+
+#newChallengeButton:hover {
+	background-color: #f1c40f;
+}
+
+#editChallengeButton {
+	background-color: #d35400;
+	border: 1px #d35400 solid;
+	color: #FFFFFF;
+	float: left;
+}
+
+#editChallengeButton:hover {
+	background-color: #e67e22;
+}
+
 /* Console */
 #console {
 	max-height: 200px;
 	overflow: scroll;
-}
-
-
-
-.deleteButton {
-	background-color: #FA5858;
-	border: 1px #FA5858 solid;
-	-moz-border-radius: 18px;
-	-webkit-border-radius: 18px;
-	border-radius: 18px;
-	color: #FFFFFF;
-	display:inline-block;
-	float: right;
-	font-size:18px;
-	margin: 5px 22px;
-	padding: 5px 50px;
-	text-decoration:none;
-	position: relative;
-}
-
-.deleteButton:hover {
-	background-color: #F5A9A9;
-}
-
-.editChallengeTitleText {
-	vertical-align: center;
-	margin-right: 250px;
-}
-
-.editChallengeEntry {
-	padding:20px;
-	margin-bottom:20px;
-	border-radius:5px;
-	border:5px solid #404040;
-}
-.editChallengeData {
-	padding: 0px 20px;
-	clear: both;
-}
-
-.editChallengeDataEntry {
-	padding: 1px 0px 1px 15px;
-	background-color: #D8D8D8;
-}
-
-.editChallengeDataSubEntry {
-	padding-left: 10px;
 }
