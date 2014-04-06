@@ -36,13 +36,10 @@ app.use(app.router);
 // Load Models
 var Account = require('./models/account')
 var Challenge = require('./models/challenge')
-<<<<<<< HEAD
 var Submission = require('./models/submission')
 
-=======
 mongoose.connect('mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193');
-/* When we release the app, uncomment this 
->>>>>>> 88976fe91f86388392f7f857d07cb6e2d3885237
+/* When we release the app, uncomment this
 if (process.argv[2] == null){
 	console.log("Mongodb URI missing.");
 	process.exit(1);
@@ -96,7 +93,6 @@ server.listen(app.get('port'));
 
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
-<<<<<<< HEAD
 
 	socket.on('results', function(results) {
 		console.log('GOT SOME RESULTS', results);
@@ -109,6 +105,4 @@ io.sockets.on('connection', function (socket) {
 			if (err) return console.error(err);
 		})
 	});
-=======
->>>>>>> 88976fe91f86388392f7f857d07cb6e2d3885237
 });
