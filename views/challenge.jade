@@ -54,8 +54,12 @@ html
 			var functionNames = !{ JSON.stringify(functionNames) };
 			addFunctionOptions(functionNames);
 
+			var functionHeaders = !{ JSON.stringify(functionHeaders) };
+			setEditorValue(functionHeaders);
+			
 			$('#emailButton').click(function() {
-				test.apply(null, strings)
+				var strings = ['hello', 'world', 'goodbye'];
+				test.apply(null, strings);
 
 				var personsCode = editor.getValue();
 				personsCode = personsCode.replace(/\n/g, '%0D%0A');
