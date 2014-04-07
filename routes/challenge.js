@@ -13,9 +13,9 @@ module.exports = function(app, fs, yaml)
 	
 	app.get('/challenge/:id', function(req, res)
 	{
-		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal)
+		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
 		{
-				res.render('challenge', { 'challengeId': chal.challengeId, 'problem': chal.problem, 'functionNames': chal.functionNames, 'inputArray': chal.inputArray, 'outputArray': chal.outputArray});
+				res.render('challenge', { 'challengeId': chal.challengeId, 'problem': chal.problem, 'functionNames': chal.functionNames, 'functionHeaders': chal.functionHeaders, 'inputArray': chal.inputArray, 'outputArray': chal.outputArray});
 		});
 	});
 
