@@ -1,4 +1,5 @@
 var Challenge = require('../models/challenge');
+var Submission = require('../models/submission');
 var error = require('../public/js/errorcheck.js');
 var hash = require('../public/js/hash.js');
 
@@ -15,11 +16,30 @@ module.exports = function(app, fs, yaml)
 	{
 		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal)
 		{
-				res.render('challenge', { 'challengeId': chal.challengeId, 'problem': chal.problem, 'functionNames': chal.functionNames, 'inputArray': chal.inputArray, 'outputArray': chal.outputArray});
+
+			console.log(req.user);
+
+			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'code', function(err, sub) 
+			{
+				var userCode;
+				if (sub === null) userCode = ''; 
+				else userCode = sub.code;
+
+				res.render('challenge', {
+					'personsID': Number(req.user.id),
+					'oldSub': userCode,
+					'challengeId': chal.challengeId,
+					'problem': chal.problem,
+					'functionNames': chal.functionNames,
+					'inputArray': chal.inputArray,
+					'outputArray': chal.outputArray
+				});
+			});
 		});
 	});
 
 	app.get('/challengelist', function(req, res) {
+		console.log(req.user);
 		console.log(req.user.id);
 		Challenge.find(function(err, challenges) {
 			if (err) return console.error(err);
