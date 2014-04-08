@@ -57,7 +57,7 @@ html
 			var inputArray = !{ JSON.stringify(inputArray) };
 
 			var challengeId = Number(#{challengeId});
-
+			
 			var functionNames = !{ JSON.stringify(functionNames) };
 			addFunctionOptions(functionNames);
 
@@ -65,7 +65,7 @@ html
 			setEditorValue(functionHeaders);
 			//console.log(!{JSON.stringify(oldSub)});
 
-			//editor.setValue(!{JSON.stringify(oldSub)});
+			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
 				$('#results').html('<h2>Results</h2>');
