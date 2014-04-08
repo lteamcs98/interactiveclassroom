@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var submissionSchema = new Schema({
 	challengeId: Number,
-	userId: String,
+	userId: Number,
 	code: String
 });
 
