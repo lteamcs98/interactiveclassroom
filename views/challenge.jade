@@ -57,13 +57,15 @@ html
 			var inputArray = !{ JSON.stringify(inputArray) };
 
 			var challengeId = Number(#{challengeId});
-
+			
 			var functionNames = !{ JSON.stringify(functionNames) };
 			addFunctionOptions(functionNames);
 
+			var functionHeaders = !{ JSON.stringify(functionHeaders) };
+			setEditorValue(functionHeaders);
 			//console.log(!{JSON.stringify(oldSub)});
 
-			//editor.setValue(!{JSON.stringify(oldSub)});
+			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
 				$('#results').html('<h2>Results</h2>');
@@ -93,6 +95,7 @@ html
 					correctTests += result[1];
 					failedTests.push({functionName: functions[i], failedTests: result[2]});
 				}
+				
 				if(totalTests > 0)
 				{
 					var percent = (100.0 * correctTests / totalTests);
@@ -104,26 +107,19 @@ html
 
 				}
 
-				console.log("Sending user code to database");
+				console.log("Sending user code to database");				
 
-				
-				
 				// send data back to server
-				socket.emit('results',
-					{
-						userId: !{personsID}, //new String("#{username}"),
+				socket.emit('results', {
 						challengeId: !{challengeId},
-						userCode: editor.getValue()
+						userCode: editor.getValue(),
+						userId: !{personsID} //new String("#{username}"),
 					}
-				);
-				
-				
+				);				
 
 			});
 
 			$('#emailButton').click(function() {
-				test.apply(null, strings)
-
 				var personsCode = editor.getValue();
 				personsCode = personsCode.replace(/\n/g, '%0D%0A');
 				personsCode = personsCode.replace(/\t/g, '    ');

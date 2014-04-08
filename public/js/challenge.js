@@ -30,6 +30,16 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor"),
 
 editor.setSize(540, 300);
 
+function setEditorValue(headers)
+{
+	var editorString = '';
+	for(var i = 0; i < headers.length; i++)
+	{
+		editorString += 'function ' + headers[i] + '\n{\n\n}\n\n';
+	}
+	editor.setValue(editorString);
+}
+
 function test(str1, str2, str3)
 {
 	console.log(str1);
@@ -83,7 +93,8 @@ function evaluateFunction(functionName) {
 
 		for(var evalIterator in inputs)
 		{
-			var output = eval(functionName+'(inputs[evalIterator])');
+			//var output = eval(functionName+'(inputs[evalIterator])');
+			var output = eval(functionName+'.apply(null, inputs[evalIterator])');
 			if(arraysEqual(output, outputs[evalIterator])) {
 				correct += 1.0;
 				$('#results').append('<p class="correctResult">Test ' + evalIterator + ' passed</p>');

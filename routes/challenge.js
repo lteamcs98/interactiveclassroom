@@ -14,23 +14,21 @@ module.exports = function(app, fs, yaml)
 
 	app.get('/challenge/:id', function(req, res)
 	{
-		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames inputArray outputArray', function(err, chal)
+		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
 		{
-
-			console.log(req.user);
-
-			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'code', function(err, sub) 
+			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
 			{
 				var userCode;
-				if (sub === null) userCode = ''; 
+				if (sub === null) userCode = '';
 				else userCode = sub.code;
-
+				console.log('Persons ID: ', Number(req.user.id));
 				res.render('challenge', {
 					'personsID': Number(req.user.id),
 					'oldSub': userCode,
 					'challengeId': chal.challengeId,
 					'problem': chal.problem,
 					'functionNames': chal.functionNames,
+					'functionHeaders': chal.functionHeaders,
 					'inputArray': chal.inputArray,
 					'outputArray': chal.outputArray
 				});

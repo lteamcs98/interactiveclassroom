@@ -125,9 +125,7 @@ background: #ecf0f1;
 }
 
 .row-1-2 {
-	height: 50%;
-	max-height: 400px;
-	overflow: scroll;
+	height: 60%;
 }
 
 .grid {
