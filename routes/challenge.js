@@ -19,14 +19,14 @@ module.exports = function(app, fs, yaml)
 
 			console.log(req.user);
 
-			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'code', function(err, sub) 
+			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
 			{
 				var userCode;
-				if (sub === null) userCode = ''; 
+				if (sub === null) userCode = '';
 				else userCode = sub.code;
 
 				res.render('challenge', {
-					'personsID': Number(req.user.id),
+					'personsID': sub.userId,
 					'oldSub': userCode,
 					'challengeId': chal.challengeId,
 					'problem': chal.problem,
