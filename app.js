@@ -58,7 +58,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
 		clientID: GOOGLE_CLIENT_ID,
 		clientSecret: GOOGLE_CLIENT_SECRET,
-		callbackURL: "http://interactiveclassroom.herokuapp.com//auth/google/return",
+		callbackURL: "http://interactiveclassroom.herokuapp.com/auth/google/return",
 		scope: "openid profile email"
 	},
 	function(accessToken, refreshToken, profile, done) {
