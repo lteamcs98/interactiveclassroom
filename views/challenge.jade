@@ -13,8 +13,8 @@ html
 		link(rel='stylesheet', href='../css/style.css')
 
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
-		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
-		script(src="../socket.io/socket.io.js")
+		script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
+		//script(src="../socket.io/socket.io.js")
 
 
 		script(src='../js/codemirror.js')
@@ -50,14 +50,14 @@ html
 		script(src='../js/cm-resize.js')
 		script.
 
-			var socket = io.connect('http://localhost');
-			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
+			//var socket = io.connect('http://localhost');
+			var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
 			var outputArray = !{ JSON.stringify(outputArray) };
 			var inputArray = !{ JSON.stringify(inputArray) };
 
 			var challengeId = Number(#{challengeId});
-			
+
 			var functionNames = !{ JSON.stringify(functionNames) };
 			addFunctionOptions(functionNames);
 
@@ -95,7 +95,7 @@ html
 					correctTests += result[1];
 					failedTests.push({functionName: functions[i], failedTests: result[2]});
 				}
-				
+
 				if(totalTests > 0)
 				{
 					var percent = (100.0 * correctTests / totalTests);
@@ -107,7 +107,7 @@ html
 
 				}
 
-				console.log("Sending user code to database");				
+				console.log("Sending user code to database");
 
 				// send data back to server
 				socket.emit('results', {
@@ -115,7 +115,7 @@ html
 						userCode: editor.getValue(),
 						userId: !{personsID} //new String("#{username}"),
 					}
-				);				
+				);
 
 			});
 
