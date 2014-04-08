@@ -6,6 +6,31 @@ html
         link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
         link(rel='stylesheet', href='../css/style.css')
         link(rel='stylesheet', href='../css/normalize.css')
+
+        script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
+
+        script.
+                $(document).ready(function() {
+                    $('.nav-toggle').click(function(){
+                        console.log("This gets called");
+                        //get collapse content selector
+                        var collapse_content_selector = $(this).attr('href');					
+
+                        //make the collapse content to be shown or hide
+                        var toggle_switch = $(this);
+                        $(collapse_content_selector).toggle(function(){
+                              if($(this).css('display')=='none'){
+                                    //change the button label to be 'Show'
+                                    toggle_switch.html('Show');
+                              }
+                              else{
+                                    //change the button label to be 'Hide'
+                                    toggle_switch.html('Hide');
+                              }
+                        });
+                    });
+                 });
+
     body
         block content
             h1.
@@ -14,12 +39,16 @@ html
                 u1
                    each challenge in challengelist
                         li
-                           h2.challengeTitle
-                              div(id='challengedelete')
-                                form( method="post", action="/deletechallenge") 
-                                    input(name="challengeId", type="hidden", value=challenge.challengeId)
-                                    input(class="deleteButton", value="Delete", type="submit")
-                              div(class='col-2-3')
-                                 a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
+                            h2.challengeTitle
+                                div(class='col-2-3')
+                                   a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
+                                   div(id="showinfo" style="display:none")
+                                       p Test
+                                div(class='col-1-8' id='challengedelete' style='display:inline-block')
+                                   button(href="#showinfo" class="nav-toggle") Info
+                                div(class='col-1-8' id='challengedelete' style='display:inline-block')
+                                   form( method="post", action="/deletechallenge") 
+                                      input(name="challengeId", type="hidden", value=challenge.challengeId)
+                                      input(class="deleteButton", value="Delete", type="submit")
                                  
                         
