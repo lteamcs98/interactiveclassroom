@@ -65,6 +65,7 @@ html
 			setEditorValue(functionHeaders);
 			//console.log(!{JSON.stringify(oldSub)});
 
+			
 			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
@@ -107,7 +108,7 @@ html
 
 				}
 
-				console.log("Sending user code to database");
+				console.log("Sending user code to database...");
 
 				// send data back to server
 				socket.emit('results', {
