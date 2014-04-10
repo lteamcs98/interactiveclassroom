@@ -12,6 +12,34 @@ module.exports = function(app, fs, yaml)
 		});
 	});
 
+	app.get('/results/:id', function(req, res)
+	{
+		 Submission.find({ challengeId : Number(req.params.id) }, 'result', function(err, submissions)
+		 {
+
+		 	var attempted = 0;
+			var percentage = 0;
+
+			submissions.forEach(function(submiss){
+			
+				attempted = attempted + 1;
+				percentage = percentage + submiss.result;
+				//console.log(submiss);
+
+			});
+
+			//console.log('\n\n', percentage);
+			percentage = percentage / attempted;
+			//console.log('\n\n', percentage);
+
+			res.render('results',{
+				'attempted': attempted,
+				'percentage': percentage,
+			});
+
+		 });
+	});
+
 	app.get('/challenge/:id', function(req, res)
 	{
 		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
