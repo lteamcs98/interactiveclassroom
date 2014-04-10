@@ -21,7 +21,7 @@ module.exports = function(app, fs, yaml)
 				var userCode;
 				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
 				else userCode = sub.code;
-				console.log('Persons ID: ', Number(req.user.id), userCode);
+
 				res.render('challenge', {
 					'personsID': Number(req.user.id),
 					'oldSub': userCode,
