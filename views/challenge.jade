@@ -62,9 +62,9 @@ html
 			addFunctionOptions(functionNames);
 
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
-			setEditorValue(functionHeaders);
 			//console.log(!{JSON.stringify(oldSub)});
 
+			
 			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
@@ -104,7 +104,6 @@ html
 				else
 				{
 					$('#outputBox').append('<p class="challengeTitle">No results to display</p>');
-
 				}
 
 				console.log("Your code has been saved!");
