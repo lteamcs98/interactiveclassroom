@@ -113,7 +113,8 @@ html
 				socket.emit('results', {
 						challengeId: !{challengeId},
 						userCode: editor.getValue(),
-						userId: !{personsID} //new String("#{username}"),
+						userId: !{personsID},
+						userPercent: percent
 					}
 				);
 

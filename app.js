@@ -95,12 +95,14 @@ io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
 
 	socket.on('results', function(results) {
+
 		console.log('GOT SOME RESULTS', results);
+
 		Submission.remove({ userId: results.userId, challengeId: results.challengeId }, function(err) {
 			if (err) return handleError(err);
 		});
 
-		var result = new Submission({ userId: results.userId, challengeId: results.challengeId, code: results.userCode });
+		var result = new Submission({ userId: results.userId, challengeId: results.challengeId, code: results.userCode, result: results.userPercent });
 		result.save(function(err, result) {
 			if (err) return console.error(err);
 		})
