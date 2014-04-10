@@ -47,9 +47,9 @@ module.exports = function(app, fs, yaml)
 			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
 			{
 				var userCode;
-				if (sub === null) userCode = '';
+				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
 				else userCode = sub.code;
-				console.log('Persons ID: ', Number(req.user.id));
+
 				res.render('challenge', {
 					'personsID': Number(req.user.id),
 					'oldSub': userCode,
@@ -63,6 +63,16 @@ module.exports = function(app, fs, yaml)
 			});
 		});
 	});
+
+	function setEditorValue(headers)
+	{
+		var editorString = '';
+		for(var i = 0; i < headers.length; i++)
+		{
+			editorString += 'function ' + headers[i] + '\n{\n\n}\n\n';
+		}
+		return editorString;
+	}
 
 	app.get('/challengelist', function(req, res) {
 		console.log(req.user);
