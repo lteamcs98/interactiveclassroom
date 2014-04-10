@@ -13,8 +13,8 @@ html
 		link(rel='stylesheet', href='../css/style.css')
 
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
-		script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
-		//script(src="../socket.io/socket.io.js")
+		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
+		script(src="../socket.io/socket.io.js")
 
 
 		script(src='../js/codemirror.js')
@@ -50,8 +50,8 @@ html
 		script(src='../js/cm-resize.js')
 		script.
 
-			//var socket = io.connect('http://localhost');
-			var socket = io.connect('http://interactiveclassroom.herokuapp.com');
+			var socket = io.connect('http://localhost');
+			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
 			var outputArray = !{ JSON.stringify(outputArray) };
 			var inputArray = !{ JSON.stringify(inputArray) };
@@ -62,7 +62,6 @@ html
 			addFunctionOptions(functionNames);
 
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
-			setEditorValue(functionHeaders);
 			//console.log(!{JSON.stringify(oldSub)});
 
 			
@@ -105,10 +104,9 @@ html
 				else
 				{
 					$('#outputBox').append('<p class="challengeTitle">No results to display</p>');
-
 				}
 
-				console.log("Sending user code to database...");
+				console.log("Your code has been saved!");
 
 				// send data back to server
 				socket.emit('results', {

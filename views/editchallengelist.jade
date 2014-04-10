@@ -12,7 +12,6 @@ html
         script.
                 $(document).ready(function() {
                     $('.nav-toggle').click(function(){
-                        console.log("This gets called");
                         //get collapse content selector
                         var collapse_content_selector = $(this).attr('href');					
 
@@ -39,11 +38,48 @@ html
                 u1
                    each challenge in challengelist
                         li
-                            h2.challengeTitle
+                                h2.challengeTitle
                                 div(class='col-2-3')
                                    a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
                                    div(id="showinfo" style="display:none")
-                                       p Test
+                                       p Problem:
+                                       div.editChallengeDataEntry
+                                           p #{challenge.problem}
+                                       if (challenge.functionNames)
+                                           p Function names: 
+                                           div.editChallengeDataEntry
+                                               each functionName in challenge.functionNames
+                                                   p #{functionName}
+                                       if (challenge.inputArray)
+                                           p Inputs:
+                                           div.editChallengeDataEntry
+                                               each input in challenge.inputArray
+                                                   if (input.functionName)
+                                                       p Function name:
+                                                       div.editChallengeDataSubEntry
+                                                            p #{input.functionName}
+                                                   if (input.inputs)
+                                                       p Inputs:
+                                                       div.editChallengeDataSubEntry
+                                                            each subInput in input.inputs
+                                                                 p #{subInput}
+                                                   else
+                                                       p #{input}
+                                       if (challenge.outputArray)
+                                           p Outputs: 
+                                           div.editChallengeDataEntry
+                                               each output in challenge.outputArray
+                                                   if (output.functionName)
+                                                       p Function name:
+                                                       div.editChallengeDataSubEntry
+                                                            p #{output.functionName}
+                                                   if (output.outputs)
+                                                       p Outputs:
+                                                       div.editChallengeDataSubEntry
+                                                            each subOutput in output.outputs
+                                                                 p #{subOutput}
+                                                   else
+                                                       p #{output}
                                 div(class='col-1-8' id='challengedelete' style='display:inline-block')
                                    button(href="#showinfo" class="nav-toggle") Info
                                 div(class='col-1-8' id='challengedelete' style='display:inline-block')
