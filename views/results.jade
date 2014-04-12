@@ -1,0 +1,31 @@
+doctype html
+html
+	head
+
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+
+		link(rel='stylesheet', href='../css/light-table.css')
+		link(rel='stylesheet', href='../css/lint.css')
+		link(rel='stylesheet', href='../css/normalize.css')
+		link(rel='stylesheet', href='../css/style.css')
+
+		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
+		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
+		//script(src="../socket.io/socket.io.js")
+
+
+		script(src='../js/codemirror.js')
+		script(src='../js/javascript-lint.js')
+		script(src='../js/javascript.js')
+		script(src='../js/jshint.js')
+		script(src='../js/lint.js')
+
+	body
+
+		script(src='../js/cm-resize.js')
+		script.
+
+			console.log(Number(#{attempted}));
+			console.log(Number(#{percentage}));
+			console.log("Did this work?");
