@@ -24,24 +24,24 @@ function getOutput(solution, functionName, inputs){ //solution is a string of js
 	return functionTag;
 }
 
-function getInputs(functionNames, json){
+function getInputs(json){
 	var inputs =  new Array();
 
-	for (var i = 0; i < functionNames.length; i++){
+	for (var i = 0; i < json.functionNames.length; i++){
 		inputs[i] = json.inputArray[i].inputs;
 	}
 	
 	return inputs;
 }
 
-function generateOutputArray(solutions, functionNames, json){
+function generateOutputArray(json){
 	var outputArray = "'outputArray': [";
 	//inputArray is not in array form exactly...
-	var inputs = getInputs(functionNames, json);
+	var inputs = getInputs(json);
 
-	for (var i = 0; i < functionNames.length; i++){
-		var output = "" + getOutput(solutions[i], functionNames[i], inputs[i]) + "}";
-		if (i < functionNames.length - 1){
+	for (var i = 0; i < json.functionNames.length; i++){
+		var output = "" + getOutput(json.solutions[i], json.functionNames[i], inputs[i]) + "}";
+		if (i < json.functionNames.length - 1){
 			output+= ",";
 		}
 		console.log(output);
