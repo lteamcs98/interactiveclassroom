@@ -43,29 +43,30 @@ module.exports = function(app, fs, yaml)
 	app.get('/challenge/:id', function(req, res)
 	{
 		if (! req.user) {
-			req.redirect('/');
-		}
+			res.redirect('/');
+		} else {
 
-		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
-		{
-			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+			Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
 			{
-				var userCode;
-				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
-				else userCode = sub.code;
+				Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+				{
+					var userCode;
+					if (sub === null) userCode = setEditorValue(chal.functionHeaders);
+					else userCode = sub.code;
 
-				res.render('challenge', {
-					'personsID': Number(req.user.id),
-					'oldSub': userCode,
-					'challengeId': chal.challengeId,
-					'problem': chal.problem,
-					'functionNames': chal.functionNames,
-					'functionHeaders': chal.functionHeaders,
-					'inputArray': chal.inputArray,
-					'outputArray': chal.outputArray
+					res.render('challenge', {
+						'personsID': Number(req.user.id),
+						'oldSub': userCode,
+						'challengeId': chal.challengeId,
+						'problem': chal.problem,
+						'functionNames': chal.functionNames,
+						'functionHeaders': chal.functionHeaders,
+						'inputArray': chal.inputArray,
+						'outputArray': chal.outputArray
+					});
 				});
 			});
-		});
+		}
 	});
 
 	function setEditorValue(headers)
