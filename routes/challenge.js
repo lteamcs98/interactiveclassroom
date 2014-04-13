@@ -21,7 +21,7 @@ module.exports = function(app, fs, yaml)
 			var percentage = 0;
 
 			submissions.forEach(function(submiss){
-			
+
 				attempted = attempted + 1;
 				percentage = percentage + submiss.result;
 				//console.log(submiss);
@@ -42,6 +42,10 @@ module.exports = function(app, fs, yaml)
 
 	app.get('/challenge/:id', function(req, res)
 	{
+		if (! req.user) {
+			req.redirect('/');
+		}
+
 		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
 		{
 			Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
