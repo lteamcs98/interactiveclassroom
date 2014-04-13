@@ -152,37 +152,39 @@ background: #ecf0f1;
 	background-color: #22313F;
 	width: 100%;
 	float: left;
+	border: 0;
 	margin: 0 0 30px 0;
-	padding: 0;
+	padding: 0 0 0 100px;
 	list-style: none;
 }
 
 #navbar li {
 	background-color: #22313F;
+	color: #ECF0F1;
+	display: block;
 	border: 0;
 	margin: 0;
-	padding: 0;
+	padding: 10px 50px;
 	width: auto;
 	float: left;
 }
 
 #navbar li a {
 	text-decoration: none;
+	background-color: #22313F;
 	color: #ECF0F1;
 	display: block;
 	width: 100%;
-	padding: 10px 50px;
 }
 
 #navbar li a:hover {
 	text-decoration: none;
-	background-color: #5C97BF;
-	color: #ECF0F1;
+	background-color: #22313F;
+	color: #5C97BF;
 	display: block;
 	width: 100%;
-	padding: 10px 50px;
+	padding: 0;
 }
-
 
 /* Dropdown Select Box */
 select {
