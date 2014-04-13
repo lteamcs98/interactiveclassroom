@@ -3,7 +3,7 @@
 module.exports.uploadErrorCheck = uploadErrorCheck;
 
 function uploadErrorCheck(data){ //data is one JSON object
-	var fields = ["title", "challengeId", "problem", "functionHeaders", "functionNames", "inputArray", "outputArray"];
+	var fields = ["title", "problem", "solutions", "functionHeaders", "functionNames", "inputArray"];
 	var missing = new Array();
 	var errorMsg = "Missing the following essential fields: ";
 	var counter = 0;
