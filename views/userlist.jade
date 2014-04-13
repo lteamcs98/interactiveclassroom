@@ -1,0 +1,33 @@
+doctype html
+html
+    head
+        title User List
+
+        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
+        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+
+        link(rel='stylesheet', href='../css/normalize.css')
+        link(rel='stylesheet', href='../css/style.css')
+
+    body
+        div(class='grid grid-pad')
+            div(class='col-1')
+                h1 User List
+                h2 Administrators
+                u1
+                    each user, i in adminlist
+                        li #{user.name}
+                        a(href='/admin/makeinstructor/#{user.id}') Make instructor
+
+                h2 Instructors
+                u1
+                    each user, i in instructorlist
+                        li #{user.name}
+                        a(href='/admin/makeadmin/#{user.id}') Make admin
+
+                h2 Students
+                u1
+                    each user, i in studentlist
+                        li #{user.name}
+                        a(href='/admin/makeinstructor/#{user.id}') Make instructor
+                        a(href='/admin/makeadmin/#{user.id}') Make admin

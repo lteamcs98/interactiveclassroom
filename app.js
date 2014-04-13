@@ -73,7 +73,9 @@ passport.use(new GoogleStrategy({
 				user = new Account({
 					id: profile.id,
 					name: profile.displayName,
-					email: profile._json["email"]
+					email: profile._json["email"],
+					admin: false,
+					instructor: false
 				});
 
 				user.save(function(err) {
@@ -86,7 +88,7 @@ passport.use(new GoogleStrategy({
 ));
 
 // Routes
-require('./routes/passport')(app);
+require('./routes/auth')(app);
 require('./routes/challenge')(app, fs, yaml);
 
 server.listen(app.get('port'));
