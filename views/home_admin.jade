@@ -8,6 +8,7 @@ html
 
         link(rel='stylesheet', href='../css/normalize.css')
         link(rel='stylesheet', href='../css/style.css')
+        link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
 
     body
 
@@ -18,15 +19,16 @@ html
             li
                 a(href='#manageusers') Users
             li
-                a(href='/logout') Logout
+                a(href='/logout') Logout &nbsp;
+                    i(class='fa fa-power-off')
 
 
         div(class='grid grid-pad')
             h1 Welcome #{username}!
             a(name='managechallenges')
             h2 Manage Challenges
-            iframe(frameborder='no' width='100%' height='100%' src='/challengelist')
+            iframe(frameborder='no' width='100%' height='800px' src='/challengelist')
 
             a(name='manageusers')
             h2 Manage Users
-            iframe(frameborder='no' width='100%' height='100%' src='/admin/userlist')
+            iframe(frameborder='no' width='100%' height='800px' src='/admin/userlist')
