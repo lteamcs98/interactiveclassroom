@@ -40,5 +40,6 @@ html
                 u1
                     each user, i in studentlist
                         li(class='left-list-element clearfix') #{user.name}
-                        a(href='/admin/makeinstructor/#{user.id}') Make instructor
-                        a(href='/admin/makeadmin/#{user.id}') Make admin
+                        li(class='right-list-element clearfix')
+                            a(href='/admin/makeinstructor/#{user.id}')
+                                i(class='fa fa-arrow-circle-up')
