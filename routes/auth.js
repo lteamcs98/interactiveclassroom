@@ -88,7 +88,7 @@ module.exports = function(app) {
 	/* Student View */
 
 	app.get('/student/home', function(req, res) {
-		res.render('home_student');
+		res.render('home_student', {'username': req.user.name});
 	});
 
 };
