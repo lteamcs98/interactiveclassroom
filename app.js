@@ -104,7 +104,7 @@ io.sockets.on('connection', function (socket) {
 			if (err) return handleError(err);
 		});
 
-		var result = new Submission({ userId: results.userId, challengeId: results.challengeId, code: results.userCode, result: results.userPercent });
+		var result = new Submission({ userId: results.userId, userName: results.personsName, challengeId: results.challengeId, code: results.userCode, result: results.userPercent });
 		result.save(function(err, result) {
 			if (err) return console.error(err);
 		})
