@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title Interactive Classroom | Login
+        title Interactive Classroom | #{username}
 
         link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
         link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
@@ -9,10 +9,15 @@ html
         link(rel='stylesheet', href='../css/normalize.css')
         link(rel='stylesheet', href='../css/style.css')
         link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
-    body(style='background-color: #22313F;')
-        div(class='login')
-            h2(style='color: #5C97BF;') Interactive Classroom
-            p
-                i(class='fa fa-user' style='font-size: 120px; color: #ECF0F1;')
 
-            a(href="/auth/google") Sign in with Google
+    body
+
+        ul(id='navbar')
+            li Interactive Classroom
+            li
+                a(href='/logout') Logout &nbsp;
+                    i(class='fa fa-power-off')
+
+
+        div(class='grid grid-pad')
+            h1 Welcome #{username}!
