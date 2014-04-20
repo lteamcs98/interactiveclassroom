@@ -262,8 +262,11 @@ module.exports = function(app, fs, yaml)
 						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
 					}
 	 			}	
-				
+				if (data.length < 1){
+					res.render('newchallenge', {"errorMsg":"Check file format. Make sure it's a JSON file.", "iframes":new Array() });
+				}
 			};
+		
 		}
 	}
 }
