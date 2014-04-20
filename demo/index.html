@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool used to teach JavaScript programming through examples">
+
+    <title>Interactive Classroom</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure.css">
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/main-grid-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/main-grid.css">
+    <!--<![endif]-->
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/layouts/marketing.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="css/ic-style.css">
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading" href="">Interactive Classroom</a>
+
+        <ul>
+            <li class="pure-menu-selected"><a href="#">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#demo">Demo</a></li>
+            <li><a href="#">Install</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">A classroom in a browser</h1>
+        <p class="splash-subhead">
+            Interactive classroom is a web tool used to teach JavaScript programming through examples.
+        </p>
+        <p>
+            <a href="https://github.com/lteamcs98/interactiveclassroom" class="pure-button pure-button-primary" target="_blank">Grab the source from GitHub</a>
+        </p>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="content">
+        <a name="overview" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
+        <h2 class="content-head is-center">Here's how it works</h2>
+
+        <div class="pure-g">
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Easy Setup
+                </h3>
+                <p>
+                    Install our NodeJS application on your web server in a few simple steps.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+
+                <h3 class="content-subhead">
+                    <i class="fa fa-pencil"></i>
+                    Write a Challenge
+                </h3>
+                <p>
+                    Challenges consist of a function name, test input and a challenge solution. Construct them as JSON objects and upload them in batches to the website.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-group"></i>
+                    Distribute to Students
+                </h3>
+                <p>
+                    Embed the interactive editor associated with the challenge as an iframe on any web page.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-check-square-o"></i>
+                    View Results
+                </h3>
+                <p>
+                    Track students' progress and manage existing challenges through the application's GUI.
+                </p>
+            </div>
+        </div>
+    </div>
+    <a name="demo" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
+    <div class="ribbon l-box-lrg pure-g">
+        <div class="l-box-lrg is-center pure-u-1 pure-u-med-1-2 pure-u-lrg-3-5">
+            <div class="plain-text-box">
+{<br />
+    <span class="tab-1">"title": "Find Maximum Value in a List", </span><br />
+    <span class="tab-1">"challengeId": 1, </span><br />
+    <span class="tab-1">"problem": "Write a function called findMax that returns the maximum in an array of integers.", </span><br />
+    <span class="tab-1">"functionNames": [ </span><br />
+        <span class="tab-2">"findMax" </span><br />
+    <span class="tab-1">], </span><br />
+    <span class="tab-1">"inputArray": [ </span><br />
+        <span class="tab-2">{ </span><br />
+            <span class="tab-3">"functionName": "findMax", </span><br />
+            <span class="tab-3">"inputs": [ </span><br />
+                <span class="tab-4">[ </span><br />
+                    <span class="tab-5">1, </span><br />
+                    <span class="tab-5">2, </span><br />
+                    <span class="tab-5">5, </span><br />
+                    <span class="tab-5">7, </span><br />
+                    <span class="tab-5">0, </span><br />
+                    <span class="tab-5">8, </span><br />
+                    <span class="tab-5">10 </span><br />
+                <span class="tab-4">], </span><br />
+                <span class="tab-4">[ </span><br />
+                    <span class="tab-5">169, </span><br />
+                    <span class="tab-5">12, </span><br />
+                    <span class="tab-5">4.3, </span><br />
+                    <span class="tab-5">18, </span><br />
+                    <span class="tab-5">3 </span><br />
+                <span class="tab-4">] </span><br />
+            <span class="tab-3">] </span><br />
+        <span class="tab-2">} </span><br />
+    <span class="tab-1">], </span><br />
+    <span class="tab-1">"outputArray": [ </span><br />
+        <span class="tab-2">{ </span><br />
+            <span class="tab-3">"functionName": "findMax", </span><br />
+            <span class="tab-3">"outputs": [ </span><br />
+                <span class="tab-4">10, </span><br />
+                <span class="tab-4">169 </span><br />
+            <span class="tab-3">] </span><br />
+        <span class="tab-2">} </span><br />
+    <span class="tab-1">] </span><br />
+} <br />
+            </div>
+        </div>
+        <div class="pure-u-1 pure-u-med-1-2 pure-u-lrg-2-5">
+            <h2 class="content-head content-head-ribbon">Code Challenge Format</h2>
+            <p>
+                Description text text text
+            </p>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2 class="content-head is-center">Code Editor</h2>
+    </div>
+
+    <div class="footer l-box is-center">
+        Created by Laura Goodfellow, Hilton Hart, Tev'n Powers, Michelle Shu and Eva Xiao. Dartmouth College. 2014.
+    </div>
+
+</div>
+
+<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui.js"></script>
+<script>
+YUI().use('node-base', 'node-event-delegate', function (Y) {
+    // This just makes sure that the href="#" attached to the <a> elements
+    // don't scroll you back up the page.
+    Y.one('body').delegate('click', function (e) {
+        e.preventDefault();
+    }, 'a[href="#"]');
+});
+</script>
+
+
+
+
+
+</body>
+</html>
