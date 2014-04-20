@@ -7,13 +7,18 @@ function uploadErrorCheck(data){ //data is one JSON object
 	var missing = new Array();
 	var errorMsg = "Missing the following essential fields: ";
 	var counter = 0;
-	var data = JSON.stringify(data);
-	eval("var data = " + data);
-	console.log("from errocheck.js:" + data);
+
+	try{ //Check if valid JSON
+		var json = JSON.parse(JSON.stringify(data));
+	}
+	catch (ex){
+		return false;
+	}
+
 	for (var i = 0; i < fields.length; i++){ //doc or array of documents
 		var field = fields[i];
-		if (data.field == undefined){
-			console.log("from errorcheck.js:" + data.field);
+
+		if (!json.hasOwnProperty(fields[i])){
 			missing[counter] = fields[i];
 			counter+= 1;
 		}
