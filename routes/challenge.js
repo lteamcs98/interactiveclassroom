@@ -209,33 +209,32 @@ module.exports = function(app, fs, yaml)
 	function addChallenge(fs, yaml) {
 
 		// example code for extracting challenges
-		// challengeJSONs.extractchallenges(fs, req.files, addChallenges);
-		// function addChallenges(err, data) {
-		// 	console.log("challengeJSONs");
-		// 	console.log(data);
-		// }
+		 
 
 		return function(req, res) {
 			// Print to console the contents of user uploaded challenge.
-			fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
+			challengeJSONs.extractchallenges(fs, req.files, addChallenges);
+		 	function addChallenges(err, data) {
 				if (err) throw err;
-				eval("var data = " + data);
-				var docs_id = new Array();
-				var htmlSnippets = new Array();
-				var msg = error.uploadErrorCheck(data);
+				//eval("(" + data + ")");
+				//console.log("The array of JSON objects:" + data);
+				for (var i = 0; i < data.length; i++){
+					var json = JSON.parse(JSON.stringify(data[i]));
+					var docs_id = new Array();
+					var htmlSnippets = new Array();
+					var msg = error.uploadErrorCheck(json);
 
-				if (msg == true)
-				{
-					//var promise = db.get('challengecollection').insert(JSON);
-					var newChallenge = new Challenge({"challengeId" : data.challengeId, "problem" : data.problem, "functionNames" : data.functionNames, "inputArray" : data.inputArray, "outputArray" : data.outputArray, "title" : data.title, "functionHeaders": data.functionHeaders });
-					newChallenge.save();
-					//console.log('NEW CHALLENGE CREATED!', newChallenge);
-					updateID(newChallenge);
-					console.log('NEW CHALLENGE UPDATED!', newChallenge);
-					renderTemplate();
-
-					function updateID(doc)
+					if (msg == true) //check validity of file
 					{
+						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders });
+						newChallenge.save();
+						//console.log('NEW CHALLENGE CREATED!', newChallenge);
+						updateID(newChallenge);
+						console.log('NEW CHALLENGE UPDATED!', newChallenge);
+						renderTemplate();
+
+						function updateID(doc)
+						{
 							var id_string = new String(doc._id);
 							id_string = id_string.concat(doc.title);
 							id_string = id_string.concat(doc.problem);
@@ -244,31 +243,27 @@ module.exports = function(app, fs, yaml)
 							docs_id.push(code);
 							//console.log(docs_id);
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
-							//console.log(doc);
-							//var update_promise = db.get('challengecollection').update( { _id: doc._id }, { title: doc.title, challengeId : code, problem: doc.problem, functionNames: doc.functionNames, inputArray: doc.inputArray, outputArray: doc.outputArray });
-							//update_promise.on('complete', renderTemplate);
-							//console.log('New Document: ', doc);
-					}
-					function renderTemplate()
-					{
-						console.log('Challenge IDs: ', docs_id);
-						var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
-						htmlSnippets.push(htmlSnippet);
-						console.log('hello world!', htmlSnippets.length , data.length);
-						//if(htmlSnippets.length == data.length) *** Commented out until data is an array
-						//{
+					
+						}
+						function renderTemplate()
+						{
+							console.log('Challenge IDs: ', docs_id);
+							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
+							htmlSnippets.push(htmlSnippet);
+							console.log('hello world!', htmlSnippets.length , data.length);
+
 							console.log('snippets: ', htmlSnippets);
 							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
-						//}
+							
+						}
 					}
-					//promise.on('complete', updateID);
-				}
-				else
-				{
-					res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
-				}
+					else
+					{
+						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
+					}
+	 			}	
 				
-			});
+			};
 		}
 	}
 }
