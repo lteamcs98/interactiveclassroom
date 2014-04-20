@@ -99,6 +99,31 @@ module.exports = function(app, fs, yaml)
 		 });
 	});
 
+	app.get('/myResults', function(req, res)
+	{
+		//console.log("Am I getting here?");
+
+		 Submission.find({ userId: Number(req.user.id) }, 'challengeId userName result', function(err, submissions)
+		 {
+		 	
+			var resultList = new Array();
+
+			submissions.forEach(function(submiss){
+				
+				console.log(submiss.challengeId);
+				console.log(submiss.result);
+
+				resultList[submiss.challengeId] = submiss.result;
+
+			});
+
+			res.render('myResults',{
+				'resultList': resultList,
+			});
+
+		 });
+	});
+
 	app.get('/challenge/:id', function(req, res)
 	{
 		if (! req.user) {
