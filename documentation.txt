@@ -1,0 +1,11 @@
+1. SETTING UP THE SERVER
+
+In this document, we will use Heroku to set up the web server for the application. In order to set up Heroku, we'll follow these steps below:
+
+1. Create a Heroku account (email account, confirmation email for link. Follow directions on Welcome to Heroku page: (email, password, password confirmation)
+2. Download the Heroku Toolbelt
+3. Set up public key (https://devcenter.heroku.com/articles/quickstart)
+3. Create empty application
+4. Set up MongDB database (choose mongolab add-on, sandbox for free, need to add credit card information for verification. You can access this page by clicking the error (verify your account info) or clicking on your login icon and choosing "Account". Billing.)
+5. Cloning application's github code. 
+6. 
