@@ -108,11 +108,14 @@ html
 
 				console.log("Your code has been saved!");
 
+				console.log("\n\nThis is from challenge.js: " /*+ {userName}*/ + "\n\n");
+
 				// send data back to server
 				socket.emit('results', {
 						challengeId: !{challengeId},
 						userCode: editor.getValue(),
 						userId: !{personsID},
+						personsName: "jimbo sanchez"/*JSON.stringify(#{theirName})*/,
 						userPercent: percent
 					}
 				);
