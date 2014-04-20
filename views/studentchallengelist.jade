@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		title Challenge List
+
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+
+		link(rel='stylesheet', href='../css/normalize.css')
+		link(rel='stylesheet', href='../css/style.css')
+
+	body
+		div(class='grid grid-pad')
+
+			div(class='col-1')
+				h2 Challenge List
+				u1
+					each challenge, i in challengelist
+						if (challenge.assigned)
+							li
+								a(href="/challenge/#{challenge.challengeId}") #{challenge.title}

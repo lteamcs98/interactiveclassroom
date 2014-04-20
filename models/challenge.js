@@ -10,7 +10,8 @@ var challengeSchema = new Schema({
 	functionHeaders: [],
 	inputArray: [],
 	outputArray: [],
-	title: String
+	title: String,
+	assigned: Boolean
 });
 
 module.exports = mongoose.model('Challenge', challengeSchema);

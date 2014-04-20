@@ -341,6 +341,11 @@ select:hover {
 	background-color: #2ecc71;
 }
 
+.yourChallengesLink {
+	text-decoration: none;
+	color: #000000;
+}
+
 /* Console */
 #console {
 	max-height: 200px;

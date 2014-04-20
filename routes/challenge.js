@@ -186,6 +186,13 @@ module.exports = function(app, fs, yaml)
 		});
 	});
 
+	app.get('/studentchallengelist', function(req, res) {
+		Challenge.find(function(err, challenges) {
+			if (err) return console.error(err);
+			res.render('studentchallengelist', { 'challengelist': challenges });
+		});
+	});
+
 
 	app.post('/deletechallenge', function(req, res) {
 		var challengeId = parseInt(req.body.challengeId);
