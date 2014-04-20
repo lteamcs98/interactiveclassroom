@@ -1,6 +1,7 @@
 var Challenge = require('../models/challenge');
 var Submission = require('../models/submission');
 var error = require('../public/js/errorcheck.js');
+var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
 
 module.exports = function(app, fs, yaml)
@@ -206,6 +207,14 @@ module.exports = function(app, fs, yaml)
 	app.post('/addchallenge', addChallenge(fs, yaml));
 
 	function addChallenge(fs, yaml) {
+
+		// example code for extracting challenges
+		// challengeJSONs.extractchallenges(fs, req.files, addChallenges);
+		// function addChallenges(err, data) {
+		// 	console.log("challengeJSONs");
+		// 	console.log(data);
+		// }
+
 		return function(req, res) {
 			// Print to console the contents of user uploaded challenge.
 			fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
