@@ -123,12 +123,10 @@ module.exports = function(app, fs, yaml)
 				eval("var data = " + data);
 				var docs_id = new Array();
 				var htmlSnippets = new Array();
+				var msg = error.uploadErrorCheck(data);
 
-				var msg = error.uploadErrorCheck("" + data);
-				console.log(data.challengeId);
-				console.log(data.problem);
-				//if (msg == true) At the moment, errorchecking has bug where JSON is a JS Object, not a JSON object
-				//{
+				if (msg == true)
+				{
 					//var promise = db.get('challengecollection').insert(JSON);
 					var newChallenge = new Challenge({"challengeId" : data.challengeId, "problem" : data.problem, "functionNames" : data.functionNames, "inputArray" : data.inputArray, "outputArray" : data.outputArray, "title" : data.title, "functionHeaders": data.functionHeaders });
 					newChallenge.save();
@@ -147,7 +145,7 @@ module.exports = function(app, fs, yaml)
 							docs_id.push(code);
 							//console.log(docs_id);
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
-							console.log(doc);
+							//console.log(doc);
 							//var update_promise = db.get('challengecollection').update( { _id: doc._id }, { title: doc.title, challengeId : code, problem: doc.problem, functionNames: doc.functionNames, inputArray: doc.inputArray, outputArray: doc.outputArray });
 							//update_promise.on('complete', renderTemplate);
 							//console.log('New Document: ', doc);
@@ -165,11 +163,11 @@ module.exports = function(app, fs, yaml)
 						//}
 					}
 					//promise.on('complete', updateID);
-				//}
-				//else
-				//{
-				//	res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
-				//}
+				}
+				else
+				{
+					res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
+				}
 				
 			});
 		}
