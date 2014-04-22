@@ -6,14 +6,15 @@
         "squareList"
     ],
     "functionHeaders": [
-        "getSquare(number)",
-        "squareList(array)"
+        "getSquare(someNumber)",
+        "squareList(number)"
     ],
     "inputArray": [
         {
             "functionName": "squareList",
             "inputs": [
                 [
+                  [
                     1,
                     2,
                     5,
@@ -21,24 +22,27 @@
                     0,
                     8,
                     10
+                   ]
                 ],
                 [
+                  [
                     -169,
                     12,
                     4.3,
                     18,
                     -3
+                   ]
                 ]
             ]
         },
         {
             "functionName": "getSquare",
             "inputs": [
-                10,
-                12,
-                -2,
-                -2.7,
-                3.4
+                [10],
+                [12],
+                [-2],
+                [-2.7],
+                [3.4]
             ]
         }
     ],
