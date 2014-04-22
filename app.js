@@ -16,7 +16,9 @@ var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
 // Global Config
 var app = express();
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server, { log: false });
+
+io.set('log level', 0);
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
