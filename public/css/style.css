@@ -172,6 +172,18 @@ li a:hover {
 	width: 33.33%;
 }
 
+.col-1-5 {
+	width: 20%;
+}
+
+.col-2-5 {
+	width: 40%;
+}
+
+.col-3-5 {
+	width: 60%;
+}
+
 .col-1-8 {
 	width: 12.5%;
 }

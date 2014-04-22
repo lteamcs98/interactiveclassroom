@@ -15,57 +15,50 @@ module.exports = function(app, fs, yaml)
 
 	app.get('/results', function(req, res)
 	{
-		 Submission.find({}, 'challengeId result', function(err, submissions)
-		 {
+		Submission.find({}, 'challengeId challengeName result', function(err, submissions)
+		{
+			submissions.sort({ challengeId: 1 });
 
-		 	var numberOfChallenges = 0;
+			console.log(submissions);
 
-			submissions.forEach(function(submiss){
-			
-				if (submiss.challengeId > numberOfChallenges){
-					numberOfChallenges = submiss.challengeId;
-				}
+			var challengeIdList = [];
+			var challengeNameList = [];
+			var attemptedList = [];
+			var percentageList = [];
+			var numberOfChallenges = 0;
 
-			});
+			var currentChalId = -1;
+			var currentIndex = -1;
+			var found = false;
 
-			//console.log("Highest challenge number: " + numberOfChallenges);
+			for (var i = 0; i < submissions.length; i++) {
+				if (submissions[i].challengeId != currentChalId) {
+					challengeIdList.push(submissions[i].challengeId);
+					challengeNameList.push(submissions[i].challengeName);
+					attemptedList.push(1);
+					percentageList.push(submissions[i].result);
 
-			var attemptedList = new Array(numberOfChallenges + 1);
-			var percentageList = new Array(numberOfChallenges + 1);
-
-			for (apple = 0; apple <= numberOfChallenges; apple++){
-				attemptedList[apple] = 0;
-				percentageList[apple] = 0;
-			}
-
-			submissions.forEach(function(submiss){
-				
-				//console.log(submiss.challengeId + " --- " + submiss.result);
-				attemptedList[submiss.challengeId] += 1;
-				percentageList[submiss.challengeId] += submiss.result;
-
-			});
-
-			//console.log(attemptedList);
-			//console.log(percentageList);
-
-			for (inc = 0; inc <= numberOfChallenges; inc++){
-
-				if (attemptedList[inc] != 0){
-					
-					percentageList[inc] = percentageList[inc] / attemptedList[inc];
+					currentChalId = submissions[i].challengeId;
+					currentIndex += 1;
+					numberOfChallenges += 1;
+				} else {
+					attemptedList[currentIndex] += 1;
+					percentageList[currentIndex] += submissions[i].result;
 				}
 			}
 
-			//console.log('\n\n', percentage);
+			for (var i = 0; i < numberOfChallenges; i++) {
+				percentageList[i] /= attemptedList[i];
+			}
 
 			res.render('allResults',{
-				'numberOfChallenges': numberOfChallenges,
+				'challengeIdList': challengeIdList,
+				'challengeNameList': challengeNameList,
 				'attemptedList': attemptedList,
-				'percentageList': percentageList
+				'percentageList': percentageList,
+				'numberOfChallenges': numberOfChallenges
 			});
-
-		 });
+		});
 	});
 
 	app.get('/results/:id', function(req, res)
@@ -74,17 +67,17 @@ module.exports = function(app, fs, yaml)
 
 		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
 		 {
-		 	
+
 		 	var userNameList = new Array();
 			var resultList = new Array();
 
 			var index = 0;
 
 			submissions.forEach(function(submiss){
-				
+
 				console.log(index);
 				console.log(submiss.userName);
-				
+
 				userNameList[index] = submiss.userName;
 				resultList[index] = submiss.result;
 
@@ -106,11 +99,11 @@ module.exports = function(app, fs, yaml)
 
 		 Submission.find({ userId: Number(req.user.id) }, 'challengeId userName result', function(err, submissions)
 		 {
-		 	
+
 			var resultList = new Array();
 
 			submissions.forEach(function(submiss){
-				
+
 				console.log(submiss.challengeId);
 				console.log(submiss.result);
 
@@ -149,6 +142,7 @@ module.exports = function(app, fs, yaml)
 						'theirName': req.user.name,
 						'oldSub': userCode,
 						'challengeId': chal.challengeId,
+						'challengeName': chal.title,
 						'problem': chal.problem,
 						'functionNames': chal.functionNames,
 						'functionHeaders': chal.functionHeaders,
@@ -216,7 +210,7 @@ module.exports = function(app, fs, yaml)
 	function addChallenge(fs, yaml) {
 
 		// example code for extracting challenges
-		 
+
 
 		return function(req, res) {
 			// Print to console the contents of user uploaded challenge.
@@ -250,7 +244,7 @@ module.exports = function(app, fs, yaml)
 							docs_id.push(code);
 							//console.log(docs_id);
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
-					
+
 						}
 						function renderTemplate()
 						{
@@ -261,19 +255,19 @@ module.exports = function(app, fs, yaml)
 
 							console.log('snippets: ', htmlSnippets);
 							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
-							
+
 						}
 					}
 					else
 					{
 						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
 					}
-	 			}	
+	 			}
 				if (data.length < 1){
 					res.render('newchallenge', {"errorMsg":"Check file format. Make sure it's a JSON file.", "iframes":new Array() });
 				}
 			};
-		
+
 		}
 	}
 }

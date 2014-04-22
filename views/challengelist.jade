@@ -19,7 +19,7 @@ html
 
 			div(class='col-1')
 				h2 Challenge List
-				u1
+				ul
 					each challenge, i in challengelist
 						li
 							a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
