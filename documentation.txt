@@ -1,7 +1,29 @@
 1. SETTING UP THE SERVER
 
+The easiest way to set up a server for our Node.js application is through Heroku (link this to: heroku.com). If you've never worked with Heroku before, follow these directions here (link "here" to a page on our website). If you already have an account, follow these (link) directions instead. 
 
-In this document, we will use Heroku to set up the web server for the application. In order to set up Heroku, we'll follow these steps below:
+
+STARTING FRESH WITH HEROKU
+
+Steps:
+1. Create a Heroku account
+2. Download the Heroku Toolbelt
+3. Set up a public key
+4. Create an empty application
+5. Set up MongDB database 
+6. Clone our application github code
+7. Link the Heroku app to our github code
+8. Run the application
+
+* Before we start, make sure you have access to a command shell. The command shell will be used to install the Toolbelt, set up the public key, and incorporate our github code into Heroku. 
+
+Set Up a Heroku Account
+
+To set up an account on Heroku, navigate to this (link) site. It's very straightfoward -- your Heroku account is tied to your email and after signing up, Heroku will send you a confirmation email. 
+
+<Screen shot>
+
+After creating an account with Heroku, 
 
 1. Create a Heroku account (email account, confirmation email for link. Follow directions on Welcome to Heroku page: (email, password, password confirmation)
 2. Download the Heroku Toolbelt
