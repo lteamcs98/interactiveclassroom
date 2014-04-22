@@ -1,6 +1,5 @@
 {
     "title": "Find Maximum Value in a List",
-    "challengeId": 1,
     "problem": "Write a function called findMax that returns the maximum in an array of integers.",
     "functionNames": [
         "findMax"

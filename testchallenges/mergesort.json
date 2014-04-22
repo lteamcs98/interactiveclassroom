@@ -1,5 +1,4 @@
 {
-    "challengeId": 1,
     "title": "Mergesort",
     "problem": "Write mergesort. Your solution should consist of two functions: 1) merge: Given two lists of numbers, this function should merge these two lists and return a single list of ordered values. 2) mergesort: given an unsorted list this function should recursively call itself and the merge function to sort the values of the list, returning the sorted list",
     "functionNames": [

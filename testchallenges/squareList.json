@@ -1,6 +1,5 @@
 {
     "title": "Square List",
-    "challengeId": 1,
     "problem": "Write a program that takes a list of numbers and returns a list with the squared value of each value of the original number in the list. Your code should consist of two functions: 1) getSquare: This function should take a single number value and return the square of that value. 2) squareList: This function should take a list of numbers and return a list of squared numbers in that list.",
     "functionNames": [
         "getSquare",
