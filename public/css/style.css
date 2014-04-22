@@ -172,6 +172,18 @@ li a:hover {
 	width: 33.33%;
 }
 
+.col-1-5 {
+	width: 20%;
+}
+
+.col-2-5 {
+	width: 40%;
+}
+
+.col-3-5 {
+	width: 60%;
+}
+
 .col-1-8 {
 	width: 12.5%;
 }
@@ -276,6 +288,11 @@ select:hover {
 	text-decoration:none;
 }
 
+/** Stuff for editing challengse **/
+#challengelist{
+	background: #FFFFFF;
+	border-bottom: 3px solid #FFFFFF;
+}
 #challengetitle{
 	display:inline-block;
 	margin-right:10px;
@@ -334,6 +351,11 @@ select:hover {
 
 .instructor {
 	background-color: #2ecc71;
+}
+
+.yourChallengesLink {
+	text-decoration: none;
+	color: #000000;
 }
 
 /* Console */
