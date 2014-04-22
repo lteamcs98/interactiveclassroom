@@ -1,5 +1,6 @@
 1. SETTING UP THE SERVER
 
+
 In this document, we will use Heroku to set up the web server for the application. In order to set up Heroku, we'll follow these steps below:
 
 1. Create a Heroku account (email account, confirmation email for link. Follow directions on Welcome to Heroku page: (email, password, password confirmation)
