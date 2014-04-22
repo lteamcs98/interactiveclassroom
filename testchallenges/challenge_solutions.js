@@ -1,13 +1,3 @@
-var findMax = function(numbArray)
-{
-	var max = numbArray[0];
-	for (var i = 0; i < numbArray.length; i++)
-	{
-		if (numbArray[i] > max) max = numbArray[i];
-	}
-	return max;
-};
-
 function findMaxFive(numbArray)
 {
 	var maxArray = [];
@@ -33,12 +23,12 @@ function findMaxFive(numbArray)
     return maxArray;
 }
 
-function findMax(numbArray)
+function findMax(arrayOfValues)
 {
-	var max = numbArray[0];
-	for (var i = 0; i < numbArray.length; i++)
+	var max = arrayOfValues[0];
+	for (var i = 0; i < arrayOfValues.length; i++)
 	{
-		if (numbArray[i] > max) max = numbArray[i];
+		if (arrayOfValues[i] > max) max = arrayOfValues[i];
 	}
 	return max;
 }
@@ -81,6 +71,13 @@ function findMaxFive(numbArray)
 		maxArray[j] = curMax;
 	}
     return maxArray;
+}
+
+function averageOfThree(arg0, arg1, arg2)
+{
+	var sum = arg0 + arg1 + arg2;
+    
+    return sum/3;
 }
 
 function mergesort(values)
