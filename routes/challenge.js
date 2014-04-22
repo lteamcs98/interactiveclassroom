@@ -6,13 +6,6 @@ var hash = require('../public/js/hash.js');
 
 module.exports = function(app, fs, yaml)
 {
-	app.get('/', function(req, res) {
-		Challenge.find(function(err, challenges) {
-			if (err) return console.error(err);
-			res.render('challengelist', { 'challengelist': challenges });
-		});
-	});
-
 	app.get('/results', function(req, res)
 	{
 		Submission.find({}, 'challengeId challengeName result', function(err, submissions)
@@ -165,8 +158,6 @@ module.exports = function(app, fs, yaml)
 	}
 
 	app.get('/challengelist', function(req, res) {
-		console.log(req.user);
-		console.log(req.user.id);
 		Challenge.find(function(err, challenges) {
 			if (err) return console.error(err);
 			res.render('challengelist', { 'challengelist': challenges });
