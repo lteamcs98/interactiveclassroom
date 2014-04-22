@@ -11,15 +11,11 @@ html
 
 	body
 		div(class='grid grid-pad')
-			div(class='col-1')
-				a(href="/newchallenge")
-					button(class='button' id='newChallengeButton' type='button') Add New Challenge
-				a(href="/editchallengelist")
-					button(class='button' id='editChallengeButton' type='button') Edit Challenges
 
 			div(class='col-1')
 				h2 Challenge List
-				ul
+				u1
 					each challenge, i in challengelist
-						li
-							a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
+						if (challenge.assigned)
+							li
+								a(href="/challenge/#{challenge.challengeId}") #{challenge.title}

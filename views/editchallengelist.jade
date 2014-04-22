@@ -8,7 +8,7 @@ html
         link(rel='stylesheet', href='../css/normalize.css')
 
         script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
-
+        
         script.
                 $(document).ready(function() {
                     $('.nav-toggle').click(function(){
@@ -19,12 +19,12 @@ html
                         var toggle_switch = $(this);
                         $(collapse_content_selector).toggle(function(){
                               if($(this).css('display')=='none'){
-                                    //change the button label to be 'Show'
-                                    toggle_switch.html('Show');
+                                    //change the button label to be 'Info'
+                                    toggle_switch.html('Info');
                               }
                               else{
-                                    //change the button label to be 'Hide'
-                                    toggle_switch.html('Hide');
+                                    //change the button label to be 'Info'
+                                    toggle_switch.html('Info');
                               }
                         });
                     });
@@ -37,7 +37,7 @@ html
             div(class='col-2-3' )
                 u1
                    each challenge in challengelist
-                        li
+                        li(id='challengelist')
                                 h2.challengeTitle
                                 div(class='col-2-3')
                                    a(href="/challenge/#{challenge.challengeId}") #{challenge.title}

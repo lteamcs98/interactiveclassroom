@@ -75,6 +75,14 @@ module.exports = function(app) {
 		});
 	});
 
+	app.get('/admin/makestudent/:userId', function(req, res) {
+		Account.update({ id: req.params.userId },
+			{ admin: false, instructor: false}, function(err) {
+				if (err) return handleError(err);
+				res.redirect('/admin/userlist');
+		});
+	});
+
 	/* Instructor View */
 
 	app.get('/instructor/home', function(req, res) {
