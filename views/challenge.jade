@@ -64,7 +64,7 @@ html
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
 			//console.log(!{JSON.stringify(oldSub)});
 
-			
+
 			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
@@ -113,9 +113,10 @@ html
 				// send data back to server
 				socket.emit('results', {
 						challengeId: !{challengeId},
+						challengeName: "#{challengeName}",
 						userCode: editor.getValue(),
 						userId: !{personsID},
-						personsName: "jimbo sanchez"/*JSON.stringify(#{theirName})*/,
+						personsName: "#{theirName}",
 						userPercent: percent
 					}
 				);
