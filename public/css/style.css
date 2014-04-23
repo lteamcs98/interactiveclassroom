@@ -164,6 +164,10 @@ li a:hover {
 	width: 100%;
 }
 
+.col-1-2 {
+	width: 50%;
+}
+
 .col-2-3 {
 	width: 66.66%;
 }

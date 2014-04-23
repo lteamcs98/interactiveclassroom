@@ -3,7 +3,11 @@ var Account = require('../models/account');
 
 module.exports = function(app) {
 	app.get('/', function(req, res) {
-		res.render('login');
+		if (req.user) {
+			res.redirect('/welcome');
+		} else {
+			res.render('login');
+		}
 	});
 
 	app.get('/login', function(req, res) {
