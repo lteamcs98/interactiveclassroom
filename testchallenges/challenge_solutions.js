@@ -1,13 +1,3 @@
-var findMax = function(numbArray)
-{
-	var max = numbArray[0];
-	for (var i = 0; i < numbArray.length; i++)
-	{
-		if (numbArray[i] > max) max = numbArray[i];
-	}
-	return max;
-};
-
 function findMaxFive(numbArray)
 {
 	var maxArray = [];
@@ -33,12 +23,12 @@ function findMaxFive(numbArray)
     return maxArray;
 }
 
-function findMax(numbArray)
+function findMax(arrayOfValues)
 {
-	var max = numbArray[0];
-	for (var i = 0; i < numbArray.length; i++)
+	var max = arrayOfValues[0];
+	for (var i = 0; i < arrayOfValues.length; i++)
 	{
-		if (numbArray[i] > max) max = numbArray[i];
+		if (arrayOfValues[i] > max) max = arrayOfValues[i];
 	}
 	return max;
 }
@@ -58,29 +48,11 @@ function squareList(numbers)
 	return numbers;
 }
 
-function findMaxFive(numbArray)
+function averageOfThree(arg0, arg1, arg2)
 {
-	var maxArray = [];
-	var curMinMax;
-
-	for (var j = 0; j < 5; j++)
-	{
-		var curMax = 0;
-
-		for (var i = 0; i < numbArray.length; i++)
-		{
-			if (numbArray[i] > curMax)
-			{
-				if (j > 0 && numbArray[i] < curMinMax)
-					curMax = numbArray[i];
-				else if (j == 0)
-					curMax = numbArray[i];
-			}
-		}
-		curMinMax = curMax;
-		maxArray[j] = curMax;
-	}
-    return maxArray;
+	var sum = arg0 + arg1 + arg2;
+    
+    return sum/3;
 }
 
 function mergesort(values)

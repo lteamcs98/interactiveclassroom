@@ -1,20 +1,20 @@
 {
     "title": "Square List",
-    "challengeId": 1,
     "problem": "Write a program that takes a list of numbers and returns a list with the squared value of each value of the original number in the list. Your code should consist of two functions: 1) getSquare: This function should take a single number value and return the square of that value. 2) squareList: This function should take a list of numbers and return a list of squared numbers in that list.",
     "functionNames": [
         "getSquare",
         "squareList"
     ],
     "functionHeaders": [
-        "getSquare(number)",
-        "squareList(array)"
+        "getSquare(someNumber)",
+        "squareList(number)"
     ],
     "inputArray": [
         {
             "functionName": "squareList",
             "inputs": [
                 [
+                  [
                     1,
                     2,
                     5,
@@ -22,24 +22,27 @@
                     0,
                     8,
                     10
+                   ]
                 ],
                 [
+                  [
                     -169,
                     12,
                     4.3,
                     18,
                     -3
+                   ]
                 ]
             ]
         },
         {
             "functionName": "getSquare",
             "inputs": [
-                10,
-                12,
-                -2,
-                -2.7,
-                3.4
+                [10],
+                [12],
+                [-2],
+                [-2.7],
+                [3.4]
             ]
         }
     ],

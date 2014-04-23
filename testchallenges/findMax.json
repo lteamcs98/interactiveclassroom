@@ -1,6 +1,5 @@
 {
     "title": "Find Maximum Value in a List",
-    "challengeId": 1,
     "problem": "Write a function called findMax that returns the maximum in an array of integers.",
     "functionNames": [
         "findMax"
@@ -12,7 +11,8 @@
         {
             "functionName": "findMax",
             "inputs": [
-                [
+               [
+		[
                     1,
                     2,
                     5,
@@ -20,23 +20,27 @@
                     0,
                     8,
                     10
-                ],
-                [
+		]
+               ],
+               [
+		[
                     169,
                     12,
                     4.3,
                     18,
                     3
-                ]
+		]
+               ]
             ]
+            
         }
     ],
     "outputArray": [
         {
             "functionName": "findMax",
             "outputs": [
-                10,
-                169
+               10,
+               169
             ]
         }
     ]
