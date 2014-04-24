@@ -3,6 +3,7 @@ var Submission = require('../models/submission');
 var error = require('../public/js/errorcheck.js');
 var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
+var visitors = 0
 
 module.exports = function(app, fs, yaml)
 {
@@ -110,6 +111,8 @@ module.exports = function(app, fs, yaml)
 
 	app.get('/challenge/:id', function(req, res)
 	{
+        visitors += 1;
+        console.log('visitor: ', visitors);
 		if (! req.user) {
 			res.redirect('/');
 		}
