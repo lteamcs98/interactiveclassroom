@@ -17,11 +17,17 @@ html
 
 		script.
 
-			var rawPercentList = "#{resultList}";
-			var rawNameList = "#{userNameList}";
-
-			var nameList = rawNameList.split(",");
-			var percentList = rawPercentList.split(",");
-
 			console.log(nameList);
 			console.log(percentList);
+
+		div(class='grid grid-pad')
+			div(class='col-1-3')
+				h2 Student Name
+				ul
+					each name in userNameList
+						li(class='no-bg')= name
+			div(class='col-1-6')
+				h2 Percentage Correct
+				ul
+					each value in resultList
+						li(class='no-bg')= value
