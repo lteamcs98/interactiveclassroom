@@ -23,12 +23,59 @@ To set up an account on Heroku, navigate to this (link) site. It's very straight
 
 <Screen shot>
 
-After creating an account with Heroku, 
+After creating an account with Heroku, you should be able to navigate to your dashboard:
 
-1. Create a Heroku account (email account, confirmation email for link. Follow directions on Welcome to Heroku page: (email, password, password confirmation)
-2. Download the Heroku Toolbelt
-3. Set up public key (https://devcenter.heroku.com/articles/quickstart)
-3. Create empty application
+<Screen shot>
+
+If you had any apps on Heroku, you would see them here. Before creating our app, let's download the Heroku Toolbelt and set up our public key. 
+
+Install the Heroku Toolbelt
+
+At the top of your dashboard, there should be a link to download the Heroku Toolbelt. If not, click here (https://devcenter.heroku.com/articles/quickstart#step-2-install-the-heroku-toolbelt).
+
+After installing the Heroku Toolbelt, you will have access to the heroku command from your command shell. 
+
+Set Up Your Public Key
+To set up your public key, follow the directions here (https://devcenter.heroku.com/articles/quickstart#step-3-login). 
+
+The directions essentially boil down to:
+1. Open the terminal
+2. Login to heroku with this command:
+$ heroku login
+
+At this point, the shell should display a message if a public key is not found. It will ask you if you want to generate one. If you don't have a public key, generate one. 
+
+Create an Empty Application
+
+Let's return back to the heroku dashboard. Since you don't have any applications, click on "Create a new app." 
+
+A window will pop up asking you to name your application. After deciding on a name (or not -- Heroku can generate a name for you), you now have a new application!
+
+Set Up MongDB Database
+
+If you click on your app from the Heroku Dashboard, you can access this page:
+
+<Screen shot>
+
+Choose the plan that you want and the new application 
+
+Click on "Get Add-ons" and click on the "MongoLab" icon. "MongoLab" is a MongoDB Heroku add-on. 
+
+This page should come up:
+
+<Screen shot>
+
+Choose the plan you want and select the app we just created. In order to use the MongoLab add-on, add your billing information at heroku.com/verify.
+
+<Screen shot>
+
+You have to do this, even if you chose the "Sandbox" plan, which is free. 
+
+
+
+
+
+
 4. Set up MongDB database (choose mongolab add-on, sandbox for free, need to add credit card information for verification. You can access this page by clicking the error (verify your account info) or clicking on your login icon and choosing "Account". Billing.)
 5. Cloning application's github code. 
 6. 
