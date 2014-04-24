@@ -61,20 +61,16 @@ module.exports = function(app, fs, yaml)
 		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
 		 {
 
-		 	var userNameList = new Array();
-			var resultList = new Array();
-
-			var index = 0;
+		 	var userNameList = [];
+			var resultList = [];
 
 			submissions.forEach(function(submiss){
 
-				console.log(index);
-				console.log(submiss.userName);
+				//console.log(index);
+				//console.log(submiss.userName);
 
-				userNameList[index] = submiss.userName;
-				resultList[index] = submiss.result;
-
-				index = index + 1;
+				userNameList.push(submiss.userName);
+				resultList.push(submiss.result);
 
 			});
 
@@ -90,10 +86,11 @@ module.exports = function(app, fs, yaml)
 	{
 		//console.log("Am I getting here?");
 
-		 Submission.find({ userId: Number(req.user.id) }, 'challengeId userName result', function(err, submissions)
+		 Submission.find({ userId: Number(req.user.id) }, 'challengeName result', function(err, submissions)
 		 {
 
-			var resultList = new Array();
+			var challengeNameList = [];
+			var resultList = [];
 
 			submissions.forEach(function(submiss){
 
