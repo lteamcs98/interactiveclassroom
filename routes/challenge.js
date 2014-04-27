@@ -30,7 +30,8 @@ module.exports = function(app, fs, yaml)
 					challengeIdList.push(submissions[i].challengeId);
 					challengeNameList.push(submissions[i].challengeName);
 					attemptedList.push(1);
-					percentageList.push(submissions[i].result);
+
+					percentageList.push((submissions[i].result).toFixed(2));
 
 					currentChalId = submissions[i].challengeId;
 					currentIndex += 1;
@@ -62,6 +63,8 @@ module.exports = function(app, fs, yaml)
 		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
 		 {
 
+		 	submissions.sort({ userName: 1 });
+
 		 	var userNameList = [];
 			var resultList = [];
 
@@ -71,7 +74,7 @@ module.exports = function(app, fs, yaml)
 				//console.log(submiss.userName);
 
 				userNameList.push(submiss.userName);
-				resultList.push(submiss.result);
+				resultList.push((submiss.result).toFixed(2));
 
 			});
 
