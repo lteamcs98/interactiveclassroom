@@ -9,51 +9,57 @@ module.exports = function(app, fs, yaml)
 {
 	app.get('/results', function(req, res)
 	{
-		Submission.find({}, 'challengeId challengeName result', function(err, submissions)
-		{
-			submissions.sort({ challengeId: 1 });
+		if (! req.user.instructor) {
+			res.render('unauthorized');
+		}
+		else {
 
-			console.log(submissions);
+			Submission.find({}, 'challengeId challengeName result', function(err, submissions)
+			{
+				submissions.sort({ challengeId: 1 });
 
-			var challengeIdList = [];
-			var challengeNameList = [];
-			var attemptedList = [];
-			var percentageList = [];
-			var numberOfChallenges = 0;
+				console.log(submissions);
 
-			var currentChalId = -1;
-			var currentIndex = -1;
-			var found = false;
+				var challengeIdList = [];
+				var challengeNameList = [];
+				var attemptedList = [];
+				var percentageList = [];
+				var numberOfChallenges = 0;
 
-			for (var i = 0; i < submissions.length; i++) {
-				if (submissions[i].challengeId != currentChalId) {
-					challengeIdList.push(submissions[i].challengeId);
-					challengeNameList.push(submissions[i].challengeName);
-					attemptedList.push(1);
+				var currentChalId = -1;
+				var currentIndex = -1;
+				var found = false;
 
-					percentageList.push((submissions[i].result).toFixed(2));
+				for (var i = 0; i < submissions.length; i++) {
+					if (submissions[i].challengeId != currentChalId) {
+						challengeIdList.push(submissions[i].challengeId);
+						challengeNameList.push(submissions[i].challengeName);
+						attemptedList.push(1);
 
-					currentChalId = submissions[i].challengeId;
-					currentIndex += 1;
-					numberOfChallenges += 1;
-				} else {
-					attemptedList[currentIndex] += 1;
-					percentageList[currentIndex] += submissions[i].result;
+						percentageList.push((submissions[i].result).toFixed(2));
+
+						currentChalId = submissions[i].challengeId;
+						currentIndex += 1;
+						numberOfChallenges += 1;
+					} else {
+						attemptedList[currentIndex] += 1;
+						percentageList[currentIndex] += submissions[i].result;
+					}
 				}
-			}
 
-			for (var i = 0; i < numberOfChallenges; i++) {
-				percentageList[i] /= attemptedList[i];
-			}
+				for (var i = 0; i < numberOfChallenges; i++) {
+					percentageList[i] /= attemptedList[i];
+				}
 
-			res.render('allResults',{
-				'challengeIdList': challengeIdList,
-				'challengeNameList': challengeNameList,
-				'attemptedList': attemptedList,
-				'percentageList': percentageList,
-				'numberOfChallenges': numberOfChallenges
+				res.render('allResults',{
+					'challengeIdList': challengeIdList,
+					'challengeNameList': challengeNameList,
+					'attemptedList': attemptedList,
+					'percentageList': percentageList,
+					'numberOfChallenges': numberOfChallenges
+				});
 			});
-		});
+		}
 	});
 
 	app.get('/results/:id', function(req, res)
@@ -62,34 +68,35 @@ module.exports = function(app, fs, yaml)
 
 		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
 		 {
+			if (err || submissions == null)
+			{
+				res.redirect('/results');
+			} else {
+				submissions.sort({ userName: 1 });
 
-		 	submissions.sort({ userName: 1 });
+			 	var userNameList = [];
+				var resultList = [];
 
-		 	var userNameList = [];
-			var resultList = [];
+				submissions.forEach(function(submiss){
 
-			submissions.forEach(function(submiss){
+					//console.log(index);
+					//console.log(submiss.userName);
 
-				//console.log(index);
-				//console.log(submiss.userName);
+					userNameList.push(submiss.userName);
+					resultList.push((submiss.result).toFixed(2));
 
-				userNameList.push(submiss.userName);
-				resultList.push((submiss.result).toFixed(2));
+				});
 
-			});
-
-			res.render('challengeResults',{
-				'userNameList': userNameList,
-				'resultList': resultList
-			});
-
+				res.render('challengeResults',{
+					'userNameList': userNameList,
+					'resultList': resultList
+				});
+			}
 		 });
 	});
 
 	app.get('/myResults', function(req, res)
 	{
-		//console.log("Am I getting here?");
-
 		 Submission.find({ userId: Number(req.user.id) }, 'challengeName result', function(err, submissions)
 		 {
 
@@ -149,29 +156,34 @@ module.exports = function(app, fs, yaml)
 
 			Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
 			{
-				Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
-				{
-					var userCode;
-					if (sub === null) userCode = setEditorValue(chal.functionHeaders);
-					else userCode = sub.code;
+				if (err || chal == null) {
+					res.redirect('/welcome');
+				}
+				else {
+					Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+					{
+						var userCode;
+						if (sub === null) userCode = setEditorValue(chal.functionHeaders);
+						else userCode = sub.code;
 
-					console.log("\n\nThis is from challenge.js: "
-						+ String(req.user.name)
-						+ "\n\n");
+						console.log("\n\nThis is from challenge.js: "
+							+ String(req.user.name)
+							+ "\n\n");
 
-					res.render('challenge', {
-						'personsID': Number(req.user.id),
-						'theirName': req.user.name,
-						'oldSub': userCode,
-						'challengeId': chal.challengeId,
-						'challengeName': chal.title,
-						'problem': chal.problem,
-						'functionNames': chal.functionNames,
-						'functionHeaders': chal.functionHeaders,
-						'inputArray': chal.inputArray,
-						'outputArray': chal.outputArray
+						res.render('challenge', {
+							'personsID': Number(req.user.id),
+							'theirName': req.user.name,
+							'oldSub': userCode,
+							'challengeId': chal.challengeId,
+							'challengeName': chal.title,
+							'problem': chal.problem,
+							'functionNames': chal.functionNames,
+							'functionHeaders': chal.functionHeaders,
+							'inputArray': chal.inputArray,
+							'outputArray': chal.outputArray
+						});
 					});
-				});
+				}
 			});
 		}
 	});
@@ -187,17 +199,29 @@ module.exports = function(app, fs, yaml)
 	}
 
 	app.get('/challengelist', function(req, res) {
-		Challenge.find(function(err, challenges) {
-			if (err) return console.error(err);
-			res.render('challengelist', { 'challengelist': challenges });
-		});
+		if (req.user.instructor)
+		{
+			Challenge.find(function(err, challenges) {
+				if (err) return console.error(err);
+				res.render('challengelist', { 'challengelist': challenges });
+			});
+		} else
+		{
+			res.render('unauthorized');
+		}
 	});
 
 	app.get('/editchallengelist', function(req, res) {
-		Challenge.find(function(err, challenges) {
-			if (err) return console.error(err);
-			res.render('editchallengelist', { 'challengelist': challenges });
-		});
+		if (req.user.instructor)
+		{
+			Challenge.find(function(err, challenges) {
+				if (err) return console.error(err);
+				res.render('editchallengelist', { 'challengelist': challenges });
+			});
+		} else
+		{
+			res.render('unauthorized');
+		}
 	});
 
 	app.get('/studentchallengelist', function(req, res) {
@@ -221,8 +245,14 @@ module.exports = function(app, fs, yaml)
         res.redirect("editchallengelist");
 	});
 
-	app.get('/newchallenge', function(req, res){
-		res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
+	app.get('/newchallenge', function(req, res) {
+		if (req.user.instructor)
+		{
+			res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
+		} else
+		{
+			res.render('unauthorized');
+		}
 	});
 
 	app.post('/addchallenge', addChallenge(fs, yaml));
