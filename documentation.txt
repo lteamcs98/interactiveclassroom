@@ -71,11 +71,30 @@ Choose the plan you want and select the app we just created. In order to use the
 
 You have to do this, even if you chose the "Sandbox" plan, which is free. 
 
+After you add the MongoLab add-on, return to your Heroku dashboard (you can do this by clicking on the "Apps" link on the menu bar at the top of the page). 
+
+Click on your app. Now we have MongoLab as one of our Add-ons:
+
+<Screenshot> 
+
+If you click on the MongoLab add-on, you'll come to this page:
+
+<Screenshot>
+
+This is the user interface for our Mongo database. You can add users to the database, which means that they can add and delete entries from the database. You need to create at least one user so that the app can access your database.
+
+To add a user, click on the "Users" tab and then select "Add database user." 
+
+At the top of the MongoDB webpage, you'll see this:
+
+"To connect using a driver via the standard URI..." <ScreenShot>
+
+When you run your app, you'll have to use this URI -- substituting <dbuser> and <dbpassword> with your username and password -- to connect the app to the database you just created.
+
+Cloning the Application Code
 
 
 
 
 
-4. Set up MongDB database (choose mongolab add-on, sandbox for free, need to add credit card information for verification. You can access this page by clicking the error (verify your account info) or clicking on your login icon and choosing "Account". Billing.)
-5. Cloning application's github code. 
-6. 
+
