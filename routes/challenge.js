@@ -30,7 +30,8 @@ module.exports = function(app, fs, yaml)
 					challengeIdList.push(submissions[i].challengeId);
 					challengeNameList.push(submissions[i].challengeName);
 					attemptedList.push(1);
-					percentageList.push(submissions[i].result);
+
+					percentageList.push((submissions[i].result).toFixed(2));
 
 					currentChalId = submissions[i].challengeId;
 					currentIndex += 1;
@@ -62,6 +63,8 @@ module.exports = function(app, fs, yaml)
 		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
 		 {
 
+		 	submissions.sort({ userName: 1 });
+
 		 	var userNameList = [];
 			var resultList = [];
 
@@ -71,7 +74,7 @@ module.exports = function(app, fs, yaml)
 				//console.log(submiss.userName);
 
 				userNameList.push(submiss.userName);
-				resultList.push(submiss.result);
+				resultList.push((submiss.result).toFixed(2));
 
 			});
 
@@ -107,6 +110,32 @@ module.exports = function(app, fs, yaml)
 			});
 
 		 });
+	});
+
+	app.get('/tevnchallenge/:id', function(req, res)
+	{
+		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
+		{
+			Submission.findOne({ userId: 106516508341319860000, challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+			{
+				var userCode;
+				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
+				else userCode = sub.code;
+
+				res.render('challenge', {
+					'personsID': 106516508341319860000,
+					'theirName': "Tev'n Powers",
+					'oldSub': userCode,
+					'challengeId': chal.challengeId,
+					'challengeName': chal.title,
+					'problem': chal.problem,
+					'functionNames': chal.functionNames,
+					'functionHeaders': chal.functionHeaders,
+					'inputArray': chal.inputArray,
+					'outputArray': chal.outputArray
+				});
+			});
+		});
 	});
 
 	app.get('/challenge/:id', function(req, res)
