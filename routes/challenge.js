@@ -112,6 +112,32 @@ module.exports = function(app, fs, yaml)
 		 });
 	});
 
+	app.get('/tevnchallenge/:id', function(req, res)
+	{
+		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
+		{
+			Submission.findOne({ userId: 106516508341319860000, challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+			{
+				var userCode;
+				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
+				else userCode = sub.code;
+
+				res.render('challenge', {
+					'personsID': 106516508341319860000,
+					'theirName': "Tev'n Powers",
+					'oldSub': userCode,
+					'challengeId': chal.challengeId,
+					'challengeName': chal.title,
+					'problem': chal.problem,
+					'functionNames': chal.functionNames,
+					'functionHeaders': chal.functionHeaders,
+					'inputArray': chal.inputArray,
+					'outputArray': chal.outputArray
+				});
+			});
+		});
+	});
+
 	app.get('/challenge/:id', function(req, res)
 	{
         visitors += 1;
