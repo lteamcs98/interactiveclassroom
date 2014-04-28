@@ -36,7 +36,7 @@ module.exports = function(app, fs, yaml)
 						challengeNameList.push(submissions[i].challengeName);
 						attemptedList.push(1);
 
-						percentageList.push((submissions[i].result).toFixed(2));
+						percentageList.push(submissions[i].result);
 
 						currentChalId = submissions[i].challengeId;
 						currentIndex += 1;
@@ -83,7 +83,7 @@ module.exports = function(app, fs, yaml)
 					//console.log(submiss.userName);
 
 					userNameList.push(submiss.userName);
-					resultList.push((submiss.result).toFixed(2));
+					resultList.push(submiss.result);
 
 				});
 
