@@ -236,6 +236,10 @@ module.exports = function(app, fs, yaml)
 		var challengeId = parseInt(req.body.challengeId);
 		var selector = { "challengeId" :  challengeId };
 
+		Submission.find(selector).remove(function(err) {
+			if (err) return console.error(err);
+		});
+
 		Challenge.findOne(selector).remove(function(err) {
 			if (err) return console.error(err);
 		});
