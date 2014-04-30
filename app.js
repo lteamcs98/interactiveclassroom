@@ -100,14 +100,16 @@ server.listen(app.get('port'));
 io.sockets.on('connection', function (socket) {
 	console.log('Server: In connection');
 
-	socket.on('results', function(results) {
+	socket.on('results', function(results) { // client server interaction for code submission
 
 		console.log('GOT SOME RESULTS', results);
 
+		// Removes the users previous submission with the same challenge id 
 		Submission.remove({ userId: results.userId, challengeId: results.challengeId }, function(err) {
 			if (err) return handleError(err);
 		});
 
+		// Adds the users new submission to the submission table
 		var result = new Submission({ userId: results.userId, userName: results.personsName, challengeId: results.challengeId, challengeName: results.challengeName, code: results.userCode, result: results.userPercent });
 		result.save(function(err, result) {
 			if (err) return console.error(err);
