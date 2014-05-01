@@ -1,3 +1,17 @@
+// -------------- START CONFIGURATION --------------
+
+// Google API Access codes
+var GOOGLE_CLIENT_ID = "255376116060.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
+
+// URI for MongoDB
+var MONGO_URI = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193";
+
+// Root URL where website is hosted
+var ROOT_URL = "http://localhost:3000"
+
+// -------------- END CONFIGURATION --------------
+
 // Dependencies
 var express = require('express');
 var fs = require('fs');
@@ -8,10 +22,6 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var path = require('path');
 var util = require('util');
 var yaml = require('yaml-front-matter');
-
-// Google API Access codes
-var GOOGLE_CLIENT_ID = "255376116060.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
 
 // Global Config
 var app = express();
@@ -40,15 +50,7 @@ var Account = require('./models/account')
 var Challenge = require('./models/challenge')
 var Submission = require('./models/submission')
 
-mongoose.connect('mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193');
-/* When we release the app, uncomment this
-if (process.argv[2] == null){
-	console.log("Mongodb URI missing.");
-	process.exit(1);
-}
-else{
-	mongoose.connect(process.argv[2]);// mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193
-}*/
+mongoose.connect(MONGO_URI);
 
 // Passport Config
 passport.serializeUser(function(user, done) {
@@ -60,7 +62,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
 		clientID: GOOGLE_CLIENT_ID,
 		clientSecret: GOOGLE_CLIENT_SECRET,
-		callbackURL: "http://localhost:3000/auth/google/return", //"http://interactiveclassroom.herokuapp.com/auth/google/return",
+		callbackURL: ROOT_URL.concat("/auth/google/return"),
 		scope: "openid profile email"
 	},
 	function(accessToken, refreshToken, profile, done) {
@@ -102,7 +104,7 @@ io.sockets.on('connection', function (socket) {
 
 		console.log('GOT SOME RESULTS', results);
 
-		// Removes the users previous submission with the same challenge id 
+		// Removes the users previous submission with the same challenge id
 		Submission.remove({ userId: results.userId, challengeId: results.challengeId }, function(err) {
 			if (err) return handleError(err);
 		});

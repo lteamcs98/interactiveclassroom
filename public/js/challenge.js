@@ -1,5 +1,9 @@
 function arraysEqual(a, b)
 {
+	console.log(a);
+	console.log(b);
+
+
 	if(typeof a != "object" && typeof b != "object")
 	{
 		return a==b;
