@@ -8,7 +8,7 @@ var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
 var MONGO_URI = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193";
 
 // Root URL where website is hosted
-var ROOT_URL = "http://interactiveclassroom.herokuapp.com"
+var ROOT_URL = "http://localhost:3000"
 
 // -------------- END CONFIGURATION --------------
 
@@ -104,7 +104,7 @@ io.sockets.on('connection', function (socket) {
 
 		console.log('GOT SOME RESULTS', results);
 
-		// Removes the users previous submission with the same challenge id 
+		// Removes the users previous submission with the same challenge id
 		Submission.remove({ userId: results.userId, challengeId: results.challengeId }, function(err) {
 			if (err) return handleError(err);
 		});
