@@ -14,8 +14,10 @@ module.exports = function(app, fs, yaml)
 		}
 		else {
 
+			// Queries the submission database for all submissions
 			Submission.find({}, 'challengeId challengeName result', function(err, submissions)
 			{
+				// Sorts the submissions by challenge id
 				submissions.sort({ challengeId: 1 });
 
 				console.log(submissions);
@@ -30,6 +32,7 @@ module.exports = function(app, fs, yaml)
 				var currentIndex = -1;
 				var found = false;
 
+				// Populate parallel arrays
 				for (var i = 0; i < submissions.length; i++) {
 					if (submissions[i].challengeId != currentChalId) {
 						challengeIdList.push(submissions[i].challengeId);
@@ -47,10 +50,12 @@ module.exports = function(app, fs, yaml)
 					}
 				}
 
+				// Total of results indexed by challenge divided by number of attempted 
 				for (var i = 0; i < numberOfChallenges; i++) {
 					percentageList[i] /= attemptedList[i];
 				}
 
+				// Render objects to the jade file
 				res.render('allResults',{
 					'challengeIdList': challengeIdList,
 					'challengeNameList': challengeNameList,
@@ -62,6 +67,7 @@ module.exports = function(app, fs, yaml)
 		}
 	});
 
+	//results for a paticular challenge
 	app.get('/results/:id', function(req, res)
 	{
 		//console.log("Am I getting here?");
