@@ -1,5 +1,8 @@
-//check for certain fields: challengeId, problem, functionName, inputs, outputs
-//check to make sure challengeId
+/*This function checks the validity of the JSON. First it checks whether or not the file is
+a JSON file. Next, it checks if the file has all the necessary fields: title, problem, functionheaders,
+functionNames, inputArray, and outputArray.
+*/
+
 module.exports.uploadErrorCheck = uploadErrorCheck;
 
 function uploadErrorCheck(data){ //data is one JSON object
@@ -16,7 +19,8 @@ function uploadErrorCheck(data){ //data is one JSON object
 		return false;
 	}
 
-	for (var i = 0; i < fields.length; i++){ //doc or array of documents
+        //Iterate through each field; make sure it exists in the JSON file 
+	for (var i = 0; i < fields.length; i++){ 
 		var field = fields[i];
 
 		if (!json.hasOwnProperty(fields[i])){
@@ -25,10 +29,10 @@ function uploadErrorCheck(data){ //data is one JSON object
 		}
 	}
 
-	if (missing.length == 0) {
+	if (missing.length == 0) { //No fields are missing!
 		return true;
 	}
-	else {
+	else { //Find out which fields are missing and tell the user
 		for (var j = 0; j < missing.length; j++){
 			errorMsg += missing[j];
 			if (j < missing.length - 1){
