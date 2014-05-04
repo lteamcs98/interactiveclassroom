@@ -45,22 +45,26 @@ module.exports = function(app) {
 	});
 
 	app.get('/admin/userlist', function(req, res) {
-		Account.find({ admin: true }, function(err, admins) {
-			if (err) return handleError(err);
-
-			Account.find({ admin: false, instructor: true },
-				function(err, instructors) {
+		if (req.user.admin) {
+			Account.find({ admin: true }, function(err, admins) {
 				if (err) return handleError(err);
 
-				Account.find({ admin: false, instructor: false },
-					function(err, students) {
+				Account.find({ admin: false, instructor: true },
+					function(err, instructors) {
 					if (err) return handleError(err);
-					res.render('userlist', { 'adminlist': admins,
-						'instructorlist': instructors,
-						'studentlist': students });
+
+					Account.find({ admin: false, instructor: false },
+						function(err, students) {
+						if (err) return handleError(err);
+						res.render('userlist', { 'adminlist': admins,
+							'instructorlist': instructors,
+							'studentlist': students });
+					});
 				});
 			});
-		});
+		} else {
+			res.render('unauthorized');
+		}
 	});
 
 	app.get('/admin/makeadmin/:userId', function(req, res) {
