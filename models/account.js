@@ -7,6 +7,8 @@ var Schema = mongoose.Schema;
 var accountSchema = new Schema({
 	id: Number,
 	name: String,
+	firstName: String,
+	lastName: String,
 	email: String,
 	admin: Boolean,
 	instructor: Boolean

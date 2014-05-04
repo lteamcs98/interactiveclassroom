@@ -77,6 +77,8 @@ passport.use(new GoogleStrategy({
 				user = new Account({
 					id: profile.id,
 					name: profile.displayName,
+					firstName: profile.given_name,
+					lastName: profile.family_name,
 					email: profile._json["email"],
 					admin: false,
 					instructor: false
@@ -107,7 +109,7 @@ io.sockets.on('connection', function (socket) {
 		});
 
 		// Adds the users new submission to the submission table
-		var result = new Submission({ userId: results.userId, userName: results.personsName, challengeId: results.challengeId, challengeName: results.challengeName, code: results.userCode, result: results.userPercent });
+		var result = new Submission({ userId: results.userId, userName: results.personsName, firstName: results.firstName, lastName: results.lastName, challengeId: results.challengeId, challengeName: results.challengeName, code: results.userCode, result: results.userPercent });
 		result.save(function(err, result) {
 			if (err) return console.error(err);
 		})
