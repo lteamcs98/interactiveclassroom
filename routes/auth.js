@@ -25,45 +25,66 @@ module.exports = function(app) {
 		passport.authenticate('google', { successRedirect: '/welcome', failureRedirect: '/login' }));
 
 	app.get('/welcome', function(req, res) {
-		if (req.user.admin) {
-			res.redirect('/admin/home');
-		} else if (req.user.instructor) {
-			res.redirect('/instructor/home');
-		} else {
-			res.redirect('/student/home')
+		if(req.user)
+		{
+			if (req.user.admin) {
+				res.redirect('/admin/home');
+			} else if (req.user.instructor) {
+				res.redirect('/instructor/home');
+			} else {
+				res.redirect('/student/home')
+			}
+		}
+		else 
+		{
+			res.redirect('/');
 		}
 	});
 
 	/* Admin View */
 
 	app.get('/admin/home', function(req, res) {
-		if (req.user.admin) {
-			res.render('home_admin', {'username': req.user.name});
-		} else {
-			res.render('unauthorized');
+		if(req.user)
+		{
+			if (req.user.admin) {
+				res.render('home_admin', {'username': req.user.name});
+			} else {
+				res.render('unauthorized');
+			}
+		}
+		else 
+		{
+			res.redirect('/');
 		}
 	});
 
 	app.get('/admin/userlist', function(req, res) {
-		if (req.user.admin) {
-			Account.find({ admin: true }, function(err, admins) {
-				if (err) return handleError(err);
-
-				Account.find({ admin: false, instructor: true },
-					function(err, instructors) {
+		if(req.user)
+		{
+			if (req.user.admin) {
+				Account.find({ admin: true }, function(err, admins) {
 					if (err) return handleError(err);
 
-					Account.find({ admin: false, instructor: false },
-						function(err, students) {
+					Account.find({ admin: false, instructor: true },
+						function(err, instructors) {
 						if (err) return handleError(err);
-						res.render('userlist', { 'adminlist': admins,
-							'instructorlist': instructors,
-							'studentlist': students });
+
+						Account.find({ admin: false, instructor: false },
+							function(err, students) {
+							if (err) return handleError(err);
+							res.render('userlist', { 'adminlist': admins,
+								'instructorlist': instructors,
+								'studentlist': students });
+						});
 					});
 				});
-			});
-		} else {
-			res.render('unauthorized');
+			} else {
+				res.render('unauthorized');
+			}
+		}
+		else 
+		{
+			res.redirect('/');
 		}
 	});
 
@@ -94,17 +115,31 @@ module.exports = function(app) {
 	/* Instructor View */
 
 	app.get('/instructor/home', function(req, res) {
-		if (req.user.instructor) {
-			res.render('home_instructor', {'username': req.user.name});
-		} else {
-			res.render('unauthorized');
+		if(req.user)
+		{
+			if (req.user.instructor) {
+				res.render('home_instructor', {'username': req.user.name});
+			} else {
+				res.render('unauthorized');
+			}
+		}
+		else 
+		{
+			res.redirect('/');
 		}
 	});
 
 	/* Student View */
 
 	app.get('/student/home', function(req, res) {
-		res.render('home_student', {'username': req.user.name});
+		if(req.user)
+		{
+			res.render('home_student', {'username': req.user.name});
+		}
+		else 
+		{
+			res.redirect('/');
+		}
 	});
 
 };
