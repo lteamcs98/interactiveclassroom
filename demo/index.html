@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool used to teach JavaScript programming through examples">
+
+    <title>Interactive Classroom</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure.css">
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/main-grid-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/main-grid.css">
+    <!--<![endif]-->
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/layouts/marketing.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="css/ic-style.css">
+    <link rel="stylesheet" href="css/codemirror.css">
+    <link rel="stylesheet" href="css/light-table.css">
+    <link rel="stylesheet" href="css/lint.css">
+
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/codemirror.js"></script>
+    <script type="text/javascript" src="js/javascript-lint.js"></script>
+    <script type="text/javascript" src="js/javascript.js"></script>
+    <script type="text/javascript" src="js/jshint.js"></script>
+    <script type="text/javascript" src="js/lint.js"></script>
+
+</head>
+<body>
+
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading" href="">Interactive Classroom</a>
+
+        <ul>
+            <li class="pure-menu-selected"><a href="#top">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#demo">Demo</a></li>
+            <li><a href="#">Install</a></li>
+	        <li><a href="documentation.html">Documentation</a></li>
+        </ul>
+    </div>
+</div>
+
+<a name="top" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">A classroom in a browser</h1>
+        <p class="splash-subhead">
+            Interactive classroom is a web tool used to teach JavaScript programming through examples.
+        </p>
+        <p>
+            <a href="https://github.com/lteamcs98/interactiveclassroom" class="pure-button pure-button-primary" target="_blank">Grab the source from GitHub</a>
+        </p>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="content">
+        <a name="overview" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
+        <h2 class="content-head is-center">Here's how it works</h2>
+
+        <div class="pure-g">
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-rocket"></i>
+                    Easy Setup
+                </h3>
+                <p>
+                    Install our NodeJS application on your web server in a few simple steps.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+
+                <h3 class="content-subhead">
+                    <i class="fa fa-pencil"></i>
+                    Write a Challenge
+                </h3>
+                <p>
+                    Challenges consist of a function name, test input and a challenge solution. Construct them as JSON objects and upload them in batches to the website.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-group"></i>
+                    Distribute to Students
+                </h3>
+                <p>
+                    Embed the interactive editor associated with the challenge as an iframe on any web page.
+                </p>
+            </div>
+            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
+                <h3 class="content-subhead">
+                    <i class="fa fa-check-square-o"></i>
+                    View Results
+                </h3>
+                <p>
+                    Track students' progress and manage existing challenges through the application's GUI.
+                </p>
+            </div>
+        </div>
+    </div>
+    <a name="demo" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
+    <div class="ribbon l-box-lrg pure-g">
+        <div class="l-box-lrg is-center pure-u-1 pure-u-med-1-2 pure-u-lrg-3-5">
+            <div class="plain-text-box">
+{<br />
+    <span class="tab-1">"title": "Find Maximum Value in a List", </span><br />
+    <span class="tab-1">"problem": "Write a function called findMax that returns the maximum in an array of integers.", </span><br />
+    <span class="tab-1">"functionNames": [ </span><br />
+        <span class="tab-2">"findMax" </span><br />
+    <span class="tab-1">], </span><br />
+    <span class="tab-1">"inputArray": [ </span><br />
+        <span class="tab-2">{ </span><br />
+            <span class="tab-3">"functionName": "findMax", </span><br />
+            <span class="tab-3">"inputs": [ </span><br />
+                <span class="tab-4">[ 1, 2, 5, 7, 0, 8, 10 ], </span><br />
+                <span class="tab-4">[ 169, 12, 4.3, 18, 3 ]</span><br />
+            <span class="tab-3">] </span><br />
+        <span class="tab-2">} </span><br />
+    <span class="tab-1">], </span><br />
+    <span class="tab-1">"outputArray": [ </span><br />
+        <span class="tab-2">{ </span><br />
+            <span class="tab-3">"functionName": "findMax", </span><br />
+            <span class="tab-3">"outputs": [ 10, 169 ]</span><br />
+        <span class="tab-2">} </span><br />
+    <span class="tab-1">] </span><br />
+} <br />
+            </div>
+        </div>
+        <div class="pure-u-1 pure-u-med-1-2 pure-u-lrg-2-5">
+            <h2 class="content-head content-head-ribbon">Code Challenge Format</h2>
+            <p>
+                Code challenges are represented as JSON objects with the following fields.
+                <ul>
+                    <li><strong>title</strong>: The name of the challenge </li>
+                    <li><strong>problem</strong>: A description of the problem to solve</li>
+                    <li><strong>functionNames</strong>: Names of functions to define in challenge solution</li>
+                    <li><strong>inputArray</strong>: Array of inputs to test functions on</li>
+                    <li><strong>outputArray</strong>: Array of correct outputs corresponding to test input array</li>
+                </ul>
+		Our app iterates through an array of inputs for inputArray, so don't forget to encase the inputs in an array. For example, the example above shows two test arrays as the input. In order for the JSON to be read correctly, the two test arrays are nested in another array. 
+            </p>
+        </div>
+    </div>
+
+    <div class="content editor-demo" style="padding: 0 20px 100px 20px;">
+        <h2 class="content-head is-center">Code Editor</h2>
+        <p class="editor-h"><strong>Challenge 1: Find Maximum Value in a List</strong></p>
+        <p class="editor-p">Write a function called findMax that returns the maximum in an array of integers</p>
+        <div class="pure-g">
+            <div class="pure-u-2-3">
+                <textarea id="editor">var findMax = function(arr)
+{
+    var max = arr[0];
+    for (var i = 0; i < arr.length; i++)
+    {
+        if (arr[i] > max) max = arr[i];
+    }
+    return max;
+};
+                </textarea>
+                <button class="button" id="emailButton" type="button">Email</button>
+                <button class="button" id="submitButton" type="button">Submit</button>
+            </div>
+            <div class="pure-u-1-3">
+                <div id="results">
+                    <p class="editor-h">Results</p>
+                </div>
+            </div>
+            <div class='pure-u-1' id="console">
+                <p class="editor-h">Console</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer l-box is-center">
+        Created by Laura Goodfellow, Hilton Hart, Tev'n Powers, Michelle Shu and Eva Xiao. Dartmouth College. 2014.
+    </div>
+
+</div>
+
+<script src="http://yui.yahooapis.com/3.14.1/build/yui/yui.js"></script>
+<script>
+YUI().use('node-base', 'node-event-delegate', function (Y) {
+    // This just makes sure that the href="#" attached to the <a> elements
+    // don't scroll you back up the page.
+    Y.one('body').delegate('click', function (e) {
+        e.preventDefault();
+    }, 'a[href="#"]');
+});
+</script>
+<script src="js/console_capture.js"></script>
+<script src="js/challenge.js"></script>
+<script src="js/cm-resize.js"></script>
+
+<script>
+    var outputs = [10, 169];
+    var outputArray = {"functionName": "findMax", "outputs": outputs};
+    var input1 = [1, 2, 5, 7, 0, 8, 10];
+    var input2 = [169, 12, 4.3, 18, 3];
+    var inputs = [input1, input2];
+    var inputArray = {"functionName": "findMax", "inputs": inputs};
+    var challengeId = 1;
+
+    var totalTests = 0;
+    var correctTests = 0;
+    var failedTests = new Array();
+
+    $('#submitButton').click(function() {
+        $('#results').html('<p class="editor-h">Results</p>');
+        result = evaluateFunction("findMax");
+        totalTests += result[0];
+        correctTests += result[1];
+        failedTests.push({functionName: "findMax", failedTests: result[2]});
+    });
+
+    if (totalTests > 0) {
+        var percent = (100.0 * correctTests / totalTest);
+        $('#outputBox').append('<p class="challengeTitle">' + percent + "% Correct</p>");
+    }
+
+    $('#emailButton').click(function() {
+        var code = editor.getValue();
+        code = code.replace(/\n/g, '%0D%0A');
+        code = code.replace(/\t/g, '    ');
+
+        window.open(
+            'mailto:your@email.com&subject=Challenge 1&body=' + code
+        );
+    });
+</script>
+
+</body>
+</html>

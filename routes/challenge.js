@@ -1,6 +1,6 @@
 var Challenge = require('../models/challenge');
 var Submission = require('../models/submission');
-var error = require('../public/js/errorcheck.js');
+var error = require('../public/js/uploadErrorCheck.js');
 var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
 var visitors = 0
@@ -19,8 +19,6 @@ module.exports = function(app, fs, yaml)
 			{
 				// Sorts the submissions by challenge id
 				submissions.sort({ challengeId: 1 });
-
-				console.log(submissions);
 
 				var challengeIdList = [];
 				var challengeNameList = [];
@@ -50,7 +48,7 @@ module.exports = function(app, fs, yaml)
 					}
 				}
 
-				// Total of results indexed by challenge divided by number of attempted 
+				// Total of results indexed by challenge divided by number of attempted
 				for (var i = 0; i < numberOfChallenges; i++) {
 					percentageList[i] /= attemptedList[i];
 				}
@@ -70,28 +68,41 @@ module.exports = function(app, fs, yaml)
 	//results for a paticular challenge
 	app.get('/results/:id', function(req, res)
 	{
-		//console.log("Am I getting here?");
-
 		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
 		 {
 			if (err || submissions == null)
 			{
 				res.redirect('/results');
-			} else {
-				submissions.sort({ userName: 1 });
+			}
+			else
+			{
 
 			 	var userNameList = [];
 				var resultList = [];
 
+				console.log("\nBefore Sort:");
+
 				submissions.forEach(function(submiss){
 
-					//console.log(index);
-					//console.log(submiss.userName);
+					submiss.first = (submiss.userName).split(" ")[0];
+					submiss.last = (submiss.userName).split(" ")[1];
+					
+					console.log("\t" + submiss.first + " " + submiss.last);
+				});
+
+				submissions.sort({ last: 1 });
+
+				console.log("\nAfter Sort:");
+
+				submissions.forEach(function(submiss){
 
 					userNameList.push(submiss.userName);
 					resultList.push(submiss.result);
-
+					console.log(submiss);
+					console.log("\t" + submiss.first + " " + submiss.last);
 				});
+
+				console.log("\n");
 
 				res.render('challengeResults',{
 					'userNameList': userNameList,
@@ -110,12 +121,7 @@ module.exports = function(app, fs, yaml)
 			var resultList = [];
 
 			submissions.forEach(function(submiss){
-
-				console.log(submiss.challengeId);
-				console.log(submiss.result);
-
 				resultList[submiss.challengeId] = submiss.result;
-
 			});
 
 			res.render('myResults',{
@@ -135,7 +141,7 @@ module.exports = function(app, fs, yaml)
 				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
 				else userCode = sub.code;
 
-				res.render('challenge', {
+				res.render('tevnchallenge', {
 					'personsID': 106516508341319860000,
 					'theirName': "Tev'n Powers",
 					'oldSub': userCode,
@@ -153,8 +159,6 @@ module.exports = function(app, fs, yaml)
 
 	app.get('/challenge/:id', function(req, res)
 	{
-        visitors += 1;
-        console.log('visitor: ', visitors);
 		if (! req.user) {
 			res.redirect('/');
 		}
@@ -171,10 +175,6 @@ module.exports = function(app, fs, yaml)
 						var userCode;
 						if (sub === null) userCode = setEditorValue(chal.functionHeaders);
 						else userCode = sub.code;
-
-						console.log("\n\nThis is from challenge.js: "
-							+ String(req.user.name)
-							+ "\n\n");
 
 						res.render('challenge', {
 							'personsID': Number(req.user.id),
@@ -205,15 +205,23 @@ module.exports = function(app, fs, yaml)
 	}
 
 	app.get('/challengelist', function(req, res) {
-		if (req.user.instructor)
+		if(req.user)
 		{
-			Challenge.find(function(err, challenges) {
-				if (err) return console.error(err);
-				res.render('challengelist', { 'challengelist': challenges });
-			});
-		} else
+			if (req.user.instructor)
+			{
+				Challenge.find(function(err, challenges) {
+					if (err) return console.error(err);
+					res.render('challengelist', { 'challengelist': challenges });
+				});
+			}
+			else
+			{
+				res.render('unauthorized');
+			}
+		}
+		else
 		{
-			res.render('unauthorized');
+			res.redirect('/');
 		}
 	});
 
@@ -277,8 +285,6 @@ module.exports = function(app, fs, yaml)
 			challengeJSONs.extractchallenges(fs, req.files, addChallenges);
 		 	function addChallenges(err, data) {
 				if (err) throw err;
-				//eval("(" + data + ")");
-				//console.log("The array of JSON objects:" + data);
 				for (var i = 0; i < data.length; i++){
 					var json = JSON.parse(JSON.stringify(data[i]));
 					var docs_id = new Array();
@@ -289,9 +295,7 @@ module.exports = function(app, fs, yaml)
 					{
 						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders });
 						newChallenge.save();
-						//console.log('NEW CHALLENGE CREATED!', newChallenge);
 						updateID(newChallenge);
-						console.log('NEW CHALLENGE UPDATED!', newChallenge);
 						renderTemplate();
 
 						function updateID(doc)
@@ -302,20 +306,14 @@ module.exports = function(app, fs, yaml)
 							var code = Math.abs(id_string.hashCode());
 							doc.challengeId = code;
 							docs_id.push(code);
-							//console.log(docs_id);
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
 
 						}
 						function renderTemplate()
 						{
-							console.log('Challenge IDs: ', docs_id);
 							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
 							htmlSnippets.push(htmlSnippet);
-							console.log('hello world!', htmlSnippets.length , data.length);
-
-							console.log('snippets: ', htmlSnippets);
 							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
-
 						}
 					}
 					else
