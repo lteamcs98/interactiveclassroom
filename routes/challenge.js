@@ -73,16 +73,36 @@ module.exports = function(app, fs, yaml)
 			if (err || submissions == null)
 			{
 				res.redirect('/results');
-			} else {
-				submissions.sort({ userName: 1 });
+			}
+			else
+			{
 
 			 	var userNameList = [];
 				var resultList = [];
 
+				console.log("\nBefore Sort:");
+
 				submissions.forEach(function(submiss){
+
+					submiss.first = (submiss.userName).split(" ")[0];
+					submiss.last = (submiss.userName).split(" ")[1];
+					
+					console.log("\t" + submiss.first + " " + submiss.last);
+				});
+
+				submissions.sort({ last: 1 });
+
+				console.log("\nAfter Sort:");
+
+				submissions.forEach(function(submiss){
+
 					userNameList.push(submiss.userName);
 					resultList.push(submiss.result);
+					console.log(submiss);
+					console.log("\t" + submiss.first + " " + submiss.last);
 				});
+
+				console.log("\n");
 
 				res.render('challengeResults',{
 					'userNameList': userNameList,
@@ -159,6 +179,8 @@ module.exports = function(app, fs, yaml)
 						res.render('challenge', {
 							'personsID': Number(req.user.id),
 							'theirName': req.user.name,
+							'firstName': req.user.firstName,
+							'lastName': req.user.lastName,
 							'oldSub': userCode,
 							'challengeId': chal.challengeId,
 							'challengeName': chal.title,

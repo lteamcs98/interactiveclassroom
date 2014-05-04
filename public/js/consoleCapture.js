@@ -1,3 +1,6 @@
+/* Capture JavaScript console output and reroute to console box on interactive
+	challenge */
+
 var logOfConsole = [];
 
 var _log = console.log,

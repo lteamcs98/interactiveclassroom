@@ -1,4 +1,5 @@
-// compares 
+/* Handles callback for Submit button on challenges; test if submitted code
+	gives correct output */
 function arraysEqual(a, b)
 {
 	if(typeof a != "object" && typeof b != "object")

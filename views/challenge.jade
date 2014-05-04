@@ -15,8 +15,6 @@ html
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
 		//script(src='http://interactiveclassroom.herokuapp.com/socket.io/socket.io.js')
 		script(src="../socket.io/socket.io.js")
-
-
 		script(src='../js/codemirror.js')
 		script(src='../js/javascriptLint.js')
 		script(src='../js/javascript.js')
@@ -30,15 +28,19 @@ html
 				h2 Challenge #{challengeId}: #{title}
 				p #{problem}
 
+			// Code editor for challenge
 			div(class='col-2-3 row-1-2')
 				textarea(id='editor')
 				button(class='button' id='emailButton' type='button') Email
 				button(class='button' id='submitButton' type='button') Submit
 			div(class='col-1-3 row-1-2')
+				// Select individual functions to run unit tests on
 				select(id='codeUnitList')
 					option
 						selected
 						value='All'
+				// Results pane shows how challenge submission performs on
+				// test cases
 				div(id='results')
 					h2 Results
 
@@ -70,12 +72,16 @@ html
 			// Add the name of each function to be tested to the dropdown menu for unit testing
 			addFunctionOptions(functionNames);
 
-			// Function headers that are used to 
+			// Function headers that are used as placeholders in the editor
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
 
+			// Load previous submission by this user into the code editor
 			editor.setValue(!{JSON.stringify(oldSub)});
 
-			// callback function for when the user presses submit
+			/* Set callback for submit button. When this button clicked, test
+			 code submitted with test cases defined for this challenge. Load
+			 the result (% tests passed) into the results frame for user
+			 to view and save the result to submissions database. */
 			$('#submitButton').click(function() {
 				// Refresh the results div with just the header
 				$('#results').html('<h2>Results</h2>');
@@ -84,12 +90,13 @@ html
 				inputArray = !{ JSON.stringify(inputArray) };
 
 				var testIndex = document.getElementById("codeUnitList").selectedIndex;
+
 				var testAll = (testIndex === 0);
 				var functions = new Array();
-				if (testAll)
+				if (testAll)	// "All" selected, test all functions defined
 				{
 					functions = functionNames;
-				} else
+				} else          // Test the function selected in unit test box
 				{
 					functions.push(document.getElementById("codeUnitList").options[testIndex].value);
 				}
@@ -99,6 +106,8 @@ html
 				var failedTests = new Array();
 				for(var i in functions)
 				{
+					// Test and return results = [number of tests, ...
+					//   number of tests passed, failed tests'
 					result = evaluateFunction(functions[i]);
 					if(typeof result == 'number')
 					{
@@ -109,6 +118,7 @@ html
 					failedTests.push({functionName: functions[i], failedTests: result[2]});
 				}
 
+				// Show test outcome to user in browser
 				if(totalTests > 0)
 				{
 					var percent = (100.0 * correctTests / totalTests);
@@ -119,19 +129,22 @@ html
 					$('#outputBox').append('<p class="challengeTitle">No results to display</p>');
 				}
 
-				// send data back to server
+				// Send data back to server to save in submissions database
 				socket.emit('results', {
 						challengeId: !{challengeId},
 						challengeName: "#{challengeName}",
 						userCode: editor.getValue(),
 						userId: !{personsID},
 						personsName: "#{theirName}",
+						firstName: "#{firstName}",
+						lastName: "#{lastName}",
 						userPercent: percent
 					}
 				);
 
 			});
 
+			// Email button callback - allow user to email code to themselves
 			$('#emailButton').click(function() {
 				var personsCode = editor.getValue();
 				personsCode = personsCode.replace(/\n/g, '%0D%0A');
