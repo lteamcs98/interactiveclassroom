@@ -18,7 +18,7 @@ html
 
 
 		script(src='../js/codemirror.js')
-		script(src='../js/javascript-lint.js')
+		script(src='../js/javascriptLint.js')
 		script(src='../js/javascript.js')
 		script(src='../js/jshint.js')
 		script(src='../js/lint.js')
@@ -45,9 +45,9 @@ html
 			div(class='col-1' id='console')
 				h2 Console
 
-		script(src='../js/console_capture.js')
-		script(src='../js/challenge.js')
-		script(src='../js/cm-resize.js')
+		script(src='../js/consoleCapture.js')
+		script(src='../js/evaluateSubmission.js')
+		script(src='../js/codeMirrorResize.js')
 		script.
 
 			var socket = io.connect('http://localhost');
@@ -64,12 +64,11 @@ html
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
 			//console.log(!{JSON.stringify(oldSub)});
 
-
 			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
 				$('#results').html('<h2>Results</h2>');
-
+				inputArray = !{ JSON.stringify(inputArray) };
 				var testIndex = document.getElementById("codeUnitList").selectedIndex;
 				var testAll = (testIndex === 0);
 				var functions = new Array();
@@ -105,10 +104,6 @@ html
 				{
 					$('#outputBox').append('<p class="challengeTitle">No results to display</p>');
 				}
-
-				console.log("Your code has been saved!");
-
-				console.log("\n\nThis is from challenge.js: " /*+ {userName}*/ + "\n\n");
 
 				// send data back to server
 				socket.emit('results', {

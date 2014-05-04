@@ -1,4 +1,4 @@
-// Submission model
+// Submission model: Relation between account and challenge
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
