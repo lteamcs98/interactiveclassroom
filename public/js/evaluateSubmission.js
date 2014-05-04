@@ -19,23 +19,6 @@ function arraysEqual(a, b)
 	return true;
 }
 
-var editor = CodeMirror.fromTextArea(document.getElementById("editor"),
-{
-	lineNumbers: true,
-	mode: "javascript",
-	gutters: ["CodeMirror-lint-markers"],
-	lint: true,
-	theme: "light-table"
-});
-
-editor.setSize(540, 300);
-
-function test(str1, str2, str3)
-{
-	console.log(str1);
-	console.log(str2);
-	console.log(str3);
-}
 function addFunctionOptions(functionNames)
 {
 	var select = document.getElementById("codeUnitList");

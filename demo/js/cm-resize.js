@@ -1,16 +1,3 @@
-/* Resize CodeMirror according to size of viewport */
-
-var editor = CodeMirror.fromTextArea(document.getElementById("editor"),
-{
-    lineNumbers: true,
-    mode: "javascript",
-    gutters: ["CodeMirror-lint-markers"],
-    lint: true,
-    theme: "light-table"
-});
-
-editor.setSize(540, 300);
-
 function cmResize() {
     // Get window width and height
     var windowWidth = 800, windowHeight = 600;
@@ -29,7 +16,7 @@ function cmResize() {
     }
 
     // Adjust editor width and height
-    editor.setSize((windowWidth - 60) * 0.6666, windowHeight * 0.4);
+    editor.setSize((windowWidth - 60) * 0.66, windowHeight * 0.4);
 }
 
 cmResize();
