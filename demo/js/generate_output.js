@@ -1,6 +1,10 @@
 module.exports.generateOutputArray = generateOutputArray;
 
-//This should return an array of whatever (strings, integers) 
+function stripTabNewlines(solution){
+
+}
+
+//Returns the output for a function given an array of inputs
 function getOutput(solution, functionName, inputs){ //solution is a string of js code
 	var outputs = new Array();
 	var functionTag = "{'functionName':" + functionName + ",";
@@ -24,6 +28,8 @@ function getOutput(solution, functionName, inputs){ //solution is a string of js
 	return functionTag;
 }
 
+
+
 function getInputs(json){
 	var inputs =  new Array();
 
@@ -34,6 +40,7 @@ function getInputs(json){
 	return inputs;
 }
 
+//generates the outputArray element for the JSON file
 function generateOutputArray(json){
 	var outputArray = "'outputArray': [";
 	//inputArray is not in array form exactly...

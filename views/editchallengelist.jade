@@ -12,20 +12,14 @@ html
         script.
                 $(document).ready(function() {
                     $('.nav-toggle').click(function(){
-                        //get collapse content selector
-                        var collapse_content_selector = $(this).attr('href');					
-
-                        //make the collapse content to be shown or hide
-                        var toggle_switch = $(this);
-                        $(collapse_content_selector).toggle(function(){
-                              if($(this).css('display')=='none'){
-                                    //change the button label to be 'Info'
-                                    toggle_switch.html('Info');
-                              }
-                              else{
-                                    //change the button label to be 'Info'
-                                    toggle_switch.html('Info');
-                              }
+                        //Get the ID of the challenge whose info we want to see
+                        var collapse_content_selector = $(this).attr('href');
+                        
+                        //Find the div with the same ID and change its CSS display attribute
+                        $( "div" ).each(function(index) {
+                            if ($(this).attr('id') == collapse_content_selector){
+                                $(this).css('display', 'initial');
+                            }
                         });
                     });
                  });
@@ -36,12 +30,13 @@ html
                 Challenge List
             div(class='col-2-3' )
                 u1
+                   //Iterate through each challenge, get its info, put it in an invisible div
                    each challenge in challengelist
                         li(id='challengelist')
                                 h2.challengeTitle
                                 div(class='col-2-3')
                                    a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
-                                   div(id="showinfo" style="display:none")
+                                   div(id="#{challenge.challengeId}" style="display:none" title="test")
                                        p Problem:
                                        div.editChallengeDataEntry
                                            p #{challenge.problem}
@@ -80,8 +75,10 @@ html
                                                                  p #{subOutput}
                                                    else
                                                        p #{output}
+                                //Set up info button and save the challenge's ID
                                 div(class='col-1-8' id='challengedelete' style='display:inline-block')
-                                   button(href="#showinfo" class="nav-toggle") Info
+                                   button(class="nav-toggle" href="#{challenge.challengeId}") Info
+                                //Set up delete button
                                 div(class='col-1-8' id='challengedelete' style='display:inline-block')
                                    form( method="post", action="/deletechallenge") 
                                       input(name="challengeId", type="hidden", value=challenge.challengeId)

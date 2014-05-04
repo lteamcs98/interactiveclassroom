@@ -8,6 +8,8 @@ var submissionSchema = new Schema({
 	challengeName: String,
 	userId: Number,
 	userName: String,
+	firstName: String,
+	lastName: String,
 	code: String,
 	result: Number
 });
