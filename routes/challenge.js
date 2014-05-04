@@ -159,6 +159,8 @@ module.exports = function(app, fs, yaml)
 						res.render('challenge', {
 							'personsID': Number(req.user.id),
 							'theirName': req.user.name,
+							'firstName': req.user.firstName,
+							'lastName': req.user.lastName,
 							'oldSub': userCode,
 							'challengeId': chal.challengeId,
 							'challengeName': chal.title,
