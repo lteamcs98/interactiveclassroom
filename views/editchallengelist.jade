@@ -12,10 +12,10 @@ html
         script.
                 $(document).ready(function() {
                     $('.nav-toggle').click(function(){
-                        //get collapse content selector
-                        var collapse_content_selector = $(this).attr('href');//should be button's challengeId
-                        //console.log("button's challengeId:" + collapse_content_selector);
+                        //Get the ID of the challenge whose info we want to see
+                        var collapse_content_selector = $(this).attr('href');
                         
+                        //Find the div with the same ID and change its CSS display attribute
                         $( "div" ).each(function(index) {
                             if ($(this).attr('id') == collapse_content_selector){
                                 $(this).css('display', 'initial');
@@ -30,6 +30,7 @@ html
                 Challenge List
             div(class='col-2-3' )
                 u1
+                   //Iterate through each challenge, get its info, put it in an invisible div
                    each challenge in challengelist
                         li(id='challengelist')
                                 h2.challengeTitle
@@ -74,8 +75,10 @@ html
                                                                  p #{subOutput}
                                                    else
                                                        p #{output}
+                                //Set up info button and save the challenge's ID
                                 div(class='col-1-8' id='challengedelete' style='display:inline-block')
                                    button(class="nav-toggle" href="#{challenge.challengeId}") Info
+                                //Set up delete button
                                 div(class='col-1-8' id='challengedelete' style='display:inline-block')
                                    form( method="post", action="/deletechallenge") 
                                       input(name="challengeId", type="hidden", value=challenge.challengeId)
