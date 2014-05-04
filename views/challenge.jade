@@ -46,7 +46,7 @@ html
 				h2 Console
 
 		script(src='../js/console_capture.js')
-		script(src='../js/challenge.js')
+		script(src='../js/evaluateSubmission.js')
 		script(src='../js/cm-resize.js')
 		script.
 
@@ -104,10 +104,6 @@ html
 				{
 					$('#outputBox').append('<p class="challengeTitle">No results to display</p>');
 				}
-
-				console.log("Your code has been saved!");
-
-				console.log("\n\nThis is from challenge.js: " /*+ {userName}*/ + "\n\n");
 
 				// send data back to server
 				socket.emit('results', {

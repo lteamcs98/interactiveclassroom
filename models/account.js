@@ -1,4 +1,5 @@
-// Account model
+// Account model: Defines user accounts + access control with information from
+// Google OAuth2.0
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
