@@ -9,14 +9,17 @@ html
         link(rel='stylesheet', href='../css/normalize.css')
         link(rel='stylesheet', href='../css/style.css')
         link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
+        link(rel='shortcut icon' type='image/x-icon' href='../img/favicon.ico')
 
     body
 
         ul(id='navbar')
             li
-                Interactive Classroom
+                | Interactive Classroom
             li
-                a(href='#managechallenges') Challenges
+                a(href='/challengelist' target='mainframe') Challenges
+            li
+                a(href='/results' target='mainframe') Results
             li
                 a(href='/logout') Logout &nbsp;
                     i(class='fa fa-power-off')

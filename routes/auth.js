@@ -3,7 +3,11 @@ var Account = require('../models/account');
 
 module.exports = function(app) {
 	app.get('/', function(req, res) {
-		res.render('login');
+		if (req.user) {
+			res.redirect('/welcome');
+		} else {
+			res.render('login');
+		}
 	});
 
 	app.get('/login', function(req, res) {
@@ -41,22 +45,26 @@ module.exports = function(app) {
 	});
 
 	app.get('/admin/userlist', function(req, res) {
-		Account.find({ admin: true }, function(err, admins) {
-			if (err) return handleError(err);
-
-			Account.find({ admin: false, instructor: true },
-				function(err, instructors) {
+		if (req.user.admin) {
+			Account.find({ admin: true }, function(err, admins) {
 				if (err) return handleError(err);
 
-				Account.find({ admin: false, instructor: false },
-					function(err, students) {
+				Account.find({ admin: false, instructor: true },
+					function(err, instructors) {
 					if (err) return handleError(err);
-					res.render('userlist', { 'adminlist': admins,
-						'instructorlist': instructors,
-						'studentlist': students });
+
+					Account.find({ admin: false, instructor: false },
+						function(err, students) {
+						if (err) return handleError(err);
+						res.render('userlist', { 'adminlist': admins,
+							'instructorlist': instructors,
+							'studentlist': students });
+					});
 				});
 			});
-		});
+		} else {
+			res.render('unauthorized');
+		}
 	});
 
 	app.get('/admin/makeadmin/:userId', function(req, res) {
@@ -70,6 +78,14 @@ module.exports = function(app) {
 	app.get('/admin/makeinstructor/:userId', function(req, res) {
 		Account.update({ id: req.params.userId },
 			{ admin: false, instructor: true}, function(err) {
+				if (err) return handleError(err);
+				res.redirect('/admin/userlist');
+		});
+	});
+
+	app.get('/admin/makestudent/:userId', function(req, res) {
+		Account.update({ id: req.params.userId },
+			{ admin: false, instructor: false}, function(err) {
 				if (err) return handleError(err);
 				res.redirect('/admin/userlist');
 		});

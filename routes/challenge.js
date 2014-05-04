@@ -1,70 +1,195 @@
 var Challenge = require('../models/challenge');
 var Submission = require('../models/submission');
 var error = require('../public/js/errorcheck.js');
+var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
+var visitors = 0
 
 module.exports = function(app, fs, yaml)
 {
-	app.get('/', function(req, res) {
-		Challenge.find(function(err, challenges) {
-			if (err) return console.error(err);
-			res.render('challengelist', { 'challengelist': challenges });
-		});
+	app.get('/results', function(req, res)
+	{
+		if (! req.user.instructor) {
+			res.render('unauthorized');
+		}
+		else {
+
+			// Queries the submission database for all submissions
+			Submission.find({}, 'challengeId challengeName result', function(err, submissions)
+			{
+				// Sorts the submissions by challenge id
+				submissions.sort({ challengeId: 1 });
+
+				console.log(submissions);
+
+				var challengeIdList = [];
+				var challengeNameList = [];
+				var attemptedList = [];
+				var percentageList = [];
+				var numberOfChallenges = 0;
+
+				var currentChalId = -1;
+				var currentIndex = -1;
+				var found = false;
+
+				// Populate parallel arrays
+				for (var i = 0; i < submissions.length; i++) {
+					if (submissions[i].challengeId != currentChalId) {
+						challengeIdList.push(submissions[i].challengeId);
+						challengeNameList.push(submissions[i].challengeName);
+						attemptedList.push(1);
+
+						percentageList.push(submissions[i].result);
+
+						currentChalId = submissions[i].challengeId;
+						currentIndex += 1;
+						numberOfChallenges += 1;
+					} else {
+						attemptedList[currentIndex] += 1;
+						percentageList[currentIndex] += submissions[i].result;
+					}
+				}
+
+				// Total of results indexed by challenge divided by number of attempted 
+				for (var i = 0; i < numberOfChallenges; i++) {
+					percentageList[i] /= attemptedList[i];
+				}
+
+				// Render objects to the jade file
+				res.render('allResults',{
+					'challengeIdList': challengeIdList,
+					'challengeNameList': challengeNameList,
+					'attemptedList': attemptedList,
+					'percentageList': percentageList,
+					'numberOfChallenges': numberOfChallenges
+				});
+			});
+		}
 	});
 
+	//results for a paticular challenge
 	app.get('/results/:id', function(req, res)
 	{
-		 Submission.find({ challengeId : Number(req.params.id) }, 'result', function(err, submissions)
+		//console.log("Am I getting here?");
+
+		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
+		 {
+			if (err || submissions == null)
+			{
+				res.redirect('/results');
+			} else {
+				submissions.sort({ userName: 1 });
+
+			 	var userNameList = [];
+				var resultList = [];
+
+				submissions.forEach(function(submiss){
+
+					//console.log(index);
+					//console.log(submiss.userName);
+
+					userNameList.push(submiss.userName);
+					resultList.push(submiss.result);
+
+				});
+
+				res.render('challengeResults',{
+					'userNameList': userNameList,
+					'resultList': resultList
+				});
+			}
+		 });
+	});
+
+	app.get('/myResults', function(req, res)
+	{
+		 Submission.find({ userId: Number(req.user.id) }, 'challengeName result', function(err, submissions)
 		 {
 
-		 	var attempted = 0;
-			var percentage = 0;
+			var challengeNameList = [];
+			var resultList = [];
 
 			submissions.forEach(function(submiss){
 
-				attempted = attempted + 1;
-				percentage = percentage + submiss.result;
-				//console.log(submiss);
+				console.log(submiss.challengeId);
+				console.log(submiss.result);
+
+				resultList[submiss.challengeId] = submiss.result;
 
 			});
 
-			//console.log('\n\n', percentage);
-			percentage = percentage / attempted;
-			//console.log('\n\n', percentage);
-
-			res.render('results',{
-				'attempted': attempted,
-				'percentage': percentage,
+			res.render('myResults',{
+				'resultList': resultList,
 			});
 
 		 });
 	});
 
+	app.get('/tevnchallenge/:id', function(req, res)
+	{
+		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
+		{
+			Submission.findOne({ userId: 106516508341319860000, challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+			{
+				var userCode;
+				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
+				else userCode = sub.code;
+
+				res.render('tevnchallenge', {
+					'personsID': 106516508341319860000,
+					'theirName': "Tev'n Powers",
+					'oldSub': userCode,
+					'challengeId': chal.challengeId,
+					'challengeName': chal.title,
+					'problem': chal.problem,
+					'functionNames': chal.functionNames,
+					'functionHeaders': chal.functionHeaders,
+					'inputArray': chal.inputArray,
+					'outputArray': chal.outputArray
+				});
+			});
+		});
+	});
+
 	app.get('/challenge/:id', function(req, res)
 	{
+        visitors += 1;
+        console.log('visitor: ', visitors);
 		if (! req.user) {
 			res.redirect('/');
-		} else {
+		}
+		else {
 
 			Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
 			{
-				Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
-				{
-					var userCode;
-					if (sub === null) userCode = setEditorValue(chal.functionHeaders);
-					else userCode = sub.code;
+				if (err || chal == null) {
+					res.redirect('/welcome');
+				}
+				else {
+					Submission.findOne({ userId: Number(req.user.id), challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
+					{
+						var userCode;
+						if (sub === null) userCode = setEditorValue(chal.functionHeaders);
+						else userCode = sub.code;
 
-					res.render('challenge', {
-						'personsID': Number(req.user.id),
-						'oldSub': userCode,
-						'challengeId': chal.challengeId,
-						'problem': chal.problem,
-						'functionNames': chal.functionNames,
-						'functionHeaders': chal.functionHeaders,
-						'inputArray': chal.inputArray,
-						'outputArray': chal.outputArray
+						console.log("\n\nThis is from challenge.js: "
+							+ String(req.user.name)
+							+ "\n\n");
+
+						res.render('challenge', {
+							'personsID': Number(req.user.id),
+							'theirName': req.user.name,
+							'oldSub': userCode,
+							'challengeId': chal.challengeId,
+							'challengeName': chal.title,
+							'problem': chal.problem,
+							'functionNames': chal.functionNames,
+							'functionHeaders': chal.functionHeaders,
+							'inputArray': chal.inputArray,
+							'outputArray': chal.outputArray
+						});
 					});
-				});
+				}
 			});
 		}
 	});
@@ -80,18 +205,35 @@ module.exports = function(app, fs, yaml)
 	}
 
 	app.get('/challengelist', function(req, res) {
-		console.log(req.user);
-		console.log(req.user.id);
-		Challenge.find(function(err, challenges) {
-			if (err) return console.error(err);
-			res.render('challengelist', { 'challengelist': challenges });
-		});
+		if (req.user.instructor)
+		{
+			Challenge.find(function(err, challenges) {
+				if (err) return console.error(err);
+				res.render('challengelist', { 'challengelist': challenges });
+			});
+		} else
+		{
+			res.render('unauthorized');
+		}
 	});
 
 	app.get('/editchallengelist', function(req, res) {
+		if (req.user.instructor)
+		{
+			Challenge.find(function(err, challenges) {
+				if (err) return console.error(err);
+				res.render('editchallengelist', { 'challengelist': challenges });
+			});
+		} else
+		{
+			res.render('unauthorized');
+		}
+	});
+
+	app.get('/studentchallengelist', function(req, res) {
 		Challenge.find(function(err, challenges) {
 			if (err) return console.error(err);
-			res.render('editchallengelist', { 'challengelist': challenges });
+			res.render('studentchallengelist', { 'challengelist': challenges });
 		});
 	});
 
@@ -99,6 +241,10 @@ module.exports = function(app, fs, yaml)
 	app.post('/deletechallenge', function(req, res) {
 		var challengeId = parseInt(req.body.challengeId);
 		var selector = { "challengeId" :  challengeId };
+
+		Submission.find(selector).remove(function(err) {
+			if (err) return console.error(err);
+		});
 
 		Challenge.findOne(selector).remove(function(err) {
 			if (err) return console.error(err);
@@ -109,36 +255,47 @@ module.exports = function(app, fs, yaml)
         res.redirect("editchallengelist");
 	});
 
-	app.get('/newchallenge', function(req, res){
-		res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
+	app.get('/newchallenge', function(req, res) {
+		if (req.user.instructor)
+		{
+			res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
+		} else
+		{
+			res.render('unauthorized');
+		}
 	});
 
 	app.post('/addchallenge', addChallenge(fs, yaml));
 
 	function addChallenge(fs, yaml) {
+
+		// example code for extracting challenges
+
+
 		return function(req, res) {
 			// Print to console the contents of user uploaded challenge.
-			fs.readFile(req.files.userChallenge.path, 'utf8', function(err, data) {
+			challengeJSONs.extractchallenges(fs, req.files, addChallenges);
+		 	function addChallenges(err, data) {
 				if (err) throw err;
-				eval("var data = " + data);
-				var docs_id = new Array();
-				var htmlSnippets = new Array();
+				//eval("(" + data + ")");
+				//console.log("The array of JSON objects:" + data);
+				for (var i = 0; i < data.length; i++){
+					var json = JSON.parse(JSON.stringify(data[i]));
+					var docs_id = new Array();
+					var htmlSnippets = new Array();
+					var msg = error.uploadErrorCheck(json);
 
-				var msg = error.uploadErrorCheck("" + data);
-				console.log(data.challengeId);
-				console.log(data.problem);
-				//if (msg == true) At the moment, errorchecking has bug where JSON is a JS Object, not a JSON object
-				//{
-					//var promise = db.get('challengecollection').insert(JSON);
-					var newChallenge = new Challenge({"challengeId" : data.challengeId, "problem" : data.problem, "functionNames" : data.functionNames, "inputArray" : data.inputArray, "outputArray" : data.outputArray, "title" : data.title, "functionHeaders": data.functionHeaders });
-					newChallenge.save();
-					//console.log('NEW CHALLENGE CREATED!', newChallenge);
-					updateID(newChallenge);
-					console.log('NEW CHALLENGE UPDATED!', newChallenge);
-					renderTemplate();
-
-					function updateID(doc)
+					if (msg == true) //check validity of file
 					{
+						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders });
+						newChallenge.save();
+						//console.log('NEW CHALLENGE CREATED!', newChallenge);
+						updateID(newChallenge);
+						console.log('NEW CHALLENGE UPDATED!', newChallenge);
+						renderTemplate();
+
+						function updateID(doc)
+						{
 							var id_string = new String(doc._id);
 							id_string = id_string.concat(doc.title);
 							id_string = id_string.concat(doc.problem);
@@ -147,31 +304,30 @@ module.exports = function(app, fs, yaml)
 							docs_id.push(code);
 							//console.log(docs_id);
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
-							console.log(doc);
-							//var update_promise = db.get('challengecollection').update( { _id: doc._id }, { title: doc.title, challengeId : code, problem: doc.problem, functionNames: doc.functionNames, inputArray: doc.inputArray, outputArray: doc.outputArray });
-							//update_promise.on('complete', renderTemplate);
-							//console.log('New Document: ', doc);
-					}
-					function renderTemplate()
-					{
-						console.log('Challenge IDs: ', docs_id);
-						var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
-						htmlSnippets.push(htmlSnippet);
-						console.log('hello world!', htmlSnippets.length , data.length);
-						//if(htmlSnippets.length == data.length) *** Commented out until data is an array
-						//{
+
+						}
+						function renderTemplate()
+						{
+							console.log('Challenge IDs: ', docs_id);
+							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
+							htmlSnippets.push(htmlSnippet);
+							console.log('hello world!', htmlSnippets.length , data.length);
+
 							console.log('snippets: ', htmlSnippets);
 							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
-						//}
+
+						}
 					}
-					//promise.on('complete', updateID);
-				//}
-				//else
-				//{
-				//	res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
-				//}
-				
-			});
+					else
+					{
+						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
+					}
+	 			}
+				if (data.length < 1){
+					res.render('newchallenge', {"errorMsg":"Check file format. Make sure it's a JSON file.", "iframes":new Array() });
+				}
+			};
+
 		}
 	}
 }
