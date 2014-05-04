@@ -77,11 +77,11 @@ passport.use(new GoogleStrategy({
 				user = new Account({
 					id: profile.id,
 					name: profile.displayName,
-					firstName: profile.given_name,
-					lastName: profile.family_name,
+					firstName: profile._json["given_name"],
+					lastName: profile._json["family_name"],
 					email: profile._json["email"],
-					admin: false,
-					instructor: false
+					admin: true,
+					instructor: true
 				});
 
 				user.save(function(err) {
