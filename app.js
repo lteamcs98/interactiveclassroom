@@ -98,11 +98,8 @@ require('./routes/challenge')(app, fs, yaml);
 server.listen(app.get('port'));
 
 io.sockets.on('connection', function (socket) {
-	console.log('Server: In connection');
 
 	socket.on('results', function(results) { // client server interaction for code submission
-
-		console.log('GOT SOME RESULTS', results);
 
 		// Removes the users previous submission with the same challenge id
 		Submission.remove({ userId: results.userId, challengeId: results.challengeId }, function(err) {
