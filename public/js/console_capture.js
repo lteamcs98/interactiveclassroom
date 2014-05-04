@@ -46,10 +46,3 @@ window.onerror = function (msg, url, line) {
     console.error("Console Error: '" + msg + "' from " + url + ":" + line);
     return true; // same as preventDefault
 };
-/*
-window.addEventListener('error', function (evt) {
-    console.log("Caught[via 'error' event]:  '" + evt.message + "' from " + evt.filename + ":" + evt.lineno);
-    console.log(evt);
-    evt.preventDefault();
-});
-*/
