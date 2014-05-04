@@ -1,3 +1,4 @@
+// compares 
 function arraysEqual(a, b)
 {
 	if(typeof a != "object" && typeof b != "object")
