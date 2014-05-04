@@ -122,7 +122,7 @@ module.exports = function(app, fs, yaml)
 				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
 				else userCode = sub.code;
 
-				res.render('challenge', {
+				res.render('tevnchallenge', {
 					'personsID': 106516508341319860000,
 					'theirName': "Tev'n Powers",
 					'oldSub': userCode,
@@ -154,6 +154,7 @@ module.exports = function(app, fs, yaml)
 					var userCode;
 					if (sub === null) userCode = setEditorValue(chal.functionHeaders);
 					else userCode = sub.code;
+					console.log(chal.functionHeaders);
 
 					console.log("\n\nThis is from challenge.js: "
 						+ String(req.user.name)

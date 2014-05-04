@@ -64,12 +64,11 @@ html
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
 			//console.log(!{JSON.stringify(oldSub)});
 
-
 			editor.setValue(!{JSON.stringify(oldSub)});
 
 			$('#submitButton').click(function() {
 				$('#results').html('<h2>Results</h2>');
-
+				inputArray = !{ JSON.stringify(inputArray) };
 				var testIndex = document.getElementById("codeUnitList").selectedIndex;
 				var testAll = (testIndex === 0);
 				var functions = new Array();
