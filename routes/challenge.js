@@ -205,15 +205,23 @@ module.exports = function(app, fs, yaml)
 	}
 
 	app.get('/challengelist', function(req, res) {
-		if (req.user.instructor)
+		if(req.user)
 		{
-			Challenge.find(function(err, challenges) {
-				if (err) return console.error(err);
-				res.render('challengelist', { 'challengelist': challenges });
-			});
-		} else
+			if (req.user.instructor)
+			{
+				Challenge.find(function(err, challenges) {
+					if (err) return console.error(err);
+					res.render('challengelist', { 'challengelist': challenges });
+				});
+			}
+			else
+			{
+				res.render('unauthorized');
+			}
+		}
+		else
 		{
-			res.render('unauthorized');
+			res.redirect('/');
 		}
 	});
 
@@ -315,7 +323,6 @@ module.exports = function(app, fs, yaml)
 
 							console.log('snippets: ', htmlSnippets);
 							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
-
 						}
 					}
 					else
