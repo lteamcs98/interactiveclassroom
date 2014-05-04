@@ -51,7 +51,7 @@ function squareList(numbers)
 function averageOfThree(arg0, arg1, arg2)
 {
 	var sum = arg0 + arg1 + arg2;
-    
+
     return sum/3;
 }
 
@@ -82,4 +82,42 @@ function merge(left, right)
         }
     }
     return result.concat(left.slice(il)).concat(right.slice(ir));
+}
+
+function how_rich(initMoney, rate, years)
+{
+  var totalMoney = initMoney;
+
+  for(var i = 0; i < years; i++){
+
+    totalMoney = totalMoney * rate;
+
+  }
+
+  return totalMoney;
+}
+
+function portia(brutusInitMoney, portiaInitMoney, brutusRate, portiaRate)
+{
+  var brutusTotal = brutusInitMoney;
+  var portiaTotal = portiaInitMoney;
+
+  for(var years = 0; brutusTotal < portiaTotal; years++){
+
+    brutusTotal = brutusTotal * brutusRate;
+    portiaTotal = portiaTotal * portiaRate;
+
+  }
+
+  return years;
+}
+
+function reverse(str)
+{
+	var reversedString = "";
+    for (var i = str.length - 1; i >= 0; i--)
+    {
+        reversedString = reversedString.concat(str[i]);
+    }
+    return reversedString;
 }
