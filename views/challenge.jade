@@ -49,26 +49,40 @@ html
 		script(src='../js/evaluateSubmission.js')
 		script(src='../js/codeMirrorResize.js')
 		script.
-
+			// set the source link for the socket.io connection
 			var socket = io.connect('http://localhost');
 			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
+			// variables passed from the server (routes/challenge.js) to the jade template
+			
+			// Array of output values for testing user submissions
 			var outputArray = !{ JSON.stringify(outputArray) };
+			
+			// Array of input values for testing user submissions
 			var inputArray = !{ JSON.stringify(inputArray) };
 
+			// The ID associated with this challenge
 			var challengeId = Number(#{challengeId});
 
+			// The names of the functions associated with this challenge
 			var functionNames = !{ JSON.stringify(functionNames) };
+			
+			// Add the name of each function to be tested to the dropdown menu for unit testing
 			addFunctionOptions(functionNames);
 
+			// Function headers that are used to 
 			var functionHeaders = !{ JSON.stringify(functionHeaders) };
-			//console.log(!{JSON.stringify(oldSub)});
 
 			editor.setValue(!{JSON.stringify(oldSub)});
 
+			// callback function for when the user presses submit
 			$('#submitButton').click(function() {
+				// Refresh the results div with just the header
 				$('#results').html('<h2>Results</h2>');
+				
+				// Reset the input array
 				inputArray = !{ JSON.stringify(inputArray) };
+
 				var testIndex = document.getElementById("codeUnitList").selectedIndex;
 				var testAll = (testIndex === 0);
 				var functions = new Array();
