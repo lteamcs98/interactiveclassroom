@@ -68,6 +68,7 @@ function evaluateFunction(functionName) {
 		{
 			//var output = eval(functionName+'(inputs[evalIterator])');
 			var output = eval(functionName+'.apply(null, inputs[evalIterator])');
+
 			if(arraysEqual(output, outputs[evalIterator])) {
 				correct += 1.0;
 				$('#results').append('<p class="correctResult">Test ' + evalIterator + ' passed</p><br>');
