@@ -161,6 +161,10 @@
         "getSquare",
         "squareList"
     ],
+    "functionHeaders": [
+        "getSquare(number)",
+        "squareList(array)"
+    ],
     "inputArray": [
         {
             "functionName": "squareList",
