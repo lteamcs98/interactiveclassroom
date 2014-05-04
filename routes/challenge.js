@@ -252,6 +252,7 @@ module.exports = function(app, fs, yaml)
 		var challengeId = parseInt(req.body.challengeId);
 		var selector = { "challengeId" :  challengeId };
 
+                //Delete challenge with specified challengeId"
 		Submission.find(selector).remove(function(err) {
 			if (err) return console.error(err);
 		});
@@ -278,36 +279,38 @@ module.exports = function(app, fs, yaml)
 	app.post('/addchallenge', addChallenge(fs, yaml));
 
 	function addChallenge(fs, yaml) {
-
-		// example code for extracting challenges
-
-
 		return function(req, res) {
-			// Print to console the contents of user uploaded challenge.
+			//Retrieve JSON file(s) selected by user
 			challengeJSONs.extractchallenges(fs, req.files, addChallenges);
 		 	function addChallenges(err, data) {
 				if (err) throw err;
+                                //Iterate through array of selected JSON files
 				for (var i = 0; i < data.length; i++){
 					var json = JSON.parse(JSON.stringify(data[i]));
 					var docs_id = new Array();
 					var htmlSnippets = new Array();
 					var msg = error.uploadErrorCheck(json);
-
-					if (msg == true) //check validity of file
+                                        
+                                        //Check validity of JSON file (uploadErrorCheck.js has more details on this)
+					if (msg == true) 
 					{
+                                                //Create new challenge to insert into database using the JSON file
 						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders });
 						newChallenge.save();
 						updateID(newChallenge);
 						renderTemplate();
 
+                                                //Give the new challenge a unique challenge ID 
 						function updateID(doc)
 						{
 							var id_string = new String(doc._id);
 							id_string = id_string.concat(doc.title);
 							id_string = id_string.concat(doc.problem);
-							var code = Math.abs(id_string.hashCode());
+							var code = Math.abs(id_string.hashCode()); //use hashcode as challenge ID
 							doc.challengeId = code;
 							docs_id.push(code);
+                                                        
+                                                        //Update the challenge with the new challenge ID
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
 
 						}
@@ -315,14 +318,18 @@ module.exports = function(app, fs, yaml)
 						{
 							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
 							htmlSnippets.push(htmlSnippet);
+
+                                                        //Render the iframe and a success message
 							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
 						}
 					}
 					else
 					{
+                                                //Render error message -- upload failed because JSON file(s) wasn't formatted properly
 						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
 					}
 	 			}
+                                //Print error message for non-JSON files that the user attempted to upload
 				if (data.length < 1){
 					res.render('newchallenge', {"errorMsg":"Check file format. Make sure it's a JSON file.", "iframes":new Array() });
 				}
