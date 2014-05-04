@@ -1,6 +1,6 @@
 var Challenge = require('../models/challenge');
 var Submission = require('../models/submission');
-var error = require('../public/js/errorcheck.js');
+var error = require('../public/js/uploadErrorCheck.js');
 var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
 var visitors = 0
@@ -50,7 +50,7 @@ module.exports = function(app, fs, yaml)
 					}
 				}
 
-				// Total of results indexed by challenge divided by number of attempted 
+				// Total of results indexed by challenge divided by number of attempted
 				for (var i = 0; i < numberOfChallenges; i++) {
 					percentageList[i] /= attemptedList[i];
 				}
