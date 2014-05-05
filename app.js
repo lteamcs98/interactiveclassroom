@@ -66,14 +66,15 @@ passport.use(new GoogleStrategy({
 		scope: "openid profile email"
 	},
 	function(accessToken, refreshToken, profile, done) {
-		Account.findOne({ 'id' : profile.id }, function(err, user) {
-			if (err) {	// Error connecting to database
+
+		Account.count({}, function(err, count) {
+			if (err) {
 				return done(err);
 			}
 
-			if (user) { // If user is found, log them in
-				return done(null, user);
-			} else {
+			console.log(count);
+
+			if (count == 0) {
 				user = new Account({
 					id: profile.id,
 					name: profile.displayName,
@@ -84,12 +85,42 @@ passport.use(new GoogleStrategy({
 					instructor: true
 				});
 
+				console.log("New admin created");
+
 				user.save(function(err) {
 					if (err) console.log(err);
 					return done(err, user);
+				});
+			} else {
+
+				Account.findOne({ 'id' : profile.id }, function(err, user) {
+					if (err) {	// Error connecting to database
+						return done(err);
+					}
+
+					if (user) { // If user is found, log them in
+						return done(null, user);
+					} else {
+						user = new Account({
+							id: profile.id,
+							name: profile.displayName,
+							firstName: profile._json["given_name"],
+							lastName: profile._json["family_name"],
+							email: profile._json["email"],
+							admin: false,
+							instructor: false
+						});
+
+						console.log("New student created");
+
+						user.save(function(err) {
+							if (err) console.log(err);
+							return done(err, user);
+						});
+					}
 				})
 			}
-		})
+		});
 	}
 ));
 
