@@ -18,7 +18,12 @@ html
                         //Find the div with the same ID and change its CSS display attribute
                         $( "div" ).each(function(index) {
                             if ($(this).attr('id') == collapse_content_selector){
-                                $(this).css('display', 'initial');
+                                if ($(this).css('display') == 'none'){ //if hidden, reveal
+                                    $(this).css('display', 'initial');
+                                }
+                                else{
+                                    $(this).css('display', 'none'); //if visible, hide
+                                }
                             }
                         });
                     });
