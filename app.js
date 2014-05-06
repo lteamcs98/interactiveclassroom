@@ -8,7 +8,7 @@ var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
 var MONGO_URI = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193";
 
 // Root URL where website is hosted
-var ROOT_URL = "http://localhost:3000"
+var ROOT_URL = "http://interactiveclassroom.herokuapp.com"
 
 // -------------- END CONFIGURATION --------------
 

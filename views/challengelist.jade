@@ -34,10 +34,6 @@ html
 									input(type='checkbox', onclick="cbclick(#{challenge.challengeId}, this)", checked=(challenge.visible ? "checked" : undefined))
 
 			script.
-
-				var socket = io.connect('http://localhost');
-				//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
-
 				function cbclick(id, cb){
 					socket.emit('updateChallengeVisibility', {
 						challengeId: id,
