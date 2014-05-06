@@ -126,7 +126,7 @@ passport.use(new GoogleStrategy({
 
 // Routes
 require('./routes/auth')(app);
-require('./routes/challenge')(app, fs, yaml);
+require('./routes/challenge')(app, fs, yaml, ROOT_URL);
 
 server.listen(app.get('port'));
 
