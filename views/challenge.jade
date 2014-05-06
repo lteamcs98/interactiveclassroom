@@ -52,14 +52,13 @@ html
 		script(src='../js/codeMirrorResize.js')
 		script.
 			// set the source link for the socket.io connection
-			var socket = io.connect('http://localhost');
-			//var socket = io.connect('http://interactiveclassroom.herokuapp.com');
+			var socket = io.connect('http://interactiveclassroom.herokuapp.com');
 
 			// variables passed from the server (routes/challenge.js) to the jade template
-			
+
 			// Array of output values for testing user submissions
 			var outputArray = !{ JSON.stringify(outputArray) };
-			
+
 			// Array of input values for testing user submissions
 			var inputArray = !{ JSON.stringify(inputArray) };
 
@@ -68,7 +67,7 @@ html
 
 			// The names of the functions associated with this challenge
 			var functionNames = !{ JSON.stringify(functionNames) };
-			
+
 			// Add the name of each function to be tested to the dropdown menu for unit testing
 			addFunctionOptions(functionNames);
 
@@ -85,7 +84,7 @@ html
 			$('#submitButton').click(function() {
 				// Refresh the results div with just the header
 				$('#results').html('<h2>Results</h2>');
-				
+
 				// Reset the input array
 				inputArray = !{ JSON.stringify(inputArray) };
 
