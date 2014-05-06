@@ -68,7 +68,7 @@ module.exports = function(app, fs, yaml)
 	//results for a paticular challenge
 	app.get('/results/:id', function(req, res)
 	{
-		 Submission.find({ challengeId : Number(req.params.id) }, 'userName result', function(err, submissions)
+		 Submission.find({ challengeId : Number(req.params.id) }, 'userName firstName lastName result', function(err, submissions)
 		 {
 			if (err || submissions == null)
 			{
@@ -80,29 +80,15 @@ module.exports = function(app, fs, yaml)
 			 	var userNameList = [];
 				var resultList = [];
 
-				console.log("\nBefore Sort:");
-
-				submissions.forEach(function(submiss){
-
-					submiss.first = (submiss.userName).split(" ")[0];
-					submiss.last = (submiss.userName).split(" ")[1];
-					
-					console.log("\t" + submiss.first + " " + submiss.last);
-				});
-
-				submissions.sort({ last: 1 });
-
-				console.log("\nAfter Sort:");
+				submissions.sort({ lastName: 1 });
 
 				submissions.forEach(function(submiss){
 
 					userNameList.push(submiss.userName);
 					resultList.push(submiss.result);
-					console.log(submiss);
-					console.log("\t" + submiss.first + " " + submiss.last);
-				});
 
-				console.log("\n");
+					console.log(submiss.userName);
+				});
 
 				res.render('challengeResults',{
 					'userNameList': userNameList,
