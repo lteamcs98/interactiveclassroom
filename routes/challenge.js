@@ -200,7 +200,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 			{
 				Challenge.find(function(err, challenges) {
 					if (err) return console.error(err);
-					res.render('challengelist', { 'challengelist': challenges });
+					res.render('challengelist', { 'challengelist': challenges, 'rootURL': ROOT_URL });
 				});
 			}
 			else
