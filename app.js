@@ -145,4 +145,17 @@ io.sockets.on('connection', function (socket) {
 			if (err) return console.error(err);
 		})
 	});
+
+	socket.on('updateChallengeVisibility', function(data) {
+
+		var conditions = { challengeId: data.challengeId };
+  		var update = { visible: data.visible };
+  		var options = { multi: false };
+
+		Challenge.update(conditions, update, options, function(err, numAffected) {
+  			if (err) return console.error(err);
+		});
+
+		console.log('Updated visibility of challenge ' + data.challengeId + ' to ' + data.visible);
+	});
 });
