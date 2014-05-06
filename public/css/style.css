@@ -98,13 +98,30 @@ p {
 
 /* Lists */
 
-ul {
+ul, table {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-li {
+table {
+	width: 100%;
+	/*table-layout: fixed;*/
+}
+
+td.challengetextlisting {
+	width: 90%;
+	/*float: left;*/
+}
+
+td.challengecheckbox {
+	width: 10%;
+	/*float: right;*/
+/*	margin-left: auto ;
+  	margin-right: auto ;*/
+}
+
+li, tr {
 	background: #bdc3c7;
 	border-bottom: 3px solid #F5F5F5;
 	line-height: 28px;
@@ -113,18 +130,18 @@ li {
 	margin-right: 2%;
 }
 
-li:last-child {
+li:last-child, tr:last-child {
 	border: none;
 }
 
-li a {
+li a, tr a {
 	text-decoration: none;
 	color: #000;
 	display: block;
 	width: 100%;
 }
 
-li a:hover {
+li a:hover, tr a:hover {
 	padding-left: 2%;
 	background: #ecf0f1;
 }
