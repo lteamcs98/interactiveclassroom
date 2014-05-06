@@ -28,6 +28,24 @@ Let's look at the following challenge JSON file below, "Average of Three":
 
 <doc_images/challengeJSON.png>
 
+The order of the fields doesn't matter -- notice how outputArray comes before inputArray in this example. The name-value assignment for JSON and the nesting of arrays are the most crucial components of the JSON file.
+
+The "problem", "title", "functionNames", and "functionHeaders" fields are straightforward. 
+
+*** Need to explain input and output arrays...that's about it. I think everything else is pretty self-explanatory. 
+
+
+Upload to the Site
+
+To upload your JSON file(s) to the website, navigate to "Add New Challenges", which is available on your admin homepage. Find your JSON file(s) after clicking "Browse" and press "Upload."
+
+This screen should appear if your JSON file(s) are properly formatted:
+
+<screenshot...to be added>
+
+
+
+
 
 
 
