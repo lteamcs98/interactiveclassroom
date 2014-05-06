@@ -143,9 +143,6 @@
 				<img src="../doc_images/challengeJSON.png" alt="Average_Of_Three"><br><br>
 
 				The order of the fields doesn't matter -- notice how outputArray comes before inputArray in this example. The name-value assignment for JSON and the nesting of arrays are the most crucial components of the JSON file.<br><br>
-
-				*** Need to explain input and output arrays...that's about it. I think everything else is pretty self-explanatory.
-				The "inputArray" above consists of a few levels. We begin with the outermost square brackets [] following the "inputArray" declaration. These brackets tell the JSON parser that there may be multiple JSON objects within this object.<br><br>
 				A single JSON object is signified by the curly braces {} that follow the square brackes. The information enclosed in these curly braces constitute the test cases for a single function in this challenge. In the case of this "Average of Three" example, there is only one function to test.<br><br>
 				In this case there are two important components to test a single function: inputs and function name. Following "inputs" we see an array of input cases. Above, we can see that there are two input cases (because there are two arrays in the "inputs" array). The first array means that the first test case will provide three parameters (1, 2, 3) to the function being tested. Similarly, we can see that the second test case consists of passing the parameters 50, 60, and 70 into the function being tested.<br><br>
 				Lastly, the "functionName" property within the object signifies which function this JSON object provides test cases for. So in our example the function we are testing is fittingly named "averageOfThree".<br><br>
