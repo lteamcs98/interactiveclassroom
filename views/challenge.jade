@@ -52,7 +52,7 @@ html
 		script(src='../js/codeMirrorResize.js')
 		script.
 			// set the source link for the socket.io connection
-			var socket = io.connect(ROOT_URL);
+			var socket = io.connect(!{ JSON.stringify(rootURL) });
 
 			// variables passed from the server (routes/challenge.js) to the jade template
 
