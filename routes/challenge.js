@@ -175,7 +175,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 							'functionHeaders': chal.functionHeaders,
 							'inputArray': chal.inputArray,
 							'outputArray': chal.outputArray,
-							'root_url': ROOT_URL
+							'rootURL': ROOT_URL
 						});
 					});
 				}
