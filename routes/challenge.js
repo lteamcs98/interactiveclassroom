@@ -5,7 +5,7 @@ var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
 var visitors = 0
 
-module.exports = function(app, fs, yaml)
+module.exports = function(app, fs, yaml, ROOT_URL)
 {
 	app.get('/results', function(req, res)
 	{
@@ -174,7 +174,8 @@ module.exports = function(app, fs, yaml)
 							'functionNames': chal.functionNames,
 							'functionHeaders': chal.functionHeaders,
 							'inputArray': chal.inputArray,
-							'outputArray': chal.outputArray
+							'outputArray': chal.outputArray,
+							'root_url': ROOT_URL
 						});
 					});
 				}
@@ -276,9 +277,9 @@ module.exports = function(app, fs, yaml)
 					var docs_id = new Array();
 					var htmlSnippets = new Array();
 					var msg = error.uploadErrorCheck(json);
-                                        
+
                                         //Check validity of JSON file (uploadErrorCheck.js has more details on this)
-					if (msg == true) 
+					if (msg == true)
 					{
                                                 //Create new challenge to insert into database using the JSON file
 						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders });
@@ -286,7 +287,7 @@ module.exports = function(app, fs, yaml)
 						updateID(newChallenge);
 						renderTemplate();
 
-                                                //Give the new challenge a unique challenge ID 
+                                                //Give the new challenge a unique challenge ID
 						function updateID(doc)
 						{
 							var id_string = new String(doc._id);
@@ -295,7 +296,7 @@ module.exports = function(app, fs, yaml)
 							var code = Math.abs(id_string.hashCode()); //use hashcode as challenge ID
 							doc.challengeId = code;
 							docs_id.push(code);
-                                                        
+
                                                         //Update the challenge with the new challenge ID
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
 
