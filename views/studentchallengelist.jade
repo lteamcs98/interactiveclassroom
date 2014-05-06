@@ -16,6 +16,6 @@ html
 				h2 Challenge List
 				u1
 					each challenge, i in challengelist
-						if (challenge.assigned)
+						if (challenge.visible)
 							li
 								a(href="/challenge/#{challenge.challengeId}") #{challenge.title}

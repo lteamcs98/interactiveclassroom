@@ -11,7 +11,7 @@ var challengeSchema = new Schema({
 	inputArray: [],
 	outputArray: [],
 	title: String,
-	assigned: Boolean
+	visible: Boolean
 });
 
 module.exports = mongoose.model('Challenge', challengeSchema);
