@@ -268,10 +268,8 @@ module.exports = function(app, fs, yaml)
 	app.post('/addchallenge', addChallenge(fs, yaml));
 
 	function addChallenge(fs, yaml) {
-
 		// example code for extracting challenges
-
-
+		
 		return function(req, res) {
 			// Print to console the contents of user uploaded challenge.
 			challengeJSONs.extractchallenges(fs, req.files, addChallenges);
@@ -279,10 +277,10 @@ module.exports = function(app, fs, yaml)
 				if (err) throw err;
 				//eval("(" + data + ")");
 				//console.log("The array of JSON objects:" + data);
+				var docs_id = new Array();
+				var htmlSnippets = new Array();
 				for (var i = 0; i < data.length; i++){
 					var json = JSON.parse(JSON.stringify(data[i]));
-					var docs_id = new Array();
-					var htmlSnippets = new Array();
 					var msg = error.uploadErrorCheck(json);
 
 					if (msg == true) //check validity of file
@@ -292,8 +290,12 @@ module.exports = function(app, fs, yaml)
 						//console.log('NEW CHALLENGE CREATED!', newChallenge);
 						updateID(newChallenge);
 						console.log('NEW CHALLENGE UPDATED!', newChallenge);
-						renderTemplate();
-
+						console.log('Challenge IDs: ', docs_id);
+						var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
+						htmlSnippets.push(htmlSnippet);
+						console.log('hello world!', htmlSnippets.length , data.length);
+						console.log('snippets: ', htmlSnippets);
+							
 						function updateID(doc)
 						{
 							var id_string = new String(doc._id);
@@ -304,18 +306,6 @@ module.exports = function(app, fs, yaml)
 							docs_id.push(code);
 							//console.log(docs_id);
 							doc.update({ '_id': doc._id }, { 'title': doc.title, 'challengeId' : code, 'problem' : doc.problem, 'functionNames' : doc.functionNames, 'inputArray' : doc.inputArray, 'outputArray' : doc.outputArray, 'functionHeaders' : doc.functionHeaders });
-
-						}
-						function renderTemplate()
-						{
-							console.log('Challenge IDs: ', docs_id);
-							var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
-							htmlSnippets.push(htmlSnippet);
-							console.log('hello world!', htmlSnippets.length , data.length);
-
-							console.log('snippets: ', htmlSnippets);
-							res.render('newchallenge', {"errorMsg": "Challenge successfully added!!!", "iframes": htmlSnippets});
-
 						}
 					}
 					else
@@ -325,9 +315,12 @@ module.exports = function(app, fs, yaml)
 	 			}
 				if (data.length < 1){
 					res.render('newchallenge', {"errorMsg":"Check file format. Make sure it's a JSON file.", "iframes":new Array() });
+				} 
+				else
+				{
+					res.render('newchallenge', {"errorMsg": "Challenge(s) successfully added!!!", "iframes": htmlSnippets});
 				}
 			};
-
 		}
 	}
 }
