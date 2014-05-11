@@ -42,13 +42,3 @@ To upload your JSON file(s) to the website, navigate to "Add New Challenges", wh
 This screen should appear if your JSON file(s) are properly formatted:
 
 <screenshot...to be added>
-
-
-
-
-
-
-
-
-
-
