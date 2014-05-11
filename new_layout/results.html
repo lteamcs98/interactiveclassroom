@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<!--
+RESULTS PAGE:
+
+HEAD INCLUDES:
+    CSS:
+        1. ic-style.css (Our stylesheet)
+        2. Font Awesome (Icons)
+        3. Pure CSS Framework
+
+    JS:
+        2. YUI (Only if we want dropdown menu)
+
+
+Results list with links to view details of each individual's attempt
+!-->
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Interactive Classroom | Users</title>
+
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" href="css/ic-custom.css">
+
+    <script src="http://yui.yahooapis.com/3.16.0/build/yui/yui-min.js"></script>
+
+</head>
+
+<body>
+    <div id="ic-nav" class="pure-menu pure-menu-open pure-menu-horizontal">
+        <a href="#" class="pure-menu-heading">Interactive Classroom</a>
+        <ul id="std-menu-items">
+            <li class="pure-menu-selected"><a href="#">Home</a></li>
+            <li>
+                <a href="#">Challenges</a>
+                <ul>
+                    <li><a href="#">Add</a></li>
+                    <li><a href="#">Edit</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+
+    <div id="ic-container" style="padding: 0 50px;">
+
+        <h2>Results</h2>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-1-2">
+                <strong>Challenge Name</strong>
+            </div>
+            <div class="pure-u-1-6">
+                <strong>Attempted</strong>
+            </div>
+            <div class="pure-u-1-6">
+                <strong>% Correct</strong>
+            </div>
+            <div class="pure-u-1-6">
+                <strong>Details</strong>
+            </div>
+        </div>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-1-2">
+                Mergesort
+            </div>
+            <div class="pure-u-1-6">
+                98
+            </div>
+            <div class="pure-u-1-6">
+                70
+            </div>
+            <div class="pure-u-1-6">
+                <i class="fa fa-arrow-circle-o-right fa-lg hover-blue"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        YUI({
+            classNamePrefix: 'pure'
+        }).use('gallery-sm-menu', function (Y) {
+
+            var horizontalMenu = new Y.Menu({
+                container         : '#ic-nav',
+                sourceNode        : '#std-menu-items',
+                orientation       : 'horizontal',
+                hideOnOutsideClick: false,
+                hideOnClick       : false
+            });
+
+            horizontalMenu.render();
+            horizontalMenu.show();
+
+        });
+    </script>
+</body>
+</html>
