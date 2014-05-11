@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<!--
+CHALLENGE LIST PAGE:
+
+HEAD INCLUDES:
+    CSS:
+        1. ic-style.css (Our stylesheet)
+        2. Font Awesome (Icons)
+        3. Pure CSS Framework
+
+    JS:
+        1. JQuery
+        2. YUI (Only if we want dropdown menu)
+        3. Toggle button for show more details (Write in external js file)
+        4. Toggle button for assign/unassign (Write in external js file)
+            - will show lock icon if unassigned, unlock if assigned
+
+
+Each challenge in the list has 4 icons:
+1. Open panel with more info
+2. Assign/unassign challenge
+3. Open student view of this challenge (code editor)
+    Should we do this in popup window?
+4. Delete challenge
+
+!-->
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Interactive Classroom | Challenge</title>
+
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" href="css/ic-custom.css">
+
+    <script src="http://yui.yahooapis.com/3.16.0/build/yui/yui-min.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          $('.nav-toggle').click(function() {
+            //Get the ID of the challenge whose info we want to see
+            var collapse_content_selector = $(this).attr('href');
+
+            //Find the div with the same ID and change its CSS display attribute
+            $("div").each(function(index) {
+              if ($(this).attr('id') == collapse_content_selector) {
+                if ($(this).css('display') == 'none') { //if hidden, reveal
+                  $(this).css('display', 'initial');
+                } else {
+                  $(this).css('display', 'none'); //if visible, hide
+                }
+              }
+            });
+          });
+        });
+    </script>
+
+</head>
+
+<body>
+    <div id="ic-nav" class="pure-menu pure-menu-open pure-menu-horizontal">
+        <a href="#" class="pure-menu-heading">Interactive Classroom</a>
+        <ul id="std-menu-items">
+            <li class="pure-menu-selected"><a href="#">Home</a></li>
+            <li>
+                <a href="#">Challenges</a>
+                <ul>
+                    <li><a href="#">Add</a></li>
+                    <li><a href="#">Edit</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+
+    <div id="ic-container" style="padding: 0 50px;">
+
+        <h2>Challenges</h2>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-5-6">
+                How Rich Am I?
+            </div>
+            <div class="pure-u-1-6">
+                <i class="fa fa-plus-square-o fa-lg hover-blue"></i> &nbsp; &nbsp;
+                <i class="fa fa-lock fa-lg hover-blue"></i> &nbsp; &nbsp;
+                <i class="fa fa-code fa-lg hover-blue"></i> &nbsp; &nbsp;
+                <i class="fa fa-times fa-lg hover-red"></i>
+            </div>
+        </div>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-5-6">
+                Merge Sort
+                <div id="1903522298" style="display:none">
+                    <p>Problem:</p>
+                    <div class="editChallengeDataEntry">
+                      <p>Write mergesort. Your solution should consist of two functions: 1) merge: Given two lists of numbers, this function should merge these two lists and return a single list of ordered values. 2) mergesort: given an unsorted list this function
+                        should recursively call itself and the merge function to sort the values of the list, returning the sorted list</p>
+                    </div>
+                    <p>Function names:</p>
+                    <div class="editChallengeDataEntry">
+                      <p>merge</p>
+                      <p>mergesort</p>
+                    </div>
+                    <p>Inputs:</p>
+                    <div class="editChallengeDataEntry">
+                      <p>Function name:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>merge</p>
+                      </div>
+                      <p>Inputs:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>1,3,5,2,4,6</p>
+                        <p>1,2,3,4,5,6</p>
+                        <p>4,5,6,1,2,3</p>
+                      </div>
+                      <p>Function name:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>mergesort</p>
+                      </div>
+                      <p>Inputs:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>1,2,3,4,5,6,7,8,9,10</p>
+                        <p>5,3,8,4,9,7,1,10,6,2</p>
+                        <p>11,31,134,27,43,655,79,365,883,222</p>
+                      </div>
+                    </div>
+                    <p>Outputs:</p>
+                    <div class="editChallengeDataEntry">
+                      <p>Function name:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>merge</p>
+                      </div>
+                      <p>Outputs:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>1,2,3,4,5,6</p>
+                        <p>1,2,3,4,5,6</p>
+                        <p>1,2,3,4,5,6</p>
+                      </div>
+                      <p>Function name:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>mergesort</p>
+                      </div>
+                      <p>Outputs:</p>
+                      <div class="editChallengeDataSubEntry">
+                        <p>1,2,3,4,5,6,7,8,9,10</p>
+                        <p>1,2,3,4,5,6,7,8,9,10</p>
+                        <p>11,27,31,43,79,134,222,365,655,883</p>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pure-u-1-6">
+                <i href="1903522298" class="fa fa-plus-square-o fa-lg hover-blue nav-toggle"></i> &nbsp; &nbsp;
+                <i class="fa fa-unlock-alt fa-lg hover-blue"></i> &nbsp; &nbsp;
+                <i class="fa fa-code fa-lg hover-blue"></i> &nbsp; &nbsp;
+                <i class="fa fa-times fa-lg hover-red"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        YUI({
+            classNamePrefix: 'pure'
+        }).use('gallery-sm-menu', function (Y) {
+
+            var horizontalMenu = new Y.Menu({
+                container         : '#ic-nav',
+                sourceNode        : '#std-menu-items',
+                orientation       : 'horizontal',
+                hideOnOutsideClick: false,
+                hideOnClick       : false
+            });
+
+            horizontalMenu.render();
+            horizontalMenu.show();
+
+        });
+    </script>
+</body>
+</html>

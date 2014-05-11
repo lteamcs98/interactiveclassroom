@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<!--
+USER LIST PAGE:
+
+HEAD INCLUDES:
+    CSS:
+        1. ic-style.css (Our stylesheet)
+        2. Font Awesome (Icons)
+        3. Pure CSS Framework
+
+    JS:
+        2. YUI (Only if we want dropdown menu)
+
+
+All users with promote/demote
+!-->
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Interactive Classroom | Users</title>
+
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link rel="stylesheet" href="css/ic-custom.css">
+
+    <script src="http://yui.yahooapis.com/3.16.0/build/yui/yui-min.js"></script>
+
+</head>
+
+<body>
+    <div id="ic-nav" class="pure-menu pure-menu-open pure-menu-horizontal">
+        <a href="#" class="pure-menu-heading">Interactive Classroom</a>
+        <ul id="std-menu-items">
+            <li class="pure-menu-selected"><a href="#">Home</a></li>
+            <li>
+                <a href="#">Challenges</a>
+                <ul>
+                    <li><a href="#">Add</a></li>
+                    <li><a href="#">Edit</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+
+    <div id="ic-container" style="padding: 0 50px;">
+
+        <h2>Administrators</h2>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-11-12">
+                Laura Goodfellow
+            </div>
+            <div class="pure-u-1-12">
+                <i class="fa fa-arrow-circle-down fa-lg hover-blue"></i>
+            </div>
+        </div>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-11-12">
+                Michelle Shu
+            </div>
+            <div class="pure-u-1-12">
+                <i class="fa fa-arrow-circle-down fa-lg hover-blue"></i>
+            </div>
+        </div>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-11-12">
+                Hilton Hart
+            </div>
+            <div class="pure-u-1-12">
+                <i class="fa fa-arrow-circle-down fa-lg hover-blue"></i>
+            </div>
+        </div>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-11-12">
+                Tev'n Powers
+            </div>
+            <div class="pure-u-1-12">
+                <i class="fa fa-arrow-circle-down fa-lg hover-blue"></i>
+            </div>
+        </div>
+
+        <div class="pure-g-r row">
+            <div class="pure-u-11-12">
+                Hilton Hart
+            </div>
+            <div class="pure-u-1-12">
+                <i class="fa fa-arrow-circle-down fa-lg hover-blue"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        YUI({
+            classNamePrefix: 'pure'
+        }).use('gallery-sm-menu', function (Y) {
+
+            var horizontalMenu = new Y.Menu({
+                container         : '#ic-nav',
+                sourceNode        : '#std-menu-items',
+                orientation       : 'horizontal',
+                hideOnOutsideClick: false,
+                hideOnClick       : false
+            });
+
+            horizontalMenu.render();
+            horizontalMenu.show();
+
+        });
+    </script>
+</body>
+</html>
