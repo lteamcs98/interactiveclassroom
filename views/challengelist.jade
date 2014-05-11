@@ -31,6 +31,7 @@ html
 									input(type='checkbox', onclick="cbclick(#{challenge.challengeId}, this)", checked=(challenge.visible ? "checked" : undefined))
 
 			script.
+				var socket = io.connect(!{ JSON.stringify(rootURL) });
 				function cbclick(id, cb){
 					socket.emit('updateChallengeVisibility', {
 						challengeId: id,
