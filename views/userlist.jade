@@ -1,45 +1,39 @@
-doctype html
-html
-    head
-        title User List
+extends template
 
-        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
-        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+block head
 
-        link(rel='stylesheet', href='../css/normalize.css')
-        link(rel='stylesheet', href='../css/style.css')
-        link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
+block content
+    h1(class='h-pad') Users
 
-    body
-        div(class='grid grid-pad')
-            div(class='col-1')
-                h1 User List
-                p(style='white-space:pre;')
-                h2 Administrators
-                u1
-                    each user, i in adminlist
-                        li(class='left-list-element clearfix') #{user.name}
-                        li(class='right-list-element clearfix')
-                            a(href='/admin/makeinstructor/#{user.id}')
-                                i(class='fa fa-arrow-circle-down')
+    h2(class='h-pad') Administrators
 
-                p(style='white-space:pre;')
-                h2 Instructors
-                u1
-                    each user, i in instructorlist
-                        li(class='left-list-element clearfix' style='width:85%;') #{user.name}
-                        li(class='right-list-element clearfix')
-                            a(href='/admin/makeadmin/#{user.id}')
-                                i(class='fa fa-arrow-circle-up')
-                        li(class='right-list-element clearfix')
-                            a(href='/admin/makestudent/#{user.id}')
-                                i(class='fa fa-arrow-circle-down')
+    each user in adminlist
+        div(class='grid row')
+            div(class='col-7-8')
+                a #{user.name}
+            div(class='col-1-8')
+                a(href='/admin/makeinstructor/#{user.id}')
+                    i(class='fa fa-arrow-circle-down fa-lg hover-blue')
 
-                p(style='white-space:pre;')
-                h2 Students
-                u1
-                    each user, i in studentlist
-                        li(class='left-list-element clearfix') #{user.name}
-                        li(class='right-list-element clearfix')
-                            a(href='/admin/makeinstructor/#{user.id}')
-                                i(class='fa fa-arrow-circle-up')
+    h2(class='h-pad') Instructors
+
+    each user in instructorlist
+        div(class='grid row')
+            div(class='col-7-8')
+                a #{user.name}
+            div(class='col-1-8')
+                a(href='/admin/makeadmin/#{user.id}')
+                    i(class='fa fa-arrow-circle-up fa-lg hover-blue') &nbsp; &nbsp;
+                a(href='admin/makestudent/#{user.id}')
+                    i(class='fa fa-arrow-circle-down fa-lg hover-blue')
+
+
+    h2(class='h-pad') Students
+
+    each user in studentlist
+        div(class='grid row')
+            div(class='col-7-8')
+                a #{user.name}
+            div(class='col-1-8')
+                a(href='/admin/makeinstructor/#{user.id}')
+                    i(class='fa fa-arrow-circle-up fa-lg hover-blue')

@@ -1,0 +1,46 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+
+        title Interactive Classroom
+
+        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lustria')
+        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
+        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+        link(rel='stylesheet', href='../css/font-awesome.min.css')
+
+        link(rel='stylesheet', href='../css/normalize.css')
+        link(rel='stylesheet', href='../css/style.css')
+        script(src="../js/jquery-1.11.1.min.js")
+        script(src="../socket.io/socket.io.js")
+
+        block head
+
+    body
+        ul(id='navbar')
+            li
+                a(href='/home') Interactive Classroom
+
+            if (instructor)
+                li
+                    a(href='/challengelist') Challenges
+                li
+                    a(href='/newchallenge') Upload
+            else
+                li
+                    a(href='/studentchallengelist') Challenges
+            if (admin)
+                li
+                    a(href='/admin/userlist') Users
+            if (instructor)
+                li
+                    a(href='/results') Results
+                li
+                    a(href='http://lteamcs98.github.io/interactiveclassroom/demo/index.html', target='_blank') Help
+            li
+                a(href='/logout') Logout &nbsp;
+                    i(class='fa fa-power-off')
+
+        block content
