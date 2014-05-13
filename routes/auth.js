@@ -4,7 +4,7 @@ var Account = require('../models/account');
 module.exports = function(app) {
 	app.get('/', function(req, res) {
 		if (req.user) {
-			res.redirect('/welcome');
+			res.redirect('/home');
 		} else {
 			res.render('login');
 		}
@@ -22,41 +22,20 @@ module.exports = function(app) {
 	app.get('/auth/google', passport.authenticate('google'));
 
 	app.get('/auth/google/return',
-		passport.authenticate('google', { successRedirect: '/welcome', failureRedirect: '/login' }));
+		passport.authenticate('google', { successRedirect: '/home', failureRedirect: '/login' }));
 
-	app.get('/welcome', function(req, res) {
-		if(req.user)
-		{
-			if (req.user.admin) {
-				res.redirect('/admin/home');
-			} else if (req.user.instructor) {
-				res.redirect('/instructor/home');
-			} else {
-				res.redirect('/student/home')
-			}
-		}
-		else 
-		{
+	app.get('/home', function(req, res) {
+		if (req.user) {
+			res.render('home',
+				{ 'username': req.user.name,
+				'admin': req.user.admin,
+				'instructor': req.user.instructor });
+		} else {
 			res.redirect('/');
 		}
 	});
 
 	/* Admin View */
-
-	app.get('/admin/home', function(req, res) {
-		if(req.user)
-		{
-			if (req.user.admin) {
-				res.render('home_admin', {'username': req.user.name});
-			} else {
-				res.render('unauthorized');
-			}
-		}
-		else 
-		{
-			res.redirect('/');
-		}
-	});
 
 	app.get('/admin/userlist', function(req, res) {
 		if(req.user)
@@ -74,7 +53,9 @@ module.exports = function(app) {
 							if (err) return handleError(err);
 							res.render('userlist', { 'adminlist': admins,
 								'instructorlist': instructors,
-								'studentlist': students });
+								'studentlist': students,
+								'admin': req.user.admin,
+								'instructor': req.user.instructor });
 						});
 					});
 				});
@@ -82,7 +63,7 @@ module.exports = function(app) {
 				res.render('unauthorized');
 			}
 		}
-		else 
+		else
 		{
 			res.redirect('/');
 		}
@@ -111,35 +92,4 @@ module.exports = function(app) {
 				res.redirect('/admin/userlist');
 		});
 	});
-
-	/* Instructor View */
-
-	app.get('/instructor/home', function(req, res) {
-		if(req.user)
-		{
-			if (req.user.instructor) {
-				res.render('home_instructor', {'username': req.user.name});
-			} else {
-				res.render('unauthorized');
-			}
-		}
-		else 
-		{
-			res.redirect('/');
-		}
-	});
-
-	/* Student View */
-
-	app.get('/student/home', function(req, res) {
-		if(req.user)
-		{
-			res.render('home_student', {'username': req.user.name});
-		}
-		else 
-		{
-			res.redirect('/');
-		}
-	});
-
 };

@@ -1,41 +1,135 @@
-doctype html
-html
-	head
-		title Challenge List
+extends template
 
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+block head
+		script.
+		// Toggle challenge details
+			$(document).ready(function() {
+				$('.detail-toggle').click(function(){
+					//Get the ID of the challenge whose info we want to see
+					console.log("Here");
+					var collapse_content_selector = $(this).attr('href') + "-details";
+					console.log(collapse_content_selector);
 
-		link(rel='stylesheet', href='../css/normalize.css')
-		link(rel='stylesheet', href='../css/style.css')
-		script(src="../socket.io/socket.io.js")
-
-	body
-		div(class='grid grid-pad')
-			div(class='col-1')
-				a(href="/newchallenge")
-					button(class='button' id='newChallengeButton' type='button') Add New Challenge
-				a(href="/editchallengelist")
-					button(class='button' id='editChallengeButton' type='button') Edit Challenges
-
-			div(class='col-1')
-				h2.
-					Challenge List
-				table
-					tbody
-						each challenge, i in challengelist
-							tr
-								td(class='challengetextlisting')
-									a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
-								td(class='challengecheckbox')
-									input(type='checkbox', onclick="cbclick(#{challenge.challengeId}, this)", checked=(challenge.visible ? "checked" : undefined))
-
-			script.
-				var socket = io.connect(!{ JSON.stringify(rootURL) });
-				function cbclick(id, cb){
-					socket.emit('updateChallengeVisibility', {
-						challengeId: id,
-						visible: cb.checked
+					//Find the div with the same ID and change its CSS display attribute
+					$("div").each(function(index) {
+						if ($(this).attr('id') == collapse_content_selector){
+							if ($(this).css('display') == 'none'){ //if hidden, reveal
+								$(this).css('display', 'initial');
+							}
+							else{
+								$(this).css('display', 'none'); //if visible, hide
+							}
 						}
-					);
-				};
+					});
+				});
+			});
+
+block content
+
+		h1(class='h-pad') Challenges
+
+		each challenge in challengelist
+			div(class='grid row')
+				div(class='col-4-5')
+					a(id="#{challenge.challengeId}-name") #{challenge.title}
+
+					// DETAILS: Collapsible panel, initially hidden
+					div(id="#{challenge.challengeId}-details" style="display: none")
+						p Problem:
+						div.editChallengeDataEntry
+							p #{challenge.problem}
+
+						if (challenge.functionNames)
+							p Function names:
+							div.editChallengeDataEntry
+								each functionnName in challenge.functionNames
+									p #{functionName}
+
+						if (challenge.inputArray)
+							p Inputs:
+							div.editChallengeDataEntry
+								each input in challenge.inputArray
+									if (input.functionName)
+										p Function name:
+										div.editChallengeDataSubEntry
+											p #{input.functionName}
+										if (input.inputs)
+											p Inputs:
+											div.editChallengeDataSubEntry
+												each subInput in input.inputs
+													p #{subInput}
+										else
+											p #{input}
+
+						if (challenge.outputArray)
+							p Outputs:
+							div.editChallengeDataEntry
+								each output in challenge.outputArray
+									if (output.functionName)
+										p Function name:
+										div.editChallengeDataSubEntry
+											p #{output.functionName}
+									if (output.outputs)
+										p Outputs:
+										div.editChallengeDataSubEntry
+											each subOutput in output.outputs
+												p #{subOutput}
+									else
+										p #{output}
+
+				// ICONS:
+				div(class='col-1-5 icons')
+					// 1. View more details about challenge.
+					a(onclick='toggleDetails(#{challenge.challengeId})')
+						i(class='fa fa-plus-square-o fa-lg hover-blue', id="#{challenge.challengeId}-more") &nbsp; &nbsp;
+
+					// 2. Assign/unassign challenge.
+					if (challenge.visible)
+						a(onclick='assignClick(#{challenge.challengeId})')
+							i(class='fa fa-unlock-alt fa-lg hover-blue' id='#{challenge.challengeId}-assign') &nbsp; &nbsp;
+					else
+						a(onclick='assignClick(#{challenge.challengeId})')
+							i(class='fa fa-lock fa-lg hover-blue' id='#{challenge.challengeId}-assign') &nbsp; &nbsp;
+
+					// 3. View challenge code editor
+					a(href=('/challenge/' + challenge.challengeId), target='_blank')
+						i(class='fa fa-code fa-lg hover-blue') &nbsp; &nbsp;
+
+					// 4. Delete challenge
+					a(href='/challengelist' onclick='deleteClick(#{challenge.challengeId})')
+						i(class='fa fa-times fa-lg hover-red') &nbsp; &nbsp;
+
+
+		script.
+			var socket = io.connect(!{ JSON.stringify(rootURL) });
+
+			function toggleDetails(id) {
+				// Toggle challenge details view
+				var collapse_content_selector = id + "-details";
+
+				//Find the div with the same ID and change its CSS display attribute
+				$("div").each(function(index) {
+					if ($(this).attr('id') == collapse_content_selector){
+						if ($(this).css('display') == 'none'){ //if hidden, reveal
+							$(this).css('display', 'initial');
+						}
+						else{
+							$(this).css('display', 'none'); //if visible, hide
+						}
+					}
+				});
+
+				$("i#" + id + "-more").toggleClass("fa-plus-square-o fa-minus-square-o");
+			};
+
+
+			function assignClick(id) {
+				// Update challenge in database
+				socket.emit('updateChallengeVisibility', { challengeId: id });
+				$("i#" + id + "-assign").toggleClass("fa-lock fa-unlock-alt");
+			};
+
+			function deleteClick(id) {
+				socket.emit('deleteChallenge', { challengeId: id });
+				location.reload();
+			}

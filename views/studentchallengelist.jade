@@ -1,21 +1,12 @@
-doctype html
-html
-	head
-		title Challenge List
+extends template
 
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Montserrat')
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lato')
+block head
 
-		link(rel='stylesheet', href='../css/normalize.css')
-		link(rel='stylesheet', href='../css/style.css')
+block content
+	h1(class='h-pad') Challenges
 
-	body
-		div(class='grid grid-pad')
-
-			div(class='col-1')
-				h2 Challenge List
-				u1
-					each challenge, i in challengelist
-						if (challenge.visible)
-							li
-								a(href="/challenge/#{challenge.challengeId}") #{challenge.title}
+	each challenge in challengelist
+		if (challenge.visible)
+			div(class='grid row')
+				li
+					a(href='/challenge/#{challenge.challengeId}') #{challenge.title}

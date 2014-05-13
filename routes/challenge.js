@@ -53,13 +53,24 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 					percentageList[i] /= attemptedList[i];
 				}
 
+				// Save all properties to results objects
+				allResults = [];
+				for (var i = 0; i < numberOfChallenges; i++) {
+					var result = {
+						id: challengeIdList[i],
+						name: challengeNameList[i],
+						attempted: attemptedList[i],
+						percentage: percentageList[i]
+					};
+					allResults.push(result);
+				}
+
 				// Render objects to the jade file
 				res.render('allResults',{
-					'challengeIdList': challengeIdList,
-					'challengeNameList': challengeNameList,
-					'attemptedList': attemptedList,
-					'percentageList': percentageList,
-					'numberOfChallenges': numberOfChallenges
+					'results': allResults,
+					'numberOfChallenges': numberOfChallenges,
+					'admin': req.user.admin,
+					'instructor': req.user.instructor
 				});
 			});
 		}
@@ -77,7 +88,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 			else
 			{
 
-			 	var userNameList = [];
+			    var userNameList = [];
 				var resultList = [];
 
 				submissions.sort({ lastName: 1 });
@@ -90,9 +101,20 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 					console.log(submiss.userName);
 				});
 
+				// Save all properties to results objects
+				allResults = [];
+				for (var i = 0; i < resultList.length; i++) {
+					var result = {
+						username: userNameList[i],
+						correct: resultList[i]
+					};
+					allResults.push(result);
+				}
+
 				res.render('challengeResults',{
-					'userNameList': userNameList,
-					'resultList': resultList
+					'results': allResults,
+					'admin': req.user.admin,
+					'instructor': req.user.instructor
 				});
 			}
 		 });
@@ -112,35 +134,11 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 
 			res.render('myResults',{
 				'resultList': resultList,
+				'admin': req.user.admin,
+				'instructor': req.user.instructor
 			});
 
 		 });
-	});
-
-	app.get('/tevnchallenge/:id', function(req, res)
-	{
-		Challenge.findOne({ challengeId: Number(req.params.id) }, 'title challengeId problem functionNames functionHeaders inputArray outputArray', function(err, chal)
-		{
-			Submission.findOne({ userId: 106516508341319860000, challengeId : Number(req.params.id) }, 'challengeId userId code', function(err, sub)
-			{
-				var userCode;
-				if (sub === null) userCode = setEditorValue(chal.functionHeaders);
-				else userCode = sub.code;
-
-				res.render('tevnchallenge', {
-					'personsID': 106516508341319860000,
-					'theirName': "Tev'n Powers",
-					'oldSub': userCode,
-					'challengeId': chal.challengeId,
-					'challengeName': chal.title,
-					'problem': chal.problem,
-					'functionNames': chal.functionNames,
-					'functionHeaders': chal.functionHeaders,
-					'inputArray': chal.inputArray,
-					'outputArray': chal.outputArray
-				});
-			});
-		});
 	});
 
 	app.get('/challenge/:id', function(req, res)
@@ -200,7 +198,11 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 			{
 				Challenge.find(function(err, challenges) {
 					if (err) return console.error(err);
-					res.render('challengelist', { 'challengelist': challenges, 'rootURL': ROOT_URL });
+					res.render('challengelist', {
+						'challengelist': challenges,
+						'rootURL': ROOT_URL,
+						'admin': req.user.admin,
+						'instructor': req.user.instructor});
 				});
 			}
 			else
@@ -214,23 +216,13 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 		}
 	});
 
-	app.get('/editchallengelist', function(req, res) {
-		if (req.user.instructor)
-		{
-			Challenge.find(function(err, challenges) {
-				if (err) return console.error(err);
-				res.render('editchallengelist', { 'challengelist': challenges });
-			});
-		} else
-		{
-			res.render('unauthorized');
-		}
-	});
-
 	app.get('/studentchallengelist', function(req, res) {
 		Challenge.find(function(err, challenges) {
 			if (err) return console.error(err);
-			res.render('studentchallengelist', { 'challengelist': challenges });
+			res.render('studentchallengelist', {
+				'challengelist': challenges,
+				'admin': req.user.admin,
+				'instructor': req.user.instructor});
 		});
 	});
 
@@ -256,7 +248,11 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 	app.get('/newchallenge', function(req, res) {
 		if (req.user.instructor)
 		{
-			res.render('newchallenge', { title: 'Add New Challenge', "iframes": new Array()});
+			res.render('newchallenge', {
+				title: 'Add New Challenge',
+				'iframes': new Array(),
+				'admin': req.user.admin,
+				'instructor': req.user.instructor});
 		} else
 		{
 			res.render('unauthorized');
@@ -265,8 +261,8 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 
 	app.post('/addchallenge', addChallenge(fs, yaml));
 
-	
-	
+
+
 	function addChallenge(fs, yaml) {
 		return function(req, res) {
 			//Retrieve JSON file(s) selected by user
@@ -284,13 +280,13 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 					if (msg == true)
 					{
 						//Create new challenge to insert into database using the JSON file
-						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders });
+						var newChallenge = new Challenge({"challengeId" : json.challengeId, "problem" : json.problem, "functionNames" : json.functionNames, "inputArray" : json.inputArray, "outputArray" : json.outputArray, "title" : json.title, "functionHeaders": json.functionHeaders, "visible": false });
 						newChallenge.save();
 						updateID(newChallenge);
 
 						var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
 						htmlSnippets.push(htmlSnippet);
-							
+
 						//Give the new challenge a unique challenge ID
 						function updateID(doc)
 						{
@@ -307,7 +303,11 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 					else
 					{
 					//Render error message -- upload failed because JSON file(s) wasn't formatted properly
-						res.render('newchallenge', {"errorMsg": msg, "iframes": new Array() } );
+						res.render('newchallenge', {
+							"errorMsg": msg,
+							"iframes": new Array(),
+						 	'admin': req.user.admin,
+							'instructor': req.user.instructor} );
 					}
 	 			}
 				//Print error message for non-JSON files that the user attempted to upload

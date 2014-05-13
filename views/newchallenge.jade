@@ -1,11 +1,16 @@
+extends template
+
+block head
+
 block content
-	h1= title
+	h1(class='h-pad')=title
+	div(class='grid grid-pad')
 		form(id="uploadForm", enctype="multipart/form-data", action="/addchallenge", method="post")
 			link(rel='stylesheet', href='../css/style.css')
 			input(type="file", id="userFileInput", multiple="multiple", name="userChallenge")
 			input(type="submit", value="Upload")
 			p(class = 'errorMessage') #{errorMsg}
-	u1
-		each frame, i in iframes
-			li
-				p(class = 'errorMessage') #{frame}
+		u1
+			each frame, i in iframes
+				li
+					p(class = 'errorMessage') #{frame}

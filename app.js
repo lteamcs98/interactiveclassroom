@@ -8,7 +8,7 @@ var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
 var MONGO_URI = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193";
 
 // Root URL where website is hosted
-var ROOT_URL = "http://interactiveclassroom.herokuapp.com"
+var ROOT_URL = "http://localhost:3000"
 
 // -------------- END CONFIGURATION --------------
 
@@ -146,16 +146,46 @@ io.sockets.on('connection', function (socket) {
 		})
 	});
 
+	// Assign challenges to users
 	socket.on('updateChallengeVisibility', function(data) {
 
 		var conditions = { challengeId: data.challengeId };
-  		var update = { visible: data.visible };
-  		var options = { multi: false };
+		var options = { multi: false };
 
-		Challenge.update(conditions, update, options, function(err, numAffected) {
-  			if (err) return console.error(err);
+		Challenge.findOne(conditions, 'visible', function(err, chal) {
+			// Toggle visibility to opposite of what it was before
+			if (chal.visible)
+			{
+				Challenge.update(conditions, { visible: false },
+					options, function(err, numAffected)
+				{
+					if (err) return console.error(err);
+					console.log('Updated visibility of challenge ' + data.challengeId + ' to false');
+				});
+			} else
+			{
+				Challenge.update(conditions, { visible: true }, options, function(err, numAffected)
+				{
+					if (err) return console.error(err);
+					console.log('Updated visibility of challenge ' + data.challengeId + ' to true');
+				});
+			}
+		});
+	});
+
+	// Delete challenges
+	socket.on('deleteChallenge', function(chal) {
+		var conditions = { challengeId: chal.challengeId };
+
+		// Delete all submissions corresponding to this challenge
+		Submission.find(conditions).remove(function(err) {
+			if (err) return console.error(err);
 		});
 
-		console.log('Updated visibility of challenge ' + data.challengeId + ' to ' + data.visible);
+		Challenge.findOne(conditions).remove(function(err) {
+			if (err) return console.error(err);
+		});
+		console.log('Removed challenge ' + chal.challengeId);
 	});
+
 });
