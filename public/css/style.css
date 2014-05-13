@@ -64,6 +64,33 @@ h2 {
 	text-transform: uppercase;
 }
 
+h3, h4, h5, h6 {
+	font-size: 14px;
+	line-height: 16px;
+	margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+h3 {
+	font-family: 'Montserrat', Helvetica, sans-serif;
+	padding-left: 30px;
+}
+
+h4 {
+	font-family: 'Lato', Helvetica, sans-serif;
+	padding-left: 60px;
+}
+
+h5 {
+	font-family: 'Montserrat', Helvetica, sans-serif;
+	padding-left: 60px;
+}
+
+h6 {
+	font-family: 'Lato', Helvetica, sans-serif;
+	padding-left: 90px;
+}
+
 p {
 	font-size: 16px;
 	line-height: 18px;

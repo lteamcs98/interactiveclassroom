@@ -35,47 +35,40 @@ block content
 
 					// DETAILS: Collapsible panel, initially hidden
 					div(id="#{challenge.challengeId}-details" style="display: none")
-						p Problem:
-						div.editChallengeDataEntry
-							p #{challenge.problem}
+						h3 Problem:
+							h4 #{challenge.problem}
 
 						if (challenge.functionNames)
-							p Function names:
-							div.editChallengeDataEntry
-								each functionnName in challenge.functionNames
-									p #{functionName}
+							h3 Function names:
+								each functionName in challenge.functionNames
+									h4 #{functionName}
 
 						if (challenge.inputArray)
-							p Inputs:
-							div.editChallengeDataEntry
+							h3 Inputs:
 								each input in challenge.inputArray
 									if (input.functionName)
-										p Function name:
-										div.editChallengeDataSubEntry
-											p #{input.functionName}
+										h5 Function name:
+											h6 #{input.functionName}
 										if (input.inputs)
-											p Inputs:
-											div.editChallengeDataSubEntry
+											h5 Inputs:
 												each subInput in input.inputs
-													p #{subInput}
+													h6 #{subInput}
 										else
-											p #{input}
+											h4 #{input}
 
 						if (challenge.outputArray)
-							p Outputs:
-							div.editChallengeDataEntry
+							h3 Outputs:
 								each output in challenge.outputArray
 									if (output.functionName)
-										p Function name:
-										div.editChallengeDataSubEntry
-											p #{output.functionName}
+										h5 Function name:
+											h6 #{output.functionName}
 									if (output.outputs)
-										p Outputs:
+										h5 Outputs:
 										div.editChallengeDataSubEntry
 											each subOutput in output.outputs
-												p #{subOutput}
+												h6 #{subOutput}
 									else
-										p #{output}
+										h4 #{output}
 
 				// ICONS:
 				div(class='col-1-5 icons')
