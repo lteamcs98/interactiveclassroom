@@ -312,12 +312,20 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 	 			}
 				//Print error message for non-JSON files that the user attempted to upload
 				if (data.length < 1){
-					res.render('newchallenge', {"errorMsg":"Check file format. Make sure it's a JSON file.", "iframes":new Array() });
+					res.render('newchallenge', {
+						"errorMsg":"Check file format. Make sure it's a JSON file.",
+						"iframes":new Array(),
+						'admin': req.user.admin,
+						'instructor': req.user.instructor});
 				}
 				else
 				{
 					console.log(htmlSnippets);
-					res.render('newchallenge', {"errorMsg": "Challenge(s) successfully added!!!", "iframes": htmlSnippets});
+					res.render('newchallenge', {
+						"errorMsg": "Challenge(s) successfully added!!!",
+						"iframes": htmlSnippets,
+						'admin': req.user.admin,
+						'instructor': req.user.instructor });
 				}
 			};
 
