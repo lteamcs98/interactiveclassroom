@@ -72,11 +72,20 @@
 	<h3>Install the Heroku Toolbelt</h3>
 	<p> At the top of your dashboard, there should be a link to download the Heroku Toolbelt. If not, click <a href="https://devcenter.heroku.com/articles/quickstart#step-2-install-the-heroku-toolbelt">here</a>. </p>
 	<p> After installing the Heroku Toolbelt, you will have access to the heroku command from your command shell. </p>
+	<p>Now that you've downloaded the Heroku Toolbelt and have created a Heroku account, you can use the "heroku" command in your terminal.</p>
 	<h3> Set Up Your Public Key </h3>
-	<p> To set up your public key, follow the directions <a href="https://devcenter.heroku.com/articles/quickstart#step-3-login">here</a>.
-	<h3> Create an Empty Heroku Application </h3>
-	<p> Let's return back to the heroku dashboard. Since you don't have any applications, click on "Create a new app."</p>
-	<p>A window will pop up asking you to name your application. After deciding on a name (or not -- Heroku can generate a name for you), you now have a new application!</p>
+	<p>Login through heroku using your terminal:</p>
+	<p><i>$ heroku login</i></p>
+	<p>This command automatically looks for keys in the default place (~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub). If you wish to use an alternate key file, specify it as an argument. Be certain you specify the public part of the key (the file ending in .pub). </p>
+	<p>*Note: If you have a key for github, DO NOT USE IT. Your github identity might clash with your heroku identity. Instead of using your github key, generate a new one with this command:</p>
+	<p><i>$ ssh-keygen -t rsa</i></p>
+	<h3>Create an Empty Heroku Application </h3>
+	<p>Create a directory. Name it after your application, or what you plan on naming your application. </p>
+	<p><i>$ mkdir application_name</i></p>
+	<p> Then, enter the directory and make it a git repository. Now, you can create your heroku app and it will be linked to the git repo you just created. </p>
+	<p><i>$ cd application_name</i></p>
+	<p><i>$ git init</i></p>
+	<p><i>$ heroku apps:create application_name</i></p>
 	<h3>Set Up MongDB Database</h3>
 	<p>If you click on your app from the Heroku Dashboard, you can access this page: </p>
 	<img src="../doc_images/screenshot_heroku_dashboard_no_addons.png" alt="Heroku Dashboard Without Add-ons">
@@ -94,7 +103,7 @@
 	<h3>Cloning the Application Code </h3>
 	<p>Clone the code from our github <a href="https://github.com/lteamcs98/interactiveclassroom">here</a>. You can do this through the terminal like this: </p>
 	<p class=italic>$ git clone https://github.com/lteamcs98/interactiveclassroom </p>
-	<p>This will create a folder in the current directory called "interactiveclassroom." All our code will be inside that new directory.</p>
+	<p>This will create a folder in the current directory called "interactiveclassroom." All our code will be inside that new directory. You can copy these files into the directory that you made earlier (the one linked to a git repository) and push it.</p>
 	<h3>Link GitHub Code to Application </h3>
 	<p> While in the "interactiveclassroom" directory, run this command in the terminal: </p>
 	<p class=italic> $ git remote add heroku git@heroku.com:&lt;name_of_app&gt;.git</p>
