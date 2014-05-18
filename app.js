@@ -1,15 +1,3 @@
-// -------------- START CONFIGURATION --------------
-
-// Google API Access codes
-var GOOGLE_CLIENT_ID = "255376116060.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "P8uBAyRsvd0IoHBcMuyRLF75";
-
-// URI for MongoDB
-var MONGO_URI = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193";
-
-// Root URL where website is hosted
-var ROOT_URL = "http://localhost:3000"
-
 // -------------- END CONFIGURATION --------------
 
 // Dependencies
@@ -27,6 +15,47 @@ var yaml = require('yaml-front-matter');
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server, { log: false });
+
+// -------------- START CONFIGURATION --------------
+// Google API Access codes
+var GOOGLE_CLIENT_ID; //= "255376116060.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET; //= "P8uBAyRsvd0IoHBcMuyRLF75";
+
+// URI for MongoDB
+var MONGO_URI;// = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/heroku_app21896193";
+
+// Root URL where website is hosted
+var ROOT_URL;// = "http://localhost:3000"
+try
+{
+	data = fs.readFileSync('classroom.config', 'utf8');
+}
+catch(err) 
+{
+	console.error('You need to create a "classroom.config" file');
+	//console.log(err.stack);
+	process.exit(0);
+}
+
+lines = data.split( /\r?\n/ );
+if(lines.length < 4)
+{
+	console.error('Must have the following 4 configuration variables defined: 1) GOOGLE_CLIENT_ID 2) GOOGLE_CLIENT_SECRET 3) MONGO_URI 4) ROOT_URL');
+	process.exit(0);
+}
+
+for(var i = 0; i < lines.length; i++)
+{
+	values = lines[i].split('=');
+	if(i == 0)
+		GOOGLE_CLIENT_ID=values[1]
+	else if (i == 1)
+		GOOGLE_CLIENT_SECRET=values[1]
+	else if (i == 2)
+		MONGO_URI=values[1]
+	else if (i == 3)
+		ROOT_URL=values[1]
+}
 
 io.set('log level', 0);
 
