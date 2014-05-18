@@ -76,6 +76,9 @@
 	<h3> Set Up Your Public Key </h3>
 	<p>Login through heroku using your terminal:</p>
 	<p><i>$ heroku login</i></p>
+	<p>At this point, your terminal might ask you to generate a public key. If you do not have a public key,  press "Y" when it asks if you would like to generate one.</p>
+	<p>If you have already have a public key, you can add it to heroku with this command:</p>
+	<p><i>$ heroku keys:add</i></p>
 	<p>This command automatically looks for keys in the default place (~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub). If you wish to use an alternate key file, specify it as an argument. Be certain you specify the public part of the key (the file ending in .pub). </p>
 	<p>*Note: If you have a key for github, DO NOT USE IT. Your github identity might clash with your heroku identity. Instead of using your github key, generate a new one with this command:</p>
 	<p><i>$ ssh-keygen -t rsa</i></p>
