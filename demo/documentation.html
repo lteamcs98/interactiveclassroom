@@ -119,18 +119,28 @@
 	<p>This will link your GitHub to your Heroku app. Any changes made in this directory can be pushed to the Heroku app. To verify that you've linked GitHub to Heroku, you can run this command:</p>
 	<p class=italic>$ git remote -v </p>
 	<p>You should see your Heroku app in the terminal output. </p>
+
+    <h3>Setting Up Google Authentication</h3>
+    <p>To allow students to sign in using Google's authentication framework, it is necessary to register the application on Google's API website:</p>
+    <ol>
+        <li>Navigate to <a href="https://code.google.com/apis/console" target="_blank">https://code.google.com/apis/console</a></li>
+        <li>Click through to <strong>APIs & auth</strong>, then <strong>Credentials</strong> on the left navigation bar.</li>
+        <li>Under the OAuth section, click <strong>Create New Client ID</strong>. Under the panel that pops up:
+            <ul>
+                <li>Select Web Application for Application type</li>
+                <li>Set "Javascript Origins" to "ROOT_URL" and "RedirectURIs" to "ROOT_URL/auth/google/return", where "ROOT_URL" is the URL of the site where the app will be hosted.</li>
+            </ul>
+        </li>
+        <li>Google should now display a <strong>Client ID</strong> and a <strong>Client Secret</strong>. Save these unique ID's to the configuration file.</li>
+        <li>Click <strong>Consent screen</strong>, the link right under Credentials in the left menu.</li>
+        <li>Select an email address and a product name to be associated with the application, then click Save. You may keep the other fields blank.</li>
+    </ol>
+    <p>That's it! Now all users should be able to sign in to Interactive Classroom through their Google accounts.</p>
+
 	<h3>Running the App </h3>
-	<p>Before running the app, we still have a few steps left:</p>
-	<ol>
-		<li>Install dependencies for the app </li>
-		<li>Edit configuration variables to link authentication server and database.</li>
-		<li>Push the code for the app to Heroku </li>
-	</ol>
-	<p>Completing the first step (downloading dependencies) is simple. Run the following command in the terminal:</p>
+	<p>Run the following command in the terminal to download dependencies for the app:</p>
 	<p class=italic>$ npm install</p>
 	<p>This will download all the dependencies for the app. Make sure that you have Node.js installed, otherwise your shell won't recognize the "npm" command.</p>
-    <p>To use Google OAuth 2.0, you must register the app with Google Developers. Visit console.developers.google.com and navigate to APIs and Auth > Credentials. Under the section OAuth, you can register a web application with Google. Be sure to set "Redirect URIs" to "ROOT_URL/auth/google/return" and "Javascript Origins" to "ROOT_URL", where ROOT_URL is the web address where your Interactive Classroom will be hosted.</p>
-	<p>Open app.js and set the first 4 variables to the proper values. Get the GOOGLE variables from your Google Developers console and the MONGO_URI from your database.</p>
 	<p>Now all we have to do is push all the code in "interactiveclassroom" from GitHub to Heroku.</p>
 	<p>Since we edited package.json, the first thing we need to do is commit the code. At the moment, the Heroku app contains nothing. Now that the "interactiveclassroom" directory is linked to the Heroku app, we can push all the code in the directory to Heroku. Add all the files, commit them, and push them to heroku with this command: </p>
 	<p class=italic>$ git push heroku master</p>
