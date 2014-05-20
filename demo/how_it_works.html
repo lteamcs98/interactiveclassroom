@@ -7,39 +7,11 @@
 
     <title>Interactive Classroom</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure.css">
 
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/main-grid-old-ie.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/main-grid.css">
-    <!--<![endif]-->
+    <link rel="stylesheet" href="css/main-grid.css">
 
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/layouts/marketing.css">
-    <!--<![endif]-->
-
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="css/ic-style.css">
-    <link rel="stylesheet" href="css/codemirror.css">
-    <link rel="stylesheet" href="css/light-table.css">
-    <link rel="stylesheet" href="css/lint.css">
-
-    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="js/codemirror.js"></script>
-    <script type="text/javascript" src="js/javascript-lint.js"></script>
-    <script type="text/javascript" src="js/javascript.js"></script>
-    <script type="text/javascript" src="js/jshint.js"></script>
-    <script type="text/javascript" src="js/lint.js"></script>
-
+    <link rel="stylesheet" href="css/layouts/marketing.css">
 </head>
 <body>
 
@@ -47,143 +19,88 @@
     <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
         <a class="pure-menu-heading" href="index.html">Interactive Classroom</a>
         <ul>
-            <li class="pure-menu-selected"><a href="index.html#top">Home</a></li>
+            <li><a href="index.html#top">Home</a></li>
             <li><a href="index.html#overview">Overview</a></li>
             <li><a href="index.html#example">Example</a></li>
-            <li><a href="#">How It Works</a></li>
+            <li class="pure-menu-selected"><a href="#">How It Works</a></li>
 	        <li><a href="documentation.html">Install</a></li>
         </ul>
     </div>
 </div>
 
-<a name="top" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
-<div class="splash-container">
-    <div class="splash">
-        <h1 class="splash-head">A classroom in a browser</h1>
-        <p class="splash-subhead">
-            Interactive classroom is a web tool used to teach JavaScript programming through examples.
-        </p>
-        <p>
-            <a href="https://github.com/lteamcs98/interactiveclassroom" class="pure-button pure-button-primary" target="_blank">Grab the source from GitHub</a>
-        </p>
+<div class="content-wrapper-2">
+    <div class="content-2">
+    	<h1 class="content-head">Uploading Challenges</h1>
+    	<ol class='ind-2'>
+    		<li>Write the JSON file</li>
+    		<li>Upload to the Site</li>
+    		<li>Embed the iFrame</li>
+    	</ol>
+
+    	<h2 class='ind-1'>Writing the JSON file</h2>
+    	<p class='ind-2'>To upload a challenge, you must first write a JSON formatted file containing the following information about the challenge:</p>
+        <ul class='ind-3'>
+    		<li>the problem</li>
+    		<li>the title of the challenge</li>
+    	    <li>the test inputs to the challenge</li>
+    		<li>the correct test outputs</li>
+    		<li>the function names</li>
+    		<li>the function headers</li>
+        </ul>
+
+    	<p class='ind-2'>In the JSON file, the fields above will be called the following:</p>
+        <ul class='ind-3'>
+    		<li>problem</li>
+    		<li>title</li>
+    		<li>inputArray and inputs</li>
+    		<li>outputArray and outputs</li>
+    		<li>functionNames</li>
+    		<li>functionHeaders</li>
+        </ul>
+
+    	<p class='ind-2'>Let's look at the following challenge JSON file below, "Average of Three":</p>
+    	<p class='ind-2'><img src="../doc_images/challengeJSON.png" alt="Average_Of_Three"></p>
+
+    	<p class='ind-2'>The order of the fields doesn't matter -- notice how outputArray comes before inputArray in this example. The name-value assignment for JSON and the nesting of arrays are the most crucial components of the JSON file.</p>
+
+    	<p class='ind-2'>A single JSON object is signified by the curly braces {} that follow the square brackes. The information enclosed in these curly braces constitute the test cases for a single function in this challenge. In the case of this "Average of Three" example, there is only one function to test.</p>
+
+    	<p class='ind-2'>In this case there are two important components to test a single function: inputs and function name. Following "inputs" we see an array of input cases. Above, we can see that there are two input cases (because there are two arrays in the "inputs" array). The first array means that the first test case will provide three parameters (1, 2, 3) to the function being tested. Similarly, we can see that the second test case consists of passing the parameters 50, 60, and 70 into the function being tested.</p>
+
+    	<p class='ind-2'>Lastly, the "functionName" property within the object signifies which function this JSON object provides test cases for. So in our example the function we are testing is fittingly named "averageOfThree".</p>
+
+    	<p class='ind-2'>The complimentary piece to the "inputArray" is the "outputArray" which is directly above it. Again, we have an array that contains a JSON object for each test case. Since we have only one function to test, we see only a single test case. This time we have an array that contains the correct output for the corresponding test case in the "inputArray". So for the case in which the input is 1, 2, 3 we see that the correct output is the value 2. And just like the "inputArray", there is the "functionName" property that signifies which function these outputs belong to.</p>
+
+    	<h2 class='ind-1'>Upload to the Site</h3>
+    	<p class='ind-2'>To upload your JSON file(s) to the website, navigate to "Add New Challenges", which is available on your admin homepage. Find your JSON file(s) after clicking "Browse" and press "Upload."</p>
+
+    	<p class='ind-2'>This screen should appear if your JSON file(s) are properly formatted:</p>
+    	<p class='ind-2'><img src="../doc_images/screenshot_successful_upload.png" alt="Screenshot of successful upload" width="100%"></p>
+
+    	<p class='ind-2'>Notice the link(s) underneath "Challenge successfully added" that starts with "&lt;iframe src&gt;." Those are the iframes to insert the challenge(s) into your webpage.</p>
+
+    	<h1 class="content-head">Completing Challenges</h1>
+    	<ol class='ind-2'>
+    		<li>Navigate to challenge page</li>
+    		<li>Type code to solve challenge in the editor</li>
+    		<li>Submit code to save and view results</li>
+    	</ol>
+
+    	<p class='ind-1'><img src="../doc_images/challenge_editor.png" alt="Average_Of_Three" width="100%"></p>
+
+    	<h2 class='ind-1'>Submitting a Challenge</h2>
+    	<p class='ind-2'>Once you navigate to a page with a challenge you will notice a window with four key components: the editor, console, unit testing dropdown, and the  results pane.</p>
+    	<h3 class='ind-3'>Editor</h3>
+    	<p class='ind-3'>This is where you write the JavaScript code to solve the coding challenge.</p>
+    	<h3 class='ind-3'>Console</h3>
+    	<p class='ind-3'>All console output will appear in this window (use console.log in your own code to print)</p>
+    	<h3 class='ind-3'>Unit Testing</h3>
+    	<p class='ind-3'>If you only wish to test a portion of your code without submitting to save, use this dropdown menu to choose the function that you would like to test. Now when you click the submit button only this function will be tested. Keep in mind that unless the option for "all" tests is selected, then your code will not be submitted to the server and saved.</p>
+    	<h3 class='ind-3'>Results</h3>
+    	<p class='ind-3'><strong>Student Version:</strong> Once you click submit, this pane will show you the test cases run to evaluate your code. If you pass a test then it will appear in green. If your code fails a test then the input, correct output, as well as your output will appear in red in this window. Make your corrections and resubmit!<br>
+    	<strong>Instructor Version:</strong> To see the results of all of your students, navigate to the results page for the specific challenge. You can get to this page by clicking the "results" tab in the admin portal.
+    	</p>
     </div>
 </div>
-
-<div class="content-wrapper">
-    <div class="content">
-        <a name="overview" style="padding-top:40px; margin-top:-40px;">&nbsp;</a>
-        <h2 class="content-head is-center">Here's how it works</h2>
-
-        <div class="pure-g">
-            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-rocket"></i>
-                    Easy Setup
-                </h3>
-                <p>
-                    Install our NodeJS application on your web server in a few simple steps.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
-
-                <h3 class="content-subhead">
-                    <i class="fa fa-pencil"></i>
-                    Write a Challenge
-                </h3>
-                <p>
-                    Challenges consist of a function name, test input and a challenge solution. Construct them as JSON objects and upload them in batches to the website.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-group"></i>
-                    Distribute to Students
-                </h3>
-                <p>
-                    Embed the interactive editor associated with the challenge as an iframe on any web page.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-check-square-o"></i>
-                    View Results
-                </h3>
-                <p>
-                    Track students' progress and manage existing challenges through the application's GUI.
-                </p>
-            </div>
-        </div>
-		<div>
-			<h2 class="content-subhead">Uploading Challenges</h2>
-			<p>
-				1. Write the JSON file<br>
-				2. Upload to the Site<br>
-				3. Embed the iFrame<br>
-			</p>
-			
-			<h3>Writing the JSON file</h3>
-			<p>
-				To upload a challenge, you must first write a JSON formatted file containing the following information about the challenge:<br>
-				* the problem<br>
-				* the title of the challenge<br>
-				* the test inputs to the challenge<br>
-				* the correct test outputs<br>
-				* the function names<br>
-				* the function headers<br><br>
-
-				In the JSON file, the fields above will be called the following:<br>
-				* problem<br>
-				* title<br>
-				* inputArray and inputs<br>
-				* outputArray and outputs<br>
-				* functionNames<br>
-				* functionHeaders<br><br>
-
-				Let's look at the following challenge JSON file below, "Average of Three":<br>
-				<img src="../doc_images/challengeJSON.png" alt="Average_Of_Three"><br><br>
-
-				The order of the fields doesn't matter -- notice how outputArray comes before inputArray in this example. The name-value assignment for JSON and the nesting of arrays are the most crucial components of the JSON file.<br><br>
-				A single JSON object is signified by the curly braces {} that follow the square brackes. The information enclosed in these curly braces constitute the test cases for a single function in this challenge. In the case of this "Average of Three" example, there is only one function to test.<br><br>
-				In this case there are two important components to test a single function: inputs and function name. Following "inputs" we see an array of input cases. Above, we can see that there are two input cases (because there are two arrays in the "inputs" array). The first array means that the first test case will provide three parameters (1, 2, 3) to the function being tested. Similarly, we can see that the second test case consists of passing the parameters 50, 60, and 70 into the function being tested.<br><br>
-				Lastly, the "functionName" property within the object signifies which function this JSON object provides test cases for. So in our example the function we are testing is fittingly named "averageOfThree".<br><br>
-				The complimentary piece to the "inputArray" is the "outputArray" which is directly above it. Again, we have an array that contains a JSON object for each test case. Since we have only one function to test, we see only a single test case. This time we have an array that contains the correct output for the corresponding test case in the "inputArray". So for the case in which the input is 1, 2, 3 we see that the correct output is the value 2. And just like the "inputArray", there is the "functionName" property that signifies which function these outputs belong to.
-			</p>
-			
-			<h3>Upload to the Site</h3>
-			<p>
-				To upload your JSON file(s) to the website, navigate to "Add New Challenges", which is available on your admin homepage. Find your JSON file(s) after clicking "Browse" and press "Upload."<br><br>
-
-				This screen should appear if your JSON file(s) are properly formatted:<br><br>
-
-				<img src="../doc_images/screenshot_successful_upload.png" alt="Screenshot of successful upload"><br><br>
-				
-				Notice the link(s) underneath "Challenge successfully added" that starts with "&lt;iframe src&gt;." Those are the
-iframes to insert the challenge(s) into your webpage. <br><br>
-			</p>
-
-			<h2 class="content-subhead">Completing Challenges</h2>
-			<p>
-				1. Navigate to challenge page<br>
-				2. Type code to solve challenge in the editor<br>
-				3. Submit code to save and view results<br>
-			</p>
-			
-			<img src="../doc_images/challenge_editor.png" alt="Average_Of_Three"><br><br>
-
-			<h3 class="content-subhead">Submitting a Challenge</h3>
-			<p>
-				Once you navigate to a page with a challenge you will notice a window with four key components: the editor, console, unit testing dropdown, and the  results pane.
-				<h4>Editor</h4>
-				This is where you write the JavaScript code to solve the coding challenge.
-				<h4>Console</h4>
-				All console output will appear in this window (use console.log in your own code to print)
-				<h4>Unit Testing</h4>
-				If you only wish to test a portion of your code without submitting to save, use this dropdown menu to choose the function that you would like to test. Now when you click the submit button only this function will be tested. Keep in mind that unless the option for "all" tests is selected, then your code will not be submitted to the server and saved.
-				<h4>Results</h4>
-				<strong>Student Version:</strong> Once you click submit, this pane will show you the test cases run to evaluate your code. If you pass a test then it will appear in green. If your code fails a test then the input, correct output, as well as your output will appear in red in this window. Make your corrections and resubmit!<br>
-				<strong>Instructor Version:</strong> To see the results of all of your students, navigate to the results page for the specific challenge. You can get to this page by clicking the "results" tab in the admin portal.
-			</p>
-        </div>
-    </div>
 </body>
 </html>

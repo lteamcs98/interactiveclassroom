@@ -8,25 +8,9 @@
     <title>Interactive Classroom</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure.css">
 
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/main-grid-old-ie.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/main-grid.css">
-    <!--<![endif]-->
+    <link rel="stylesheet" href="css/main-grid.css">
 
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/layouts/marketing.css">
-    <!--<![endif]-->
-
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="css/ic-style.css">
-    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/documentation.css">
-
+    <link rel="stylesheet" href="css/layouts/marketing.css">
 </head>
 <body>
 
@@ -34,23 +18,22 @@
     <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
         <a class="pure-menu-heading" href="index.html">Interactive Classroom</a>
         <ul>
-            <li class="pure-menu-selected"><a href="index.html#top">Home</a></li>
+            <li><a href="index.html#top">Home</a></li>
             <li><a href="index.html#overview">Overview</a></li>
             <li><a href="index.html#example">Example</a></li>
             <li><a href="how_it_works.html">How It Works</a></li>
-	        <li><a href="#">Install</a></li>
+	        <li class='pure-menu-selected'><a href="#">Install</a></li>
         </ul>
     </div>
 </div>
 
 <div>
-    <div>
-	<h1>Documentation</h1>
-	<h2>Setting Up the Server</h2>
-        <p> The easiest way to set up a server for our Node.js application is through <a href="http://www.heroku.com">Heroku</a>. If you've worked with Heroku before, jump to "Create an Empty Heroku Application."
+    <div class='content-wrapper-2'>
+	<h1 class='content-head'>Setting Up the Server</h1>
+        <p class='ind-1'> The easiest way to set up a server for our Node.js application is through <a href="http://www.heroku.com">Heroku</a>. If you've worked with Heroku before, jump to "Create an Empty Heroku Application."
         </p>
-	<h3> STARTING FRESH WITH HEROKU </h3>
-	<p> Steps: </p>
+	<h2>Starting Fresh with Heroku:</h2>
+	<p>Steps:</p>
 	<ol>
 		<li> Create a Heroku account </li>
 		<li> Download the Heroku Toolbelt </li>
@@ -61,68 +44,119 @@
 		<li> Link the Heroku app to GitHub code </li>
 		<li> Run the application </li>
 	</ol>
-	<h3> REQUIREMENTS: </h3>
-	<p> Before we start, make sure you have access to a command shell. The command shell will be used to install the Toolbelt, set up the public key, and incorporate GitHub code into Heroku. In addition, make sure you have Node.js installed. If not, install it <a href="http://nodejs.org">here</a>. Finally, if you don't have an account with GitHub, create one <a href="https://github.com/">here</a> and create a repository for the app.</p>
-    	<h3>Set Up a Heroku Account</h3>
-	<p>To set up an account on Heroku, navigate to this (link) site. It's very straightfoward -- your Heroku account is tied to your email and after signing up, Heroku will send you a confirmation email. </p>
-	<img src="../doc_images/screenshot_heroku_signup.png" alt="Signup Screenshot">
-	<p>After creating an account with Heroku, you should be able to navigate to your dashboard:</p>
-	<img src="../doc_images/screenshot_heroku_dashboard.png" alt="Heroku Dashboard Screenshot">
-	<p>If you had any apps on Heroku, you would see them here. Before creating our app, let's download the Heroku Toolbelt and set up our public key.</p>
-	<h3>Install the Heroku Toolbelt</h3>
-	<p> At the top of your dashboard, there should be a link to download the Heroku Toolbelt. If not, click <a href="https://devcenter.heroku.com/articles/quickstart#step-2-install-the-heroku-toolbelt">here</a>. </p>
-	<p> After installing the Heroku Toolbelt, you will have access to the heroku command from your command shell. </p>
-	<p>Now that you've downloaded the Heroku Toolbelt and have created a Heroku account, you can use the "heroku" command in your terminal.</p>
-	<h3> Set Up Your Public Key </h3>
-	<p>Login through heroku using your terminal:</p>
-	<p><i>$ heroku login</i></p>
-	<p>At this point, your terminal might ask you to generate a public key. If you do not have a public key,  press "Y" when it asks if you would like to generate one.</p>
-	<p>If you have already have a public key, you can add it to heroku with this command:</p>
-	<p><i>$ heroku keys:add</i></p>
-	<p>This command automatically looks for keys in the default place (~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub). If you wish to use an alternate key file, specify it as an argument. Be certain you specify the public part of the key (the file ending in .pub). </p>
-	<p>*Note: If you have a key for github, DO NOT USE IT. Your github identity might clash with your heroku identity. Instead of using your github key, generate a new one with this command:</p>
-	<p><i>$ ssh-keygen -t rsa</i></p>
-	<h3>Create an Empty Heroku Application </h3>
-	<p>Create a directory. Name it after your application, or what you plan on naming your application. </p>
-	<p><i>$ mkdir application_name</i></p>
-	<p> Then, enter the directory and make it a git repository. Now, you can create your heroku app and it will be linked to the git repo you just created. </p>
-	<p><i>$ cd application_name</i></p>
-	<p><i>$ git init</i></p>
-	<p><i>$ heroku apps:create application_name</i></p>
-	<h3>Set Up MongDB Database</h3>
-	<p>If you click on your app from the Heroku Dashboard, you can access this page: </p>
-	<img src="../doc_images/screenshot_heroku_dashboard_no_addons.png" alt="Heroku Dashboard Without Add-ons">
-	<p>Click "Get Add-ons" and find the MongoLab icon. MongoLab is a MongoDB Heroku add-on. <p>
-	<img src="../doc_images/screenshot_add_database.png" alt="Adding a Database Screenshot">
-	<p>Choose the plan you want and select the app we just created. In order to use the MongoLab add-on, add your <a href="https://heroku.com/verify">billing information</a>. You have to do this, even if you chose the "Sandbox plan, which is free.</p>
-	<p>After you add the MongoLab add-on, return to your Heroku dashboard (you can do this by clicking on the "Apps" link on the menu bar at the top of the page). Click on your app. Now we have MongoLab as one of our Add-ons:</p>
-	<img src="../doc_images/screenshot_mongo_addon.png" alt="Heroku Dashboard with MongoDB add-on">
-	<p>If you click on the MongoLab add-on icon on your Heroku dashboard, you'll come to this following page: </p>
-	<img src="../doc_images/screenshot_mongodb.png" alt="MongoDB User Interface Screenshot">
-	<p>This is the user interface for our Mongo database. You can add users to the database, which means that they can add and delete entries from the database. You need to create at least one user so that the app can access your database.</p>
-	<p>To add a user, click on the "Users" tab and then select "Add database user." Remember to use a new password, for security reasons, because it will be writen to a configuration file later. At the top of the MongoDB webpage, you'll see this:</p>
-	<img src="../doc_images/screenshot_mongodb_uri.png" alt="MongoDB URI">
-	<p>When you run your app, you'll have to use this URI -- substituting &lt;dbuser&gt; and &lt;dbpassword&gt; with your username and password -- to connect the app to the database you just created.</p>
-	<h3>Cloning the Application Code </h3>
-	<p>Clone the code from our github <a href="https://github.com/lteamcs98/interactiveclassroom">here</a>. You can do this through the terminal like this: </p>
-	<p class=italic>$ git clone https://github.com/lteamcs98/interactiveclassroom </p>
-	<p>This will create a folder in the current directory called "interactiveclassroom." All our code will be inside that new directory. You can copy these files into the directory that you made earlier (the one linked to a git repository) and push it.</p>
-	<p>To link your repository with ours, run this command:</p>
-	<p><i>$ git remote add original https://github.com/lteamcs98/interactiveclassroom.git</i></p>
-	<p>Now, you can fetch new changes from our branch with this command:</p>
-	<p><i>$ git fetch original</i></p>
-	<h3>Link GitHub Code to Application </h3>
-	<p> While in the "interactiveclassroom" directory, run this command in the terminal: </p>
-	<p class=italic> $ git remote add heroku git@heroku.com:&lt;name_of_app&gt;.git</p>
-	<p>For example, if the name of your app is "powerful-hollows-1111" (a name generated by Heroku), the command would look like this:</p>
-	<p class=italic>$ git remote add heroku git@heroku.com:powerful-hollows-1111.git</p>
-	<p>This will link your GitHub to your Heroku app. Any changes made in this directory can be pushed to the Heroku app. To verify that you've linked GitHub to Heroku, you can run this command:</p>
-	<p class=italic>$ git remote -v </p>
-	<p>You should see your Heroku app in the terminal output. </p>
+	<h2 class='ind-1'>Requirements:</h2>
 
-    <h3>Setting Up Google Authentication</h3>
-    <p>To allow students to sign in using Google's authentication framework, it is necessary to register the application on Google's API website:</p>
-    <ol>
+	<p class='ind-2'> Before we start, make sure you have access to a command shell. The command shell will be used to install the Toolbelt, set up the public key, and incorporate GitHub code into Heroku. In addition, make sure you have Node.js installed. If not, install it <a href="http://nodejs.org">here</a>. Finally, if you don't have an account with GitHub, create one <a href="https://github.com/">here</a> and create a repository for the app.</p>
+
+    <h2 class='ind-1'>Set Up a Heroku Account</h2>
+	<p class='ind-2'>To set up an account on Heroku, navigate to this (link) site. It's very straightfoward -- your Heroku account is tied to your email and after signing up, Heroku will send you a confirmation email. </p>
+
+	<img class='ind-2' src="../doc_images/screenshot_heroku_signup.png" alt="Signup Screenshot">
+
+	<p class='ind-2'>After creating an account with Heroku, you should be able to navigate to your dashboard:</p>
+
+	<img class='ind-2' src="../doc_images/screenshot_heroku_dashboard.png" alt="Heroku Dashboard Screenshot" width="100%">
+
+	<p class='ind-2'>If you had any apps on Heroku, you would see them here. Before creating our app, let's download the Heroku Toolbelt and set up our public key.</p>
+
+	<h2 class='ind-1'>Install the Heroku Toolbelt</h2>
+
+	<p class='ind-2'> At the top of your dashboard, there should be a link to download the Heroku Toolbelt. If not, click <a href="https://devcenter.heroku.com/articles/quickstart#step-2-install-the-heroku-toolbelt">here</a>. </p>
+
+	<p class='ind-2'> After installing the Heroku Toolbelt, you will have access to the heroku command from your command shell. Now that you've downloaded the Heroku Toolbelt and have created a Heroku account, you can use the "heroku" command in your terminal.</p>
+
+	<h2 class='ind-1'> Set Up Your Public Key </h2>
+
+	<p class='ind-2'>Login through heroku using your terminal:</p>
+
+	<p class='ind-3'><i>$ heroku login</i></p>
+
+	<p class='ind-2'>At this point, your terminal might ask you to generate a public key. If you do not have a public key,  press "Y" when it asks if you would like to generate one.</p>
+
+	<p class='ind-2'>If you have already have a public key, you can add it to heroku with this command:</p>
+
+	<p class='ind-3'><i>$ heroku keys:add</i></p>
+
+	<p class='ind-2'>This command automatically looks for keys in the default place (~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub). If you wish to use an alternate key file, specify it as an argument. Be certain you specify the public part of the key (the file ending in .pub). </p>
+
+	<p class='ind-2'>*Note: If you have a key for github, DO NOT USE IT. Your github identity might clash with your heroku identity. Instead of using your github key, generate a new one with this command:</p>
+
+	<p class='ind-3'><i>$ ssh-keygen -t rsa</i></p>
+
+	<h2 class='ind-1'>Create an Empty Heroku Application </h2>
+
+	<p class='ind-2'>Create a directory. Name it after your application, or what you plan on naming your application. </p>
+
+	<p class='ind-3'><i>$ mkdir application_name</i></p>
+
+	<p class='ind-2'>Then, enter the directory and make it a git repository. Now, you can create your heroku app and it will be linked to the git repo you just created. </p>
+
+	<p class='ind-3'><i>$ cd application_name</i></p>
+	<p class='ind-3'><i>$ git init</i></p>
+	<p class='ind-3'><i>$ heroku apps:create application_name</i></p>
+
+	<h2 class='ind-1'>Set Up MongDB Database</h2>
+
+	<p class='ind-2'>If you click on your app from the Heroku Dashboard, you can access this page: </p>
+
+	<img class='ind-2' src="../doc_images/screenshot_heroku_dashboard_no_addons.png" alt="Heroku Dashboard Without Add-ons">
+
+	<p class='ind-2'>Click "Get Add-ons" and find the MongoLab icon. MongoLab is a MongoDB Heroku add-on. <p>
+
+	<img class='ind-2' src="../doc_images/screenshot_add_database.png" alt="Adding a Database Screenshot">
+
+	<p class='ind-2'>Choose the plan you want and select the app we just created. In order to use the MongoLab add-on, add your <a href="https://heroku.com/verify">billing information</a>. You have to do this, even if you chose the "Sandbox plan, which is free.</p>
+
+	<p class='ind-2'>After you add the MongoLab add-on, return to your Heroku dashboard (you can do this by clicking on the "Apps" link on the menu bar at the top of the page). Click on your app. Now we have MongoLab as one of our Add-ons:</p>
+
+	<img class='ind-2' src="../doc_images/screenshot_mongo_addon.png" alt="Heroku Dashboard with MongoDB add-on" width="100%">
+
+	<p class='ind-2'>If you click on the MongoLab add-on icon on your Heroku dashboard, you'll come to this following page: </p>
+
+    <img class='ind-2' src="../doc_images/screenshot_mongodb.png" alt="MongoDB User Interface Screenshot" width="100%">
+
+	<p class='ind-2'>This is the user interface for our Mongo database. You can add users to the database, which means that they can add and delete entries from the database. You need to create at least one user so that the app can access your database.</p>
+
+	<p class='ind-2'>To add a user, click on the "Users" tab and then select "Add database user." Remember to use a new password, for security reasons, because it will be writen to a configuration file later. At the top of the MongoDB webpage, you'll see this:</p>
+
+	<img class='ind-2' src="../doc_images/screenshot_mongodb_uri.png" alt="MongoDB URI">
+
+	<p class='ind-2'>When you run your app, you'll have to use this URI -- substituting &lt;dbuser&gt; and &lt;dbpassword&gt; with your username and password -- to connect the app to the database you just created.</p>
+
+	<h2 class='ind-1'>Cloning the Application Code </h2>
+
+	<p class='ind-2'>Clone the code from our github <a href="https://github.com/lteamcs98/interactiveclassroom">here</a>. You can do this through the terminal like this: </p>
+
+	<p class='ind-3'><i>$ git clone https://github.com/lteamcs98/interactiveclassroom </i></p>
+
+	<p class='ind-2'>This will create a folder in the current directory called "interactiveclassroom." All our code will be inside that new directory. You can copy these files into the directory that you made earlier (the one linked to a git repository) and push it.</p>
+
+	<p class='ind-2'>To link your repository with ours, run this command:</p>
+
+	<p class='ind-3'><i>$ git remote add original https://github.com/lteamcs98/interactiveclassroom.git</i></p>
+
+	<p class='ind-2'>Now, you can fetch new changes from our branch with this command:</p>
+
+	<p class='ind-3'><i>$ git fetch original</i></p>
+
+	<h2 class='ind-1'>Link GitHub Code to Application </h2>
+
+	<p class='ind-2'> While in the "interactiveclassroom" directory, run this command in the terminal: </p>
+
+	<p class='ind-3'><i>$ git remote add heroku git@heroku.com:&lt;name_of_app&gt;.git</i></p>
+
+	<p class='ind-2'>For example, if the name of your app is "powerful-hollows-1111" (a name generated by Heroku), the command would look like this:</p>
+
+	<p class='ind-3'><i>$ git remote add heroku git@heroku.com:powerful-hollows-1111.git</i></p>
+
+	<p class='ind-2'>This will link your GitHub to your Heroku app. Any changes made in this directory can be pushed to the Heroku app. To verify that you've linked GitHub to Heroku, you can run this command:</p>
+
+	<p class='ind-3'><i>$ git remote -v </i></p>
+	<p class='ind-2'>You should see your Heroku app in the terminal output. </p>
+
+    <h2 class='ind-1'>Setting Up Google Authentication</h2>
+    <p class='ind-2'>To allow students to sign in using Google's authentication framework, it is necessary to register the application on Google's API website:</p>
+    <ol class='ind-3'>
         <li>Navigate to <a href="https://code.google.com/apis/console" target="_blank">https://code.google.com/apis/console</a></li>
         <li>Click through to <strong>APIs & auth</strong>, then <strong>Credentials</strong> on the left navigation bar.</li>
         <li>Under the OAuth section, click <strong>Create New Client ID</strong>. Under the panel that pops up:
@@ -135,16 +169,16 @@
         <li>Click <strong>Consent screen</strong>, the link right under Credentials in the left menu.</li>
         <li>Select an email address and a product name to be associated with the application, then click Save. You may keep the other fields blank.</li>
     </ol>
-    <p>That's it! Now all users should be able to sign in to Interactive Classroom through their Google accounts.</p>
+    <p class='ind-2'>That's it! Now all users should be able to sign in to Interactive Classroom through their Google accounts.</p>
 
-	<h3>Running the App </h3>
-	<p>Run the following command in the terminal to download dependencies for the app:</p>
-	<p class=italic>$ npm install</p>
-	<p>This will download all the dependencies for the app. Make sure that you have Node.js installed, otherwise your shell won't recognize the "npm" command.</p>
-	<p>Now all we have to do is push all the code in "interactiveclassroom" from GitHub to Heroku.</p>
-	<p>Since we edited package.json, the first thing we need to do is commit the code. At the moment, the Heroku app contains nothing. Now that the "interactiveclassroom" directory is linked to the Heroku app, we can push all the code in the directory to Heroku. Add all the files, commit them, and push them to heroku with this command: </p>
-	<p class=italic>$ git push heroku master</p>
-	<p>Finally, navigate to: &lt;heroku_app_name&gt;.herokuapp.com. The app should now be running!!! </p>
+	<h2 class='ind-1'>Running the App </h2>
+	<p class='ind-2'>Run the following command in the terminal to download dependencies for the app:</p>
+	<p class='ind-3'><i>$ npm install</i></p>
+	<p class='ind-2'>This will download all the dependencies for the app. Make sure that you have Node.js installed, otherwise your shell won't recognize the "npm" command.</p>
+	<p class='ind-2'>Now all we have to do is push all the code in "interactiveclassroom" from GitHub to Heroku.</p>
+	<p class='ind-2'>Since we edited package.json, the first thing we need to do is commit the code. At the moment, the Heroku app contains nothing. Now that the "interactiveclassroom" directory is linked to the Heroku app, we can push all the code in the directory to Heroku. Add all the files, commit them, and push them to heroku with this command: </p>
+	<p class='ind-3'><i>$ git push heroku master</i></p>
+	<p class='ind-2'>Finally, navigate to: &lt;heroku_app_name&gt;.herokuapp.com. The app should now be running!!! </p>
 
 </div>
 
