@@ -138,7 +138,14 @@
 	<p class='ind-2'>Now, you can fetch new changes from our branch within this command:</p>
 
 	<p class='ind-3'><i>$ git fetch original</i></p>
-
+    <h2 class='ind-1'> Write a Configuration File</h2>
+    	<p class='ind-2'> Write a configuration file called 'classroom.config' with the following fields: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, MONGO_URI, and ROOT_URL. The first two fields have to do with Google authentication, which will be discussed in more depth in the next section.<p>
+    <p class='ind-2'> Your file should look something like this:</p>
+        <p class='ind-3'> GOOGLE_CLIENT_ID=<br>
+                          GOOGLE_CLIENT_SECRET=<br>
+                          MONGO_URI = mongodb://example:example@ds027769.mongolab.com:27769/heroku_app21896193<br>
+                          ROOT_URL=http://example.herokuapp.com</p>
+    <p class='ind-2'> You can get the MONGO_URI from the MongoDB User Interface. If you log into heroku.com and click on your application, you can navigate to the MongoDB page. There, you should be able to see the MongoDB URI for your database, which includes your database username and password. The ROOT_URL field is the URL of your Heroku application. 
     <h2 class='ind-1'>Setting Up Google Authentication</h2>
     <p class='ind-2'>To allow students to sign in using Google's authentication framework, it is necessary to register the application on Google's API website:</p>
     <ol class='ind-3'>
@@ -155,7 +162,6 @@
         <li>Select an email address and a product name to be associated with the application, then click Save. You may keep the other fields blank.</li>
     </ol>
     <p class='ind-2'>That's it! Now all users should be able to sign in to Interactive Classroom through their Google accounts.</p>
-
 	<h2 class='ind-1'>Running the App </h2>
 	<p class='ind-2'>Run the following command in the terminal to download dependencies for the app:</p>
 	<p class='ind-3'><i>$ npm install</i></p>
