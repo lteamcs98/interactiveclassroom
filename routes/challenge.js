@@ -79,45 +79,50 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 	//results for a paticular challenge
 	app.get('/results/:id', function(req, res)
 	{
-		 Submission.find({ challengeId : Number(req.params.id) }, 'userName firstName lastName result', function(err, submissions)
-		 {
-			if (err || submissions == null)
-			{
-				res.redirect('/results');
-			}
-			else
-			{
-
-			    var userNameList = [];
-				var resultList = [];
-
-				submissions.sort({ lastName: 1 });
-
-				submissions.forEach(function(submiss){
-
-					userNameList.push(submiss.userName);
-					resultList.push(submiss.result);
-
-					console.log(submiss.userName);
-				});
-
-				// Save all properties to results objects
-				allResults = [];
-				for (var i = 0; i < resultList.length; i++) {
-					var result = {
-						username: userNameList[i],
-						correct: resultList[i]
-					};
-					allResults.push(result);
+		if (! req.user.instructor) {
+			res.render('unauthorized');
+		}
+			else {
+			 Submission.find({ challengeId : Number(req.params.id) }, 'userName firstName lastName result', function(err, submissions)
+			 {
+				if (err || submissions == null)
+				{
+					res.redirect('/results');
 				}
+				else
+				{
 
-				res.render('challengeResults',{
-					'results': allResults,
-					'admin': req.user.admin,
-					'instructor': req.user.instructor
-				});
-			}
-		 });
+				    var userNameList = [];
+					var resultList = [];
+
+					submissions.sort({ lastName: 1 });
+
+					submissions.forEach(function(submiss){
+
+						userNameList.push(submiss.userName);
+						resultList.push(submiss.result);
+
+						console.log(submiss.userName);
+					});
+
+					// Save all properties to results objects
+					allResults = [];
+					for (var i = 0; i < resultList.length; i++) {
+						var result = {
+							username: userNameList[i],
+							correct: resultList[i]
+						};
+						allResults.push(result);
+					}
+
+					res.render('challengeResults',{
+						'results': allResults,
+						'admin': req.user.admin,
+						'instructor': req.user.instructor
+					});
+				}
+			 });
+		}
 	});
 
 	app.get('/myResults', function(req, res)
@@ -228,21 +233,27 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 
 
 	app.post('/deletechallenge', function(req, res) {
-		var challengeId = parseInt(req.body.challengeId);
-		var selector = { "challengeId" :  challengeId };
+		
+		if (! req.user.instructor) {
+			res.render('unauthorized');
+		}
+		else {
+			var challengeId = parseInt(req.body.challengeId);
+			var selector = { "challengeId" :  challengeId };
 
-                //Delete challenge with specified challengeId"
-		Submission.find(selector).remove(function(err) {
-			if (err) return console.error(err);
-		});
+	                //Delete challenge with specified challengeId"
+			Submission.find(selector).remove(function(err) {
+				if (err) return console.error(err);
+			});
 
-		Challenge.findOne(selector).remove(function(err) {
-			if (err) return console.error(err);
-		});
+			Challenge.findOne(selector).remove(function(err) {
+				if (err) return console.error(err);
+			});
 
-        // Redirect back to edit challenge list
-        res.location("editchallengelist");
-        res.redirect("editchallengelist");
+	        // Redirect back to edit challenge list
+	        res.location("editchallengelist");
+	        res.redirect("editchallengelist");
+	    }   
 	});
 
 	app.get('/newchallenge', function(req, res) {
