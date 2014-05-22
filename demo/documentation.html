@@ -145,7 +145,7 @@
                           GOOGLE_CLIENT_SECRET=<br>
                           MONGO_URI = mongodb://example:example@ds027769.mongolab.com:27769/heroku_app21896193<br>
                           ROOT_URL=http://example.herokuapp.com</p>
-    <p class='ind-2'> You can get the MONGO_URI from the MongoDB User Interface. If you log into heroku.com and click on your application, you can navigate to the MongoDB page. There, you should be able to see the MongoDB URI for your database, which includes your database username and password. The ROOT_URL field is the URL of your Heroku application. 
+    <p class='ind-2'> You can get the MONGO_URI from the MongoDB User Interface. If you log into heroku.com and click on your application, you can navigate to the MongoDB page. There, you should be able to see the MongoDB URI for your database, which includes your database username and password. The ROOT_URL field is the URL of your Heroku application.
     <h2 class='ind-1'>Setting Up Google Authentication</h2>
     <p class='ind-2'>To allow students to sign in using Google's authentication framework, it is necessary to register the application on Google's API website:</p>
     <ol class='ind-3'>
@@ -157,7 +157,7 @@
                 <li>Set "Javascript Origins" to "ROOT_URL" and "RedirectURIs" to "ROOT_URL/auth/google/return", where "ROOT_URL" is the URL of the site where the app will be hosted.</li>
             </ul>
         </li>
-        <li>Google should now display a <strong>Client ID</strong> and a <strong>Client Secret</strong>. Save these unique ID's to the configuration file.</li>
+        <li>Google should now display a <strong>Client ID</strong> and a <strong>Client Secret</strong>. Save these unique ID's to your 'classroom.config' configuration file.</li>
         <li>Click <strong>Consent screen</strong>, the link right under Credentials in the left menu.</li>
         <li>Select an email address and a product name to be associated with the application, then click Save. You may keep the other fields blank.</li>
     </ol>
