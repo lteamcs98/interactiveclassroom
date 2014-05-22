@@ -5,14 +5,6 @@ Interactive classroom allows you to embed code challenges into class lectures. S
 
 *********************
 
-A demo and more detailed documentation can be found at http://www.interactiveclassroom.tk/
+A demo and detailed documentation can be found at http://www.interactiveclassroom.tk/
 
 *********************
-
-Installation:
-
-1. git clone git@github.com:lteamcs98/interactiveclassroom.git
-2. Navigate to main directory /interactiveclassroom
-3. Use command 'npm install' to install dependencies
-4. Change configuration variables in app.js to set up links to your Google authentication server and database.
-5. To run the application, use command 'node app'
