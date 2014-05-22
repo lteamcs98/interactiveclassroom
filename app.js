@@ -26,6 +26,7 @@ var MONGO_URI;// = "mongodb://Michelle:michelle@ds027769.mongolab.com:27769/hero
 
 // Root URL where website is hosted
 var ROOT_URL;// = "http://localhost:3000"
+
 try
 {
 	data = fs.readFileSync('classroom.config', 'utf8');

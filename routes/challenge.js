@@ -5,7 +5,7 @@ var challengeJSONs = require('../public/js/extractchallenges.js');
 var hash = require('../public/js/hash.js');
 var visitors = 0
 
-module.exports = function(app, fs, yaml, ROOT_URL)
+module.exports = function(app, fs, yaml, root_url)
 {
 	app.get('/results', function(req, res)
 	{
@@ -173,7 +173,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 							'functionHeaders': chal.functionHeaders,
 							'inputArray': chal.inputArray,
 							'outputArray': chal.outputArray,
-							'rootURL': ROOT_URL
+							'rootURL': root_url
 						});
 					});
 				}
@@ -200,7 +200,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 					if (err) return console.error(err);
 					res.render('challengelist', {
 						'challengelist': challenges,
-						'rootURL': ROOT_URL,
+						'rootURL': root_url,
 						'admin': req.user.admin,
 						'instructor': req.user.instructor});
 				});
@@ -259,11 +259,11 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 		}
 	});
 
-	app.post('/addchallenge', addChallenge(fs, yaml));
+	app.post('/addchallenge', addChallenge(fs, yaml, root_url));
 
 
 
-	function addChallenge(fs, yaml) {
+	function addChallenge(fs, yaml, root_url) {
 		return function(req, res) {
 			//Retrieve JSON file(s) selected by user
 			challengeJSONs.extractchallenges(fs, req.files, addChallenges);
@@ -284,7 +284,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 						newChallenge.save();
 						updateID(newChallenge);
 
-						var htmlSnippet = '<iframe src=' + '"http://interactiveclassroom.herokuapp.com/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
+						var htmlSnippet = '<iframe width="100%" height="600" frameBorder="0" src=' + '"'+ root_url + '/challenge/' + docs_id[htmlSnippets.length] + '"></iframe>';
 						htmlSnippets.push(htmlSnippet);
 
 						//Give the new challenge a unique challenge ID
