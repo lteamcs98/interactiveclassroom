@@ -10,6 +10,8 @@ block content
 			input(type="file", id="userFileInput", multiple="multiple", name="userChallenge")
 			input(type="submit", value="Upload")
 			p(class = 'errorMessage') #{errorMsg}
-			
+		
+		p	#{message}
+
 		each frame, i in iframes
-			textarea(style='width:90%') #{frame}
+			textarea(style='width:90%')	#{frame}

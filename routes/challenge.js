@@ -251,6 +251,7 @@ module.exports = function(app, fs, yaml, root_url)
 			res.render('newchallenge', {
 				title: 'Add New Challenge',
 				'iframes': new Array(),
+				'message': '',
 				'admin': req.user.admin,
 				'instructor': req.user.instructor});
 		} else
@@ -306,6 +307,7 @@ module.exports = function(app, fs, yaml, root_url)
 						res.render('newchallenge', {
 							"errorMsg": msg,
 							"iframes": new Array(),
+							'message': '',
 						 	'admin': req.user.admin,
 							'instructor': req.user.instructor} );
 					}
@@ -315,6 +317,7 @@ module.exports = function(app, fs, yaml, root_url)
 					res.render('newchallenge', {
 						"errorMsg":"Check file format. Make sure it's a JSON file.",
 						"iframes":new Array(),
+						'message': '',
 						'admin': req.user.admin,
 						'instructor': req.user.instructor});
 				}
@@ -324,11 +327,11 @@ module.exports = function(app, fs, yaml, root_url)
 					res.render('newchallenge', {
 						"errorMsg": "Challenge(s) successfully added!!!",
 						"iframes": htmlSnippets,
+						"message": 'Copy and paste the iframe(s) below to embed the challenge(s) in your html page!',
 						'admin': req.user.admin,
 						'instructor': req.user.instructor });
 				}
 			};
-
 		}
 	}
 }
