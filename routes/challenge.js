@@ -125,27 +125,6 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 		}
 	});
 
-	app.get('/myResults', function(req, res)
-	{
-		 Submission.find({ userId: Number(req.user.id) }, 'challengeName result', function(err, submissions)
-		 {
-
-			var challengeNameList = [];
-			var resultList = [];
-
-			submissions.forEach(function(submiss){
-				resultList[submiss.challengeId] = submiss.result;
-			});
-
-			res.render('myResults',{
-				'resultList': resultList,
-				'admin': req.user.admin,
-				'instructor': req.user.instructor
-			});
-
-		 });
-	});
-
 	app.get('/challenge/:id', function(req, res)
 	{
 		if (! req.user) {
@@ -233,7 +212,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 
 
 	app.post('/deletechallenge', function(req, res) {
-		
+
 		if (! req.user.instructor) {
 			res.render('unauthorized');
 		}
@@ -253,7 +232,7 @@ module.exports = function(app, fs, yaml, ROOT_URL)
 	        // Redirect back to edit challenge list
 	        res.location("editchallengelist");
 	        res.redirect("editchallengelist");
-	    }   
+	    }
 	});
 
 	app.get('/newchallenge', function(req, res) {
